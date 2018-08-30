@@ -1,0 +1,35 @@
+API Endpoints
+
+GET: /posts - list posts
+GET: /posts/:id - get particular post
+DELETE: posts/:id - delete particular post
+PUT: posts/:id - update post by replacing
+PATCH: posts/:id - update post by patching fields
+
+
+POST: /posts/:id/author - add post for a user
+
+
+-
+API Endpoints 
+
+USER
+-----
+POST: /users - create new user
+GET: /users/:id - get specific user
+DELETE: /users/:id - delete a user
+GET: /users/:id/posts - get posts by a particular user
+PUT: /users/:id/post- update post by replacing
+PATCH: /users/:id/posts - update post by patching fields
+POST: /users/:id/posts - add new post by a particular user
+
+POSTS
+----
+GET: /posts - list all posts
+
+
+SIMPLE -
+
+
+GET: /posts - list all posts
+POST: /
