@@ -74,9 +74,6 @@ nav {
   }
 }
 
-
-
-
 @media only screen and (min-width: 500px) {
   nav {
     width: 80%;

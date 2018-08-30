@@ -5,7 +5,7 @@ export default {
         return Api().get('posts')
     },
 
-    addPosts () {
+    addPosts (params) {
         return Api().post('posts', params)
     }
 }

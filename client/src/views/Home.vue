@@ -14,7 +14,7 @@
       </header>
 
     <div class="container">
-      <h2 class="underline">Posts</h2>
+      <h2 class="underline">Latest Posts</h2>
       
       <app-posts></app-posts>
     </div>

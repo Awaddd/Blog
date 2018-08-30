@@ -1,12 +1,13 @@
 <template>
   <div class="cards-wrapper">
-    <div class="card" v-for="(post, k, i) in posts" :key="i">
-        
+    <div class="card" v-for="(post, i) in posts" :key="i">
+        <!-- post in posts.slice(0, 4) -->
         <div>
-          <h4>Post <span class="">{{i}}</span> {{post.title}}</h4>
+          <h4 class="primary-text">{{post.title}}</h4>
         </div>
 
         <p>{{post.content}}</p>
+        <span class="secondary-text read-more">Read more...</span>
       </div>
   </div>
 </template>
@@ -35,6 +36,9 @@ export default {
 
 <style lang="scss">
 
+.read-more {
+  cursor: pointer;
+}
  
 </style>
 

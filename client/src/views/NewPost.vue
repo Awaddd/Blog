@@ -1,6 +1,9 @@
 <template>
     <div class="create-posts"> 
+        
         <div class="add-post-form">
+            <h2 class="">Create a Post</h2>
+
             <div>
             <input type="text" name="title" placeholder="Title" v-model="title">
             </div>
@@ -15,6 +18,9 @@
 </template>
 
 <script>
+
+import PostsService from '@/services/PostsService'
+
 export default {
     data: function() {
         return {
@@ -24,7 +30,7 @@ export default {
     },
     methods: {
         async addPost () {
-            await PostsService.addPost({
+            await PostsService.addPosts({
                 title: this.title,
                 content: this.content
             })
