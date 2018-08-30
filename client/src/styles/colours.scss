@@ -1,0 +1,24 @@
+$primary: #6900ff;
+$secondary: #9951ff;
+$accent: #ffd700;
+$dull: #faf7ff;
+
+.primary {
+    background: $primary;
+    color: #fff;
+}
+
+.secondary {
+    background: $secondary;
+    color: #fff;
+}
+
+.accent {
+    background: $accent;
+    color: #333;
+}
+
+.dull {
+    background: $dull;
+    color: #333;
+}

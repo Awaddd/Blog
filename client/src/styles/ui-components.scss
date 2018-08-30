@@ -1,0 +1,60 @@
+.cards-wrapper {
+    display: grid;
+    grid-gap: 20px;
+    padding: 3rem;
+    box-sizing: border-box;
+    grid-gap: 30px;
+
+    /* new */
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+
+
+.card {
+    height: auto;
+    max-height:299px;
+    min-width: 200px;
+    overflow: hidden;
+    border-radius: 2px;
+    color: #333;
+    background: #fff;
+    padding: 0.5rem 1rem;
+    // box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    border: 1px solid rgb(0, 0, 0);
+  }
+
+
+
+
+
+@media only screen and (min-width: 500px) {
+.cards-wrapper {
+    grid-template-columns: 1fr;
+    padding: 2rem;
+}
+}
+
+
+@media only screen and (min-width: 700px) {
+    .cards-wrapper {
+    grid-template-columns: repeat(2, minmax(150px, 1fr));
+    width: 80%;
+    margin: 0 auto;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .cards-wrapper {
+    grid-template-columns: repeat(3, minmax(150px, 1fr));
+    width: 80%;
+    margin: 0 auto;
+    }
+}
+
+@media only screen and (min-width: 1600px) {
+    .cards-wrapper {
+    grid-template-columns: repeat(4, minmax(150px, 1fr));
+    }
+}

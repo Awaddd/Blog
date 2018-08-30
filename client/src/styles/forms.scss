@@ -1,0 +1,41 @@
+input, textarea {
+    box-sizing: border-box;
+    padding: 0.5rem;
+    border-radius: 2px;
+    border: 1px solid #eee;
+}
+
+// button styles
+  
+button {
+    border-radius: 2px;
+    padding: 7px 15px;
+    font-size: 0.70rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.btn-action {
+    border: 0;
+    padding: 10px 50px;
+}
+
+.btn-icon {
+    display: grid;
+    grid-template-columns: max-content max-content;
+}
+
+// input + button 
+.input-row{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 4fr 3fr;
+    grid-gap: 10px;
+}
+
+.input-group {
+    display: grid;
+    grid-gap: 10px;
+}
+
