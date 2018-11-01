@@ -1,9 +1,9 @@
-const mongoose = require("mongoose")
-const Schema = mongoose.Schema
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
 const PostSchema = new Schema({
-    title: String,
-    content: String
+  title: String,
+  content: String
 });
 
 var Post = mongoose.model("Post", PostSchema);

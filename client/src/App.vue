@@ -32,10 +32,10 @@
 
 
 <style lang="scss">
+@import "./styles/app.scss";
 
-@import './styles/app.scss';
-
-html, body{
+html,
+body {
   margin: 0;
   font-family: $font-family;
 }
@@ -57,10 +57,11 @@ nav {
   padding: 20px;
   margin: 0 auto;
   color: #fff;
-  font-weight: $font-thin;
+  font-weight: $font-md;
 
   .nav-brand {
     justify-self: start;
+    font-size: 1.8rem;
   }
 
   .nav-links {
@@ -77,36 +78,28 @@ nav {
 @media only screen and (min-width: 500px) {
   nav {
     width: 80%;
-    
   }
 }
 
 @media only screen and (min-width: 700px) {
-
   .nav {
-
     .nav-links {
       display: grid;
       grid-template-columns: repeat(4, max-content);
       justify-self: end;
       grid-gap: 35px;
+      align-self: center;
+      font-size: 1.2rem;
 
       a {
         text-decoration: none;
         color: #fff;
       }
-
     }
 
     .menu {
       display: none;
     }
-
   }
-
-  
-
-
 }
-
 </style>
