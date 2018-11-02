@@ -3,7 +3,7 @@
     <div class="card" v-for="(post, i) in posts" :key="i">
         <!-- post in posts.slice(0, 4) -->
         <div>
-          <h4 class="primary-text">{{post.title}}</h4>
+          <h4 class="postTitle">{{post.title}}</h4>
         </div>
 
         <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ratione, est?</p>
@@ -48,6 +48,11 @@ export default {
 <style lang="scss">
 .read-more {
   cursor: pointer;
+}
+
+.postTitle {
+  text-transform: capitalize;
+  font-size: 1.2rem;
 }
 </style>
 

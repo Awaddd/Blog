@@ -64,10 +64,10 @@ export default {
 }
 
 @media only screen and (min-width: 700px) {
-  .blogPost {
-    margin: 3rem auto;
-    width: 500px;
-  }
+  // .blogPost {
+  //   margin: 3rem auto;
+  //   width: 500px;
+  // }
 
   .blogPost-title {
     font-size: 3rem;
@@ -78,6 +78,7 @@ export default {
 @media only screen and (min-width: 1200px) {
   .blogPost {
     width: 1000px;
+    margin: 0 auto;
   }
 }
 </style>

@@ -2,9 +2,15 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const PostSchema = new Schema({
-  title: String,
+  title: {
+    type: String,
+    index: true,
+    unique: true
+  },
   content: String
 });
+
+PostSchema.index({ title: 1 });
 
 var Post = mongoose.model("Post", PostSchema);
 module.exports = Post;
