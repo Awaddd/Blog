@@ -1,30 +1,32 @@
 <template>
-    <div class="create-posts"> 
-        
-        <div class="add-post-form">
-            <h2 class="">Create a Post</h2>
+  <div class="create-posts">
+    <div class="add-post-form">
+      <h2 class>Create a Post</h2>
 
-            <div>
-            <input type="text" name="title" placeholder="Title" v-model="title">
-            </div>
-            <div>
+      <div>
+        <input type="text" name="title" placeholder="Title" v-model="title">
+      </div>
 
-                <quill-editor v-model="content"
-                ref="myQuillEditor"
-                :options="editorOption"
-                @blur="onEditorBlur($event)"
-                @focus="onEditorFocus($event)"
-                @ready="onEditorReady($event)"
-                class="contentArea">
-                </quill-editor>
+      <div>
+        <input type="text" name="summary" placeholder="Summary" v-model="summary">
+      </div>
 
-        
-            </div>
-            <div>
-            <button class="button btn-action primary" @click.prevent="addPost">Add</button>
-            </div>
-        </div>
+      <div>
+        <quill-editor
+          v-model="content"
+          ref="myQuillEditor"
+          :options="editorOption"
+          @blur="onEditorBlur($event)"
+          @focus="onEditorFocus($event)"
+          @ready="onEditorReady($event)"
+          class="contentArea"
+        ></quill-editor>
+      </div>
+      <div>
+        <button class="button btn-action primary" @click.prevent="addPost">Add</button>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -38,8 +40,8 @@ import PostsService from "@/services/PostsService";
 export default {
   data: function() {
     return {
-      thetext: "<h1>LOL</h1>",
       title: "",
+      summary: "",
       content: "",
       editorOption: {
         modules: {
@@ -66,6 +68,7 @@ export default {
     async addPost() {
       await PostsService.addPosts({
         title: this.title,
+        summary: this.summary,
         content: this.content
       });
       this.$router.push({ name: "Posts" });

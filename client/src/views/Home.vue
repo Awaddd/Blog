@@ -1,55 +1,51 @@
 <template>
   <div>
-      <header class="hero">
-        <div>
-          <h1>Introducing Just Blog It.</h1>
-          <p>Designed to give you the easiest possible blogging experience.</p>
-        </div>
+    <header class="hero">
+      <div>
+        <h1>Introducing Just Blog It.</h1>
+        <p>Designed to give you the easiest possible blogging experience.</p>
+      </div>
 
-        <div>
-            <router-link to="/posts/new" tag="button" 
-            class="btn btn-action accent">
-            Start Writing</router-link>
-        </div>
-      </header>
+      <div>
+        <router-link to="/posts/new" tag="button" class="btn btn-action accent">Start Writing</router-link>
+      </div>
+    </header>
 
-    <div class="container">
-      <h2 class="underline">Latest Posts</h2>
-      
+    <div class="container home-content">
+      <h1 class="home-title">Latest Posts</h1>
+
       <app-posts></app-posts>
     </div>
-
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import AppPosts from '@/components/AppPosts.vue'
+import AppPosts from "@/components/AppPosts.vue";
 
 export default {
-  name: 'home',
+  name: "home",
   components: {
-    'app-posts': AppPosts
+    "app-posts": AppPosts
   }
-}
+};
 </script>
 
 <style lang="scss">
+@import "../styles/app.scss";
 
-@import '../styles/app.scss';
+.hero {
+  padding: 0 1.5rem;
+  padding-bottom: 3rem;
+  background: $primary;
+  color: #fff;
 
-  .hero {
-    padding: 0 1.5rem;
-    padding-bottom: 3rem;
-    background: $primary;
-    color: #fff;
+  display: grid;
+  grid-gap: 25px;
 
-    display: grid;
-    grid-gap: 25px;
+  text-align: center;
 
-    text-align: center;
-
-    h1 {
+  h1 {
     // font-size: 1.2rem;
     // margin: 0;
     font-weight: $font-thin;
@@ -61,4 +57,15 @@ export default {
   }
 }
 
+.home-content {
+  background: #f9f9fa;
+  margin: 0;
+}
+
+.home-title {
+  background: #fff;
+  width: 100%;
+  text-align: center;
+  padding: 0.5rem 0 1.5rem 0;
+}
 </style>
