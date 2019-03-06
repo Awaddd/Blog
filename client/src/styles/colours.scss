@@ -1,40 +1,43 @@
-$primary: #6900ff;
-$secondary: #9951ff;
-$accent: #ffd700;
+// $primary: #6900ff;
+// $secondary: #9951ff;
+// $accent: #ffd700;
+$primary: #df0e62;
+$secondary: #007bff;
+$accent: #333;
 $dull: #faf7ff;
 
 .primary {
-    background: $primary;
-    color: #fff;
+  background: $primary;
+  color: #fff;
 }
 
 .secondary {
-    background: $secondary;
-    color: #fff;
+  background: $secondary;
+  color: #fff;
 }
 
 .accent {
-    background: $accent;
-    color: #333;
+  background: $accent;
+  color: #fff;
 }
 
 .dull {
-    background: $dull;
-    color: #333;
+  background: $dull;
+  color: #333;
 }
 
 .primary-text {
-    color: $primary;
+  color: $primary;
 }
 
 .secondary-text {
-    color: $secondary;
+  color: $secondary;
 }
 
 .accent-text {
-    color: $accent;
+  color: $accent;
 }
 
 .dull-text {
-    color: $dull;
+  color: $dull;
 }

@@ -103,17 +103,17 @@ export default {
   }
 }
 
-@media only screen and (min-width: 700px) {
-  .add-post-form {
-    width: 500px;
-  }
-}
+// @media only screen and (min-width: 700px) {
+//   .add-post-form {
+//     width: 500px;
+//   }
+// }
 
-@media only screen and (min-width: 1200px) {
-  .add-post-form {
-    width: 1000px;
-  }
-}
+// @media only screen and (min-width: 1200px) {
+//   .add-post-form {
+//     width: 1000px;
+//   }
+// }
 
 // @media only screen and (min-width: 1600px) {
 

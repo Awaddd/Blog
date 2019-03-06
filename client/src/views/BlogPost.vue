@@ -1,7 +1,7 @@
 <template>
   <div class="blogPost">
-    <img class="coverImage" src="" alt="">
-    <h1 class="blogPost-title">{{post.title}}</h1>
+    <img class="coverImage" src alt>
+    <h3 class="blogPost-title">{{post.title}}</h3>
     <div class="blogPost-details">
       <p class="author">By Umar Dini</p>
       <p class="date">July 3rd, 2018</p>
@@ -43,7 +43,7 @@ export default {
 }
 
 .blogPost-title {
-  text-align: center;
+  // text-align: center;
   text-transform: capitalize;
   font-weight: 400;
   font-size: 2.4rem;
@@ -54,13 +54,18 @@ export default {
   display: grid;
   grid-template-rows: max-content;
   margin: 0 auto 2rem auto;
-  width: max-content;
+  // width: max-content;
 }
 
 .author,
 .date {
   margin: 0;
-  justify-self: end;
+  // justify-self: end;
+}
+
+.blogPost-content {
+  padding: 0;
+  margin: 0;
 }
 
 @media only screen and (min-width: 700px) {
@@ -69,17 +74,17 @@ export default {
   //   width: 500px;
   // }
 
-  .blogPost-title {
-    font-size: 3rem;
-    margin: 2rem auto 1rem auto;
-  }
+  // .blogPost-title {
+  //   // font-size: 3rem;
+  //   margin: 2rem auto 1rem auto;
+  // }
 }
 
-@media only screen and (min-width: 1200px) {
-  .blogPost {
-    width: 1000px;
-    margin: 0 auto;
-  }
-}
+// @media only screen and (min-width: 1200px) {
+//   .blogPost {
+//     width: 1000px;
+//     margin: 0 auto;
+//   }
+// }
 </style>
 

@@ -1,34 +1,37 @@
 <template>
   <div id="app">
-    <div class="nav-wrapper">
-      <!-- <router-link to="/">Home</router-link> |
-      <router-link to="/posts">Posts</router-link> -->
+    <header>
+      <div class="header-top">
+        <div class="socials"></div>
+        <div class="searchbar"></div>
+      </div>
 
-      <nav class="nav">
-
-        <div class="nav-brand">
-        JustBlogIt<span>.</span>
+      <section class="hero">
+        <div>
+          <h1>Oasis</h1>
         </div>
+      </section>
 
-        <div class="nav-links">
-          <span><router-link to="/" >Home</router-link></span>
-          <span><router-link to="/posts">Posts</router-link></span>
-          <span>Team</span>
-          <span>Icon</span>
-        </div>
+      <app-nav></app-nav>
+    </header>
 
-        <div class="menu">
-          <span>Menu</span>
-        </div>
+    <main class="main-container">
+      <router-view/>
+    </main>
 
-      </nav>
-
-    </div>
-    <router-view/>
-<!-- https://medium.com/@anaida07/mevn-stack-application-part-2-2-9ebcf8a22753 -->
-
+    <!-- https://medium.com/@anaida07/mevn-stack-application-part-2-2-9ebcf8a22753 -->
   </div>
 </template>
+
+<script>
+import Nav from "@/components/Nav.vue";
+export default {
+  components: {
+    "app-nav": Nav
+  }
+};
+</script>
+
 
 
 <style lang="scss">
@@ -38,6 +41,10 @@ html,
 body {
   margin: 0;
   font-family: $font-family;
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 1.9;
+  color: $accent;
 }
 
 #app {
@@ -45,61 +52,36 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.nav-wrapper {
-  background: $primary;
+.header-top {
+  background: $accent;
+  padding: 1.5rem;
 }
 
-nav {
-  max-height: 50px;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  align-content: center;
-  padding: 20px;
-  margin: 0 auto;
-  color: #fff;
-  font-weight: $font-md;
-
-  .nav-brand {
-    justify-self: start;
-    font-size: 1.8rem;
-  }
-
-  .nav-links {
-    display: none;
-  }
-
-  .menu {
-    border-bottom: 2px solid #fff;
-    width: max-content;
-    justify-self: end;
-  }
+.hero {
+  padding: 0 1.5rem;
+  background: #fff;
+  color: #333;
+  text-align: center;
 }
 
 @media only screen and (min-width: 500px) {
-  nav {
-    width: 80%;
-  }
 }
 
 @media only screen and (min-width: 700px) {
-  .nav {
-    .nav-links {
-      display: grid;
-      grid-template-columns: repeat(4, max-content);
-      justify-self: end;
-      grid-gap: 35px;
-      align-self: center;
-      font-size: 1.2rem;
+  .hero {
+    font-size: 3rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0;
+  }
+  h1 {
+    margin: 0;
+  }
+}
 
-      a {
-        text-decoration: none;
-        color: #fff;
-      }
-    }
-
-    .menu {
-      display: none;
-    }
+@media only screen and (min-width: 1200px) {
+  .main-container {
+    width: 1000px;
+    margin: 0 auto;
   }
 }
 </style>

@@ -1,8 +1,6 @@
 <template>
-  <div class="cards-wrapper">
-    <div class="card" v-if="posts.length == 0">Loading</div>
-
-    <div class="card" v-for="(post, i) in posts" :key="i">
+  <div class="">
+    <div class v-for="(post, i) in posts" :key="i">
       <!-- post in posts.slice(0, 4) -->
       <router-link
         class="btn"
@@ -11,9 +9,6 @@
               params: {title: sanitizeTitle(post)}
           }"
       >
-        <img
-          src="https://www.gitschberg-jochtal.com/media/8f17c2b0-12de-4e98-bad3-622f96d1a64e/340_x_250/p=5/alpenhof-winter-340x250.jpg"
-        >
         <div class="card-content">
           <h4 class="postTitle">{{post.title}}</h4>
 
