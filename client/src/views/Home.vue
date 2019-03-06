@@ -1,7 +1,13 @@
 <template>
   <div>
     <div class="container home-content">
-      <!-- <app-posts></app-posts> -->
+      <div class="section-title">
+        <span class="btn btn-action accent">Latest Posts</span>
+      </div>
+
+      <section class="posts">
+        <app-posts></app-posts>
+      </section>
     </div>
   </div>
 </template>
@@ -20,11 +26,6 @@ export default {
 
 <style lang="scss">
 @import "../styles/app.scss";
-
-.home-content {
-  background: #f9f9fa;
-  margin: 0;
-}
 
 .home-title {
   background: #fff;

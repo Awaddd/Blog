@@ -1,6 +1,15 @@
-.cards-wrapper {
+.panel-wrapper {
   display: grid;
-  grid-gap: 5px;
+  box-sizing: border-box;
+  grid-gap: 30px;
+
+  /* new */
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.card-wrapper {
+  display: grid;
   padding: 3rem;
   box-sizing: border-box;
   grid-gap: 30px;

@@ -47,7 +47,7 @@ export default {
   text-transform: capitalize;
   font-weight: 400;
   font-size: 2.4rem;
-  margin: 1rem 0;
+  margin: 0 0 1rem 0;
 }
 
 .blogPost-details {

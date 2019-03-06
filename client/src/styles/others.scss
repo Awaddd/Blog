@@ -1,13 +1,20 @@
-.container {
-  margin: 2rem 0;
+@media only screen and (min-width: 1200px) {
+  .container {
+    width: 1000px;
+    margin: 0 auto;
+  }
 }
 
-.underline {
-  // Title with underline
-  border-bottom: 2px solid rgb(0, 0, 0);
-  width: max-content;
-  margin: 0 auto;
-  padding: 0.2rem;
+hr {
+  border: 0.5px solid rgb(233, 233, 233);
+  margin: 1.66rem 0;
+}
+
+.section-title {
+  display: grid;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  justify-content: start;
 }
 
 a {

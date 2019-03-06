@@ -91,7 +91,6 @@ export default {
 .add-post-form {
   margin: 0 auto;
   width: 100%;
-  padding: 2rem;
   box-sizing: border-box;
   display: grid;
   grid-gap: 20px;
@@ -100,6 +99,9 @@ export default {
   div textarea,
   div button {
     width: 100%;
+  }
+  h2 {
+    margin: 0;
   }
 }
 
