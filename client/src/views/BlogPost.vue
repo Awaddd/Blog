@@ -1,6 +1,6 @@
 <template>
   <div class="blogPost">
-    <img class="coverImage" src alt>
+    <!-- <img class="coverImage"> -->
     <h3 class="blogPost-title">{{post.title}}</h3>
     <div class="blogPost-details">
       <p class="author">By Umar Dini</p>
