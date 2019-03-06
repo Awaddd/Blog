@@ -7,6 +7,7 @@ const PostSchema = new Schema({
     index: true,
     unique: true
   },
+  summary: String,
   content: String
 });
 

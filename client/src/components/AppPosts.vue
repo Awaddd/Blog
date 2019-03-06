@@ -1,20 +1,25 @@
 <template>
-  <div class="cards-wrapper">
+  <div class="panel-wrapper">
     <div class="card" v-for="(post, i) in posts" :key="i">
-        <!-- post in posts.slice(0, 4) -->
-        <div>
+      <!-- post in posts.slice(0, 4) -->
+      <router-link
+        class="btn"
+        :to="{
+              name: 'BlogPost',
+              params: {title: sanitizeTitle(post)}
+          }"
+      >
+        <div class="card-content">
           <h4 class="postTitle">{{post.title}}</h4>
+
+          <p class="summary">{{post.summary}}</p>
+          <div class="blogPost-details">
+            <p class="author">By Umar Dini</p>
+            <p class="date">July 3rd, 2018</p>
+          </div>
         </div>
-
-        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ratione, est?</p>
-
-        <router-link class="btn" :to="{
-            name: 'BlogPost',
-            params: {title: sanitizeTitle(post)}
-        }">
-          Read more...
-        </router-link>
-      </div>
+      </router-link>
+    </div>
   </div>
 </template>
 
@@ -46,13 +51,30 @@ export default {
 </script>
 
 <style lang="scss">
+@import "../styles/app.scss";
+
 .read-more {
+  cursor: pointer;
+}
+
+.card {
   cursor: pointer;
 }
 
 .postTitle {
   text-transform: capitalize;
   font-size: 1.2rem;
+  font-weight: $font-bold;
+}
+
+.summary {
+  font-size: 1.1rem;
+  font-weight: $font-md;
+}
+
+.blogPost-details {
+  font-size: 0.85rem;
+  font-weight: $font-thin;
 }
 </style>
 

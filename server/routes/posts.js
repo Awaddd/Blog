@@ -7,7 +7,7 @@ const Post = require("../models/post");
 // Get all posts
 
 router.get("/", (req, res) => {
-  Post.find({}, "title content", function(error, posts) {
+  Post.find({}, "title summary content", function(error, posts) {
     if (error) {
       console.error(error);
     }
@@ -28,7 +28,10 @@ router.get("/:title", (req, res) => {
 
   // the "title content" refers to what columns to retrieve from the doc
 
-  Post.findOne({ title: param }, "title content", function(error, post) {
+  Post.findOne({ title: param }, "title summary content", function(
+    error,
+    post
+  ) {
     if (error) {
       console.log(error);
     }
@@ -46,9 +49,13 @@ router.post("/", (req, res) => {
   if (error) return res.status(400).send(error.details[0].message);
 
   const title = req.body.title.toLowerCase();
+  const summary = req.body.summary;
   const body = req.body.content;
 
-  Post.findOne({ title: title }, "title content", function(error, post) {
+  Post.findOne({ title: title }, "title summary content", function(
+    error,
+    post
+  ) {
     if (error) {
       console.log(error);
     } else if (post) {
@@ -59,6 +66,7 @@ router.post("/", (req, res) => {
     } else {
       const new_post = new Post({
         title: title,
+        summary: summary,
         content: body
       });
 
@@ -79,6 +87,9 @@ router.post("/", (req, res) => {
 function validatePost(post) {
   const schema = {
     title: Joi.string()
+      .min(4)
+      .required(),
+    summary: Joi.string()
       .min(4)
       .required(),
     content: Joi.string()
