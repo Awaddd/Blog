@@ -10,7 +10,7 @@
           }"
       >
         <div class="card-content">
-          <h4 class="postTitle">{{post.title}}</h4>
+          <h3 class="postTitle">{{post.title}}</h3>
 
           <p class="summary">{{post.summary}}</p>
           <div class="blogPost-details">
@@ -53,28 +53,18 @@ export default {
 <style lang="scss">
 @import "../styles/app.scss";
 
-.read-more {
-  cursor: pointer;
-}
-
-.card {
-  cursor: pointer;
-}
 
 .postTitle {
   text-transform: capitalize;
-  font-size: 1.2rem;
-  font-weight: $font-bold;
+  // font-weight: $font-bold;
 }
 
 .summary {
-  font-size: 1.1rem;
-  font-weight: $font-md;
+  // font-weight: $font-md;
 }
 
 .blogPost-details {
-  font-size: 0.85rem;
-  font-weight: $font-thin;
+  // font-weight: $font-md;
 }
 </style>
 

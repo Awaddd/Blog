@@ -1,22 +1,27 @@
 <template>
   <div>
-    <section class="section-title">
-      <span class="btn btn-action accent">Latest Posts</span>
-    </section>
+    <header>
+      <app-nav></app-nav>
+    </header>
 
-    <section class="posts">
-      <app-posts></app-posts>
-    </section>
+    <main class="container">
+      <section class="posts">
+        <app-posts></app-posts>
+      </section>
+    </main>
+    
   </div>
 </template>
 
 <script>
 import AppPosts from "@/components/AppPosts.vue";
+import Nav from "@/components/Nav.vue";
 
 export default {
-  name: "posts",
+  name: "home",
   components: {
-    "app-posts": AppPosts
+    "app-posts": AppPosts,
+    "app-nav": Nav
   }
 };
 </script>

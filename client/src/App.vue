@@ -1,41 +1,19 @@
 <template>
   <div id="app">
-    <header>
-      <div class="header-top">
-        <div class="socials"></div>
-        <div class="searchbar"></div>
+
+
+    <router-view/>
+
+    <!-- <footer class="footer">
+      <div class>
       </div>
-
-      <section class="hero">
-        <div>
-          <h1>Oasis</h1>
-        </div>
-      </section>
-
-      <app-nav></app-nav>
-    </header>
-
-    <main class="main-app container">
-      <hr>
-      <router-view/>
-    </main>
-
-    <footer class="footer">
-      <div class></div>
-    </footer>
+    </footer> -->
 
     <!-- https://medium.com/@anaida07/mevn-stack-application-part-2-2-9ebcf8a22753 -->
   </div>
 </template>
 
-<script>
-import Nav from "@/components/Nav.vue";
-export default {
-  components: {
-    "app-nav": Nav
-  }
-};
-</script>
+
 
 
 
@@ -45,12 +23,16 @@ export default {
 html,
 body {
   margin: 0;
-  font-family: $font-family;
-  font-weight: 300;
-  font-size: 18px;
-  line-height: 1.9;
-  color: $accent;
+  // font-family: $font-family;
+  // font-weight: 300;
+  // font-size: 18px;
+  // line-height: 1.9;
+  // color: $accent;
   height: 100%;
+
+  // font-size: calc(14px + (26 - 14) * ((100vw - 300px) / (1600 - 300)));
+  // line-height: calc(1.3em + (1.5 - 1.2) * ((100vw - 300px)/(1600 - 300)));
+
 }
 
 #app {
@@ -61,7 +43,7 @@ body {
 }
 
 .header-top {
-  background: #000;
+  background: $secondary;
   padding: 1.5rem;
 }
 
@@ -72,6 +54,10 @@ body {
   text-align: center;
 }
 
+.brand {
+  color: #333;
+}
+
 .main-app {
   // padding below required for footer -
   // must be the same as the footer height
@@ -80,7 +66,9 @@ body {
 }
 
 .footer {
-  background-color: #000;
+  // background-color: #000;
+  background-color: $secondary;
+  color: #fff;
   // padding: 6rem;
   // margin: 4rem 0 0 0;
   text-align: center;
@@ -89,7 +77,7 @@ body {
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: 100px;
+  min-height: 100px;
 }
 
 @media only screen and (min-width: 500px) {
