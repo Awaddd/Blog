@@ -60,12 +60,7 @@ export default {
       if (post.summary) {
         console.log(post.summary);
         console.log(post.title + ': ' + post.title.length);
-        let length;
-        if (post.title.length > 50) {
-          length = 100;
-        } else {
-          length = 100;
-        }
+        let length = 100;
         let summary = post.summary.substring(0, length);
         return summary + '...';
       } 
