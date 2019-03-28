@@ -2,12 +2,13 @@
   <div id="app">
 
 
-    <router-view/>
+    <router-view class="router-view"/>
 
-    <!-- <footer class="footer">
-      <div class>
+    <footer class="footer">
+      <div>
+        <p>&copy; 2018 Awad Dini</p>
       </div>
-    </footer> -->
+    </footer>
 
     <!-- https://medium.com/@anaida07/mevn-stack-application-part-2-2-9ebcf8a22753 -->
   </div>
@@ -58,22 +59,18 @@ body {
   color: #333;
 }
 
-.main-app {
+.router-view {
   // padding below required for footer -
   // must be the same as the footer height
-  padding-bottom: 200px;
-  margin: 0 2rem;
+  padding-bottom: 100px;
+  margin: 0;
 }
 
 .footer {
-  // background-color: #000;
-  background-color: $secondary;
-  color: #fff;
-  // padding: 6rem;
-  // margin: 4rem 0 0 0;
-  text-align: center;
-  box-sizing: border-box;
-
+  background: #fff;
+  color: #333;
+  display: grid;
+  justify-items: center;
   position: absolute;
   bottom: 0;
   width: 100%;

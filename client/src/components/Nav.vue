@@ -60,8 +60,8 @@
 
 @media only screen and (min-width: 700px) {
   .nav {
-    margin: 0.8rem auto;
-
+    margin: 0.8rem 2rem 1.2rem 2rem;
+    
     .nav-brand {
     }
    
@@ -80,6 +80,12 @@
     .menu {
       display: none;
     }
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .nav {
+    margin: 0.8rem auto;
   }
 }
 </style>
