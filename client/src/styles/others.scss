@@ -10,12 +10,12 @@ hr {
   margin: 1.66rem 0;
 }
 
-.section-title {
-  display: grid;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-  justify-content: start;
-}
+// .section-title {
+//   display: grid;
+//   margin-top: 2rem;
+//   margin-bottom: 2rem;
+//   justify-content: start;
+// }
 
 a {
   text-decoration: none;
@@ -24,4 +24,21 @@ a {
 
 .highlight {
   color: $accent;
+}
+
+.key-text {
+  font-size: 0.8rem;
+}
+
+
+@media only screen and (min-width: 700px) {
+  .key-text {
+    font-size: $baseFontSize / 14 * 100%;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .key-text {
+    font-size: $baseFontSize / 12 * 100%;
+  }
 }

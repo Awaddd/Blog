@@ -5,7 +5,7 @@
     </header>
 
     <main class="container">
-      <section class="posts">
+      <section class="posts panel-wrapper">
         <app-posts></app-posts>
       </section>
     </main>
@@ -30,6 +30,6 @@ export default {
 @import "../styles/app.scss";
 
 .posts {
-  width: 100%;
 }
+
 </style>

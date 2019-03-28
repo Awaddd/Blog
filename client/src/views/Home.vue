@@ -14,7 +14,7 @@
       
       <section class="featured-post">
         <div class="featured-post__details">
-          <p class="highlight hug">Featured</p>
+          <p class="highlight hug key-text">Featured</p>
           <p class="featured-post__details__date hug">Feb 20, 2019</p>
         </div>
 
@@ -29,6 +29,18 @@
           <h5 class="hug">Google's AI can now predict heart disease 
             just by scanning your eyes.</h5>
         </div>
+
+        <div class="read-more__button">
+          <button class="btn">READ MORE</button>
+        </div>
+      </section>
+
+      <section class="latest-posts">
+
+          <p class="highlight hug key-text">Latest</p>
+          
+          <app-posts></app-posts>
+
       </section>
 
     </main>
@@ -58,7 +70,7 @@ export default {
     background-image: radial-gradient(circle at 10% 20%, rgb(253, 193, 104) 0%, rgb(251, 128, 128) 90%);
     text-align: center;
     color: #fff;
-    padding: 1.2rem 0;
+    padding: 1.2rem 0 0.8rem 0;
     .welcome__message {
       font-size: 1.3rem;
       line-height: 1.25rem;
@@ -71,6 +83,8 @@ export default {
 
   .home-content {
     padding: 1rem;
+    display: grid;
+    grid-gap: 15px;
 
     .featured-post {
       display: grid;
@@ -90,7 +104,7 @@ export default {
         grid-column-start: 1;
         grid-column-end: 4;
         grid-row-start: 1;
-        grid-row-end: 2;
+        grid-row-end: 1;
       }
 
       .featured-post__image {
@@ -100,7 +114,7 @@ export default {
         }
         grid-column-start: 1;
         grid-column-end: 4;
-        grid-row-start: 3;
+        grid-row-start: 2;
         grid-row-end: 7;
       }
 
@@ -116,6 +130,10 @@ export default {
         opacity: 0.8;
       }
 
+      .read-more__button {
+        display: none;
+      }
+
 
     }
   }
@@ -123,8 +141,88 @@ export default {
 }
 
 @media only screen and (min-width: 700px) {
-  .home-content {
-    padding: 0;
+  .home {
+    .welcome {
+      padding: 2rem 0 1.8rem 0;
+      .welcome__message {
+        font-size: 1.6rem;
+        line-height: 1.6rem;
+        font-weight: 400;
+      }
+      .welcome__slogan {
+        font-size: 1rem;
+        font-weight: 100;
+        opacity: 0.9;
+      }
+    }
+
+    .home-content {
+      margin-top: 1rem;
+      padding: 2rem;
+      grid-gap: 50px;
+
+      .featured-post {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 100%;
+        grid-column-gap: 30px;
+
+        .featured-post__details {
+          font-size: 0.8rem;
+
+          grid-column-start: 1;
+          grid-column-end: 1;
+          grid-row-start: 1;
+          grid-row-end: 1;
+
+          .featured-post__details__date {
+            justify-self: end;
+          }
+        }
+
+        .featured-post__image {
+          img {
+            width: 100%;
+          }
+          grid-column-start: 2;
+          grid-column-end: 4;
+          grid-row-start: 1;
+          grid-row-end: 4;
+        }
+
+        .featured-post__title {
+          // background: #6F98EC;
+          background: 0;
+          color: #333;
+          padding: 0.4rem;
+          
+          grid-column-start: 1;
+          grid-column-end: 2;
+          grid-row-start: 2;
+          grid-row-end: 2;
+          opacity: 1;
+          padding: 0;
+          
+
+          // CANT BE H5 - CHANGE IN HTML !!!!!!!!
+          h5 {
+            font-size: 1.2rem;
+            line-height: 1.5;
+          }
+        }
+
+        .read-more__button {
+          display: block;
+        }
+
+
+      }
+
+      .latest-posts {
+        display: grid;
+        grid-gap: 20px;
+      }
+    }
   }
 }
 
