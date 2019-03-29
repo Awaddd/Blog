@@ -5,7 +5,8 @@
     </header>
 
     <main class="container">
-      <section class="posts panel-wrapper">
+      <section class="posts post-wrapper">
+        <p class="highlight hug key-text">All Posts</p>
         <app-posts></app-posts>
       </section>
     </main>
@@ -29,7 +30,35 @@ export default {
 <style lang="scss">
 @import "../styles/app.scss";
 
-.posts {
+.post-wrapper {
+  margin-top: 1rem;
+  padding: 0 1rem;
+  display: grid;
+  grid-gap: 10px;
+}
+
+@media only screen and (min-width: 700px){
+  .post-wrapper {
+    margin-top: 2rem;
+    padding: 0 2rem;
+    grid-gap: 20px;
+  }
+}
+
+@media only screen and (min-width: 1200px){
+  .post-wrapper {
+    margin-top: 2rem;
+    padding: 0;
+    grid-gap: 30px;
+  }
+}
+
+@media only screen and (min-width: 1200px){
+  .post-wrapper {
+    margin-top: 3rem;
+    padding: 0;
+    grid-gap: 30px;
+  }
 }
 
 </style>
