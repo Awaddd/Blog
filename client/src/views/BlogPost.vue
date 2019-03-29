@@ -1,23 +1,35 @@
 <template>
-  <div class="blogPost">
+  <div>
     <!-- <img class="coverImage"> -->
-    <h3 class="blogPost-title">{{post.title}}</h3>
-    <div class="blogPost-details">
-      <p class="author">By Umar Dini</p>
-      <p class="date">July 3rd, 2018</p>
-    </div>
-    <div class="blogPost-content" v-html="post.content"></div>
+    <header>
+      <app-nav></app-nav>
+    </header>
+
+    <section class="blogPost">
+      <h3 class="blogPost-title">{{post.title}}</h3>
+      <div class="blogPost-details">
+        <p class="author">By Umar Dini</p>
+        <p class="date">July 3rd, 2018</p>
+      </div>
+      <div class="blogPost-content" v-html="post.content">
+      </div>
+    </section>
+
   </div>
 </template>
 
 <script>
 import PostsService from "@/services/PostsService";
+import Nav from "@/components/Nav.vue";
 
 export default {
   data() {
     return {
       post: []
     };
+  },
+  components: {
+    "app-nav": Nav
   },
   mounted() {
     this.getPosts();
@@ -36,9 +48,10 @@ export default {
 </script>
 
 
-<style lang="scss" scoped>
+<style lang="scss">
+
 .blogPost {
-  margin: 2rem;
+  margin: 3rem 1.5rem;
   line-height: 1.5;
 }
 
@@ -46,7 +59,7 @@ export default {
   // text-align: center;
   text-transform: capitalize;
   font-weight: 400;
-  font-size: 2.4rem;
+  font-size: 1.5rem;
   margin: 0 0 1rem 0;
 }
 
@@ -63,28 +76,28 @@ export default {
   // justify-self: end;
 }
 
-.blogPost-content {
-  padding: 0;
+.blogPost-content p {
   margin: 0;
 }
 
-@media only screen and (min-width: 700px) {
-  // .blogPost {
-  //   margin: 3rem auto;
-  //   width: 500px;
-  // }
 
-  // .blogPost-title {
-  //   // font-size: 3rem;
-  //   margin: 2rem auto 1rem auto;
-  // }
+@media only screen and (min-width: 700px) {
+  .blogPost {
+    margin: 3rem;
+  }
+
+  .blogPost-title {
+    font-size: 2.4rem;
+    margin: 2rem auto 1rem auto;
+  }
 }
 
-// @media only screen and (min-width: 1200px) {
-//   .blogPost {
-//     width: 1000px;
-//     margin: 0 auto;
-//   }
-// }
+@media only screen and (min-width: 1200px) {
+  .blogPost {
+    width: 50%;
+    margin: 5rem auto;
+  }
+}
+
 </style>
 

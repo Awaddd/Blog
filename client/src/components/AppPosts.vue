@@ -1,5 +1,5 @@
 <template>
-  <div class="cards-wrapper post-wrapper">
+  <div class="cards-wrapper">
 
     <!-- Static -->
     <!-- <div class="post">
@@ -21,7 +21,8 @@
               params: {title: sanitizeTitle(post)}
           }"
       >
-          <img src="../assets/card-1.png" alt="" class="post-content__img">
+          <!-- <img src="../assets/card-1.png" alt="" class="post-content__img"> -->
+          <img :src="randomImg(i)" class="post-content__img">
           <article class="post-content__article">
             <h4 class="post-title ">{{post.title}}</h4>
             <p class="">{{sanitizeSummary(post)}}</p>
@@ -45,7 +46,16 @@ export default {
   mounted() {
     this.getPosts();
   },
-  computed: {},
+  computed: {
+    // randomImg (img) {
+    //   let i = 0;
+    //   let randomImg;
+    //   for (i; i < this.posts.length; i++){
+    //     randomImg = `https://picsum.photos/500/29${img}`
+    //   }
+    //   return randomImg;
+    // }
+  },
   methods: {
     async getPosts() {
       const response = await PostsService.fetchPosts();
@@ -60,15 +70,18 @@ export default {
       if (post.summary) {
         console.log(post.summary);
         console.log(post.title + ': ' + post.title.length);
-        let length;
-        if (post.title.length > 50) {
-          length = 100;
-        } else {
-          length = 100;
-        }
+        let length = 100;
         let summary = post.summary.substring(0, length);
         return summary + '...';
       } 
+    },
+    randomImg (img) {
+      let i = 0;
+      let randomImg;
+      for (i; i < this.posts.length; i++){
+        randomImg = `https://picsum.photos/500/29${img}`
+      }
+      return randomImg;
     }
   }
 };
@@ -76,7 +89,6 @@ export default {
 
 <style lang="scss">
 @import "../styles/app.scss";
-
 
 .post-title {
   text-transform: capitalize;
@@ -146,8 +158,8 @@ export default {
     // max-width: 330px;
     grid-gap: 20px;
     align-content: start;
-    .post-content__img {
-    }
+
+ 
 
     .post-content__article {
       padding: 0 0.5rem;
@@ -174,9 +186,6 @@ export default {
     grid-template-columns: 1fr;
     grid-gap: 0rem;
     // max-width: 330px;
-
-    .post-content__img {
-    }
 
     .post-content__article {
       h4 {

@@ -86,6 +86,7 @@ export default {
 
 .create-posts {
   background: #ffffff;
+  padding: 2rem;
 }
 
 .add-post-form {
@@ -105,19 +106,18 @@ export default {
   }
 }
 
-// @media only screen and (min-width: 700px) {
-//   .add-post-form {
-//     width: 500px;
-//   }
-// }
 
-// @media only screen and (min-width: 1200px) {
-//   .add-post-form {
-//     width: 1000px;
-//   }
-// }
+@media only screen and (min-width: 700px) {
+  .create-posts {
+    padding: 2rem;
+  }
+}
 
-// @media only screen and (min-width: 1600px) {
+@media only screen and (min-width: 1200px) {
 
-// }
+}
+
+@media only screen and (min-width: 1600px) {
+
+}
 </style>

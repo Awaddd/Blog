@@ -14,7 +14,7 @@
       
       <section class="featured-post">
         <div class="featured-post__details">
-          <p class="highlight hug key-text">Featured</p>
+          <p class="featured-post__details__featured highlight hug key-text">Featured</p>
           <p class="featured-post__details__date hug">Feb 20, 2019</p>
         </div>
 
