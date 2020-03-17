@@ -1,14 +1,18 @@
 <template>
-  <div class="create-posts">
-    <div class="add-post-form">
+  <div class="create-posts container">
+    <form class="add-post-form" enctype="multipart/form-data">
       <h2 class>Create a Post</h2>
-
+      <p>Create a post with this easy to use blog writing tool.</p>
       <div>
         <input type="text" name="title" placeholder="Title" v-model="title">
       </div>
 
       <div>
         <input type="text" name="summary" placeholder="Summary" v-model="summary">
+      </div>
+
+      <div>
+        <uploadFile/>
       </div>
 
       <div>
@@ -25,7 +29,7 @@
       <div>
         <button class="button btn-action primary" @click.prevent="addPost">Add</button>
       </div>
-    </div>
+    </form>
   </div>
 </template>
 
@@ -35,7 +39,11 @@ import "quill/dist/quill.snow.css";
 import "quill/dist/quill.bubble.css";
 
 import { quillEditor } from "vue-quill-editor";
+import FormData from "form-data";
+import { serverBus } from '../main';
+import uploadFile from '@/components/uploadFile.vue';
 import PostsService from "@/services/PostsService";
+
 
 export default {
   data: function() {
@@ -43,6 +51,7 @@ export default {
       title: "",
       summary: "",
       content: "",
+      image: "",
       editorOption: {
         modules: {
           toolbar: [
@@ -64,18 +73,35 @@ export default {
       }
     };
   },
+  created() {
+    serverBus.$on('fileSelected', (file) => {
+      this.image = file;
+    })
+  },
   methods: {
     async addPost() {
+      // console.log(`img: ${this.image}`);
+      // let data = new FormData();
+      // data.append('title', this.title);
+      // data.append('summary', this.summary);
+      // data.append('image', this.image);
+      // data.append('content', this.content);
+      // console.log(`LINE 89 ${data}`);
+      // console.log(`form title ${data.title}`)
+      // await PostsService.addPosts(data);
+
       await PostsService.addPosts({
         title: this.title,
         summary: this.summary,
+        image: this.image,
         content: this.content
       });
       this.$router.push({ name: "Posts" });
     }
   },
   components: {
-    quillEditor
+    quillEditor,
+    uploadFile
   }
 };
 </script>

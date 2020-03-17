@@ -10,7 +10,6 @@
       </div>
     </footer>
 
-    <!-- https://medium.com/@anaida07/mevn-stack-application-part-2-2-9ebcf8a22753 -->
   </div>
 </template>
 

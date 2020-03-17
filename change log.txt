@@ -1,0 +1,11 @@
+Change Log
+
+---------------------------------------------------------------------------------------------------------
+
+21 Wed. Changes made:
+
+- CSS - Edited cover image to look nicer on the blog post. Made changes to all the responsive sizes.
+
+Estimated time to complete: 30 minutes.
+
+---------------------------------------------------------------------------------------------------------

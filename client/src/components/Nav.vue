@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="nav-wrapper" v-bind:class="{ homeNav: isHome }">
     <nav class="nav container">
 
       <h3 class="nav-brand hug">Oasis</h3>
@@ -23,13 +23,41 @@
   </div>
 </template>
 
+<script>
+
+export default {
+  data() {
+    return {
+      
+    };
+  },
+  props: {
+    isHome: Boolean
+  }
+};
+
+</script>
+
 <style lang="scss" scoped>
+@import "../styles/app.scss";
+
+.nav-wrapper {
+  padding: 0 0 0.2rem 0;
+  // box-shadow: 0 1px 3px rgba(117, 117, 117, 0.12), 0 1px 2px rgba(117, 117, 117, 0.12);
+  box-shadow: 0 3px 6px rgba(117, 117, 117, 0.12), 0 3px 6px rgba(117, 117, 117, 0.12);
+
+}
+
+.homeNav {
+  padding: 0;
+  box-shadow: none;
+}
 
 .nav {
   display: grid;
   align-content: center;
   grid-template-columns: repeat(2, 1fr);
-  margin: 0.5rem 1rem;
+  margin: 0 1rem 0.5rem 1rem;
 
   .nav-brand {
     // background-image: radial-gradient(circle at 10% 20%, rgb(253, 193, 104) 0%, rgb(251, 128, 128) 90%);
@@ -38,7 +66,7 @@
     font-weight: 300;
     align-self: end;
     font-size: 1.621rem;
-    color: #707070;
+    color: $primary;
     margin-top: 0.7rem;
   }
 
@@ -54,13 +82,9 @@
   }
 }
 
-@media only screen and (min-width: 500px) {
-
-}
-
 @media only screen and (min-width: 700px) {
   .nav {
-    margin: 0.8rem 2rem 1.2rem 2rem;
+    margin: 0 2rem 1.2rem 2rem;
     
     .nav-brand {
     }
@@ -85,7 +109,7 @@
 
 @media only screen and (min-width: 1200px) {
   .nav {
-    margin: 0.8rem auto;
+    margin: 0 auto 0.8rem auto;
   }
 }
 </style>

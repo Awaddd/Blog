@@ -22,7 +22,8 @@
           }"
       >
           <!-- <img src="../assets/card-1.png" alt="" class="post-content__img"> -->
-          <img :src="randomImg(i)" class="post-content__img">
+          <!-- <img :src="randomImg(i)" class="post-content__img"> -->
+          <img :src="post.image" class="post-content__img">
           <article class="post-content__article">
             <h4 class="post-title ">{{post.title}}</h4>
             <p class="">{{sanitizeSummary(post)}}</p>
@@ -47,19 +48,12 @@ export default {
     this.getPosts();
   },
   computed: {
-    // randomImg (img) {
-    //   let i = 0;
-    //   let randomImg;
-    //   for (i; i < this.posts.length; i++){
-    //     randomImg = `https://picsum.photos/500/29${img}`
-    //   }
-    //   return randomImg;
-    // }
   },
   methods: {
     async getPosts() {
       const response = await PostsService.fetchPosts();
       this.posts = response.data.posts;
+      console.log(this.posts);
     },
     sanitizeTitle: function(post) {
       console.log(post.title);
@@ -74,15 +68,15 @@ export default {
         let summary = post.summary.substring(0, length);
         return summary + '...';
       } 
-    },
-    randomImg (img) {
-      let i = 0;
-      let randomImg;
-      for (i; i < this.posts.length; i++){
-        randomImg = `https://picsum.photos/500/29${img}`
-      }
-      return randomImg;
     }
+    // randomImg (img) {
+    //   let i = 0;
+    //   let randomImg;
+    //   for (i; i < this.posts.length; i++){
+    //     randomImg = `https://picsum.photos/500/29${img}`
+    //   }
+    //   return randomImg;
+    // }
   }
 };
 </script>

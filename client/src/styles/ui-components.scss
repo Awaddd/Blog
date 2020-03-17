@@ -71,6 +71,12 @@
   font-weight: 600;
 }
 
+.btn-clear {
+  cursor: pointer;
+  color: $primary;
+  text-decoration: underline;
+}
+
 .cards-wrapper {
   display: grid;
   grid-gap: 20px;
@@ -97,6 +103,10 @@
     padding: 18px 50px;
     font-size: 0.9rem;
   }
+  .small  {
+    padding: 13px 45px;
+    font-size: 0.8rem;
+  } 
 }
 
 @media only screen and (min-width: 1600px) {

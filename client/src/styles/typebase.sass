@@ -55,27 +55,26 @@ h1, h2, h3, h4, h5, h6
   line-height: $leading
 
 h1
-  font-size: 3 * $scale * 1rem
-  line-height: 3 * $leading
-  margin-top: 2 * $leading
-h2
-  font-size: 2 * $scale * 1rem
-  line-height: 2 * $leading
-  margin-top: 2 * $leading
-h3
-  font-size: 1.5 * $scale * 1rem
+  font-size: 1.2 * $scale * 1rem
   line-height: 1.5 * $leading
-h4
-  font-size: $scale * 0.6rem
+  margin-top: 1.5 * $leading
+h2
+  font-size: 1 * $scale * 1rem
+  line-height: 1 * $leading
+h3
+  ont-size: 0.6 $scale * 0.6rem
   line-height: 1.2 * $leading
+h4
+  ffont-size: 0.45 $scale * 0.45rem
+  line-height: 0.7 * $leading
   // font-size: $scale / 2 * 1rem
 h5
   // font-size: $scale / 3 * 1rem
-  font-size: $scale * 0.45rem
-  line-height: 0.7 * $leading
+  font-size: $scale / 4 * 1rem
 
 h6
-  font-size: $scale / 4 * 1rem
+  font-size: $scale / 3 * 1rem
+
 
 /* Tables */
 table
@@ -99,3 +98,27 @@ code
 /* Hug a the block above you */
 .hug
   margin-top: 0
+
+@media only screen and (min-width: 700px) 
+  h1
+    font-size: 2 * $scale * 1rem
+    line-height: 2 * $leading
+    margin-top: 2 * $leading
+  h2
+    font-size: 1.2 * $scale * 1rem
+    line-height: 1.5 * $leading
+  h3
+    font-size: 1 * $scale * 1rem
+    line-height: 1 * $leading
+  h4
+    font-size: 0.6 $scale * 0.6rem
+    line-height: 1.2 * $leading
+    // font-size: $scale / 2 * 1rem
+  h5
+    // font-size: $scale / 3 * 1rem
+    font-size: 0.45 $scale * 0.45rem
+    line-height: 0.7 * $leading
+
+  h6
+    font-size: $scale / 4 * 1rem
+

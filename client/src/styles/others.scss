@@ -3,6 +3,10 @@
     width: 1000px;
     margin: 0 auto;
   }
+  .nav-container {
+    width: 1200px;
+    margin: 0 auto;
+  }
 }
 
 hr {
@@ -35,10 +39,16 @@ a {
   .key-text {
     font-size: $baseFontSize / 14 * 100%;
   }
+  .center {
+    margin-top: 100px;
+  }
 }
 
 @media only screen and (min-width: 1200px) {
   .key-text {
     font-size: $baseFontSize / 12 * 100%;
+  }
+  .center {
+    margin-top: 150px;
   }
 }

@@ -2,7 +2,7 @@
   <div class="home">
 
     <header>
-      <app-nav></app-nav>
+      <app-nav :isHome="true"></app-nav>
 
       <section class="welcome">
         <h3 class="welcome__message hug">Welcome to Dini's Oasis</h3>
@@ -67,7 +67,7 @@ export default {
 
 .home {
   .welcome {
-    background-image: radial-gradient(circle at 10% 20%, rgb(253, 193, 104) 0%, rgb(251, 128, 128) 90%);
+    background-image: radial-gradient(circle at 10% 20%, #4facfe 0%, #00f2fe 90%);
     text-align: center;
     color: #fff;
     padding: 1.2rem 0 0.8rem 0;

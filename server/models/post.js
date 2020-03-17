@@ -8,7 +8,8 @@ const PostSchema = new Schema({
     unique: true
   },
   summary: String,
-  content: String
+  content: String,
+  image: {type: String, required: true}
 });
 
 PostSchema.index({ title: 1 });
