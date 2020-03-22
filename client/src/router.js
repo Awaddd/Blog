@@ -20,15 +20,15 @@ export default new Router({
       component: () =>
         import(/* webpackChunkName: "about" */ "./views/Posts.vue")
     },
-    {
-      path: "/posts/new",
-      name: "NewPost",
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () =>
-        import(/* webpackChunkName: "about" */ "./views/NewPost.vue")
-    },
+    // {
+    //   path: "/posts/new",
+    //   name: "NewPost",
+    //   // route level code-splitting
+    //   // this generates a separate chunk (about.[hash].js) for this route
+    //   // which is lazy-loaded when the route is visited.
+    //   component: () =>
+    //     import(/* webpackChunkName: "about" */ "./views/NewPost.vue")
+    // },
     {
       path: "/posts/:title",
       name: "BlogPost",
@@ -55,5 +55,24 @@ export default new Router({
       // which is lazy-loaded when the route is visited.
       component: () =>
         import(/* webpackChunkName: "about" */ "./views/Register.vue")
-  }
+  },
+  {
+    path: "/dashboard",
+    name: "Dashboard",
+    beforeEnter: (to, from, next) => {
+      // const cookie = document.cookie;
+      // const cookie = Cookies.get('access_token');
+      console.log("Message from the router.");
+      const user = localStorage.getItem('user');
+      console.log(user);
+
+      if (!user) next("/admin/login");
+      else next();
+    },
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "about" */ "./views/Dashboard.vue")
+}
 ]});

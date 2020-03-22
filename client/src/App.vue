@@ -4,11 +4,11 @@
 
     <router-view class="router-view"/>
 
-    <footer class="footer">
+    <!-- <footer class="footer">
       <div>
         <p>&copy; 2018 Awad Dini</p>
       </div>
-    </footer>
+    </footer> -->
 
   </div>
 </template>

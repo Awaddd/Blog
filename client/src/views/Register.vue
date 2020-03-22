@@ -1,5 +1,5 @@
 <template>
-  <div class="access container center">
+  <div class="access my-container center">
     <form class="access-form">
       <h2 class>Register</h2>
 
@@ -31,7 +31,7 @@
 
       <span v-if="errmsg">{{errmsg}}</span>
       
-      <p>Have an account? <span class="btn-clear">Login</span> </p>
+      <p>Have an account? <router-link to="/admin/login" class="btn-clear">Login</router-link> </p>
 
     </form>
   </div>
@@ -55,23 +55,18 @@ export default {
   },
   methods: {
       async register() {
-        const salt = await bcrypt.genSalt(10);
-        let password = '';
 
         if (this.password === this.cPassword){
           this.errmsg = null; 
-          password = this.password;
-          const hashedPassword = await bcrypt.hash(password, salt);
-          console.log(hashedPassword);
 
           await AuthService.register({
             email: this.email,
             firstName: this.firstName,
             lastName: this.lastName,
-            password: hashedPassword
+            password: this.password
           })
 
-          // this.$router.push({ name: "Dashboard" });
+          this.$router.push({ name: "Dashboard" });
 
         } else {
           this.errmsg = 'Passwords do not match.';

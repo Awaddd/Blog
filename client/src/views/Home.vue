@@ -10,7 +10,7 @@
       </section>
     </header>
 
-    <main class="container home-content">
+    <main class="my-container home-content">
       
       <section class="featured-post">
         <div class="featured-post__details">

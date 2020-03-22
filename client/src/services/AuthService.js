@@ -6,17 +6,17 @@ export default {
 
   async login (params) {
     console.log(`Auth service: ${params.email} ${params.password}`);
-
-    
-    // const user = await this.fetchUser({email: params.email});
-
-    // const user = this.fetchUser({email: params.email});
-
-    // bcrypt.compare("password", params.password, function(err, res) {
-    //   console.log(res);
-    // });
-
-    return Api().post("auth", params);  
+    const res = await Api().post("auth", params);  
+    console.log(res);
+    if (res.status === 200 && res.data.user){
+      console.log(`THIS IS THE RES ${res.data.user}`);
+      // store jwt in memory
+      // pass it as a header on every api call
+      // check user logged in
+      // decode jwt to access payload on client
+      const user = res.data.user;
+      localStorage.setItem('user', user);
+    } 
   },
 
   async register(params) {
@@ -25,14 +25,20 @@ export default {
     return Api().post("users", params);
   },
 
-  // fetchAdminData () {
-  //   return Api().get("admin");
-  // }
-
-
+  fetchUserData(id) {
+    console.log('we here');
+    console.log(id);
+    return Api().get(`users/${id}`);
+  },
 
   fetchUser(params) {
     return Api().get(`users/${params.email}`);
   }
 
 }
+
+// notes 2:18am 21 march
+// sending authorized tokens from postman works fine. Can send it on every api call. Middleware seems to be working fine. Just need to be able
+// to send authorized tokens from the client, which actually works fine except when creating a new post. Other requests like finduserbyid seem to
+// work fine. They send the tokens and the tokens are received anad verified. I think the issue is to do with formdata stopping or the way
+// i structured the header for create new post.

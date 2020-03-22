@@ -4,7 +4,7 @@
       <app-nav></app-nav>
     </header>
 
-    <main class="container">
+    <main class="my-container">
       <section class="posts post-wrapper">
         <p class="highlight hug key-text">All Posts</p>
         <app-posts></app-posts>

@@ -1,6 +1,6 @@
 import Api from "@/services/Api";
 import axios from "axios";
-
+import { authHeader } from '@/helpers/helpers';
 
 export default {
   fetchPosts() {
@@ -16,6 +16,8 @@ export default {
     console.log(params.image);
     console.log(`Image NAME${params.image.name}`);
 
+    const url = localStorage.getItem('url');
+
     const formData = new FormData();
 
     formData.append("title", params.title);
@@ -24,16 +26,14 @@ export default {
     formData.append("image", params.image, params.image.name);
 
     axios.post(
-      'http://localhost:3000/api/posts',
+      `${url}posts`,
       formData,
       {
-        header: {
-          'Content-Type': 'image/*'
-        }
+        header: authHeader(true)
       }
     ).then(
       response => {
-        console.log('image upload response > ', response)
+        console.log('image upload response: ', response)
       }
     )
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="access container center">
+  <div class="access my-container center">
     <form class="access-form">
       <h2 class>Login</h2>
       <p>Have an account? Log in below</p>
@@ -16,7 +16,7 @@
         <button class="btn small" @click.prevent="login">Login</button>
       </div>
       
-      <p>Don't have an account? <span class="btn-clear">Register</span> </p>
+      <p>Don't have an account? <router-link to="/admin/register" class="btn-clear">Register</router-link> </p>
     </form>
   </div>
 </template>
@@ -36,18 +36,13 @@ export default {
     methods: {
 
       async login() {
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(this.password, salt);
-        console.log(hashedPassword);
 
         await AuthService.login({
           email: this.email,
-          password: hashedPassword
+          password: this.password
         });
 
-
-
-          // this.$router.push({ name: "Dashboard" });
+          this.$router.push({ name: "Dashboard" });
       }
    }
 }

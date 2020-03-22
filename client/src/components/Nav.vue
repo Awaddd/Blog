@@ -1,6 +1,6 @@
 <template>
   <div class="nav-wrapper" v-bind:class="{ homeNav: isHome }">
-    <nav class="nav container">
+    <nav class="nav my-container">
 
       <h3 class="nav-brand hug">Oasis</h3>
 
@@ -86,9 +86,6 @@ export default {
   .nav {
     margin: 0 2rem 1.2rem 2rem;
     
-    .nav-brand {
-    }
-   
     .nav-links {
       display: grid;
       grid-template-columns: repeat(4, max-content);

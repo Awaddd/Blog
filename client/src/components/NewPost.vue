@@ -1,8 +1,7 @@
 <template>
-  <div class="create-posts container">
+  <div class="create-posts">
     <form class="add-post-form" enctype="multipart/form-data">
-      <h2 class>Create a Post</h2>
-      <p>Create a post with this easy to use blog writing tool.</p>
+      <p>Create a post below</p>
       <div>
         <input type="text" name="title" placeholder="Title" v-model="title">
       </div>
@@ -27,7 +26,7 @@
         ></quill-editor>
       </div>
       <div>
-        <button class="button btn-action primary" @click.prevent="addPost">Add</button>
+        <button class="button btn-action is-primary" @click.prevent="addPost">Add</button>
       </div>
     </form>
   </div>
@@ -96,7 +95,7 @@ export default {
         image: this.image,
         content: this.content
       });
-      this.$router.push({ name: "Posts" });
+      // this.$router.push({ name: "Posts" });
     }
   },
   components: {
@@ -110,9 +109,12 @@ export default {
 <style lang="scss">
 @import "../styles/app.scss";
 
+.ql-container {
+  min-height: 150px;
+}
+
 .create-posts {
   background: #ffffff;
-  padding: 2rem;
 }
 
 .add-post-form {
@@ -134,9 +136,7 @@ export default {
 
 
 @media only screen and (min-width: 700px) {
-  .create-posts {
-    padding: 2rem;
-  }
+
 }
 
 @media only screen and (min-width: 1200px) {
