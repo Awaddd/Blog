@@ -2,62 +2,6 @@
     <section class="section wallpaper-wrapper">
       <div class="container wallpaper ">
 
-      
-        <!-- <aside class="menu is-pulled-left dashboard-aside">
-          <p class="menu-label">Article</p>
-          <ul class="menu-list">
-            <li><a>New Post</a></li>
-            <li><a>All Posts</a></li>
-          </ul>
-          <p class="menu-label">Toilet Paper</p>
-          <ul class="menu-list">
-            <li><a>New Toilet Paper</a></li>
-          </ul>
-        </aside>
-
-      <main class="dashboard-content">
-
-        <nav class="navbar" role="navigation" aria-label="main navigation">
-          <div class="navbar-brand">
-            <a class="navbar-item" href="https://bulma.io">
-              <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
-            </a>
-
-            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-              <span aria-hidden="true"></span>
-              <span aria-hidden="true"></span>
-              <span aria-hidden="true"></span>
-            </a>
-          </div>
-
-          <div id="navbarBasicExample" class="navbar-menu">
-            <div class="navbar-end">
-              <div class="navbar-item">
-                <div class="buttons">
-                  <a class="button is-primary">
-                    <strong>{{user.firstName}}</strong>
-                  </a>
-                  <a class="button is-light">
-                    Logout
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </nav>
-
-        <section class="">
-          <section class="hero">
-            <div class="hero-body">
-
-              <h3 class="title">Dashboard</h3>
-              <h5 class="subtitle">New Post</h5>
-
-            </div>
-          </section>
-        </section>
-      </main> -->
-
           <div class="columns dashboard-wrapper has-background-white">
             <div class="column is-2 dashboard-aside-wrapper">
 
@@ -111,7 +55,7 @@
               <div class="dashboard-content-wrapper">
 
                 <section v-if="this.activeItem === 'allPosts'">
-                  LOL
+                  <posts-table></posts-table>
                 </section>
                   
 
@@ -134,6 +78,7 @@
 
 import AuthService from "@/services/AuthService";
 import NewPost from "@/components/NewPost.vue";
+import PostsTable from "@/components/PostsTable.vue";
 import jwt from "jsonwebtoken";
 
 export default {
@@ -146,7 +91,8 @@ export default {
       }
     },
     components: {
-    "new-post": NewPost
+    "new-post": NewPost,
+    "posts-table": PostsTable
     },
     mounted() {
       this.getAdminData();
