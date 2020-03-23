@@ -95,7 +95,7 @@ export default {
         image: this.image,
         content: this.content
       });
-      // this.$router.push({ name: "Posts" });
+      this.$router.push({ name: "Posts" });
     }
   },
   components: {

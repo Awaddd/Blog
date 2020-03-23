@@ -2,7 +2,11 @@
   <div id="app">
     <app-nav></app-nav>
     <router-view class="router-view"/>
-
+    <footer class="footer">
+      <div class="content has-text-centered">
+        <p><strong>Dini's Oasis </strong> &copy; 2020</p>
+      </div>
+    </footer>
   </div>
 </template>
 
@@ -42,56 +46,5 @@ body {
   -moz-osx-font-smoothing: grayscale;
   min-height: 100%;
   position: relative;
-}
-
-.header-top {
-  background: $secondary;
-  padding: 1.5rem;
-}
-
-.hero {
-  padding: 0 1.5rem;
-  background: #fff;
-  color: #000;
-  text-align: center;
-}
-
-.brand {
-  color: #333;
-}
-
-.router-view {
-  // padding below required for footer -
-  // must be the same as the footer height
-  padding-bottom: 100px;
-  margin: 0;
-}
-
-.footer {
-  background: #fff;
-  color: #333;
-  display: grid;
-  justify-items: center;
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  min-height: 100px;
-}
-
-@media only screen and (min-width: 500px) {
-}
-
-@media only screen and (min-width: 700px) {
-  .hero {
-    font-size: 3rem;
-    margin-top: 1.5rem;
-    margin-bottom: 0;
-  }
-  h1 {
-    margin: 0;
-  }
-}
-
-@media only screen and (min-width: 1200px) {
 }
 </style>

@@ -1,5 +1,6 @@
 const JWT = require('jsonwebtoken');
 const {privateKey} = require('./config.json');
+const {verifyToken} = require('./helpers.js');
 const User = require("./models/user");
 
 module.exports = {
@@ -17,13 +18,8 @@ module.exports = {
       console.log("--------- ");
 
       // console.log(JSON.stringify(req.headers));
-      const jwttoken = req.header('Authorization');
-      console.log("-----:)------ ");
-      const tokenArray = jwttoken.split(" ");
-
-      const decoded = JWT.verify(tokenArray[1], privateKey);
+      const decoded = verifyToken(req);
       console.log(decoded);      
-      
       req.user = await User.findById(decoded.userID).select('-password');
       console.log(JSON.stringify(req.user));
 

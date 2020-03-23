@@ -29,7 +29,7 @@ export default {
       `${url}posts`,
       formData,
       {
-        header: authHeader(true)
+        headers: authHeader(true)
       }
     ).then(
       response => {

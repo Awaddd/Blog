@@ -5,7 +5,7 @@
       <!-- <app-nav :isHome="true"></app-nav> -->
 
       <!-- <section class="hero my-gradient"> -->
-      <section class="hero is-primary is-bold my-home-hero">
+      <section class="hero is-primary is-bold my-home-hero has-text-centered">
         <div class="hero-body">
           <div class="container">
             <h1 class="title has-text-white is-size-4-mobile is-size-3-tablet">
@@ -46,7 +46,7 @@
         </div>
       </section>
 
-      <section class="latest-posts">
+      <section class="section">
 
           <p class="title">Latest</p>
           
@@ -58,32 +58,19 @@
 
     <section class="section is-medium has-background-primary">
       <div class="container">
-        <div class="content has-text-centered">
-          <h1 class="title has-text-white">Newsletter</h1>
-          <p class="subtitle is-4 has-text-white">Want to be the first to know when a new article comes out?</p>
-          <button class="my-btn">Notify Me</button>
-        </div>
-
-        <!-- <div class="">
-          <div class="field">
-            <div class="control">
-              <input type="text" class="my-home-input" placeholder="Email">
-            </div>
-          </div>
+        <div class="content has-text-centered newsletter-wrapper">
           <div>
+            <h1 class="title is-3 has-text-white is-size-4-mobile">Newsletter</h1>
+            <p class="subtitle is-5 has-text-white is-size-6-mobile">Want to be the first to know when a new article comes out?</p>
+          </div>
+          <div class="newsletter-button">
+            <input type="text" class="input is-medium">
             <button class="my-btn">Notify Me</button>
           </div>
-        </div> -->
+        </div>
 
       </div>
     </section>
-
-
-    <!-- <footer class="footer">
-      <div class="content has-text-centered">
-        <p><strong>Dini's Oasis </strong> &copy; 2020</p>
-      </div>
-    </footer> -->
 
   </div>
 </template>
@@ -111,6 +98,16 @@ export default {
 
 .my-home-hero {
   margin: 0;
+}
+
+.newsletter-wrapper {
+  display: grid;
+  grid-gap: 30px;
+}
+
+.newsletter-button {
+  display: grid;
+  grid-gap: 15px;
 }
 
 .home {
@@ -178,18 +175,28 @@ export default {
       }
     }
     // adds padding to latest, instead of using section
-    .latest-posts {
-      padding: 0 1.5rem;
-    }
   }
 
 }
 
 @media only screen and (min-width: 700px) {
-
+  
   .my-home-input {
     width: 600px;
     padding: 0.8rem 0.5rem;
+  }
+
+  .newsletter-button {
+    display: grid;
+    grid-template-columns: 1fr max-content;
+    grid-gap: 15px;
+    button {
+      padding: 0.8rem 36px;
+    }
+    input {
+      min-width: 500px;
+    }
+    margin: 0 auto;
   }
 
   .home {
@@ -268,13 +275,13 @@ export default {
 
 
       }
-
-      .latest-posts {
-        display: grid;
-        grid-gap: 20px;
-      }
     }
   }
 }
 
+@media only screen and (min-width: 1200px) {
+  .newsletter-wrapper {
+    grid-gap: 40px;
+  }
+}
 </style>

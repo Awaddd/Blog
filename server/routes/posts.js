@@ -3,6 +3,9 @@ const Joi = require("joi");
 const router = express.Router();
 const multer = require('multer');
 const {checkLoggedIn, isLoggedIn} = require('../middleware');
+const JWT = require('jsonwebtoken');
+const {privateKey} = require('../config.json');
+const {verifyToken} = require('../helpers.js');
 
 const storage = multer.diskStorage({
   destination: function (req, file, callback){
@@ -30,6 +33,7 @@ const upload = multer({
 });
 
 const Post = require("../models/post");
+const User = require("../models/user");
 
 // Get all posts
 
@@ -69,7 +73,7 @@ router.get("/:title", (req, res) => {
 
 // Add new post
 
-router.post("/", upload.single('image'), checkLoggedIn, isLoggedIn,(req, res) => {
+router.post("/", upload.single('image'), checkLoggedIn, isLoggedIn, (req, res) => {
   console.log("send help 1");
   console.log(req.body);
   console.log("send help 2");
@@ -85,37 +89,49 @@ router.post("/", upload.single('image'), checkLoggedIn, isLoggedIn,(req, res) =>
   const image = `${process.env.URL}/uploads/${req.file.filename}`;
   console.log(image);
 
-  Post.findOne({ title: title }, "title summary content image", function(
-    error,
-    post
-  ) {
-    if (error) {
-      console.log(error);
-    } else if (post) {
-      res.send({
-        success: false,
-        message: "Post exists"
-      });
-    } else {
-      const new_post = new Post({
-        title: title,
-        summary: summary,
-        content: body,
-        image: image
-      });
+  const userID = verifyToken(req).userID;
+  console.log(userID);
 
-      new_post.save(function(error) {
+  User.findOne({ _id: userID}, "_id" ,(error, user) => {
+    if (error) {
+      console.log(`error on line 91 posts: ${error}`);
+    } else {
+      console.log(user);
+      Post.findOne({ title: title }, "title summary content image", function(
+        error,
+        post
+      ) {
         if (error) {
           console.log(error);
+        } else if (post) {
+          res.send({
+            success: false,
+            message: "Post exists"
+          });
+        } else {
+          const new_post = new Post({
+            title: title,
+            summary: summary,
+            content: body,
+            image: image,
+            author: userID
+          });
+    
+          new_post.save(function(error) {
+            if (error) {
+              console.log(error);
+            }
+    
+            res.send({
+              success: true,
+              message: "Post created!"
+            });
+          });
         }
-
-        res.send({
-          success: true,
-          message: "Post created!"
-        });
       });
     }
-  });
+  })
+
 });
 
 function validatePost(post) {

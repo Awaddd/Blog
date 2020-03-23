@@ -9,7 +9,8 @@ const PostSchema = new Schema({
   },
   summary: String,
   content: String,
-  image: {type: String, required: true}
+  image: {type: String, required: true},
+  author: {type: Schema.Types.ObjectId, ref: 'User', required: true}
 });
 
 PostSchema.index({ title: 1 });
