@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const posts = require("./routes/posts");
 const users = require("./routes/users");
 const auth = require("./routes/auth");
+const cookieParser = require('cookie-parser');
 
 require('dotenv').config();
 
@@ -24,6 +25,7 @@ db.once("open", function(callback) {
 });
 
 const app = express();
+app.use(cookieParser());
 app.use(morgan("combined"));
 app.use('/uploads', express.static('uploads'));
 app.use(bodyParser.json());

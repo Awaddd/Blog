@@ -41,7 +41,7 @@ export default {
         }
       ],
       currentPage: 1,
-      perPage: 8,
+      perPage: 5,
       paginationPosition: 'bottom'
     }
   },

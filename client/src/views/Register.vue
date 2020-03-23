@@ -1,7 +1,7 @@
 <template>
   <div class="access my-container center">
     <form class="access-form">
-      <h2 class>Register</h2>
+      <h1 class="title">Register</h1>
 
       <p>Don't have an account? Register here</p>
 
@@ -26,7 +26,7 @@
       </div>
 
       <div>
-        <button class="btn small" @click.prevent="register">Register</button>
+        <button class="button is-primary" @click.prevent="register">Register</button>
       </div>
 
       <span v-if="errmsg">{{errmsg}}</span>

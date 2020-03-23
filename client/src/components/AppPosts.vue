@@ -1,37 +1,27 @@
 <template>
-  <div class="cards-wrapper">
+  <div class="cards-wrapper my-container">
 
-    <!-- Static -->
-    <!-- <div class="post">
-      <img src="../assets/card-1.png" alt="" class="post-content__img">
-      <article class="post-content__article">
-        <h4 class="hug">Angular 3 Soon Out - Here's What You Need To Know</h4>
-        <p class="hug"></p>
-        <p class="highlight">Read More</p>
-      </article>
-    </div> -->
-
-    <!-- Only static images -->
-    <div class="" v-for="(post, i) in posts" :key="i">
-      <!-- post in posts.slice(0, 4) -->
-      <router-link
-        class="post"
+      <div class="card" v-for="(post, i) in posts" :key="i">
+        <router-link
         :to="{
               name: 'BlogPost',
               params: {title: sanitizeTitle(post)}
-          }"
-      >
-          <!-- <img src="../assets/card-1.png" alt="" class="post-content__img"> -->
-          <!-- <img :src="randomImg(i)" class="post-content__img"> -->
-          <img :src="post.image" class="post-content__img">
-          <article class="post-content__article">
-            <h4 class="post-title ">{{post.title}}</h4>
-            <p class="">{{sanitizeSummary(post)}}</p>
-            <p class="highlight read-more ">Read More</p>
-          </article>
-      </router-link>
-    </div>
-
+          }">
+          <div class="card-image">
+            <figure class="image is-4by4">
+              <img :src="post.image" alt="" class="">
+            </figure>
+          </div>
+          <div class="card-content">
+            <p class="title is-6 is-capitalized">{{post.title}}</p>
+            <div class="content">
+              {{sanitizeSummary(post)}}
+              <br>
+            </div>
+          </div>
+        </router-link>
+      </div>
+    
   </div>
 </template>
 
@@ -69,124 +59,20 @@ export default {
         return summary + '...';
       } 
     }
-    // randomImg (img) {
-    //   let i = 0;
-    //   let randomImg;
-    //   for (i; i < this.posts.length; i++){
-    //     randomImg = `https://picsum.photos/500/29${img}`
-    //   }
-    //   return randomImg;
-    // }
   }
 };
 </script>
 
 <style lang="scss">
-@import "../styles/app.scss";
+  @import "../styles/app.scss";
 
-.post-title {
-  text-transform: capitalize;
-}
-
-// .post-wrapper {
-//   display: grid;
-//   grid-gap: 20px;
-// }
-
-.post {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 0.65rem;
-  cursor: pointer;
-
-  .post-content__img {
-    max-width: 100%;
-  }
-
-  .post-content__article {
-    display: grid;
-    height: 100%;
-    color: #707070;
-
-    h4 {
-      font-size: 0.55rem;
-      line-height: 1.5;
-      margin: 0;
+  .cards-wrapper {
+    a {
+      color: #333;
     }
-    p {
-      font-size: 0.45rem;
-      line-height: 1.5;
-      margin: 0;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      overflow: hidden;
-    }
-
-    .read-more {
-      align-self: end;
+    a:hover{
+      color: #333;
     }
   }
-}
-
-@media only screen and (min-width: 350px) {
-  .post { 
-    .post-content__article {
-      p {
-        text-overflow: initial;
-        white-space: normal;
-        overflow: visible;
-      }
-    }
-  }
-}
-
-
-@media only screen and (min-width: 700px) {
-// font-size h4 : 0.8484rem;
-  // .card-wrapper {
-  //   grid-gap: 20px;
-  // }
-  .post {
-    
-    grid-template-columns: 1fr;
-    // max-width: 330px;
-    grid-gap: 20px;
-    align-content: start;
-
- 
-
-    .post-content__article {
-      padding: 0 0.5rem;
-      h4 {
-        font-size: 0.8884rem;
-        line-height: 1.5;
-        margin-top: 0.7em;
-      }
-      p {
-        font-size: 0.8484rem;
-        line-height: 1.5;
-        margin-top: 0.7rem;
-      }
-
-      .read-more {
-        margin-top: 1.5rem;
-      }
-    }
-  }
-}
-
-@media only screen and (min-width: 1200px) {
-  .post {
-    grid-template-columns: 1fr;
-    grid-gap: 0rem;
-    // max-width: 330px;
-
-    .post-content__article {
-      h4 {
-        margin-top: 1.5rem;
-      }
-    }
-  }
-}
 </style>
 

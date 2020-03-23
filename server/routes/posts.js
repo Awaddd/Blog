@@ -2,6 +2,7 @@ const express = require("express");
 const Joi = require("joi");
 const router = express.Router();
 const multer = require('multer');
+const {checkLoggedIn, isLoggedIn} = require('../middleware');
 
 const storage = multer.diskStorage({
   destination: function (req, file, callback){
@@ -68,7 +69,7 @@ router.get("/:title", (req, res) => {
 
 // Add new post
 
-router.post("/", upload.single('image'), (req, res) => {
+router.post("/", upload.single('image'), checkLoggedIn, isLoggedIn,(req, res) => {
   console.log("send help 1");
   console.log(req.body);
   console.log("send help 2");

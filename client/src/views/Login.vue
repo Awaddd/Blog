@@ -1,7 +1,7 @@
 <template>
   <div class="access my-container center">
     <form class="access-form">
-      <h2 class>Login</h2>
+      <h1 class="title">Login</h1>
       <p>Have an account? Log in below</p>
 
       <div>
@@ -13,7 +13,7 @@
       </div>
 
       <div>
-        <button class="btn small" @click.prevent="login">Login</button>
+        <button class="button is-primary" @click.prevent="login">Login</button>
       </div>
       
       <p>Don't have an account? <router-link to="/admin/register" class="btn-clear">Register</router-link> </p>

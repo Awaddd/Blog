@@ -20,6 +20,7 @@
 <style lang="scss">
 @import "./styles/app.scss";
 
+
 html,
 body {
   margin: 0;

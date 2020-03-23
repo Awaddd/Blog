@@ -1,66 +1,4 @@
-// .panel-wrapper {
-//   display: grid;
-//   box-sizing: border-box;
-//   grid-gap: 30px;
-
-//   /* new */
-//   overflow-y: auto;
-//   overflow-x: hidden;
-// }
-
-// .card-wrapper {
-//   display: grid;
-//   padding: 3rem;
-//   box-sizing: border-box;
-//   grid-gap: 30px;
-
-//   /* new */
-//   overflow-y: auto;
-//   overflow-x: hidden;
-// }
-
-
-
-.card-content {
-  padding: 1rem;
-  display: grid;
-  grid-template-rows: max-content;
-  margin: 0;
-}
-
-// @media only screen and (min-width: 500px) {
-//   .cards-wrapper {
-//     grid-template-columns: 1fr;
-//     padding: 2rem;
-//   }
-
-//   .card {
-//     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-//     height: auto;
-//     //   max-height: 299px;
-//     // min-height: 420px;
-//     // min-width: 200px;
-//     // max-width: 340px;
-//     overflow: hidden;
-//     border-radius: 2px;
-//     color: #333;
-//     background: #fff;
-//     border: 1px solid #d8d8d8;
-//   }
-// }
-
-// @media only screen and (min-width: 700px) {
-//   .cards-wrapper {
-//     grid-template-columns: repeat(2, minmax(150px, 1fr));
-//     width: 80%;
-//     margin: 0 auto;
-//     background: red;
-
-//   }
-// }
-
-
-.btn {
+.my-btn {
   background: $primary;
   color: rgba(255, 255, 255, 0.897);
   text-transform: uppercase;
@@ -70,13 +8,6 @@
   font-size: 0.7rem;
   font-weight: 600;
 }
-
-.btn-clear {
-  cursor: pointer;
-  color: $primary;
-  text-decoration: underline;
-}
-
 .cards-wrapper {
   display: grid;
   grid-gap: 20px;
@@ -99,14 +30,10 @@
     grid-gap: 30px;
   }
 
-  .btn {
+  .my-btn {
     padding: 18px 50px;
     font-size: 0.9rem;
   }
-  .small  {
-    padding: 13px 45px;
-    font-size: 0.8rem;
-  } 
 }
 
 @media only screen and (min-width: 1600px) {

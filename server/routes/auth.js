@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const {privateKey} = require('../config.json');
 
 const User = require("../models/user");
 
@@ -11,11 +13,11 @@ router.post("/", (req, res) => {
   // const param = req.body.email;
   // const param = req.body.password;
 
-  const {email, password} = req.body; 
+  // const {email, password} = req.body; 
 
   console.log(req.body.email, req.body.password);
 
-  User.findOne({ email: email }, "email password isAdmin", function(
+  User.findOne({ email: req.body.email }, "email password isAdmin", function(
     error,
     user
   ) {
@@ -26,28 +28,30 @@ router.post("/", (req, res) => {
     if (!user){
       return res.status(400).send(["Cannot log in"]);
     }
+    
+    bcrypt.compare(req.body.password, user.password, function(err, response) {
+      if(response === true){
 
-    bcrypt.compare(req.body.password, password, function(err, res) {
+        const token = jwt.sign({ userID: user._id, isAdmin: user.isAdmin }, privateKey, {expiresIn: '7d'});
 
-      if(res === true){
-        match = true;
-        console.log("details match");
+        // secure should be true on live.
+        // res.cookie('access_token', token, {
+        //   maxAge: 3600,
+        //   httpOnly: false
+        //   // secure: true
+        // });
 
+        res.send({
+          success: true,
+          message: 'Logged in!',
+          user: token
+        });
       }
     });
-
-    if(match === true){
-      res.send({
-        success: true,
-        message: 'Logged in!'
-      })
-    }
-
 
     // compare passwords using bcrypt, NOT BCRYPTJS, if correct
     // something something JWT, store mongodb id of the user and is admin part
 
-    res.send("fail");
   });
 
 });

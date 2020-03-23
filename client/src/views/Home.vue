@@ -12,32 +12,34 @@
 
     <main class="my-container home-content">
       
-      <section class="featured-post">
-        <div class="featured-post__details">
-          <p class="featured-post__details__featured highlight hug key-text">Featured</p>
-          <p class="featured-post__details__date hug">Feb 20, 2019</p>
-        </div>
+      <section class="featured-post section">
 
-
+        <nav class="level is-mobile">
+          <div class="level-left">
+            <p class="level-item subtitle has-text-primary">Featured</p>
+          </div>
+          <div class="level-right">
+            <p class="level-item subtitle is-6"><strong>Feb 20, 2019</strong></p>
+          </div>
+        </nav>
 
         <div class="featured-post__image">
           <img src="../assets/featured.jpeg">
-          <!-- <img src="../assets/featured.jpeg" alt="" height="150" width="225"> -->
         </div>
 
         <div class="featured-post__title">
-          <h5 class="hug">Google's AI can now predict heart disease 
+          <h5 class="">Google's AI can now predict heart disease 
             just by scanning your eyes.</h5>
         </div>
 
         <div class="read-more__button">
-          <button class="btn">READ MORE</button>
+          <button class="has-background-primary my-btn">READ MORE</button>
         </div>
       </section>
 
       <section class="latest-posts">
 
-          <p class="highlight hug key-text">Latest</p>
+          <p class="title">Latest</p>
           
           <app-posts></app-posts>
 
@@ -87,11 +89,7 @@ export default {
     grid-gap: 15px;
 
     .featured-post {
-      display: grid;
-      grid-gap: 0.2rem;
-      max-width: 400px;
-      margin: 0 auto;
-
+  
       .featured-post__details {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
@@ -119,10 +117,9 @@ export default {
       }
 
       .featured-post__title {
-        background: #333;
+        background: rgb(0, 0, 0);
         color: #fff;
-        padding: 0.4rem;
-        
+        padding: 0.6rem;
         grid-column-start: 1;
         grid-column-end: 4;
         grid-row-start: 4;
@@ -133,8 +130,10 @@ export default {
       .read-more__button {
         display: none;
       }
-
-
+    }
+    // adds padding to latest, instead of using section
+    .latest-posts {
+      padding: 0 1.5rem;
     }
   }
 
@@ -158,8 +157,8 @@ export default {
 
     .home-content {
       margin-top: 1rem;
-      padding: 2rem;
-      grid-gap: 50px;
+      // padding: 2rem;
+      // grid-gap: 50px;
 
       .featured-post {
         display: grid;

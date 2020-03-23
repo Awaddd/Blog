@@ -1,22 +1,31 @@
 const express = require("express");
 const router = express.Router();
+const bcrypt = require('bcryptjs');
 const Joi = require("joi");
 
 const User = require("../models/user");
 
-router.get("/:email", (req, res) => {
+router.get("/:id", (req, res) => {
   var db = req.db;
-  console.log(`param: ${req.params.email}`);
 
-  const param = req.params.email;
-  console.log(param);
+  const user = req.params.id;
+  
+  console.log("---------------------");
+  console.log(`Finding by user id: ${user}`);
+  console.log("---------------------");
 
-  User.findOne({ email: param }, "email firstname lastname password isAdmin", function(
+  console.log("--------- ");
+
+  console.log(JSON.stringify(req.headers));
+  console.log("--------- ");
+
+
+  User.findOne({ _id: user }, "email firstName lastName isAdmin", function(
     error,
     user
   ) {
     if (error) {
-      console.log(error);
+      console.log(`error: ${error}`);
     }
     console.log(user);
     res.send(user);
@@ -51,6 +60,10 @@ router.post("/", (req, res) => {
   console.log(email);
   console.log(password);
 
+  const salt = bcrypt.genSaltSync(10);
+  const hashedPassword = bcrypt.hashSync(req.body.password, salt);
+
+ 
   User.findOne({email: email}, "email, firstName, lastName, password, isAdmin", function(
     error,
     user
@@ -67,7 +80,7 @@ router.post("/", (req, res) => {
         email: email,
         firstName: firstName,
         lastName: lastName, 
-        password: password,
+        password: hashedPassword,
         isAdmin: false
       });
 
