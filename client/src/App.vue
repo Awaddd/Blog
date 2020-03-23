@@ -1,14 +1,7 @@
 <template>
   <div id="app">
 
-
     <router-view class="router-view"/>
-
-    <!-- <footer class="footer">
-      <div>
-        <p>&copy; 2018 Awad Dini</p>
-      </div>
-    </footer> -->
 
   </div>
 </template>

@@ -1,7 +1,7 @@
 <template>
   <div class="cards-wrapper my-container">
 
-      <div class="card" v-for="(post, i) in posts" :key="i">
+      <div class="card" v-for="(post, i) in posts.slice(0, showAmount)" :key="i">
         <router-link
         :to="{
               name: 'BlogPost',
@@ -37,8 +37,7 @@ export default {
   mounted() {
     this.getPosts();
   },
-  computed: {
-  },
+  props: ['showAmount'],
   methods: {
     async getPosts() {
       const response = await PostsService.fetchPosts();

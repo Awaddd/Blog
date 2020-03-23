@@ -4,9 +4,18 @@
     <header>
       <app-nav :isHome="true"></app-nav>
 
-      <section class="welcome">
-        <h3 class="welcome__message hug">Welcome to Dini's Oasis</h3>
-        <h4 class="welcome__slogan hug">Life and Success</h4>
+      <!-- <section class="hero my-gradient"> -->
+      <section class="hero is-primary is-bold my-home-hero">
+        <div class="hero-body">
+          <div class="container">
+            <h1 class="title has-text-white is-size-4-mobile is-size-3-tablet">
+              Welcome To My Oasis
+            </h1>
+            <h2 class="subtitle has-text-white is-size-5">
+              Life and Success
+            </h2>
+          </div>
+        </div>
       </section>
     </header>
 
@@ -41,11 +50,40 @@
 
           <p class="title">Latest</p>
           
-          <app-posts></app-posts>
+          <app-posts :showAmount="6"></app-posts>
 
       </section>
 
     </main>
+
+    <section class="section is-medium has-background-primary">
+      <div class="container">
+        <div class="content has-text-centered">
+          <h1 class="title has-text-white">Newsletter</h1>
+          <p class="subtitle is-4 has-text-white">Want to be the first to know when a new article comes out?</p>
+          <button class="my-btn">Notify Me</button>
+        </div>
+
+        <!-- <div class="">
+          <div class="field">
+            <div class="control">
+              <input type="text" class="my-home-input" placeholder="Email">
+            </div>
+          </div>
+          <div>
+            <button class="my-btn">Notify Me</button>
+          </div>
+        </div> -->
+
+      </div>
+    </section>
+
+
+    <!-- <footer class="footer">
+      <div class="content has-text-centered">
+        <p><strong>Dini's Oasis </strong> &copy; 2020</p>
+      </div>
+    </footer> -->
 
   </div>
 </template>
@@ -66,6 +104,14 @@ export default {
 
 <style lang="scss">
 @import "../styles/app.scss";
+
+.my-gradient {
+  background-image: radial-gradient(circle at 10% 20%, #00f2fe 0%, #00dde9 50%, #00f2fe 100%);
+}
+
+.my-home-hero {
+  margin: 0;
+}
 
 .home {
   .welcome {
@@ -140,6 +186,12 @@ export default {
 }
 
 @media only screen and (min-width: 700px) {
+
+  .my-home-input {
+    width: 600px;
+    padding: 0.8rem 0.5rem;
+  }
+
   .home {
     .welcome {
       padding: 2rem 0 1.8rem 0;
