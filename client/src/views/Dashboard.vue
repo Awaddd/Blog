@@ -2,73 +2,73 @@
     <section class="section wallpaper-wrapper">
       <div class="container wallpaper ">
 
-          <div class="columns dashboard-wrapper has-background-white">
-            <div class="column is-2 dashboard-aside-wrapper">
+        <div class="columns dashboard-wrapper has-background-white">
+          <div class="column is-2 dashboard-aside-wrapper">
 
-              <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-              </a>
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+            </a>
 
-              <aside class="menu dashboard-aside" role="navigation" aria-label="main navigation">
-                <div class="dashboard-aside-header">
-                  <h5 class="is-size-5">Manage Posts</h5>
+            <aside class="menu dashboard-aside" role="navigation" aria-label="main navigation">
+              <div class="dashboard-aside-header">
+                <h5 class="is-size-5">Manage Posts</h5>
+              </div>
+              <p class="menu-label my-icon-group"> <i class="material-icons">description</i> <span>Article</span></p>
+              <ul class="menu-list">
+                <li><a @click="setActive('newPost')">New Post</a></li>
+                <li><a @click="setActive('allPosts')">All Posts</a></li>
+              </ul>
+              <ul class="menu-list">
+                <li><a>New Toilet Paper</a></li>
+              </ul>
+              <p class="menu-label my-icon-group">
+                <i class="material-icons">question_answer</i>
+                <span>Toilet Paper v2</span>
+              </p>
+            </aside>
+
+
+          </div>
+
+          <div class="column">
+
+            <nav class="level is-mobile">
+              <div class="level-left">
+                <!-- <button class="level-item button is-primary">Profile</button> -->
+              </div>
+              <div class="level-right">
+                <button class="level-item button is-white">Logout <i class="material-icons">exit_to_app</i></button>
+              </div>
+            </nav>
+
+            <section class="hero is-small">
+              <div class="hero-body">
+                <div class="container">
+                  <h1 class="title has-text-primary">Dashboard</h1>
+                  <h1 class="subtitle">Manage your blog here</h1>
                 </div>
-                <p class="menu-label my-icon-group"> <i class="material-icons">description</i> <span>Article</span></p>
-                <ul class="menu-list">
-                  <li><a @click="setActive('newPost')">New Post</a></li>
-                  <li><a @click="setActive('allPosts')">All Posts</a></li>
-                </ul>
-                <ul class="menu-list">
-                  <li><a>New Toilet Paper</a></li>
-                </ul>
-                <p class="menu-label my-icon-group">
-                  <i class="material-icons">question_answer</i>
-                  <span>Toilet Paper v2</span>
-                </p>
-              </aside>
+              </div>
+            </section>
 
+            <div class="dashboard-content-wrapper">
 
-            </div>
+              <section v-if="this.activeItem === 'allPosts'">
+                <posts-table></posts-table>
+              </section>
+                
 
-            <div class="column">
-
-              <nav class="level is-mobile">
-                <div class="level-left">
-                  <!-- <button class="level-item button is-primary">Profile</button> -->
-                </div>
-                <div class="level-right">
-                  <button class="level-item button is-white">Logout <i class="material-icons">exit_to_app</i></button>
-                </div>
-              </nav>
-
-              <section class="hero is-small">
-                <div class="hero-body">
-                  <div class="container">
-                    <h1 class="title has-text-primary">Dashboard</h1>
-                    <h1 class="subtitle">Manage your blog here</h1>
-                  </div>
+              <section v-if="this.activeItem === 'newPost'"> 
+                <div class="container new-post-wrapper">
+                  <new-post></new-post>
                 </div>
               </section>
 
-              <div class="dashboard-content-wrapper">
-
-                <section v-if="this.activeItem === 'allPosts'">
-                  <posts-table></posts-table>
-                </section>
-                  
-
-                <section v-if="this.activeItem === 'newPost'"> 
-                  <div class="container new-post-wrapper">
-                    <new-post></new-post>
-                  </div>
-                </section>
-
-              </div>
-
             </div>
+
           </div>
+        </div>
        </div>
 
     </section>
@@ -77,6 +77,7 @@
 <script>
 
 import AuthService from "@/services/AuthService";
+import Nav from "@/components/Nav.vue";
 import NewPost from "@/components/NewPost.vue";
 import PostsTable from "@/components/PostsTable.vue";
 import jwt from "jsonwebtoken";
@@ -91,6 +92,7 @@ export default {
       }
     },
     components: {
+    "app-nav": Nav,
     "new-post": NewPost,
     "posts-table": PostsTable
     },

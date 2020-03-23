@@ -1,11 +1,5 @@
 <template>
   <div>
-    <!-- <img class="coverImage"> -->
-    <header>
-      <app-nav></app-nav>
-    </header>
-
-
     <section class="blogPost">
       <div class="blogPost-wrapper">
         <h1 class="blogPost-title">{{post.title}}</h1>
@@ -39,9 +33,6 @@ export default {
     return {
       post: []
     };
-  },
-  components: {
-    "app-nav": Nav
   },
   mounted() {
     this.getPosts();

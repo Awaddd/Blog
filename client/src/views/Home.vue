@@ -2,7 +2,7 @@
   <div class="home">
 
     <header>
-      <app-nav :isHome="true"></app-nav>
+      <!-- <app-nav :isHome="true"></app-nav> -->
 
       <!-- <section class="hero my-gradient"> -->
       <section class="hero is-primary is-bold my-home-hero">

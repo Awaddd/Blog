@@ -1,25 +1,17 @@
 <template>
   <div>
-    <header>
-      <app-nav></app-nav>
-    </header>
-
     <section class="section">
         <app-posts></app-posts>
     </section>
-
   </div>
 </template>
 
 <script>
 import AppPosts from "@/components/AppPosts.vue";
-import Nav from "@/components/Nav.vue";
 
 export default {
-  name: "home",
   components: {
-    "app-posts": AppPosts,
-    "app-nav": Nav
+    "app-posts": AppPosts
   }
 };
 </script>
