@@ -1,6 +1,6 @@
 <template>
     <section class="section wallpaper-wrapper">
-      <div class="container wallpaper ">
+      <div class="container">
 
         <div class="columns dashboard-wrapper has-background-white">
           <div class="column is-2 dashboard-aside-wrapper">
@@ -47,7 +47,7 @@
               <div class="hero-body">
                 <div class="container">
                   <h1 class="title has-text-primary">Dashboard</h1>
-                  <h1 class="subtitle">Manage your blog here</h1>
+                  <h1 class="subtitle">Manage your blog here {{user.firstName}}</h1>
                 </div>
               </div>
             </section>
@@ -122,16 +122,15 @@ export default {
 
 
 <style lang="scss">
-@import '../styles/buefy.scss';
+@import "../styles/app.scss";
 
-
-
+html, body {
+  height: 100%;
+}
 
 .wallpaper-wrapper {
   background-image: url("../assets/email-pattern.png");
-
-  height: 100vh;
-  // temp solution to make wallpaper fit page ^
+  min-height: 100%;
 }
 
 .dashboard-wrapper {

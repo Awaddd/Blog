@@ -18,6 +18,7 @@
 
 <script>
 import PostsService from "@/services/PostsService";
+import moment from "moment";
 
 
 export default {
@@ -36,8 +37,8 @@ export default {
           label: 'Summary'
         },
         {
-          field: 'image',
-          label: 'Image'
+          field: 'createdAt',
+          label: 'Published'
         }
       ],
       currentPage: 1,
@@ -47,10 +48,11 @@ export default {
   },
   methods: {
     async getPosts() {
-      const response = await PostsService.fetchPosts();
+      const response = await PostsService.fetchUserPosts();
 
       this.tableData = (response.data.posts);
-      this.tableData = this.tableData.map(({ content, ...item}) => item);
+      // this.tableData = this.tableData.map(({ content, ...item}) => item);
+      // this.tableData.createdAt = this.tableData.createdAt.map(item => moment(item).format('MMMM Do YYYY'));
       console.log(this.tableData);
     }
   },

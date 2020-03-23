@@ -2,8 +2,10 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const Joi = require("joi");
+const {verifyToken} = require('../helpers.js');
 
 const User = require("../models/user");
+const Post = require("../models/post");
 
 router.get("/:id", (req, res) => {
   var db = req.db;
@@ -97,6 +99,23 @@ router.post("/", (req, res) => {
     }
   })
 
+});
+
+// Get posts for one user
+
+router.get("/:id/posts", (req, res) => {
+  var db = req.db;
+  
+  const userID = verifyToken(req).userID;
+
+  Post.find({author: userID}, "title summary content image author createdAt", (error, posts) => {
+    if (error) {
+      console.log(error);
+    }
+    res.send({
+      posts: posts
+    });
+  }).sort({ _id: -1 });
 });
 
 function validateUser(user) {

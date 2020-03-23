@@ -10,6 +10,7 @@ const PostSchema = new Schema({
   summary: String,
   content: String,
   image: {type: String, required: true},
+  createdAt: {type: Date, default: Date.now},
   author: {type: Schema.Types.ObjectId, ref: 'User', required: true}
 });
 

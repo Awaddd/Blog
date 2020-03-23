@@ -9,6 +9,7 @@ module.exports = {
     const jwttoken = req.header('Authorization');
     const tokenArray = jwttoken.split(" ");
     const decoded = JWT.verify(tokenArray[1], privateKey);
+    console.log(decoded);
     return decoded;
   }
 };

@@ -3,8 +3,8 @@
     <nav class="navbar is-spaced" role="navigation" aria-labrl="main navigation">
       <div class="navbar-brand">
         <router-link class="navbar-item" :to="{name: 'Home'}">
-          <p class="title is-3 has-text-primary">Oasis</p>
           <!-- <img src="../assets/brand.png" class="image is-32x32"> -->
+          <p class="title is-3 has-text-primary">Oasis</p>
         </router-link>
 
         <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="my-navbar">

@@ -1,6 +1,7 @@
 import Api from "@/services/Api";
 import axios from "axios";
 import { authHeader } from '@/helpers/helpers';
+import jwt from "jsonwebtoken";
 
 export default {
   fetchPosts() {
@@ -9,6 +10,13 @@ export default {
 
   fetchSinglePost(params) {
     return Api().get(`posts/${params.title}`);
+  },
+
+  fetchUserPosts() {
+    const user = localStorage.getItem('user');
+    let decoded = jwt.decode(user);
+    console.log(`decoded: ${decoded.userID}`);
+    return Api().get(`users/${decoded.userID}/posts`);
   },
 
   addPosts(params) {
