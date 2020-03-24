@@ -47,7 +47,7 @@
       </section>
 
       <section class="section">
-
+        <!-- add is-paddingless to remove padding on section -->
           <p class="title">Latest</p>
           
           <app-posts :showAmount="6"></app-posts>
@@ -55,6 +55,26 @@
       </section>
 
     </main>
+
+    <!-- <section class="section is-medium">
+      <div class="container">
+        <h2 class="title is-capitalized is-size-3">Meet the author</h2>
+        <article class="media">
+          <figure class="media-left">
+            <p class="image is-128x128">
+              <img src="https://bulma.io/images/placeholders/128x128.png" alt="">
+            </p>
+          </figure>
+          <div class="media-content">
+            <div class="content">
+              <p><strong>Umar Dini</strong><small>@mail.com</small>
+                <br>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
+              </p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section> -->
 
     <section class="section is-medium has-background-primary">
       <div class="container">

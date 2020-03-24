@@ -47,7 +47,7 @@
               <div class="hero-body">
                 <div class="container">
                   <h1 class="title has-text-primary">Dashboard</h1>
-                  <h1 class="subtitle">Manage your blog here {{user.firstName}}</h1>
+                  <p class="subtitle is-size-5">Manage your blog here <span class="is-capitalized">{{user.firstName}}</span></p>
                 </div>
               </div>
             </section>

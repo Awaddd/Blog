@@ -60,8 +60,6 @@ export default new Router({
     path: "/dashboard",
     name: "Dashboard",
     beforeEnter: (to, from, next) => {
-      // const cookie = document.cookie;
-      // const cookie = Cookies.get('access_token');
       console.log("Message from the router.");
       const user = localStorage.getItem('user');
       console.log(user);

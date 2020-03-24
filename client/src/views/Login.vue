@@ -42,7 +42,7 @@ export default {
           password: this.password
         });
 
-          this.$router.push({ name: "Dashboard" });
+        this.$router.push({ name: "Dashboard" });
       }
    }
 }

@@ -1,23 +1,73 @@
 <template>
   <div>
     <section class="blogPost">
-      <div class="blogPost-wrapper">
-        <h1 class="blogPost-title">{{post.title}}</h1>
-        <div class="blogPost-summary">
-          <h3 class="summary hug">{{post.summary}}</h3>
-        </div>
+      <div class="has-text-centered">
+        <h1 class="title is-3 is-size-4-mobile has-text-primary is-capitalized my-post-title">{{post.title}}</h1>
+        <h3 class="subtitle is-size-5 is-size-6-mobile">{{post.summary}}</h3>
 
       </div>
 
       <div class="cover-image">
         <img :src="post.image" alt="">
       </div>
-             <div class="blogPost-details">
-          <p class="author">Umar Dini</p>
-          <p class="date">July 3rd, 2018</p>
-        </div>
 
-      <div class="blogPost-content" v-html="post.content"></div>
+      <header class="level">
+        <div class="my-author-details">
+          <p class="title is-size-6 has-text-primary">Umar Dini</p>
+          <p class="subtitle is-size-6"><strong>July 3rd, 2019</strong></p>
+        </div>    
+        <div class="level-right">
+          <div class="field is-grouped is-grouped-multiline">
+            <div class="control">
+              <div class="tags">
+                <a class="tag is-link">Technology</a>
+              </div>
+            </div>
+
+            <div class="control">
+              <div class="tags">
+                <a class="tag is-link">CSS</a>
+              </div>
+            </div>
+
+            <div class="control">
+              <div class="tags">
+                <a class="tag is-link">Flexbox</a>
+              </div>
+            </div>
+
+            <div class="control">
+              <div class="tags">
+                <a class="tag is-link">Web Design</a>
+              </div>
+            </div>
+
+            <div class="control">
+              <div class="tags">
+                <a class="tag is-link">Open Source</a>
+              </div>
+            </div>
+
+            <div class="control">
+              <div class="tags">
+                <a class="tag is-link">Community</a>
+              </div>
+            </div>
+
+            <div class="control">
+              <div class="tags">
+                <a class="tag is-link">Documentation</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+
+
+        
+
+      <div class="content" v-html="post.content"></div>
 
     </section>
 
@@ -55,6 +105,14 @@ export default {
 
 @import "../styles/app.scss";
 
+.my-post-title {
+  font-weight: normal;
+}
+
+.my-author-details {
+  padding: 1rem 0;
+}
+
 .blogPost {
   margin: 1.5rem;
   line-height: 1.5;
@@ -76,56 +134,12 @@ export default {
   }
 }
 
-.blogPost-title {
-  // text-align: center;
-  text-transform: capitalize;
-  font-weight: 400;
-  // font-size: 1.8rem;
-  margin: 1rem 0;
-  color: #09f;
-}
-
-.blogPost-details {
-  // background: red;
-  display: grid;
-  grid-template-rows: max-content;
-  margin: 0 auto 2rem auto;
-  text-align: left;
-  // width: max-content;
-}
-
-.author,
-.date {
-  margin: 0;
-  font-size: 0.9rem;
-  // justify-self: end;
-}
-.author {
-  margin-top: 1rem;
-  color: $primary;
-}
-
-.blogPost-content p {
-  margin: 0;
-}
 
 
 @media only screen and (min-width: 700px) {
   .blogPost {
     width: 50%;
     margin: 3rem auto;
-  }
-
-  .blogPost-title {
-    font-size: 2rem;
-    margin: 0 auto 0 auto;
-  }
-
-  .blogPost-summary {
-    .summary {
-      font-weight: $font-md;
-      font-size: 1rem;
-    }
   }
 
   .cover-image {
@@ -145,7 +159,6 @@ export default {
 
 @media only screen and (min-width: 1200px) {
   .blogPost {
-    // width: 37%;
     width: 50%;
     margin: 5rem auto;
   }
