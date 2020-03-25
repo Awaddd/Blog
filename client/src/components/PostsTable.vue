@@ -1,7 +1,9 @@
 <template>
   <div class="posts-table">
-    <p>Manage your posts below</p>
-    <b-table :data="tableData" :columns="columns" :paginated="true"
+    
+    <template>
+      <b-table :data="tableData"
+      :paginated="true"
       :pagination-simple="true"
       :per-page="perPage"
       :current-page.sync="currentPage"
@@ -9,10 +11,64 @@
       aria-next-label="Next page"
       aria-previous-label="Previous page"
       aria-page-label="Page"
-      aria-current-label="Current page">
+      aria-current-label="Current page"
+      hoverable
+      >
+        <template slot-scope="props">
 
+          <b-table-column field="tableData.title" label="Title">
+            <template slot="header" slot-scope="{ column }">
+              <b-tooltip :label="column.label">
+                {{ column.label }}
+              </b-tooltip>
+            </template>
+            {{ props.row.title }}
+          </b-table-column>
 
-    </b-table>
+          <b-table-column field="tableData.summary" label="Summary">
+            <template slot="header" slot-scope="{ column }">
+              <b-tooltip :label="column.label">
+                {{ column.label }}
+              </b-tooltip>
+            </template>
+            {{ props.row.summary }}
+          </b-table-column>
+
+          <b-table-column field="tableData.createdAt" label="Published Date">
+            <template slot="header" slot-scope="{ column }">
+              <b-tooltip :label="column.label">
+                {{ column.label }}
+              </b-tooltip>
+            </template>
+            {{ formatDate(props.row.createdAt) }}
+          </b-table-column>
+
+          <b-table-column field="" label="Controls">
+            <template slot="header" slot-scope="{ column }">
+              <b-tooltip :label="column.label">
+                {{ column.label }}
+              </b-tooltip>
+            </template>
+            <!-- <button class="button is-small is-success">Edit</button>
+            <button class="button is-small is-danger">Delete</button> -->
+
+            <div class="field is-grouped">
+              <p class="control">
+                <b-button type="is-info" icon-right="delete" />
+              </p>
+              <p class="control">
+                <b-button type="is-danger" icon-right="delete" @click="deletePost(props.row._id)" />
+              </p>
+              
+            </div>
+          </b-table-column>
+
+          
+
+        </template>
+      </b-table>
+    </template>
+    
   </div>
 </template>
 
@@ -51,9 +107,15 @@ export default {
       const response = await PostsService.fetchUserPosts();
 
       this.tableData = (response.data.posts);
-      // this.tableData = this.tableData.map(({ content, ...item}) => item);
-      // this.tableData.createdAt = this.tableData.createdAt.map(item => moment(item).format('MMMM Do YYYY'));
       console.log(this.tableData);
+    },
+    formatDate(date) {
+      return moment(date).format('MMMM Do YYYY');
+    },
+    async deletePost(post) {
+      console.log(post);
+      const res = await PostsService.deletePost(post);
+      console.log(res);
     }
   },
   mounted () {

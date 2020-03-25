@@ -18,15 +18,7 @@ export default {
       localStorage.setItem('user', user);
     } 
   },
-
-  // logout () {
-  //   console.log("logging out");
-  //   localStorage.removeItem('user');
-  //   this.$router.push({ name: "Home" });
-  //   const user = localStorage.getItem('user');
-  //   console.log(user);
-  // },
-
+  
   async register(params) {
     console.log(`Register: ${params.firstName} ${params.lastName} ${params.email} ${params.password}`)
     console.log(params);

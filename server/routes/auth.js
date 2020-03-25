@@ -7,13 +7,6 @@ const {privateKey} = require('../config.json');
 const User = require("../models/user");
 
 router.post("/", (req, res) => {
-  var db = req.db;
-  let match = null;
-
-  // const param = req.body.email;
-  // const param = req.body.password;
-
-  // const {email, password} = req.body; 
 
   console.log(req.body.email, req.body.password);
 

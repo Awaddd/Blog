@@ -1,3 +1,5 @@
+import jwt from "jsonwebtoken";
+
 export function authHeader(postsOptions) {
 
   const user = localStorage.getItem('user');
@@ -27,4 +29,18 @@ export function authHeader(postsOptions) {
       console.log('no token');
       return { 'Content-Type': 'application/json' };
   }
+}
+
+export function logout(){
+
+  console.log("logging out");
+  localStorage.removeItem('user');
+  const user = localStorage.getItem('user');
+  console.log(user);
+
+}
+
+export function isLoggedIn(){
+  const user = localStorage.getItem('user');
+  return jwt.decode(user);
 }

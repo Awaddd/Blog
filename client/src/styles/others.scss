@@ -9,6 +9,11 @@
   }
 }
 
+.breakOffLongWords {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
 html,
 body {
   margin: 0;

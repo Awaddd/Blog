@@ -52,7 +52,6 @@ router.get("/", (req, res) => {
 // Get one posts
 
 router.get("/:title", (req, res) => {
-  var db = req.db;
   console.log(`param: ${req.params.title}`);
 
   const param = req.params.title.replace(/\-+/g, " ");
@@ -79,7 +78,6 @@ router.post("/", upload.single('image'), checkLoggedIn, isLoggedIn, (req, res) =
   console.log(req.body);
   console.log("send help 2");
   console.log(req.file);
-  const db = req.db;
   const { error } = validatePost(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -133,6 +131,24 @@ router.post("/", upload.single('image'), checkLoggedIn, isLoggedIn, (req, res) =
     }
   })
 
+});
+
+router.delete('/:id', checkLoggedIn, isLoggedIn, (req, res) => {
+
+  const postID = req.params.id
+  console.log('within delete: ', postID);
+
+  Post.findByIdAndDelete(postID)
+      .then(post => {
+        if(!post) {
+          return res.status(404).send({
+            message: `Post not found ${postID}`
+          });
+        }
+        res.send({message: 'Post deleted'});
+      }).catch (error => {
+        return res.status(500).send({message: `Could not delete: ${postID}`})
+      })
 });
 
 function validatePost(post) {

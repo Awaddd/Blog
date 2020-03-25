@@ -34,14 +34,13 @@
 
           <div class="column">
 
-            <nav class="level is-mobile">
+            <!-- <nav class="level is-mobile">
               <div class="level-left">
-                <!-- <button class="level-item button is-primary">Profile</button> -->
               </div>
               <div class="level-right">
-                <button class="level-item button is-white">Logout <i class="material-icons">exit_to_app</i></button>
+                <b-button class="level-item button is-white"  @click="logout">Logout <i class="material-icons">exit_to_app</i></b-button>
               </div>
-            </nav>
+            </nav> -->
 
             <section class="hero is-small">
               <div class="hero-body">
@@ -80,7 +79,7 @@ import AuthService from "@/services/AuthService";
 import Nav from "@/components/Nav.vue";
 import NewPost from "@/components/NewPost.vue";
 import PostsTable from "@/components/PostsTable.vue";
-import jwt from "jsonwebtoken";
+import {isLoggedIn} from "@/helpers/helpers";
 
 export default {
     data () {
@@ -102,16 +101,12 @@ export default {
     methods: {
       async getAdminData() {
 
-        let user = localStorage.getItem('user');
-        console.log(`dashboard: ${user}`);
-        let decoded = jwt.decode(user);
-        console.log(`decoded: ${decoded.userID}`);
-        // console.log(`decoded: ${decoded.exp}`);
-
-
-        const response = await AuthService.fetchUserData(decoded.userID);
-        this.user = response.data;
-        console.log(this.user);
+        const decoded = isLoggedIn();
+        if(decoded) {
+          const response = await AuthService.fetchUserData(decoded.userID);
+          this.user = response.data;
+          console.log(this.user);
+        }
       },
       setActive (item) {
         this.activeItem = item;

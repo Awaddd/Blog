@@ -118,7 +118,6 @@ export default {
 }
 
 .add-post-form {
-  margin: 0 auto;
   width: 100%;
   box-sizing: border-box;
   display: grid;

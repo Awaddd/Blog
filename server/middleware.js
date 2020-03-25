@@ -21,18 +21,19 @@ module.exports = {
       const decoded = verifyToken(req);
       console.log(decoded);      
       req.user = await User.findById(decoded.userID).select('-password');
-      console.log(JSON.stringify(req.user));
+      console.log("llololol", JSON.stringify(req.user));
 
       next();
 
     } catch (error) {
-      next({status: 401, message: 'Invalid token'});
+      console.log(error);
+      next({status: 401, message: 'Next Error'});
     }
   },
   // runs only on private endpoints. Confirms.
   isLoggedIn(req, res, next) {
     if (!req.user) {
-      next('Not logged in');
+      next({status: 401, message: 'Not logged in'});
       return;
     } 
     console.log('Logged In.');

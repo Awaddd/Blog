@@ -7,8 +7,8 @@ const {verifyToken} = require('../helpers.js');
 const User = require("../models/user");
 const Post = require("../models/post");
 
+// get one user
 router.get("/:id", (req, res) => {
-  var db = req.db;
 
   const user = req.params.id;
   
@@ -47,15 +47,10 @@ router.get("/",(req, res) => {
 
 router.post("/", (req, res) => {
 
-  var db = req.db;
   const { error } = validateUser(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  const firstName = req.body.firstName;
-  const lastName = req.body.lastName;
-  const email = req.body.email;
-  const password = req.body.password;
-
+  const {firstName, lastName, email, password} = req.body;
 
   console.log(firstName);
   console.log(lastName);
@@ -104,11 +99,10 @@ router.post("/", (req, res) => {
 // Get posts for one user
 
 router.get("/:id/posts", (req, res) => {
-  var db = req.db;
   
   const userID = verifyToken(req).userID;
 
-  Post.find({author: userID}, "title summary content image author createdAt", (error, posts) => {
+  Post.find({author: userID}, "id title summary content image author createdAt", (error, posts) => {
     if (error) {
       console.log(error);
     }

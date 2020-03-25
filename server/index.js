@@ -39,6 +39,8 @@ app.get("/", (req, res) => {
   res.send(`The Api`);  
 });
 
+app.use((err, req, res, next) => res.status(err.status).json(err));
+
 process.env.URL = process.env.NODE_ENV === 'dev' ? 'http://localhost:3000' : 'https://dinisoasis.herokuapp.com'; 
 console.log(process.env.NODE_ENV);
 console.log(process.env.URL);

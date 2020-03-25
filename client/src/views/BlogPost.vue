@@ -67,7 +67,7 @@
 
         
 
-      <div class="content" v-html="post.content"></div>
+      <div class="content breakOffLongWords" v-html="post.content"></div>
 
     </section>
 

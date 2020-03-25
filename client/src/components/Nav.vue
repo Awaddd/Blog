@@ -38,9 +38,22 @@
           </div>
           <div class="navbar-item">
 
-            <router-link class="my-btn-nav has-background-primary" :to="{name: 'Login'}">
+            <!-- <router-link class="my-btn-nav has-background-primary" :to="{name: 'Login'}">
               Log In
-            </router-link>
+            </router-link> -->
+
+            <div class="field is-grouped" v-if="isLoggedIn">
+
+              <router-link class="my-btn-nav has-background-primary" :to="{name: 'Dashboard'}">
+                Dashboard
+              </router-link>
+              <button class="my-btn-nav has-background-success" @click="logout">Logout</button>
+            </div>
+
+            <router-link class="my-btn-nav has-background-primary" :to="{name: 'Dashboard'}" v-else>
+              Login
+            </router-link>              
+            
           </div>
         </div>
       </div>
@@ -51,12 +64,34 @@
 </template>
   
 <script>
+import {logout, isLoggedIn} from "@/helpers/helpers";
+
 export default {
-  
+  data: function() {
+    return {
+      isLoggedIn: false
+    }
+  },
+  created () {
+    this.handleState();
+  },
+  methods: {
+    handleState () {
+      this.isLoggedIn = isLoggedIn();
+    },
+
+    logout() {
+      console.log('pre-logout');
+      logout();
+      this.$router.push('/');
+      const test = localStorage.getItem('user');
+      console.log('post-logout ', test);
+    }
+  }
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .my-brand {
     display: grid;
     grid-gap: 15px;

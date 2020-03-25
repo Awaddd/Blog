@@ -58,5 +58,10 @@ export default {
   //     console.log(error);
   //   }
   // }
+  },
+
+  deletePost(id) {
+    console.log('inside delete posts service');
+    return Api().delete(`posts/${id}`);
   }
 }
