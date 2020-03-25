@@ -44,10 +44,10 @@
 
             <div class="field is-grouped" v-if="isLoggedIn">
 
-              <router-link class="my-btn-nav has-background-primary" :to="{name: 'Dashboard'}">
+              <router-link class="my-btn-nav my-btn-dashboard" :to="{name: 'Dashboard'}">
                 Dashboard
               </router-link>
-              <button class="my-btn-nav has-background-success" @click="logout">Logout</button>
+              <button class="my-btn-nav has-background-danger" @click="logout">Logout</button>
             </div>
 
             <router-link class="my-btn-nav has-background-primary" :to="{name: 'Dashboard'}" v-else>
@@ -92,6 +92,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+@import "../styles/app.scss";
+
   .my-brand {
     display: grid;
     grid-gap: 15px;
@@ -104,6 +107,23 @@ export default {
     padding: 6px 35px;
     font-size: 0.9rem;
     font-weight: 600;
+    margin: 0;
+    box-sizing: border-box;
+  }
+
+  .my-btn-dashboard {
+    background-color: #FFF;
+    color: $primary;  
+    padding: 6px 0 6px 10px;
+    margin-right: 25px;
+    font-weight: 700;
+  }
+
+  .my-btn-dashboard:hover {
+    padding: 6px 25px;
+    background-color: #FAFAFA !important;
+    color: $primary !important;
+    transition: all 0.2s ease-in-out;
   }
 
   .navbar-item {

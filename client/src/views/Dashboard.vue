@@ -34,14 +34,6 @@
 
           <div class="column">
 
-            <!-- <nav class="level is-mobile">
-              <div class="level-left">
-              </div>
-              <div class="level-right">
-                <b-button class="level-item button is-white"  @click="logout">Logout <i class="material-icons">exit_to_app</i></b-button>
-              </div>
-            </nav> -->
-
             <section class="hero is-small">
               <div class="hero-body">
                 <div class="container">

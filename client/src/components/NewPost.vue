@@ -90,7 +90,7 @@ export default {
       // await PostsService.addPosts(data);
 
       await PostsService.addPosts({
-        title: this.title,
+        title: this.title.trim(),
         summary: this.summary,
         image: this.image,
         content: this.content

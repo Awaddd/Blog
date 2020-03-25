@@ -101,12 +101,12 @@ export default {
 </script>
 
 
-<style lang="scss">
+<style lang="scss" scoped>
 
 @import "../styles/app.scss";
 
 .my-post-title {
-  font-weight: normal;
+  font-weight: 600;
 }
 
 .my-author-details {
@@ -114,7 +114,7 @@ export default {
 }
 
 .blogPost {
-  margin: 1.5rem;
+  margin: 3rem 1.5rem;
   line-height: 1.5;
 }
 
@@ -135,21 +135,18 @@ export default {
 }
 
 
-
 @media only screen and (min-width: 700px) {
   .blogPost {
-    width: 50%;
-    margin: 3rem auto;
+    width: 70%;
+    margin: 5rem auto;
   }
-
-  .cover-image {
-    img {
-      margin-top: -160px;
-    }
-}
+  .level {
+    display: grid;
+  }
 }
 
 @media only screen and (min-width: 1000px) {
+
   .cover-image {
     img {
       margin-top: -250px;
@@ -158,16 +155,30 @@ export default {
 }
 
 @media only screen and (min-width: 1200px) {
-  .blogPost {
-    width: 50%;
-    margin: 5rem auto;
+
+  .level {
+    display: flex;
   }
+
   .cover-image {
     max-height: 300px;
   img {
     margin-top: -150px;
   }
 }
+
+@media only screen and (min-width: 1600px) {
+  .blogPost {
+    width: 50%;
+    margin: 5rem auto;
+  }
+  .cover-image {
+    max-height: 300px;
+      img {
+        margin-top: -150px;
+      }
+    }
+  }
 }
 
 </style>
