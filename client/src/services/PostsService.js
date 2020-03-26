@@ -32,7 +32,7 @@ export default {
     formData.append("summary", params.summary);
     formData.append("content", params.content);
     formData.append("image", params.image, params.image.name);
-    formData.append("tags", params.tags);
+    formData.append("tags", JSON.stringify(params.tags));
 
     axios.post(
       `${url}posts`,

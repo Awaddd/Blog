@@ -83,7 +83,7 @@ router.post("/", upload.single('image'), checkLoggedIn, isLoggedIn, (req, res) =
 
   const title = req.body.title.toLowerCase();
   const summary = req.body.summary;
-  const tags = req.body.tags;
+  const tags = JSON.parse(req.body.tags);
   const body = req.body.content;
   const image = `${process.env.URL}/uploads/${req.file.filename}`;
   console.log(image);
