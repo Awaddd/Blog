@@ -152,6 +152,8 @@ export default {
     grid-gap: 15px;
 
     .featured-post {
+
+      padding: 3rem 1.5rem 0 1.5rem;
   
       .featured-post__details {
         display: grid;
@@ -220,19 +222,6 @@ export default {
   }
 
   .home {
-    .welcome {
-      padding: 2rem 0 1.8rem 0;
-      .welcome__message {
-        font-size: 1.6rem;
-        line-height: 1.6rem;
-        font-weight: 400;
-      }
-      .welcome__slogan {
-        font-size: 1rem;
-        font-weight: 100;
-        opacity: 0.9;
-      }
-    }
 
     .home-content {
       margin-top: 1rem;
@@ -302,6 +291,10 @@ export default {
 @media only screen and (min-width: 1200px) {
   .newsletter-wrapper {
     grid-gap: 40px;
+  }
+
+  .featured-post {
+    padding: 3rem 1.5rem 6rem 1.5rem;
   }
 }
 </style>

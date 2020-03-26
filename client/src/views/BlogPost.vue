@@ -13,50 +13,14 @@
 
       <header class="level">
         <div class="my-author-details">
-          <p class="title is-size-6 has-text-primary">Umar Dini</p>
-          <p class="subtitle is-size-6"><strong>July 3rd, 2019</strong></p>
+          <p class="title is-size-6 has-text-primary is-capitalized">{{post.author}}</p>
+          <p class="subtitle is-size-6"><strong>{{formatDate(post.createdAt)}}</strong></p>
         </div>    
-        <div class="level-right">
-          <div class="field is-grouped is-grouped-multiline">
-            <div class="control">
+        <div class="level-right" v-if="post.tags">
+          <div class="field is-grouped is-grouped-multiline" >
+            <div class="control" v-for="(tag, i) in post.tags" :key="i">
               <div class="tags">
-                <a class="tag is-link">Technology</a>
-              </div>
-            </div>
-
-            <div class="control">
-              <div class="tags">
-                <a class="tag is-link">CSS</a>
-              </div>
-            </div>
-
-            <div class="control">
-              <div class="tags">
-                <a class="tag is-link">Flexbox</a>
-              </div>
-            </div>
-
-            <div class="control">
-              <div class="tags">
-                <a class="tag is-link">Web Design</a>
-              </div>
-            </div>
-
-            <div class="control">
-              <div class="tags">
-                <a class="tag is-link">Open Source</a>
-              </div>
-            </div>
-
-            <div class="control">
-              <div class="tags">
-                <a class="tag is-link">Community</a>
-              </div>
-            </div>
-
-            <div class="control">
-              <div class="tags">
-                <a class="tag is-link">Documentation</a>
+                <a class="tag is-link">{{tag}}</a>
               </div>
             </div>
           </div>
@@ -77,6 +41,7 @@
 <script>
 import PostsService from "@/services/PostsService";
 import Nav from "@/components/Nav.vue";
+import moment from "moment";
 
 export default {
   data() {
@@ -95,6 +60,11 @@ export default {
       this.post = response.data;
       console.log(response.data);
       console.log(this.$route.params.title);
+      console.log(this.post.tags);
+      console.log(this.post.createdAt);
+    },
+    formatDate(date) {
+      return moment(date).format('MMMM Do, YYYY')
     }
   }
 };
