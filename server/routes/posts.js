@@ -50,6 +50,26 @@ router.get("/", (req, res) => {
 
 
 // Get one posts
+// OLD
+// router.get("/:title", (req, res) => {
+//   console.log(`param: ${req.params.title}`);
+
+//   const param = req.params.title.replace(/\-+/g, " ");
+//   console.log(param);
+
+//   // the "title content" refers to what columns to retrieve from the doc
+
+//   Post.findOne({ title: param }, "title summary content image tags", function(
+//     error,
+//     post
+//   ) {
+//     if (error) {
+//       console.log(error);
+//     }
+//     console.log(post);
+//     res.send(post);
+//   });
+// });
 
 router.get("/:title", (req, res) => {
   console.log(`param: ${req.params.title}`);
@@ -59,15 +79,32 @@ router.get("/:title", (req, res) => {
 
   // the "title content" refers to what columns to retrieve from the doc
 
-  Post.findOne({ title: param }, "title summary content image tags", function(
+  Post.findOne({ title: param }, "title summary content image tags createdAt", function(
     error,
     post
   ) {
     if (error) {
       console.log(error);
     }
-    console.log(post);
-    res.send(post);
+    console.log('WHOOP');
+  }).populate('author', 'firstName lastName')
+  .exec()
+  .then(post => {
+    res.status(200).json({
+      title: post.title,
+      summary: post.summary,
+      content: post.content,
+      image: post.image,
+      tags: post.tags,
+      createdAt: post.createdAt,
+      author: `${post.author.firstName} ${post.author.lastName}`
+    })
+  })
+  .catch(err => {
+    console.log(err);
+    res.status(500).json({
+      error: err
+    });
   });
 });
 
@@ -134,9 +171,37 @@ router.post("/", upload.single('image'), checkLoggedIn, isLoggedIn, (req, res) =
 
 });
 
+
+router.patch('/:id', (req, res) => {
+  const postID = req.params.id;
+  console.log('-------------------------------');
+  console.log('within PATCHHHH BABY: ', req.body);
+  console.log('-------------------------------');
+
+  const {title, summary, content, tags} = req.body;
+  
+  Post.findByIdAndUpdate(postID, {
+    title: title.toLowerCase(),
+    summary: summary,
+    content: content,
+    tags: JSON.parse(tags)
+  })
+  .exec()
+  .then(result => {
+    console.log(result);
+    res.status(200).json(result);
+  })
+  .catch(err => {
+    console.log(err);
+    res.status(500).json({
+      error: err
+    });
+  });
+});
+
 router.delete('/:id', checkLoggedIn, isLoggedIn, (req, res) => {
 
-  const postID = req.params.id
+  const postID = req.params.id;
   console.log('within delete: ', postID);
 
   Post.findByIdAndDelete(postID)
