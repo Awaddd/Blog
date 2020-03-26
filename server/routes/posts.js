@@ -38,7 +38,7 @@ const User = require("../models/user");
 // Get all posts
 
 router.get("/", (req, res) => {
-  Post.find({}, "title summary content image", function(error, posts) {
+  Post.find({}, "title summary content image createdAt tags", function(error, posts) {
     if (error) {
       console.error(error);
     }
@@ -59,7 +59,7 @@ router.get("/:title", (req, res) => {
 
   // the "title content" refers to what columns to retrieve from the doc
 
-  Post.findOne({ title: param }, "title summary content image", function(
+  Post.findOne({ title: param }, "title summary content image tags", function(
     error,
     post
   ) {
@@ -78,13 +78,13 @@ router.post("/", upload.single('image'), checkLoggedIn, isLoggedIn, (req, res) =
   console.log(req.body);
   console.log("send help 2");
   console.log(req.file);
-  const { error } = validatePost(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
+  // const { error } = validatePost(req.body);
+  // if (error) return res.status(400).send(error.details[0].message);
 
   const title = req.body.title.toLowerCase();
   const summary = req.body.summary;
+  const tags = req.body.tags;
   const body = req.body.content;
-  // const image = req.file.path;
   const image = `${process.env.URL}/uploads/${req.file.filename}`;
   console.log(image);
 
@@ -113,6 +113,7 @@ router.post("/", upload.single('image'), checkLoggedIn, isLoggedIn, (req, res) =
             summary: summary,
             content: body,
             image: image,
+            tags: tags,
             author: userID
           });
     
@@ -162,6 +163,7 @@ function validatePost(post) {
     content: Joi.string()
       .min(4)
       .required()
+    // tags: Joi.array().items(Joi.string().min(4))
   };
 
   return Joi.validate(post, schema);

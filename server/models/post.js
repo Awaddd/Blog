@@ -11,6 +11,7 @@ const PostSchema = new Schema({
   content: String,
   image: {type: String, required: true},
   createdAt: {type: Date, default: Date.now},
+  tags: {type: Array},
   author: {type: Schema.Types.ObjectId, ref: 'User', required: true}
 });
 

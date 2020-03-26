@@ -10,6 +10,13 @@
         <input type="text" name="summary" placeholder="Summary" v-model="summary">
       </div>
 
+      <b-field label="Add some tags to spice up your post">
+        <b-taginput v-model="tags" ellipsis placeholder="Add a tag">
+        </b-taginput>
+      </b-field>      
+
+      <p class="content"><b>Tags:</b> {{ tags }} </p>
+
       <div>
         <uploadFile/>
       </div>
@@ -50,6 +57,7 @@ export default {
       title: "",
       summary: "",
       content: "",
+      tags: [],
       image: "",
       editorOption: {
         modules: {
@@ -79,21 +87,12 @@ export default {
   },
   methods: {
     async addPost() {
-      // console.log(`img: ${this.image}`);
-      // let data = new FormData();
-      // data.append('title', this.title);
-      // data.append('summary', this.summary);
-      // data.append('image', this.image);
-      // data.append('content', this.content);
-      // console.log(`LINE 89 ${data}`);
-      // console.log(`form title ${data.title}`)
-      // await PostsService.addPosts(data);
-
       await PostsService.addPosts({
         title: this.title.trim(),
         summary: this.summary,
         image: this.image,
-        content: this.content
+        content: this.content,
+        tags: this.tags
       });
       this.$router.push({ name: "Posts" });
     }

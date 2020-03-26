@@ -6,6 +6,9 @@ $primary-invert: findColorInvert($primary);
 $twitter: #4099FF;
 $twitter-invert: findColorInvert($twitter);
 
+$radius: 2px;
+$radius-large: 2px;
+$radius-rounded: 2px;
 $card-shadow: none;
 // Setup $colors to use as bulma classes (e.g. 'is-twitter')
 $colors: (
