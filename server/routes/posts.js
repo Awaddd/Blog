@@ -108,6 +108,39 @@ router.get("/:title", (req, res) => {
   });
 });
 
+
+router.get("/id/:id", (req, res) => {
+  console.log(`param: ${req.params.id}`);
+
+  const param = req.params.id;
+  console.log(param);
+
+  Post.findOne({ _id: param }, "title summary content tags", function(
+    error,
+    post
+  ) {
+    if (error) {
+      console.log(error);
+    }
+    console.log('WHOOPEE');
+  })
+  .exec()
+  .then(post => {
+    res.status(200).json({
+      title: post.title,
+      summary: post.summary,
+      content: post.content,
+      tags: post.tags,
+    })
+  })
+  .catch(err => {
+    console.log(err);
+    res.status(500).json({
+      error: err
+    });
+  });
+});
+
 // Add new post
 
 router.post("/", upload.single('image'), checkLoggedIn, isLoggedIn, (req, res) => {
@@ -172,10 +205,10 @@ router.post("/", upload.single('image'), checkLoggedIn, isLoggedIn, (req, res) =
 });
 
 
-router.patch('/:id', (req, res) => {
+router.patch('/:id', upload.none(), (req, res) => {
   const postID = req.params.id;
   console.log('-------------------------------');
-  console.log('within PATCHHHH BABY: ', req.body);
+  console.log('within PATCHHHH BABY: ', req);
   console.log('-------------------------------');
 
   const {title, summary, content, tags} = req.body;
@@ -188,15 +221,25 @@ router.patch('/:id', (req, res) => {
   })
   .exec()
   .then(result => {
-    console.log(result);
-    res.status(200).json(result);
+    console.log('-------------------------------');
+    console.log('shit ANYONE SE B C');
+    console.log('-------------------------------');
+  console.log(result);
+    res.status(200).json({message: 'Successfully updated'});
   })
   .catch(err => {
-    console.log(err);
-    res.status(500).json({
+  console.log('-------------------------------');
+  console.log('AYYYYYYY B C');
+  console.log('-------------------------------');
+  console.log(err);
+    res.status(400).json({
       error: err
     });
   });
+
+  console.log('-------------------------------');
+  console.log('TO what this? ANYONE SE B C');
+  console.log('-------------------------------');
 });
 
 router.delete('/:id', checkLoggedIn, isLoggedIn, (req, res) => {

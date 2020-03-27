@@ -1,27 +1,27 @@
 <template>
   <div class="create-posts">
     <form class="add-post-form" enctype="multipart/form-data">
-      <p>Create a post below</p>
+      <p>Edit your post ID: {{postID}}</p>
       <div>
-        <input type="text" name="title" placeholder="Title" v-model="title">
+        <input type="text" name="title" placeholder="Title" v-model="post.title">
       </div>
 
       <div>
-        <input type="text" name="summary" placeholder="Summary" v-model="summary">
+        <input type="text" name="summary" placeholder="Summary" v-model="post.summary">
       </div>
 
       <b-field label="Add some tags to spice up your post">
-        <b-taginput v-model="tags" ellipsis placeholder="Add a tag">
+        <b-taginput v-model="post.tags" ellipsis placeholder="Add a tag" class="is-primary">
         </b-taginput>
       </b-field>      
 
-      <div>
+      <!-- <div>
         <uploadFile/>
-      </div>
+      </div> -->
 
       <div>
         <quill-editor
-          v-model="content"
+          v-model="post.content"
           ref="myQuillEditor"
           :options="editorOption"
           @blur="onEditorBlur($event)"
@@ -31,7 +31,7 @@
         ></quill-editor>
       </div>
       <div>
-        <button class="button btn-action is-primary" @click.prevent="addPost">Add</button>
+        <button class="button btn-action is-primary" @click.prevent="editPost">Update</button>
       </div>
     </form>
   </div>
@@ -52,6 +52,7 @@ import PostsService from "@/services/PostsService";
 export default {
   data: function() {
     return {
+      post: {},
       title: "",
       summary: "",
       content: "",
@@ -83,22 +84,32 @@ export default {
       this.image = file;
     })
   },
+  mounted () {
+    this.getPost();
+  },
   methods: {
-    async addPost() {
-      await PostsService.addPosts({
-        title: this.title.trim(),
-        summary: this.summary,
-        image: this.image,
-        content: this.content,
-        tags: this.tags
+    async getPost() {
+      console.log("AOSHAOUDAHDUHSAID ", this.postID);
+      const response = await PostsService.fetchSinglePostByID(this.postID);
+      this.post = response.data;
+      console.log(this.post);
+      console.log(this.post.title);
+    },
+    async editPost() {
+      await PostsService.editPost({
+        id: this.postID,
+        title: this.post.title.trim(),
+        summary: this.post.summary,
+        content: this.post.content,
+        tags: this.post.tags
       });
-      this.$router.push({ name: "Posts" });
     }
   },
   components: {
     quillEditor,
     uploadFile
-  }
+  },
+  props: ['postID']
 };
 </script>
 

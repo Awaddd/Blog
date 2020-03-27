@@ -56,6 +56,12 @@
                 </div>
               </section>
 
+              <section v-if="this.activeItem === 'editPost'"> 
+                <div class="container new-post-wrapper">
+                  <edit-post :postID="postID"></edit-post>
+                </div>
+              </section>
+
             </div>
 
           </div>
@@ -71,7 +77,9 @@ import AuthService from "@/services/AuthService";
 import Nav from "@/components/Nav.vue";
 import NewPost from "@/components/NewPost.vue";
 import PostsTable from "@/components/PostsTable.vue";
+import EditPost from "@/components/EditPost.vue";
 import {isLoggedIn} from "@/helpers/helpers";
+import { serverBus } from '../main';
 
 export default {
     data () {
@@ -79,13 +87,24 @@ export default {
         user: {
 
         },
-        activeItem: 'allPosts'
+        activeItem: 'allPosts',
+        postID: ''
       }
     },
     components: {
     "app-nav": Nav,
     "new-post": NewPost,
-    "posts-table": PostsTable
+    "posts-table": PostsTable,
+    "edit-post": EditPost
+    },
+    created() {
+      serverBus.$on('editPost', (post) => {
+        console.log(`dashboard`);
+        console.log(`${post}`);
+        this.activeItem = 'editPost';
+        this.postID = post;
+        console.log("LOOOOOOOOL");
+      })
     },
     mounted() {
       this.getAdminData();

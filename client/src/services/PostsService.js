@@ -12,6 +12,11 @@ export default {
     return Api().get(`posts/${params.title}`);
   },
 
+  fetchSinglePostByID(id) {
+    console.log('made it this faaar');
+    return Api().get(`posts/id/${id}`);
+  },
+
   fetchUserPosts() {
     const user = localStorage.getItem('user');
     let decoded = jwt.decode(user);
@@ -59,6 +64,31 @@ export default {
   //     console.log(error);
   //   }
   // }
+  },
+  
+  editPost(params) {
+    console.log('inside edit posts service ', params);
+
+    const url = localStorage.getItem('url');
+
+    const formData = new FormData();
+
+    formData.append("title", params.title);
+    formData.append("summary", params.summary);
+    formData.append("content", params.content);
+    formData.append("tags", JSON.stringify(params.tags));
+
+    axios.patch(
+      `${url}posts/${params.id}`,
+      formData,
+      {
+        headers: authHeader(true)
+      }
+    ).then(
+      response => {
+        console.log('image upload response: ', response)
+      }
+    )   
   },
 
   deletePost(id) {

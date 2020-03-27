@@ -54,7 +54,7 @@
 
             <div class="field is-grouped">
               <p class="control">
-                <b-button type="is-info" icon-right="delete" />
+                <b-button type="is-info" icon-right="delete" @click="editPost(props.row._id)" />
               </p>
               <p class="control">
                 <b-button type="is-danger" icon-right="delete" @click="deletePost(props.row._id)" />
@@ -75,7 +75,7 @@
 <script>
 import PostsService from "@/services/PostsService";
 import moment from "moment";
-
+import { serverBus } from '../main';
 
 export default {
   data: function() {
@@ -116,6 +116,10 @@ export default {
       console.log(post);
       const res = await PostsService.deletePost(post);
       console.log(res);
+    },
+    editPost(post){
+      console.log('posttable.vue');
+      serverBus.$emit('editPost', post);
     }
   },
   mounted () {
