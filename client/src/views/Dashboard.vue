@@ -2,31 +2,61 @@
     <section class="section wallpaper-wrapper">
       <div class="container">
 
-        <div class="columns dashboard-wrapper has-background-white">
-          <div class="column is-2 dashboard-aside-wrapper">
+        <div class="columns is-tablet dashboard-wrapper has-background-white">
+          <div class="column is-3-tablet is-2-desktop dashboard-aside-wrapper">
 
-            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-              <span aria-hidden="true"></span>
-              <span aria-hidden="true"></span>
-              <span aria-hidden="true"></span>
-            </a>
+            <div class="my-burger-wrapper">
+              <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+              </a>
+            </div>
 
             <aside class="menu dashboard-aside" role="navigation" aria-label="main navigation">
-              <div class="dashboard-aside-header">
-                <h5 class="is-size-5">Manage Posts</h5>
+
+              <div class="dashboard-aside-content-wrapper">
+                <div class="dashboard-aside-header">
+                  <h5 class="is-size-5">Manage Posts</h5>
+                </div>
+
+                <div class="menu-label my-icon-group">
+                  <div class="field is-grouped my-icon-group">
+                    <b-icon icon="book-open-variant" type="is-primary"></b-icon>
+                    <p class="is-size-5 title">Posts</p>
+                  </div>
+                </div>
+
+                <ul class="menu-list">
+                  <li><a @click="setActive('allPosts')">All Posts</a></li>
+                  <li><a @click="setActive('newPost')">New Post</a></li>
+                </ul>
+
+                <div class="menu-label my-icon-group">
+                  <div class="field is-grouped my-icon-group">
+                    <b-icon icon="view-dashboard" type="is-primary"></b-icon>
+                    <p class="title is-size-5">Journals</p>
+                  </div>
+                </div>
+
+                <ul class="menu-list">
+                  <li><a>All Journals</a></li>
+                  <li><a>New Journal</a></li>
+                </ul>
+
+                <div class="menu-label my-icon-group">
+                  <div class="field is-grouped my-icon-group">
+                    <b-icon icon="view-dashboard" type="is-primary"></b-icon>
+                    <p class="title is-size-5">Stories</p>
+                  </div>
+                </div>
+                
+                <ul class="menu-list">
+                  <li><a>All Stories</a></li>
+                  <li><a>New Story</a></li>
+                </ul>
               </div>
-              <p class="menu-label my-icon-group"> <i class="material-icons">description</i> <span>Article</span></p>
-              <ul class="menu-list">
-                <li><a @click="setActive('newPost')">New Post</a></li>
-                <li><a @click="setActive('allPosts')">All Posts</a></li>
-              </ul>
-              <ul class="menu-list">
-                <li><a>New Toilet Paper</a></li>
-              </ul>
-              <p class="menu-label my-icon-group">
-                <i class="material-icons">question_answer</i>
-                <span>Toilet Paper v2</span>
-              </p>
+
             </aside>
 
 
@@ -134,6 +164,7 @@ html, body {
   height: 100%;
 }
 
+
 .wallpaper-wrapper {
   background-image: url("../assets/email-pattern.png");
   min-height: 100%;
@@ -156,8 +187,18 @@ html, body {
   box-sizing: border-box;
 }
 
-.dashboard-aside-header {
+.my-burger-wrapper {
+  background: #fff;
+}
+
+.dashboard-aside-content-wrapper {
   padding: 1rem;
+  background: #fff;
+  display: grid;
+}
+
+.dashboard-aside-header {
+  margin-bottom: 1rem;
 }
 
 .dashboard-content-wrapper {
@@ -166,9 +207,16 @@ html, body {
 
 .my-icon-group {
   display: grid;
-  grid-template-columns: max-content max-content;
-  grid-gap: 1rem;
+  grid-column-gap: 0.6rem;
+  text-transform: capitalize;
 }
+
+
+// @media (max-width:1200px) and (min-width:800px) {
+//   .wallpaper-wrapper  {
+//     background: red;
+//   }
+// }
 
 @media only screen and (min-width: 1200px) {
 
@@ -180,6 +228,7 @@ html, body {
     padding: 2rem;
   }
 }
+
 
 @media only screen and (min-width: 1600px) {
   .dashboard-wrapper {

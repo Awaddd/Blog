@@ -49,12 +49,10 @@
                 {{ column.label }}
               </b-tooltip>
             </template>
-            <!-- <button class="button is-small is-success">Edit</button>
-            <button class="button is-small is-danger">Delete</button> -->
 
             <div class="field is-grouped">
               <p class="control">
-                <b-button type="is-info" icon-right="delete" @click="editPost(props.row._id)" />
+                <b-button type="is-info" icon-right="playlist-edit" @click="editPost(props.row._id)" />
               </p>
               <p class="control">
                 <b-button type="is-danger" icon-right="delete" @click="deletePost(props.row._id)" />

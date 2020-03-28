@@ -4,7 +4,9 @@ import router from "./router";
 import store from './store/store'
 import Buefy from 'buefy'
 
-Vue.use(Buefy);
+Vue.use(Buefy, {
+  defaultIconPack: 'mdi'
+});
 
 Vue.config.productionTip = false;
 

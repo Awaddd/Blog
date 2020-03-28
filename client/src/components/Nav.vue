@@ -48,6 +48,12 @@
                 Dashboard
               </router-link>
               <button class="my-btn-nav has-background-danger" @click="logout">Logout</button>
+<!-- 
+              <div class="my-profile">
+                <b-icon type="is-primary" icon="account"></b-icon>
+                <span>Awad</span>
+              </div> -->
+
             </div>
 
             <router-link class="my-btn-nav has-background-primary" :to="{name: 'Dashboard'}" v-else>
@@ -120,4 +126,13 @@ export default {
       color: #fff;
     }
   }
+
+  .my-profile {
+    display: grid;
+    grid-template-columns: max-content max-content;
+    padding: 0 2rem;
+    align-items: bottom;
+    align-content: bottom;
+  }
+
 </style>
