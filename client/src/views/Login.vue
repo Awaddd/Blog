@@ -42,6 +42,8 @@ export default {
           password: this.password
         });
 
+        this.$store.dispatch("SET_LOGIN_STATUS", localStorage.getItem('user'));
+
         this.$router.push({ name: "Dashboard" });
       }
    }

@@ -31,16 +31,7 @@ export function authHeader(postsOptions) {
   }
 }
 
-export function logout(){
-
-  console.log("logging out");
-  localStorage.removeItem('user');
-  const user = localStorage.getItem('user');
-  console.log(user);
-
-}
-
-export function isLoggedIn(){
+export function getToken(){
   const user = localStorage.getItem('user');
   return jwt.decode(user);
 }

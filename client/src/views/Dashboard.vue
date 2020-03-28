@@ -78,7 +78,7 @@ import Nav from "@/components/Nav.vue";
 import NewPost from "@/components/NewPost.vue";
 import PostsTable from "@/components/PostsTable.vue";
 import EditPost from "@/components/EditPost.vue";
-import {isLoggedIn} from "@/helpers/helpers";
+import {getToken} from "@/helpers/helpers";
 import { serverBus } from '../main';
 
 export default {
@@ -112,13 +112,13 @@ export default {
     methods: {
       async getAdminData() {
 
-        const decoded = isLoggedIn();
+        const decoded = getToken();
         if(decoded) {
           const response = await AuthService.fetchUserData(decoded.userID);
           this.user = response.data;
           console.log(this.user);
         }
-      },
+      },  
       setActive (item) {
         this.activeItem = item;
       }

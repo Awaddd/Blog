@@ -42,7 +42,7 @@
               Log In
             </router-link> -->
 
-            <div class="field is-grouped" v-if="isLoggedIn">
+            <div class="field is-grouped" v-if="getLoginStatus">
 
               <router-link class="my-btn-nav my-btn-dashboard" :to="{name: 'Dashboard'}">
                 Dashboard
@@ -64,28 +64,17 @@
 </template>
   
 <script>
-import {logout, isLoggedIn} from "@/helpers/helpers";
+import { mapGetters } from 'vuex'
 
 export default {
-  data: function() {
-    return {
-      isLoggedIn: false
-    }
-  },
-  created () {
-    this.handleState();
+  computed: {
+    ...mapGetters(["getLoginStatus"])
   },
   methods: {
-    handleState () {
-      this.isLoggedIn = isLoggedIn();
-    },
-
     logout() {
-      console.log('pre-logout');
-      logout();
+      localStorage.removeItem('user');
+      this.$store.dispatch("SET_LOGIN_STATUS", null);
       this.$router.push('/');
-      const test = localStorage.getItem('user');
-      console.log('post-logout ', test);
     }
   }
 }
