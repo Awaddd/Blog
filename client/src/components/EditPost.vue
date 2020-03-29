@@ -103,6 +103,8 @@ export default {
         content: this.post.content,
         tags: this.post.tags
       });
+
+      this.$store.dispatch("SET_ACTIVE_DASHBOARD_TAB", 'allPosts');       
     }
   },
   components: {

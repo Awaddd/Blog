@@ -20,7 +20,8 @@
           <div class="field is-grouped is-grouped-multiline" >
             <div class="control" v-for="(tag, i) in post.tags" :key="i">
               <div class="tags">
-                <a class="tag is-link">{{tag}}</a>
+                <!-- <a class="tag is-link ">{{tag}}</a> -->
+                <b-tag ellipsis>{{tag}}</b-tag>
               </div>
             </div>
           </div>

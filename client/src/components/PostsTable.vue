@@ -2,7 +2,10 @@
   <div class="posts-table">
     
     <template>
-      <b-table :data="tableData"
+      <div v-if="!tableData">
+        No posts at the moment
+      </div>
+      <b-table v-else :data="tableData"
       :paginated="true"
       :pagination-simple="true"
       :per-page="perPage"
@@ -12,9 +15,9 @@
       aria-previous-label="Previous page"
       aria-page-label="Page"
       aria-current-label="Current page"
-      hoverable
-      >
-        <template slot-scope="props">
+      hoverable>
+      
+        <template slot-scope="props" >
 
           <b-table-column field="tableData.title" label="Title">
             <template slot="header" slot-scope="{ column }">
@@ -74,13 +77,11 @@
 import PostsService from "@/services/PostsService";
 import moment from "moment";
 import { serverBus } from '../main';
+import { mapGetters } from 'vuex';
 
 export default {
   data: function() {
     return {
-      tableData: [
-        
-      ],
       columns: [
         {
           field: 'title',
@@ -103,18 +104,25 @@ export default {
   methods: {
     async getPosts() {
       const response = await PostsService.fetchUserPosts();
-
-      this.tableData = (response.data.posts);
-      console.log(this.tableData);
+      this.$store.dispatch("SET_USER_POSTS", response.data.posts);
+      // this.tableData = (response.data.posts);
     },
+
+    changeBackground() {
+      console.log('HAHAHHAHA');
+    },
+
     formatDate(date) {
       return moment(date).format('MMMM Do YYYY');
     },
+
     async deletePost(post) {
-      console.log(post);
-      const res = await PostsService.deletePost(post);
-      console.log(res);
+      if (post) {
+       const res = await PostsService.deletePost(post);
+        this.$store.dispatch("DELETE_USER_POST", post);       
+      }
     },
+
     editPost(post){
       console.log('posttable.vue');
       serverBus.$emit('editPost', post);
@@ -122,6 +130,9 @@ export default {
   },
   mounted () {
     this.getPosts();
+  },
+  computed: {
+    ...mapGetters({tableData : "getUserPosts"})
   }
 };
 </script>

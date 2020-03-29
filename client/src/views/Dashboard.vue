@@ -110,6 +110,7 @@ import PostsTable from "@/components/PostsTable.vue";
 import EditPost from "@/components/EditPost.vue";
 import {getToken} from "@/helpers/helpers";
 import { serverBus } from '../main';
+import { mapGetters } from 'vuex';
 
 export default {
     data () {
@@ -117,7 +118,6 @@ export default {
         user: {
 
         },
-        activeItem: 'allPosts',
         postID: ''
       }
     },
@@ -129,11 +129,9 @@ export default {
     },
     created() {
       serverBus.$on('editPost', (post) => {
-        console.log(`dashboard`);
         console.log(`${post}`);
-        this.activeItem = 'editPost';
+        this.$store.dispatch("SET_ACTIVE_DASHBOARD_TAB", 'editPost');
         this.postID = post;
-        console.log("LOOOOOOOOL");
       })
     },
     mounted() {
@@ -150,8 +148,11 @@ export default {
         }
       },  
       setActive (item) {
-        this.activeItem = item;
+        this.$store.dispatch("SET_ACTIVE_DASHBOARD_TAB", item);
       }
+    },
+    computed: {
+      ...mapGetters({activeItem: 'getActiveDashboardTab'})
     }
 }
 </script>
@@ -206,7 +207,8 @@ html, body {
 }
 
 .my-icon-group {
-  display: grid;
+  display: grid !important;
+  grid-template-columns: auto auto;
   grid-column-gap: 0.6rem;
   text-transform: capitalize;
 }
