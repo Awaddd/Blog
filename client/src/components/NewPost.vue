@@ -11,7 +11,7 @@
       </div>
 
       <b-field label="Add some tags to spice up your post">
-        <b-taginput v-model="tags" ellipsis placeholder="Add a tag">
+        <b-taginput v-model="tags" ellipsis maxtags="6" placeholder="Add a tag">
         </b-taginput>
       </b-field>      
 
@@ -85,6 +85,7 @@ export default {
   },
   methods: {
     async addPost() {
+      this.tags = this.tags.slice(0, 6);
       await PostsService.addPosts({
         title: this.title.trim(),
         summary: this.summary,

@@ -11,7 +11,7 @@
       </div>
 
       <b-field label="Add some tags to spice up your post">
-        <b-taginput v-model="post.tags" ellipsis placeholder="Add a tag" class="is-primary">
+        <b-taginput v-model="post.tags" ellipsis maxtags="6" placeholder="Add a tag" class="is-primary">
         </b-taginput>
       </b-field>      
 
@@ -96,6 +96,7 @@ export default {
       console.log(this.post.title);
     },
     async editPost() {
+      this.tags = this.tags.slice(0, 6);
       await PostsService.editPost({
         id: this.postID,
         title: this.post.title.trim(),
