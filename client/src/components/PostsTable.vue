@@ -55,11 +55,15 @@
 
             <div class="field is-grouped">
               <p class="control">
+                <b-button type="is-dark-lighter" tag="router-link" :to="{name: 'BlogPost', params: {title: sanitizeTitle(props.row.title)}}" icon-right="eye"></b-button>
+              </p>
+              <p class="control">
                 <b-button type="is-info" icon-right="playlist-edit" @click="editPost(props.row._id)" />
               </p>
               <p class="control">
                 <b-button type="is-danger" icon-right="delete" @click="deletePost(props.row._id)" />
               </p>
+
               
             </div>
           </b-table-column>
@@ -108,8 +112,11 @@ export default {
       // this.tableData = (response.data.posts);
     },
 
-    changeBackground() {
-      console.log('HAHAHHAHA');
+    sanitizeTitle: function(postTitle) {
+      console.log('WERE INSIDE');
+      const myTitle = postTitle.replace(/\s+/g, "-").toLowerCase();
+      console.log(myTitle);
+      return myTitle;
     },
 
     formatDate(date) {
