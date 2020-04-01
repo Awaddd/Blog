@@ -171,19 +171,16 @@ html, body {
   min-height: 100%;
 }
 
-.dashboard-wrapper {
-  border: 1px solid #eeeeee;
-}
-
 .dashboard-aside-wrapper {
-  background-color: #0e2f50;
+  // background-color: rgb(250, 253, 255);
+  background-color: #fff;
   border: 1px solid #eeeeee;
   margin: 0;
   padding: 0;
 }
 
 .dashboard-aside {
-  background-color: #fff;
+  // background-color: #fff;
   padding: 0.75rem;
   box-sizing: border-box;
 }
@@ -194,7 +191,7 @@ html, body {
 
 .dashboard-aside-content-wrapper {
   padding: 1rem;
-  background: #fff;
+  // background: #fff;
   display: grid;
 }
 
