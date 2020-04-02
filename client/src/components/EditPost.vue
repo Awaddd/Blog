@@ -95,9 +95,11 @@ export default {
       console.log(this.post);
       console.log(this.post.title);
     },
+
     async editPost() {
       this.tags = this.tags.slice(0, 6);
-      await PostsService.editPost({
+
+      const response = await PostsService.editPost({
         id: this.postID,
         title: this.post.title.trim(),
         summary: this.post.summary,
@@ -105,8 +107,14 @@ export default {
         tags: this.post.tags
       });
 
-      this.$store.dispatch("SET_ACTIVE_DASHBOARD_TAB", 'allPosts');       
+      if (response.status !== 200) {
+        console.log('new post ERROR: ', response.data);
+      } else if (response.status === 200){
+        console.log(response.data.message);
+        this.$store.dispatch("SET_ACTIVE_DASHBOARD_TAB", 'allPosts');       
+      }
     }
+
   },
   components: {
     quillEditor,

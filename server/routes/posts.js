@@ -141,9 +141,12 @@ router.post("/", upload.single('image'), checkLoggedIn, isLoggedIn, (req, res) =
   console.log("pre validation");
   console.log(req.body.tags);
   console.log("---------------");
+
   req.body.tags = JSON.parse(req.body.tags);
+  
   const { error } = validatePost(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
+  if (error) return res.status(400).send({success: false, message: error.details[0].message});
+
   console.log('-- POST VAL --');
 
   const title = req.body.title.toLowerCase();
@@ -207,13 +210,17 @@ router.post("/", upload.single('image'), checkLoggedIn, isLoggedIn, (req, res) =
 router.patch('/:id', upload.none(), (req, res) => {
   const postID = req.params.id;
 
+  req.body.tags = JSON.parse(req.body.tags);
+  const { error } = validatePost(req.body);
+  if (error) return res.status(400).send({success: false, message: error.details[0].message});
+
   const {title, summary, content, tags} = req.body;
   
   Post.findByIdAndUpdate(postID, {
     title: title.toLowerCase(),
     summary: summary,
     content: content,
-    tags: JSON.parse(tags)
+    tags: tags
   })
   .exec()
   .then(result => {
@@ -263,8 +270,11 @@ function validatePost(post) {
       .min(7)
       .required(),
     summary: Joi.string()
+      .min(5)
       .required(),
-    content: Joi.string(),
+    content: Joi.string()
+      // .min(100)
+      .required(),
     tags: Joi.array()
   });
   return schema.validate(post);

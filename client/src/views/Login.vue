@@ -37,14 +37,26 @@ export default {
 
       async login() {
 
-        await AuthService.login({
+        const response = await AuthService.login({
           email: this.email,
           password: this.password
         });
 
-        this.$store.dispatch("SET_LOGIN_STATUS", localStorage.getItem('user'));
+        if (response.status !== 200) {
 
-        this.$router.push({ name: "Dashboard" });
+          console.log('ERROR: ', response.data);
+          console.log(response.data);
+
+        } else if (response.status === 200 && response.data.user){
+
+          const user = response.data.user;
+          localStorage.setItem('user', user);
+
+          console.log(response.data.message);
+
+          this.$store.dispatch("SET_LOGIN_STATUS", localStorage.getItem('user'));
+          this.$router.push({ name: "Dashboard" });
+        }
       }
    }
 }

@@ -59,14 +59,20 @@ export default {
         if (this.password === this.cPassword){
           this.errmsg = null; 
 
-          await AuthService.register({
+          const response = await AuthService.register({
             email: this.email,
             firstName: this.firstName,
             lastName: this.lastName,
             password: this.password
           })
 
-          this.$router.push({ name: "Dashboard" });
+          if (response.status !== 200) {
+            console.log('new post ERROR: ', response.data.message);
+            this.errmsg = response.data.message;
+          } else if (response.status === 200){
+            console.log(response.data.message);
+            this.$router.push({ name: "Dashboard" });
+          }
 
         } else {
           this.errmsg = 'Passwords do not match.';

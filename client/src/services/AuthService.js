@@ -6,23 +6,12 @@ export default {
 
   async login (params) {
     console.log(`Auth service: ${params.email} ${params.password}`);
-    const res = await Api().post("auth", params);  
-    console.log(res);
-    if (res.status === 200 && res.data.user){
-      console.log(`THIS IS THE RES ${res.data.user}`);
-      // store jwt in memory
-      // pass it as a header on every api call
-      // check user logged in
-      // decode jwt to access payload on client
-      const user = res.data.user;
-      localStorage.setItem('user', user);
-    } 
+    return await Api().post("auth", params).then(response => response).catch(error => error.response);  
   },
   
   async register(params) {
     console.log(`Register: ${params.firstName} ${params.lastName} ${params.email} ${params.password}`)
-    console.log(params);
-    return Api().post("users", params);
+    return Api().post("users", params).then(response => response).catch(error => error.response);
   },
 
   fetchUserData(id) {

@@ -69,17 +69,23 @@ export default {
     formData.append("content", params.content);
     formData.append("tags", JSON.stringify(params.tags));
 
-    axios.patch(
+    return axios.patch(
       `${url}posts/${params.id}`,
       formData,
       {
         headers: authHeader(true)
       }
-    ).then(
+    )
+    .then(
       response => {
-        console.log('image upload response: ', response)
+        return response;
       }
-    )   
+    )
+    .catch(
+      error => {
+        return error.response;
+      }
+    ) 
   },
 
   deletePost(id) {
