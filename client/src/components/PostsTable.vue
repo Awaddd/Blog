@@ -113,9 +113,7 @@ export default {
     },
 
     sanitizeTitle: function(postTitle) {
-      console.log('WERE INSIDE');
       const myTitle = postTitle.replace(/\s+/g, "-").toLowerCase();
-      console.log(myTitle);
       return myTitle;
     },
 

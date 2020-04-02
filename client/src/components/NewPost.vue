@@ -85,15 +85,23 @@ export default {
   },
   methods: {
     async addPost() {
+
       this.tags = this.tags.slice(0, 6);
-      await PostsService.addPosts({
+
+      const response = await PostsService.addPosts({
         title: this.title.trim(),
         summary: this.summary,
         image: this.image,
         content: this.content,
         tags: this.tags
       });
-      this.$router.push({ name: "Posts" });
+
+      if (response.status !== 200) {
+        console.log('new post ERROR: ', response.data);
+      } else if (response.status === 200){
+        console.log(response.data.message);
+        this.$router.push({ name: "Home" });
+      }
     }
   },
   components: {

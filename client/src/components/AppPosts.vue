@@ -42,16 +42,16 @@ export default {
     async getPosts() {
       const response = await PostsService.fetchPosts();
       this.posts = response.data.posts;
-      console.log(this.posts);
+      // console.log(this.posts);
     },
     sanitizeTitle: function(post) {
-      console.log(post.title);
+      // console.log(post.title);
       const title = post.title.replace(/\s+/g, "-").toLowerCase();
       return title;
     },
     sanitizeSummary: function(post) {
       if (post.summary) {
-        console.log(post.summary);
+        // console.log(post.summary);
         console.log(post.title + ': ' + post.title.length);
         let length = 100;
         let summary = post.summary.substring(0, length);

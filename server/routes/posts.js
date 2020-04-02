@@ -1,5 +1,5 @@
 const express = require("express");
-const Joi = require("joi");
+const Joi = require('@hapi/joi');
 const router = express.Router();
 const multer = require('multer');
 const {checkLoggedIn, isLoggedIn} = require('../middleware');
@@ -35,6 +35,8 @@ const upload = multer({
 const Post = require("../models/post");
 const User = require("../models/user");
 
+
+
 // Get all posts
 
 router.get("/", (req, res) => {
@@ -49,27 +51,9 @@ router.get("/", (req, res) => {
 });
 
 
-// Get one posts
-// OLD
-// router.get("/:title", (req, res) => {
-//   console.log(`param: ${req.params.title}`);
 
-//   const param = req.params.title.replace(/\-+/g, " ");
-//   console.log(param);
+// Get One Post
 
-//   // the "title content" refers to what columns to retrieve from the doc
-
-//   Post.findOne({ title: param }, "title summary content image tags", function(
-//     error,
-//     post
-//   ) {
-//     if (error) {
-//       console.log(error);
-//     }
-//     console.log(post);
-//     res.send(post);
-//   });
-// });
 
 router.get("/:title", (req, res) => {
   console.log(`param: ${req.params.title}`);
@@ -86,7 +70,6 @@ router.get("/:title", (req, res) => {
     if (error) {
       console.log(error);
     }
-    console.log('WHOOP');
   }).populate('author', 'firstName lastName')
   .exec()
   .then(post => {
@@ -109,6 +92,10 @@ router.get("/:title", (req, res) => {
 });
 
 
+
+// Get post by ID
+
+
 router.get("/id/:id", (req, res) => {
   console.log(`param: ${req.params.id}`);
 
@@ -122,7 +109,6 @@ router.get("/id/:id", (req, res) => {
     if (error) {
       console.log(error);
     }
-    console.log('WHOOPEE');
   })
   .exec()
   .then(post => {
@@ -141,19 +127,28 @@ router.get("/id/:id", (req, res) => {
   });
 });
 
+
+
 // Add new post
 
+
 router.post("/", upload.single('image'), checkLoggedIn, isLoggedIn, (req, res) => {
-  console.log("send help 1");
+  console.log("inside post post");
   console.log(req.body);
-  console.log("send help 2");
   console.log(req.file);
-  // const { error } = validatePost(req.body);
-  // if (error) return res.status(400).send(error.details[0].message);
+  
+  console.log("---------------");
+  console.log("pre validation");
+  console.log(req.body.tags);
+  console.log("---------------");
+  req.body.tags = JSON.parse(req.body.tags);
+  const { error } = validatePost(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+  console.log('-- POST VAL --');
 
   const title = req.body.title.toLowerCase();
   const summary = req.body.summary;
-  const tags = JSON.parse(req.body.tags);
+  const tags = req.body.tags;
   const body = req.body.content;
   const image = `${process.env.URL}/uploads/${req.file.filename}`;
   console.log(image);
@@ -205,11 +200,12 @@ router.post("/", upload.single('image'), checkLoggedIn, isLoggedIn, (req, res) =
 });
 
 
+
+// Update Post
+
+
 router.patch('/:id', upload.none(), (req, res) => {
   const postID = req.params.id;
-  console.log('-------------------------------');
-  console.log('within PATCHHHH BABY: ', req);
-  console.log('-------------------------------');
 
   const {title, summary, content, tags} = req.body;
   
@@ -221,26 +217,21 @@ router.patch('/:id', upload.none(), (req, res) => {
   })
   .exec()
   .then(result => {
-    console.log('-------------------------------');
-    console.log('shit ANYONE SE B C');
-    console.log('-------------------------------');
   console.log(result);
     res.status(200).json({message: 'Successfully updated'});
   })
   .catch(err => {
-  console.log('-------------------------------');
-  console.log('AYYYYYYY B C');
-  console.log('-------------------------------');
   console.log(err);
     res.status(400).json({
       error: err
     });
   });
-
-  console.log('-------------------------------');
-  console.log('TO what this? ANYONE SE B C');
-  console.log('-------------------------------');
 });
+
+
+
+// Delete Post
+
 
 router.delete('/:id', checkLoggedIn, isLoggedIn, (req, res) => {
 
@@ -260,21 +251,25 @@ router.delete('/:id', checkLoggedIn, isLoggedIn, (req, res) => {
       })
 });
 
+
+
+// Post validation
+
+
 function validatePost(post) {
-  const schema = {
+  
+  const schema = Joi.object({
     title: Joi.string()
-      .min(4)
+      .min(7)
       .required(),
     summary: Joi.string()
-      .min(4)
       .required(),
-    content: Joi.string()
-      .min(4)
-      .required()
-    // tags: Joi.array().items(Joi.string().min(4))
-  };
-
-  return Joi.validate(post, schema);
+    content: Joi.string(),
+    tags: Joi.array()
+  });
+  return schema.validate(post);
 }
+
+
 
 module.exports = router;

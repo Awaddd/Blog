@@ -39,7 +39,7 @@ export default {
     formData.append("image", params.image, params.image.name);
     formData.append("tags", JSON.stringify(params.tags));
 
-    axios.post(
+    return axios.post(
       `${url}posts`,
       formData,
       {
@@ -47,23 +47,14 @@ export default {
       }
     ).then(
       response => {
-        console.log('image upload response: ', response)
+        return response;
       }
     )
-
-    
-    // const formHeaders = params.getHeaders();
-
-    console.log("LOOOOOOOOOOOOLLLLLLL");
-
-  //   try {
-  //     return Api().post("posts", params, {
-  //       ...formHeaders
-  //     });
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
+    .catch(
+      error => {
+        return error.response;
+      }
+    )
   },
   
   editPost(params) {

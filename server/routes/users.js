@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require('bcryptjs');
-const Joi = require("joi");
+const Joi = require('@hapi/joi');
 const {verifyToken} = require('../helpers.js');
 
 const User = require("../models/user");
