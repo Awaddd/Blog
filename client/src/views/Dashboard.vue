@@ -66,7 +66,7 @@
 
             <section class="hero is-small">
               <div class="hero-body">
-                <div class="container">
+                <div class="container has-text-centered">
                   <h1 class="title has-text-primary">Dashboard</h1>
                   <p class="subtitle is-size-5">Manage your blog here <span class="is-capitalized">{{user.firstName}}</span></p>
                 </div>

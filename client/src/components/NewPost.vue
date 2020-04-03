@@ -1,7 +1,7 @@
 <template>
   <div class="create-posts">
     <form class="add-post-form" enctype="multipart/form-data">
-      <p>Create a post below</p>
+      <p><strong>Create a post below</strong></p>
       <div>
         <input type="text" name="title" placeholder="Title" v-model="title">
       </div>
@@ -10,7 +10,8 @@
         <input type="text" name="summary" placeholder="Summary" v-model="summary">
       </div>
 
-      <b-field label="Add some tags to spice up your post">
+
+      <b-field >
         <b-taginput v-model="tags" ellipsis maxtags="6" placeholder="Add a tag">
         </b-taginput>
       </b-field>      
