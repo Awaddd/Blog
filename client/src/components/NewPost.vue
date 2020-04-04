@@ -2,14 +2,16 @@
   <div class="create-posts">
     <form class="add-post-form" enctype="multipart/form-data">
       <p><strong>Create a post below</strong></p>
-      <div>
-        <input type="text" name="title" placeholder="Title" v-model="title">
-      </div>
 
-      <div>
-        <input type="text" name="summary" placeholder="Summary" v-model="summary">
-      </div>
+      <ValidationProvider name="Title" v-slot="v" rules="required|min:7|max:150">
+        <b-input placeholder="Title" v-model="title"></b-input>
+        <p class="has-text-danger">{{v.errors[0]}}</p>
+      </ValidationProvider>
 
+      <ValidationProvider name="Summary" v-slot="v" rules="required|min:3|max:150">
+        <b-input placeholder="Summary" v-model="summary"></b-input>
+        <p class="has-text-danger">{{v.errors[0]}}</p>
+      </ValidationProvider>
 
       <b-field >
         <b-taginput v-model="tags" ellipsis maxtags="6" placeholder="Add a tag">
@@ -48,6 +50,8 @@ import FormData from "form-data";
 import { serverBus } from '../main';
 import uploadFile from '@/components/uploadFile.vue';
 import PostsService from "@/services/PostsService";
+import { ValidationProvider, ValidationObserver } from 'vee-validate';
+import * as validationRules from '@/helpers/validation';
 
 
 export default {
@@ -107,7 +111,8 @@ export default {
   },
   components: {
     quillEditor,
-    uploadFile
+    uploadFile,
+    ValidationProvider
   }
 };
 </script>

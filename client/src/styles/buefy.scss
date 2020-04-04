@@ -10,6 +10,7 @@ $radius: 2px;
 $radius-large: 2px;
 $radius-rounded: 2px;
 $card-shadow: none;
+$light: #FAFAFA;
 // Setup $colors to use as bulma classes (e.g. 'is-twitter')
 $colors: (
     "white": ($white, $black),
@@ -28,6 +29,11 @@ $colors: (
 $link: $primary;
 $link-invert: $primary-invert;
 $link-focus-border: $primary;
+
+// input
+
+$input-border-color: #eee;
+$input-shadow: none;
 
 // Import Bulma and Buefy styles
 @import "~bulma";

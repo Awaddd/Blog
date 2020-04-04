@@ -1,22 +1,30 @@
 <template>
-  <div class="access my-container center">
+  <div class="access my-container">
+
     <form class="access-form">
-      <h1 class="title">Login</h1>
-      <p>Have an account? Log in below</p>
 
-      <div>
-        <input type="text" name="email" placeholder="email" v-model="email">
+      <div class="my-form-header-wr">
+        <h1 class="title is-3 is-size-4-mobile">Login</h1>
       </div>
 
-      <div>
-        <input type="password" name="password" placeholder="Password" v-model="password">
-      </div>
+      <div class="my-form-wrapper">
 
-      <div>
-        <button class="button is-primary" @click.prevent="login">Login</button>
+        <ValidationProvider name="Email" v-slot="v" rules="required|email">
+          <b-input placeholder="Email" type="text" icon="email" v-model="email"></b-input>
+          <p class="has-text-danger">{{v.errors[0]}}</p>
+        </ValidationProvider>
+          
+        <ValidationProvider name="Password" v-slot="v" rules="required">
+          <!-- <b-input type="password" v-model="password" placeholder="Password" password-reveal></b-input> -->
+          <b-input type="password" v-model="password" icon="lock" placeholder="Password" password-reveal></b-input>
+          <p class="has-text-danger">{{v.errors[0]}}</p>
+        </ValidationProvider>
+
+
+        <b-button type="is-primary" @click.prevent="login">Login</b-button>
+
+        <p class="has-text-dark my-subtext">Don't have an account? <router-link to="/admin/register" class="btn-clear">Register here</router-link></p>
       </div>
-      
-      <p>Don't have an account? <router-link to="/admin/register" class="btn-clear">Register</router-link> </p>
     </form>
   </div>
 </template>
@@ -25,6 +33,8 @@
 
 import AuthService from "@/services/AuthService";
 import bcrypt from "bcryptjs";  
+import { ValidationProvider, ValidationObserver } from 'vee-validate';
+import * as validationRules from '@/helpers/validation';
 
 export default {
     data() {
@@ -32,6 +42,10 @@ export default {
           email: null,
           password: null
         }
+    },
+    components: {
+      ValidationProvider,
+      ValidationObserver
     },
     methods: {
 
@@ -62,8 +76,7 @@ export default {
 }
 </script>
 
-
-<style lang="scss">
+<style lang="scss" scoped>
 @import "../styles/app.scss";
 
 .access {
@@ -76,7 +89,7 @@ export default {
   width: 100%;
   box-sizing: border-box;
   display: grid;
-  grid-gap: 20px;
+  grid-gap: 35px;
 
   div input,
   div textarea,
@@ -85,6 +98,26 @@ export default {
   }
   h2 {
     margin: 0;
+  }
+
+  min-width: 200px;
+  max-width: 800px;
+
+}
+
+.my-form-wrapper {
+  display: grid;
+  grid-gap: 25px;
+}
+
+.confirmPassword {
+  display: grid;
+  grid-gap: 25px;
+}
+
+@media only screen and (min-width: 600px) {
+  .access-form{
+    padding: 5rem 0;
   }
 }
     
