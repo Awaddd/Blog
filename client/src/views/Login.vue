@@ -9,16 +9,8 @@
 
       <div class="my-form-wrapper">
 
-        <ValidationProvider name="Email" v-slot="v" rules="required|email">
-          <b-input placeholder="Email" type="text" icon="email" v-model="email"></b-input>
-          <p class="has-text-danger">{{v.errors[0]}}</p>
-        </ValidationProvider>
-          
-        <ValidationProvider name="Password" v-slot="v" rules="required">
-          <!-- <b-input type="password" v-model="password" placeholder="Password" password-reveal></b-input> -->
-          <b-input type="password" v-model="password" icon="lock" placeholder="Password" password-reveal></b-input>
-          <p class="has-text-danger">{{v.errors[0]}}</p>
-        </ValidationProvider>
+        <BInputWithValidation rules="required|email" type="email" icon="email" placeholder="Email" name="Email" v-model="email"/>
+        <BInputWithValidation rules="required" type="password" icon="lock" placeholder="Password" name="Password" vid="confirmation" v-model="password" password-reveal/>
 
 
         <b-button type="is-primary" @click.prevent="login">Login</b-button>
@@ -35,6 +27,7 @@ import AuthService from "@/services/AuthService";
 import bcrypt from "bcryptjs";  
 import { ValidationProvider, ValidationObserver } from 'vee-validate';
 import * as validationRules from '@/helpers/validation';
+import BInputWithValidation from '@/buefyComponents/BInputWithValidation';
 
 export default {
     data() {
@@ -45,7 +38,8 @@ export default {
     },
     components: {
       ValidationProvider,
-      ValidationObserver
+      ValidationObserver,
+      BInputWithValidation
     },
     methods: {
 

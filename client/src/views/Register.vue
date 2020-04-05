@@ -10,35 +10,16 @@
 
       <div class="my-form-wrapper">
 
-        <ValidationProvider name="Email" v-slot="v" rules="required|email|min:7|max:30">
-          <b-input placeholder="Email" type="text" icon="email" v-model="email"></b-input>
-          <p class="has-text-danger">{{v.errors[0]}}</p>
-        </ValidationProvider>
+        <BInputWithValidation rules="required|email" type="email" icon="email" placeholder="Email" name="Email" v-model="email"/>
+        <BInputWithValidation rules="required|min:2|max:30" type="text" icon="account" placeholder="First Name" name="First Name" v-model="firstName"/>
+        <BInputWithValidation rules="required|min:2|max:30" type="text" icon="account-group" placeholder="Last Name" name="Last Name" v-model="lastName"/>
+        
+        <ValidationObserver class="confirmPassword"> 
 
-        <ValidationProvider name="First Name" v-slot="v" rules="required|min:3|max:30">
-          <b-input placeholder="First Name" type="text" icon="account" v-model="firstName"></b-input>
-          <p class="has-text-danger">{{v.errors[0]}}</p>
-        </ValidationProvider>
+        <BInputWithValidation rules="required|min:7|max:30" type="password" icon="lock" placeholder="Password" name="Password" vid="confirmation" v-model="password" password-reveal/>
+        <BInputWithValidation rules="required|min:7|max:30|confirmed:confirmation" type="password" icon="lock" placeholder="Confirm Password" v-model="confirmPassword"  name="Confirm Password" password-reveal/>
 
-        <ValidationProvider name="Last Name" v-slot="v" rules="required|min:3|max:30">
-          <b-input placeholder="Last Name" type="text" icon="account-group" v-model="lastName"></b-input>
-          <p class="has-text-danger">{{v.errors[0]}}</p>
-        </ValidationProvider>
-
-
-        <ValidationObserver class="confirmPassword">
-          <ValidationProvider name="Password" v-slot="v" rules="required|min:7|max:30|confirmed:confirmation">
-            <b-input type="password" v-model="password" placeholder="Password" password-reveal></b-input>
-            <!-- <b-input type="password" v-model="password" icon="lock" placeholder="Password" password-reveal></b-input> -->
-            <p class="has-text-danger">{{v.errors[0]}}</p>
-          </ValidationProvider>
-
-          <ValidationProvider name="Confirm Password" v-slot="v" rules="required|min:7|max:30|" vid="confirmation">
-            <!-- <b-input type="password" v-model="confirmPassword" icon="lock" placeholder="Confirm Password" password-reveal></b-input> -->
-            <b-input type="password" v-model="confirmPassword" placeholder="Confirm Password" password-reveal></b-input>
-            <p class="has-text-danger">{{v.errors[0]}}</p>
-          </ValidationProvider>
-        </ValidationObserver>
+        </validationObserver>
 
         <b-button type="is-primary" @click.prevent="register">Register</b-button>
 
@@ -54,7 +35,7 @@ import AuthService from "@/services/AuthService";
 import bcrypt from "bcryptjs";  
 import { ValidationProvider, ValidationObserver } from 'vee-validate';
 import * as validationRules from '@/helpers/validation';
-
+import BInputWithValidation from '@/buefyComponents/BInputWithValidation';
 
 export default {
   data() {
@@ -68,7 +49,8 @@ export default {
   },
   components: {
     ValidationProvider,
-    ValidationObserver
+    ValidationObserver,
+    BInputWithValidation
   },
   methods: {
       async register() {
