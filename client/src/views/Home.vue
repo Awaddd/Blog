@@ -5,11 +5,13 @@
       <!-- <app-nav :isHome="true"></app-nav> -->
 
       <!-- <section class="hero my-gradient"> -->
-      <section class="hero is-primary is-bold my-home-hero has-text-centered">
+      <section class="welcome-content is-medium has-text-centered">
+        <img class="welcome-content-image" src="../assets/oasis.jpg" width="100%">
+        <span class="welcome-content-shade"></span>
         <div class="hero-body">
           <div class="container">
             <h1 class="title has-text-white is-size-4-mobile is-size-3-tablet">
-              Welcome To My Oasis
+              Welcome To Oasis
             </h1>
             <h2 class="subtitle has-text-white is-size-5">
               Life and Success
@@ -36,10 +38,7 @@
           <img src="../assets/featured.jpeg">
         </div>
 
-        <div class="featured-post__title">
-          <h5 class="">Google's AI can now predict heart disease 
-            just by scanning your eyes.</h5>
-        </div>
+        <h1 class="title is-size-5"> Google's AI can now predict heart disease just by scanning your eyes.</h1>
 
         <div class="read-more__button">
           <button class="has-background-primary my-btn">READ MORE</button>
@@ -48,33 +47,16 @@
 
       <section class="section">
         <!-- add is-paddingless to remove padding on section -->
-          <p class="title">Latest</p>
-          
+          <div class="container">
+          <p class="title is-size-5-mobile is-size-4 has-text-primary is-centered">Latest Posts</p>
           <app-posts :showAmount="6"></app-posts>
+
+          </div>          
 
       </section>
 
     </main>
 
-    <!-- <section class="section is-medium">
-      <div class="container">
-        <h2 class="title is-capitalized is-size-3">Meet the author</h2>
-        <article class="media">
-          <figure class="media-left">
-            <p class="image is-128x128">
-              <img src="https://bulma.io/images/placeholders/128x128.png" alt="">
-            </p>
-          </figure>
-          <div class="media-content">
-            <div class="content">
-              <p><strong>Umar Dini</strong><small>@mail.com</small>
-                <br>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
-              </p>
-            </div>
-          </div>
-        </article>
-      </div>
-    </section> -->
 
     <section class="section is-medium has-background-primary">
       <div class="container">
@@ -83,9 +65,9 @@
             <h1 class="title is-3 has-text-white is-size-4-mobile">Newsletter</h1>
             <p class="subtitle is-5 has-text-white is-size-6-mobile">Want to be the first to know when a new article comes out?</p>
           </div>
-          <div class="newsletter-button">
+          <div class="newsletter-input">
             <input type="text" class="input is-medium">
-            <button class="my-btn">Notify Me</button>
+            <button class="newsletter-button">Notify Me</button>
           </div>
         </div>
 
@@ -125,9 +107,20 @@ export default {
   grid-gap: 30px;
 }
 
-.newsletter-button {
+.newsletter-input {
   display: grid;
   grid-gap: 15px;
+}
+
+.newsletter-button {
+  @extend .my-btn;
+  // background: #f2ff00;
+  background: #ffe600;
+  color: #333;
+  font-weight: 700;
+  font-size: 0.9rem;
+  // text-transform: none;
+  letter-spacing: 2px;
 }
 
 .home {
@@ -208,7 +201,7 @@ export default {
     padding: 0.8rem 0.5rem;
   }
 
-  .newsletter-button {
+  .newsletter-input {
     display: grid;
     grid-template-columns: 1fr max-content;
     grid-gap: 15px;

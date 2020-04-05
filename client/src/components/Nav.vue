@@ -44,7 +44,7 @@
 
             <div class="field is-grouped" v-if="getLoginStatus">
 
-              <router-link class="my-btn-nav my-btn-dashboard" :to="{name: 'Dashboard'}">
+              <router-link class="my-btn-nav my-btn-dashboard" tag="button" :to="{name: 'Dashboard'}">
                 Dashboard
               </router-link>
               <button class="my-btn-nav has-background-danger" @click="logout">Logout</button>
@@ -109,13 +109,10 @@ export default {
   .my-btn-dashboard {
     background-color: #FFF;
     color: $primary;  
-    padding: 6px 0 6px 10px;
-    margin-right: 25px;
     font-weight: 700;
   }
 
   .my-btn-dashboard:hover {
-    padding: 6px 25px;
     background-color: #FAFAFA !important;
     color: $primary !important;
     transition: all 0.2s ease-in-out;

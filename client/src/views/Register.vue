@@ -1,31 +1,35 @@
 <template>
-  <div class="access my-container">
-
-    <form class="access-form">
-
-      <div class="">
-        <h1 class="title is-3 is-size-4-mobile">Register</h1>
-        <h3 class="subtitle is-5 is-size-6-mobile" >Don't have an account? Register below</h3>
-      </div>
-
-      <div class="my-form-wrapper">
-
-        <BInputWithValidation rules="required|email" type="email" icon="email" placeholder="Email" name="Email" v-model="email"/>
-        <BInputWithValidation rules="required|min:2|max:30" type="text" icon="account" placeholder="First Name" name="First Name" v-model="firstName"/>
-        <BInputWithValidation rules="required|min:2|max:30" type="text" icon="account-group" placeholder="Last Name" name="Last Name" v-model="lastName"/>
+  <div class="">
+    <section class="welcome-content is-fullheight">
+      <img class="welcome-content-image is-hidden-mobile" src="../assets/water2-min.jpg" width="100%">
+      <span class="welcome-content-shade is-hidden-mobile"></span>
+      <div class="hero-body">
         
-        <ValidationObserver class="confirmPassword"> 
+        <div class="container">
 
-        <BInputWithValidation rules="required|min:7|max:30" type="password" icon="lock" placeholder="Password" name="Password" vid="confirmation" v-model="password" password-reveal/>
-        <BInputWithValidation rules="required|min:7|max:30|confirmed:confirmation" type="password" icon="lock" placeholder="Confirm Password" v-model="confirmPassword"  name="Confirm Password" password-reveal/>
+          <section class="my-form-wrapper container">
+            <form class="my-form container">
+              <p class="title is-size-4 has-text-primary has-text-centered"><strong>Register</strong></p>
+              <BInputWithValidation rules="required|email" type="email" icon="email" placeholder="John.smith@mail.com" label="Email" v-model="email"/>
+              <BInputWithValidation rules="required|min:2|max:30" type="text" icon="account" placeholder="John" label="First Name" v-model="firstName"/>
+              <BInputWithValidation rules="required|min:2|max:30" type="text" icon="account-group" placeholder="Smith" label="Last Name" v-model="lastName"/>
+              
+              <ValidationObserver class="confirmPassword"> 
 
-        </validationObserver>
+                <BInputWithValidation rules="required|min:7|max:30" type="password" icon="lock" label="Password" vid="confirmation" v-model="password" password-reveal/>
+                <BInputWithValidation rules="required|min:7|max:30|confirmed:confirmation" type="password" icon="lock"  v-model="confirmPassword"  label="Confirm Password" password-reveal/>
 
-        <b-button type="is-primary" @click.prevent="register">Register</b-button>
+              </validationObserver>
 
-        <p class="has-text-dark my-subtext">Got an account? <router-link to="/admin/login" class="btn-clear">Click here to Login</router-link></p>
+              <b-field>
+                <b-button type="is-primary my-register-button" expanded @click.prevent="register">Register</b-button>
+              </b-field>
+              <p class="has-text-dark has-text-centered">Got an account? <router-link to="/admin/login" class="btn-clear">Click here to Login</router-link></p>
+            </form>
+          </section>
+        </div>
       </div>
-    </form>
+    </section>
   </div>
 </template>
 
@@ -85,46 +89,31 @@ export default {
 <style lang="scss" scoped>
 @import "../styles/app.scss";
 
-.access {
-  background: #ffffff;
-  padding: 2rem;
+  .my-form-wrapper {
+background: #fff;
+    padding: 1rem;
 
-}
-
-.access-form {
-  margin: 0 auto;
-  width: 100%;
-  box-sizing: border-box;
-  display: grid;
-  grid-gap: 35px;
-
-  div input,
-  div textarea,
-  div button {
-    width: 100%;
-  }
-  h2 {
-    margin: 0;
   }
 
-  min-width: 200px;
-  max-width: 800px;
+  .my-form, .confirmPassword {
+    display: grid;
+    grid-gap: 15px;
+  }
 
-}
-
-.my-form-wrapper {
-  display: grid;
-  grid-gap: 25px;
-}
-
-.confirmPassword {
-  display: grid;
-  grid-gap: 25px;
-}
+  .my-register-button {
+    margin-top: 30px;
+  }
 
 @media only screen and (min-width: 600px) {
-  .access-form{
-    padding: 5rem 0;
+  .my-form-wrapper {
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+
+    box-sizing: border-box;
+    min-width: 200px;
+    max-width: 500px;
+    border-radius: 5px;
+    color: #333;
+    padding: 3rem 3rem 5rem 3rem;
   }
 }
     
