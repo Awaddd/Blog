@@ -66,7 +66,7 @@
             <p class="subtitle is-5 has-text-white is-size-6-mobile">Want to be the first to know when a new article comes out?</p>
           </div>
           <div class="newsletter-input">
-            <input type="text" class="input is-medium">
+            <input type="email" placeholder="John.smith@mail.com" class="input is-medium">
             <button class="newsletter-button">Notify Me</button>
           </div>
         </div>

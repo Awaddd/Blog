@@ -16,5 +16,8 @@ module.exports = {
       console.log(JSON.stringify(decoded));
       return decoded;
     }
+  },
+  signToken({_id, isAdmin}) {
+    return JWT.sign({ userID: _id, isAdmin: isAdmin }, privateKey, {expiresIn: '7d'});
   }
 };

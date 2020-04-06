@@ -2,8 +2,7 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const Joi = require('@hapi/joi');
-const {verifyToken} = require('../helpers.js');
-
+const {verifyToken, signToken} = require('../helpers.js');
 const User = require("../models/user");
 const Post = require("../models/post");
 
@@ -84,7 +83,7 @@ router.post("/", (req, res) => {
     if (error) {
       console.log(error);
     } else if (user) {
-      res.status(400)
+      res.status(409)
         .send('User already exists.');
     } else {
       const new_user = new User({
@@ -95,14 +94,20 @@ router.post("/", (req, res) => {
         isAdmin: false
       });
 
-      new_user.save(function(error) {
+      // const token = jwt.sign({ userID: user._id, isAdmin: user.isAdmin }, privateKey, {expiresIn: '7d'});
+
+
+      new_user.save(function(error, user) {
         if (error) {
           console.log(error);
         }
 
+        const token = signToken(user);
+
         res.send({
           success: true,
-          message: "User created!"
+          message: "User created!",
+          user: token
         });
       }) 
     }

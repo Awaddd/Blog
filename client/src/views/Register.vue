@@ -8,7 +8,7 @@
         <div class="container">
 
           <section class="my-form-wrapper container">
-            <form class="my-form container">
+            <form class="my-form container" @keyup.enter="register">
               <p class="title is-size-4 has-text-primary has-text-centered"><strong>Register</strong></p>
               <BInputWithValidation rules="required|email" type="email" icon="email" placeholder="John.smith@mail.com" label="Email" v-model="email"/>
               <BInputWithValidation rules="required|min:2|max:30" type="text" icon="account" placeholder="John" label="First Name" v-model="firstName"/>
@@ -22,7 +22,7 @@
               </validationObserver>
 
               <b-field>
-                <b-button type="is-primary my-register-button" expanded @click.prevent="register">Register</b-button>
+                <b-button type="is-primary my-register-button" expanded @click="register">Register</b-button>
               </b-field>
               <p class="has-text-dark has-text-centered">Got an account? <router-link to="/admin/login" class="btn-clear">Click here to Login</router-link></p>
             </form>
@@ -67,15 +67,22 @@ export default {
             lastName: this.lastName,
             password: this.password
           })
+          
+
+          console.log(response);
 
           if (response.status !== 200) {
+
             console.log('new post ERROR: ', response.data.message);
-            this.errmsg = response.data.message;
-          } else if (response.status === 200){
+
+          } else if (response.status === 200 && response.data.user){
+
+            const user = response.data.user;
+            localStorage.setItem('user', user);
             console.log(response.data.message);
+            this.$store.dispatch("SET_LOGIN_STATUS", localStorage.getItem('user'));
             this.$router.push({ name: "Dashboard" });
           }
-
         }
         
       }

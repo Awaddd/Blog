@@ -1,23 +1,31 @@
 <template>
-  <div class="access my-container">
+  <div class="">
+    <section class="welcome-content is-fullheight">
+      <img class="welcome-content-image is-hidden-mobile" src="../assets/water2-min.jpg" width="100%">
+      <span class="welcome-content-shade is-hidden-mobile"></span>
+      <div class="hero-body my-login-hero">
+        
+        <div class="container">
 
-    <form class="access-form">
+          <section class="my-form-wrapper container">
+            <form class="my-form container" @keyup.enter="login">
 
-      <div class="my-form-header-wr">
-        <h1 class="title is-3 is-size-4-mobile">Login</h1>
+              <p class="title is-size-4 has-text-primary has-text-centered"><strong>Login</strong></p>
+
+              <BInputWithValidation rules="required|email" type="email" icon="email" placeholder="John.smith@mail.com" label="Email" v-model="email"/>
+
+              <BInputWithValidation rules="required|min:7|max:30" type="password" icon="lock" label="Password"v-model="password" password-reveal/>
+
+              <b-field>
+                <b-button type="is-primary my-login-button" expanded @click="login">Login</b-button>
+              </b-field>
+
+              <p class="has-text-dark my-subtext">Don't have an account? <router-link to="/admin/register" class="btn-clear">Register here</router-link></p>
+            </form>
+          </section>
+        </div>
       </div>
-
-      <div class="my-form-wrapper">
-
-        <BInputWithValidation rules="required|email" type="email" icon="email" placeholder="Email" name="Email" v-model="email"/>
-        <BInputWithValidation rules="required" type="password" icon="lock" placeholder="Password" name="Password" vid="confirmation" v-model="password" password-reveal/>
-
-
-        <b-button type="is-primary" @click.prevent="login">Login</b-button>
-
-        <p class="has-text-dark my-subtext">Don't have an account? <router-link to="/admin/register" class="btn-clear">Register here</router-link></p>
-      </div>
-    </form>
+    </section>
   </div>
 </template>
 
@@ -73,45 +81,36 @@ export default {
 <style lang="scss" scoped>
 @import "../styles/app.scss";
 
-.access {
-  background: #ffffff;
-  padding: 2rem;
-}
-
-.access-form {
-  margin: 0 auto;
-  width: 100%;
-  box-sizing: border-box;
+.my-login-hero {
   display: grid;
-  grid-gap: 35px;
-
-  div input,
-  div textarea,
-  div button {
-    width: 100%;
-  }
-  h2 {
-    margin: 0;
-  }
-
-  min-width: 200px;
-  max-width: 800px;
-
+  align-content: start;
+  align-items: start;
 }
 
 .my-form-wrapper {
-  display: grid;
-  grid-gap: 25px;
-}
+  background: #fff;
+  padding: 1rem;
+  }
 
-.confirmPassword {
-  display: grid;
-  grid-gap: 25px;
-}
+  .my-form, .confirmPassword {
+    display: grid;
+    grid-gap: 15px;
+  }
+
+  .my-login-button {
+    margin-top: 15px;
+  }
 
 @media only screen and (min-width: 600px) {
-  .access-form{
-    padding: 5rem 0;
+  .my-form-wrapper {
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+
+    box-sizing: border-box;
+    min-width: 200px;
+    max-width: 500px;
+    border-radius: 5px;
+    color: #333;
+    padding: 3rem 3rem 5rem 3rem;
   }
 }
     

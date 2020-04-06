@@ -2,8 +2,8 @@ const express = require("express");
 const router = express.Router();
 const Joi = require('@hapi/joi');
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 const {privateKey} = require('../config.json');
+const {signToken} = require('../helpers.js');
 
 const User = require("../models/user");
 
@@ -34,7 +34,8 @@ router.post("/", (req, res) => {
 
       if (response === true){
 
-        const token = jwt.sign({ userID: user._id, isAdmin: user.isAdmin }, privateKey, {expiresIn: '7d'});
+        // const token = jwt.sign({ userID: user._id, isAdmin: user.isAdmin }, privateKey, {expiresIn: '7d'});
+        const token = signToken(user);
 
         res.send({
           success: true,
