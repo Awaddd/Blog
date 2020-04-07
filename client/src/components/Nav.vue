@@ -55,10 +55,11 @@
               </div> -->
 
             </div>
+            <div v-else class="field is-grouped">
+              <router-link class="my-btn-nav my-btn-dashboard" :to="{name: 'Register'}">Register</router-link> 
+              <router-link class="my-btn-nav has-background-primary" :to="{name: 'Login'}">Login</router-link> 
+            </div>
 
-            <router-link class="my-btn-nav has-background-primary" :to="{name: 'Dashboard'}" v-else>
-              Login
-            </router-link>              
             
           </div>
         </div>
@@ -115,6 +116,20 @@ export default {
   .my-btn-dashboard:hover {
     background-color: #FAFAFA !important;
     color: $primary !important;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .login-btn {
+    background: #FAFAFA;
+    border: 1px solid $primary;
+    color: $primary;
+    border-radius: 2px;
+    font-weight: 700;
+  }
+
+  .login-btn:hover {
+    background-color: $primary;
+    color: #fff;
     transition: all 0.2s ease-in-out;
   }
 

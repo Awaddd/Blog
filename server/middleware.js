@@ -1,28 +1,35 @@
 const JWT = require('jsonwebtoken');
+const multer = require('multer');
 const {privateKey} = require('./config.json');
 const {verifyToken} = require('./helpers.js');
 const User = require("./models/user");
 
+const storage = multer.diskStorage({
+  destination: function (req, file, callback){
+    callback(null, './uploads/')
+  },
+  filename: function (req, file, callback){
+    callback(null,`${Date.now()}-${file.originalname}`);
+  }
+})
+
+const fileFilter = (req, file, callback) => {
+  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png'){
+    callback(null, true);
+  } else {
+    callback('Incorrect File Type. Upload .jpeg or .png files only.', false);
+  }
+};
+
+
 module.exports = {
   // checkLoggedIn runs on every endpoint regardless of if it's a public or private endpoint. Checks and sets.
-  async checkLoggedIn(req, res, next) {
+  async checkLoggedIn (req, res, next) {
     try {
 
-     // retrieve token from header
-     // verify token
-     // call db and see if user exists
-     // logged in. next.
-
-      console.log("--------- ");
-      console.log('inside midware');
-      console.log("--------- ");
-
-      // console.log(JSON.stringify(req.headers));
       const decoded = verifyToken(req);
       console.log(decoded);      
       req.user = await User.findById(decoded.userID).select('-password');
-      console.log("llololol", JSON.stringify(req.user));
-
       next();
 
     } catch (error) {
@@ -31,12 +38,21 @@ module.exports = {
     }
   },
   // runs only on private endpoints. Confirms.
-  isLoggedIn(req, res, next) {
+  isLoggedIn (req, res, next) {
     if (!req.user) {
       next({status: 401, message: 'Not logged in'});
       return;
     } 
     console.log('Logged In.');
     next();
+  },
+  upload () {
+    return multer({
+      storage: storage, 
+      limits: {
+        fileSize: 1024 * 1024 * 5
+      },
+      fileFilter: fileFilter
+    });
   }
 };

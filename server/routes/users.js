@@ -7,6 +7,7 @@ const User = require("../models/user");
 const Post = require("../models/post");
 
 // get one user
+
 router.get("/:id", async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.params.id }, "email firstName lastName isAdmin");
@@ -18,7 +19,10 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+
+
 // Register user
+
 
 router.post("/", async (req, res) => {
 
@@ -61,6 +65,7 @@ router.post("/", async (req, res) => {
 
 
 // Get posts for one user
+
 
 router.get("/:id/posts", async (req, res) => {
   try {

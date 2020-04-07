@@ -35,3 +35,7 @@ export function getToken(){
   const user = localStorage.getItem('user');
   return jwt.decode(user);
 }
+
+export function sanitizeTitle(title){
+  return title.replace(/\s+/g, "-").toLowerCase();
+}

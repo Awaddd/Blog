@@ -52,6 +52,7 @@ import uploadFile from '@/components/uploadFile.vue';
 import PostsService from "@/services/PostsService";
 import { ValidationProvider, ValidationObserver } from 'vee-validate';
 import * as validationRules from '@/helpers/validation';
+import { sanitizeTitle } from '@/helpers/helpers';
 
 
 export default {
@@ -105,7 +106,7 @@ export default {
         console.log('new post ERROR: ', response.data);
       } else if (response.status === 200){
         console.log(response.data.message);
-        this.$router.push({ name: "Home" });
+        this.$router.push({ name: "BlogPost", params: {title: sanitizeTitle(response.data.title)} });
       }
     }
   },

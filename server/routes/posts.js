@@ -1,53 +1,26 @@
 const express = require("express");
 const Joi = require('@hapi/joi');
 const router = express.Router();
-const multer = require('multer');
-const {checkLoggedIn, isLoggedIn} = require('../middleware');
+const {checkLoggedIn, isLoggedIn, upload} = require('../middleware');
 const JWT = require('jsonwebtoken');
 const {privateKey} = require('../config.json');
 const {verifyToken} = require('../helpers.js');
-
-const storage = multer.diskStorage({
-  destination: function (req, file, callback){
-    callback(null, './uploads/')
-  },
-  filename: function (req, file, callback){
-    callback(null,`${Date.now()}-${file.originalname}`);
-  }
-})
-
-const fileFilter = (req, file, callback) => {
-  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png'){
-    callback(null, true);
-  } else {
-    callback('Incorrect File Type. Upload .jpeg or .png files only.', false);
-  }
-};
-
-const upload = multer({
-  storage: storage, 
-  limits: {
-    fileSize: 1024 * 1024 * 5
-  },
-  fileFilter: fileFilter
-});
-
 const Post = require("../models/post");
 const User = require("../models/user");
 
 
-
 // Get all posts
 
-router.get("/", (req, res) => {
-  Post.find({}, "title summary content image createdAt tags", function(error, posts) {
-    if (error) {
-      console.error(error);
-    }
-    res.send({
-      posts: posts
-    });
-  }).sort({ _id: -1 });
+
+router.get("/", async (req, res) => {
+  try {
+    const posts = await Post.find({}, "title summary content image createdAt tags").sort({ _id: -1 });;
+    if (!posts) res.status(404).send({ status: false, message: 'Posts not found' });
+    res.status(200).send({ posts: posts });
+  } catch (error) {
+    console.log(error);
+    // throw(error);
+  }
 });
 
 
@@ -55,24 +28,11 @@ router.get("/", (req, res) => {
 // Get One Post
 
 
-router.get("/:title", (req, res) => {
-  console.log(`param: ${req.params.title}`);
-
-  const param = req.params.title.replace(/\-+/g, " ");
-  console.log(param);
-
-  // the "title content" refers to what columns to retrieve from the doc
-
-  Post.findOne({ title: param }, "title summary content image tags createdAt", function(
-    error,
-    post
-  ) {
-    if (error) {
-      console.log(error);
-    }
-  }).populate('author', 'firstName lastName')
-  .exec()
-  .then(post => {
+router.get("/:title", async (req, res) => {
+  try {
+    const param = req.params.title.replace(/\-+/g, " ");
+    const post = await Post.findOne({ title: param }, "title summary content image tags createdAt").populate('author', 'firstName lastName').exec();
+    if (!post) res.status(404).send({ success: false, message: 'Post not found' });
     res.status(200).json({
       title: post.title,
       summary: post.summary,
@@ -81,124 +41,69 @@ router.get("/:title", (req, res) => {
       tags: post.tags,
       createdAt: post.createdAt,
       author: `${post.author.firstName} ${post.author.lastName}`
-    })
-  })
-  .catch(err => {
-    console.log(err);
-    res.status(500).json({
-      error: err
     });
-  });
+  } catch (error) {
+    console.log(error);
+    // throw(error);
+  }
 });
-
 
 
 // Get post by ID
 
 
-router.get("/id/:id", (req, res) => {
-  console.log(`param: ${req.params.id}`);
-
-  const param = req.params.id;
-  console.log(param);
-
-  Post.findOne({ _id: param }, "title summary content tags", function(
-    error,
-    post
-  ) {
-    if (error) {
-      console.log(error);
-    }
-  })
-  .exec()
-  .then(post => {
-    res.status(200).json({
-      title: post.title,
-      summary: post.summary,
-      content: post.content,
-      tags: post.tags,
-    })
-  })
-  .catch(err => {
-    console.log(err);
-    res.status(500).json({
-      error: err
-    });
-  });
+router.get("/id/:id", async (req, res) => {
+  try {
+    const post = await Post.findOne({ _id: req.params.id }, "title summary content tags");
+    if (!post) res.status(404).send({ success: false, message: 'Post not found' });
+    res.status(200).send(post);
+  } catch (error) {
+    // console.log(error);
+    throw(error);
+  }
 });
 
 
 
 // Add new post
-
-
-router.post("/", upload.single('image'), checkLoggedIn, isLoggedIn, (req, res) => {
-  console.log("inside post post");
-  console.log(req.body);
-  console.log(req.file);
-  
-  console.log("---------------");
-  console.log("pre validation");
-  console.log(req.body.tags);
-  console.log("---------------");
+router.post("/", upload().single('image'), checkLoggedIn, isLoggedIn, async (req, res) => {
 
   req.body.tags = JSON.parse(req.body.tags);
-  
   const { error } = validatePost(req.body);
+
   if (error) return res.status(400).send({success: false, message: error.details[0].message});
 
-  console.log('-- POST VAL --');
-
-  const title = req.body.title.toLowerCase();
-  const summary = req.body.summary;
-  const tags = req.body.tags;
-  const body = req.body.content;
   const image = `${process.env.URL}/uploads/${req.file.filename}`;
-  console.log(image);
+  const {summary, content, tags} = req.body;
+  const title = req.body.title.toLowerCase();
+  console.log(tags);
 
   const userID = verifyToken(req).userID;
-  console.log(userID);
 
-  User.findOne({ _id: userID}, "_id" ,(error, user) => {
-    if (error) {
-      console.log(`error on line 91 posts: ${error}`);
-    } else {
-      console.log(user);
-      Post.findOne({ title: title }, "title summary content image", function(
-        error,
-        post
-      ) {
-        if (error) {
-          console.log(error);
-        } else if (post) {
-          res.send({
-            success: false,
-            message: "Post exists"
-          });
-        } else {
-          const new_post = new Post({
-            title: title,
-            summary: summary,
-            content: body,
-            image: image,
-            tags: tags,
-            author: userID
-          });
+  try {
+
+    const user = await User.findOne({ _id: userID}, "_id");
+    const existingPost = await Post.findOne({ title: title }, "title summary content image");
+
+    if (existingPost) res.status(400).send({ success: false, message: 'Post already exists' });
+
+    const new_post = new Post({
+      title: title,
+      summary: summary,
+      content: content,
+      image: image,
+      tags: tags,
+      author: userID
+    });
+
+    const post = await new_post.save();
+    if (post) res.status(200).send(post);
     
-          new_post.save(function(error) {
-            if (error) {
-              console.log(error);
-            }
-    
-            res.send({
-              success: true,
-              message: "Post created!"
-            });
-          });
-        }
-      });
-    }
-  })
+  } catch (error) {
+    console.log(error);
+    // return res.status(404).send({ success: false, message: 'Post could not be created' });
+    // throw(error);
+  }
 
 });
 
@@ -207,7 +112,7 @@ router.post("/", upload.single('image'), checkLoggedIn, isLoggedIn, (req, res) =
 // Update Post
 
 
-router.patch('/:id', upload.none(), (req, res) => {
+router.patch('/:id', upload().none(), checkLoggedIn, isLoggedIn, async (req, res) => {
   const postID = req.params.id;
 
   req.body.tags = JSON.parse(req.body.tags);
@@ -215,24 +120,23 @@ router.patch('/:id', upload.none(), (req, res) => {
   if (error) return res.status(400).send({success: false, message: error.details[0].message});
 
   const {title, summary, content, tags} = req.body;
-  
-  Post.findByIdAndUpdate(postID, {
-    title: title.toLowerCase(),
-    summary: summary,
-    content: content,
-    tags: tags
-  })
-  .exec()
-  .then(result => {
-  console.log(result);
-    res.status(200).json({message: 'Successfully updated'});
-  })
-  .catch(err => {
-  console.log(err);
-    res.status(400).json({
-      error: err
+
+  try {
+    const post = await Post.findByIdAndUpdate(postID, {
+      title: title.toLowerCase(),
+      summary: summary,
+      content: content,
+      tags: tags
     });
-  });
+
+    if (!post) res.status(404).send({ success: false, message: 'Could not find post' });
+
+    res.status(200).send({ success: true, message: 'Post edited successfully' });
+    
+  } catch (error) {
+    console.log(error);
+    // throw(error);
+  }
 });
 
 
@@ -240,22 +144,18 @@ router.patch('/:id', upload.none(), (req, res) => {
 // Delete Post
 
 
-router.delete('/:id', checkLoggedIn, isLoggedIn, (req, res) => {
+router.delete('/:id', checkLoggedIn, isLoggedIn, async (req, res) => {
+  try {
 
-  const postID = req.params.id;
-  console.log('within delete: ', postID);
+    const post = await Post.findByIdAndDelete(req.params.id);
+    if (!post) res.status(404).send({ success: false, message: 'Could not find post' });
+    res.status(200).send({ success: true, message: 'Post deleted successfully' });
 
-  Post.findByIdAndDelete(postID)
-      .then(post => {
-        if(!post) {
-          return res.status(404).send({
-            message: `Post not found ${postID}`
-          });
-        }
-        res.send({message: 'Post deleted'});
-      }).catch (error => {
-        return res.status(500).send({message: `Could not delete: ${postID}`})
-      })
+  } catch (error) {
+    console.log(error);
+    return res.status(404).send({ success: false, message: 'Post could not be deleted' });
+    // throw(error);
+  }
 });
 
 

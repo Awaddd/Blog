@@ -82,6 +82,7 @@ import PostsService from "@/services/PostsService";
 import moment from "moment";
 import { serverBus } from '../main';
 import { mapGetters } from 'vuex';
+import { sanitizeTitle } from '@/helpers/helpers';
 
 export default {
   data: function() {
@@ -112,9 +113,8 @@ export default {
       // this.tableData = (response.data.posts);
     },
 
-    sanitizeTitle: function(postTitle) {
-      const myTitle = postTitle.replace(/\s+/g, "-").toLowerCase();
-      return myTitle;
+    sanitizeTitle: function(title) {
+      return sanitizeTitle(title);
     },
 
     formatDate(date) {

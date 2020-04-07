@@ -5,7 +5,7 @@
         <router-link
         :to="{
               name: 'BlogPost',
-              params: {title: sanitizeTitle(post)}
+              params: {title: sanitizeTitle(post.title)}
           }">
           <div class="card-image">
             <figure class="image is-4by4">
@@ -27,6 +27,7 @@
 
 <script>
 import PostsService from "@/services/PostsService";
+import { sanitizeTitle } from '@/helpers/helpers';
 
 export default {
   data() {
@@ -42,14 +43,11 @@ export default {
     async getPosts() {
       const response = await PostsService.fetchPosts();
       this.posts = response.data.posts;
-      // console.log(this.posts);
     },
-    sanitizeTitle: function(post) {
-      // console.log(post.title);
-      const title = post.title.replace(/\s+/g, "-").toLowerCase();
-      return title;
+    sanitizeTitle (title) {
+      return sanitizeTitle(title);
     },
-    sanitizeSummary: function(post) {
+    sanitizeSummary (post) {
       if (post.summary) {
         // console.log(post.summary);
         console.log(post.title + ': ' + post.title.length);
