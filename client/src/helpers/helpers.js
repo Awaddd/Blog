@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import moment from "moment";
 
 export function authHeader(postsOptions) {
 
@@ -38,4 +39,8 @@ export function getToken(){
 
 export function sanitizeTitle(title){
   return title.replace(/\s+/g, "-").toLowerCase();
+}
+
+export function formatDate(date){
+  return moment(date).format('MMMM Do YYYY');
 }

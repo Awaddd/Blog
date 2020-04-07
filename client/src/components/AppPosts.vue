@@ -15,8 +15,9 @@
           <div class="card-content">
             <p class="title is-6 is-capitalized">{{post.title}}</p>
             <div class="content">
-              {{sanitizeSummary(post)}}
-              <br>
+              
+              <p class="">{{sanitizeSummary(post)}}</p>
+              <p class="has-text-primary">Read More...</p>
             </div>
           </div>
         </router-link>
@@ -49,11 +50,10 @@ export default {
     },
     sanitizeSummary (post) {
       if (post.summary) {
-        // console.log(post.summary);
-        console.log(post.title + ': ' + post.title.length);
         let length = 100;
-        let summary = post.summary.substring(0, length);
-        return summary + '...';
+        let summary = post.summary;
+        if (summary.length > length) return summary + '...';
+        return summary;
       } 
     }
   }

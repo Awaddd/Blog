@@ -79,10 +79,9 @@
 
 <script>
 import PostsService from "@/services/PostsService";
-import moment from "moment";
 import { serverBus } from '../main';
 import { mapGetters } from 'vuex';
-import { sanitizeTitle } from '@/helpers/helpers';
+import { sanitizeTitle, formatDate} from '@/helpers/helpers';
 
 export default {
   data: function() {
@@ -118,7 +117,7 @@ export default {
     },
 
     formatDate(date) {
-      return moment(date).format('MMMM Do YYYY');
+      return formatDate(date);
     },
 
     async deletePost(post) {

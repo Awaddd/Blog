@@ -171,6 +171,7 @@ function validatePost(post) {
       .required(),
     summary: Joi.string()
       .min(5)
+      .max(100)
       .required(),
     content: Joi.string()
       // .min(100)

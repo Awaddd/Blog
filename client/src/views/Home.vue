@@ -2,9 +2,7 @@
   <div class="home">
 
     <header>
-      <!-- <app-nav :isHome="true"></app-nav> -->
 
-      <!-- <section class="hero my-gradient"> -->
       <section class="welcome-content is-medium has-text-centered">
         <img class="welcome-content-image" src="../assets/oasis.jpg" width="100%">
         <span class="welcome-content-shade"></span>
@@ -30,33 +28,39 @@
             <p class="level-item subtitle has-text-primary">Featured</p>
           </div>
           <div class="level-right">
-            <p class="level-item subtitle is-6"><strong>Feb 20, 2019</strong></p>
+            <p class="level-item subtitle is-6"><strong>{{formatDate(featuredPost.createdAt)}}</strong></p>
           </div>
         </nav>
 
         <div class="featured-post__image">
-          <img src="../assets/featured.jpeg">
+          <img :src="featuredPost.image">
+          <!-- <img src="../assets/featured.jpeg"> -->
         </div>
 
-        <h1 class="title is-size-5"> Google's AI can now predict heart disease just by scanning your eyes.</h1>
+        <h1 class="title is-5 is-size-6-mobile is-capitalized has-text-centered-mobile has-text-left-tablet featured-post__title"> {{featuredPost.title}} </h1>
 
-        <div class="read-more__button">
-          <button class="has-background-primary my-btn">READ MORE</button>
+        <div class="featured-post__read-more">
+          <!-- <button class="my-btn read-more-btn">READ MORE</button> -->
+          <b-button tag="router-link" :to="{
+              name: 'BlogPost',
+              params: {title: sanitizeTitle(featuredPost.title)}}" class="my-btn read-more-btn">Learn More
+          </b-button>
         </div>
       </section>
+
 
       <section class="section">
         <!-- add is-paddingless to remove padding on section -->
           <div class="container">
-          <p class="title is-size-5-mobile is-size-4 has-text-primary is-centered">Latest Posts</p>
-          <app-posts :showAmount="6"></app-posts>
-
+            <p class="title is-size-5-mobile is-size-4 has-text-primary has-text-centered my-page-title">Latest Posts</p>
+            <app-posts :showAmount="6"></app-posts>
           </div>          
 
       </section>
 
-    </main>
 
+
+    </main>
 
     <section class="section is-medium has-background-primary">
       <div class="container">
@@ -81,22 +85,44 @@
 // @ is an alias to /src
 import AppPosts from "@/components/AppPosts.vue";
 import Nav from "@/components/Nav.vue";
+import PostsService from "@/services/PostsService";
+import { formatDate, sanitizeTitle } from '@/helpers/helpers';
+
 
 export default {
   name: "home",
+  data () {
+    return {
+      featuredPost: {}
+    }
+  },
   components: {
     "app-posts": AppPosts,
     "app-nav": Nav
+  },
+  mounted () {
+    this.fetchFeaturedPost();
+  },
+  methods: {
+    async fetchFeaturedPost() {
+      console.log('featured post');
+      const tempPost = "google's-ai-can-now-predict-heart-disease-just-by-scanning-your-eyes.";
+      const response = await PostsService.fetchSinglePost({title: tempPost});
+      this.featuredPost = response.data;
+      console.log(response);
+    },
+    formatDate(date) {
+      return formatDate(date);
+    },
+    sanitizeTitle(title) {
+      return sanitizeTitle(title);
+    }
   }
 };
 </script>
 
 <style lang="scss">
 @import "../styles/app.scss";
-
-.my-gradient {
-  background-image: radial-gradient(circle at 10% 20%, #00f2fe 0%, #00dde9 50%, #00f2fe 100%);
-}
 
 .my-home-hero {
   margin: 0;
@@ -107,6 +133,25 @@ export default {
   grid-gap: 30px;
 }
 
+.featured-post__read-more {
+  display: grid;
+  margin: 0 auto;
+}
+
+ .read-more-btn {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 10px 20px;
+    height: auto;
+}
+
+.read-more-btn:hover {
+  background: #006fee;
+  color: #fff;
+  transition: all 0.2s ease-in-out;
+}
+
 .newsletter-group {
   display: grid;
   grid-gap: 15px;
@@ -115,16 +160,26 @@ export default {
 .newsletter-button {
   @extend .my-btn;
   // background: #f2ff00;
-  background: #ffe600;
-  color: #333;
+  // background: #ffe600;
+  background: #006fee;
+  color: #fff;
   font-weight: 700;
   font-size: 0.9rem;
   // text-transform: none;
   letter-spacing: 2px;
 }
 
+.newsletter-button:hover {
+  background: #004bd6;
+  transition: all 0.2s ease-in-out;
+}
+
 .newsletter-input {
   text-align: center;
+}
+
+.newsletter-input::placeholder {
+  font-size: 1rem;
 }
 
 .home {
@@ -149,63 +204,36 @@ export default {
     grid-gap: 15px;
 
     .featured-post {
-
+      
       padding: 3rem 1.5rem 0 1.5rem;
   
-      .featured-post__details {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        grid-template-rows: max-content max-content;
-        font-size: 0.6rem;
-
-        .featured-post__details__date {
-          justify-self: end;
-        }
-        grid-column-start: 1;
-        grid-column-end: 4;
-        grid-row-start: 1;
-        grid-row-end: 1;
-      }
-
       .featured-post__image {
         img {
           // max-width: 300px;
           width: 100%;
         }
-        grid-column-start: 1;
-        grid-column-end: 4;
-        grid-row-start: 2;
-        grid-row-end: 7;
       }
 
       .featured-post__title {
-        background: rgb(0, 0, 0);
-        color: #fff;
-        padding: 0.6rem;
-        grid-column-start: 1;
-        grid-column-end: 4;
-        grid-row-start: 4;
-        grid-row-end: 7;
-        opacity: 0.8;
+        margin-top: 10px;
       }
-
-      .read-more__button {
-        display: none;
-      }
+      
     }
-    // adds padding to latest, instead of using section
+
+    .my-page-title {
+      padding: 0 0 10px 0;
+    }
   }
 
 }
 
 @media only screen and (min-width: 700px) {
-  
-  .my-home-input {
-    width: 600px;
-    padding: 0.8rem 0.5rem;
+
+  .my-page-title {
+    padding: 20px 0 30px 0;
   }
 
-  .newsletter-group {
+.newsletter-group {
     display: grid;
     grid-template-columns: 1fr max-content;
     grid-gap: 15px;
@@ -216,6 +244,10 @@ export default {
       min-width: 500px;
     }
     margin: 0 auto;
+  }
+
+  .featured-post__read-more {
+    display: block;
   }
 
   .home {
@@ -229,20 +261,7 @@ export default {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         max-width: 100%;
-        grid-column-gap: 30px;
-
-        .featured-post__details {
-          font-size: 0.8rem;
-
-          grid-column-start: 1;
-          grid-column-end: 1;
-          grid-row-start: 1;
-          grid-row-end: 1;
-
-          .featured-post__details__date {
-            justify-self: end;
-          }
-        }
+        grid-column-gap: 50px;
 
         .featured-post__image {
           img {
@@ -255,43 +274,41 @@ export default {
         }
 
         .featured-post__title {
-          // background: #6F98EC;
-          background: 0;
-          color: #333;
-          padding: 0.4rem;
-          
-          grid-column-start: 1;
-          grid-column-end: 2;
-          grid-row-start: 2;
-          grid-row-end: 2;
-          opacity: 1;
-          padding: 0;
-          
-
-          // CANT BE H5 - CHANGE IN HTML !!!!!!!!
-          h5 {
-            font-size: 1.2rem;
-            line-height: 1.5;
-          }
+          margin: 0;
         }
-
-        .read-more__button {
-          display: block;
-        }
-
-
+        
       }
     }
   }
 }
 
+@media only screen and (min-width: 770px) {
+  .featured-post__read-more {
+    margin: 0;
+  }
+}
+
 @media only screen and (min-width: 1200px) {
+
   .newsletter-wrapper {
     grid-gap: 40px;
   }
 
   .featured-post {
     padding: 3rem 1.5rem 6rem 1.5rem;
+    display: grid;
+    grid-column-gap: 70px !important;
+  }
+
+  .read-more-btn {
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 16px 45px;
+  }
+
+  .newsletter-input::placeholder {
+    font-size: 1.1rem;
   }
 }
 </style>

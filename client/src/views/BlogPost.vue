@@ -43,6 +43,7 @@
 import PostsService from "@/services/PostsService";
 import Nav from "@/components/Nav.vue";
 import moment from "moment";
+import { formatDate } from '@/helpers/helpers';
 
 export default {
   data() {
@@ -65,7 +66,7 @@ export default {
       console.log(this.post.createdAt);
     },
     formatDate(date) {
-      return moment(date).format('MMMM Do, YYYY')
+      return formatDate(date);
     }
   }
 };
