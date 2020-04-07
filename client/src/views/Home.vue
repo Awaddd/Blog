@@ -65,8 +65,8 @@
             <h1 class="title is-3 has-text-white is-size-4-mobile">Newsletter</h1>
             <p class="subtitle is-5 has-text-white is-size-6-mobile">Want to be the first to know when a new article comes out?</p>
           </div>
-          <div class="newsletter-input">
-            <input type="email" placeholder="John.smith@mail.com" class="input is-medium">
+          <div class="newsletter-group">
+            <input type="email" placeholder="John.smith@mail.com" class="input is-medium newsletter-input">
             <button class="newsletter-button">Notify Me</button>
           </div>
         </div>
@@ -107,7 +107,7 @@ export default {
   grid-gap: 30px;
 }
 
-.newsletter-input {
+.newsletter-group {
   display: grid;
   grid-gap: 15px;
 }
@@ -121,6 +121,10 @@ export default {
   font-size: 0.9rem;
   // text-transform: none;
   letter-spacing: 2px;
+}
+
+.newsletter-input {
+  text-align: center;
 }
 
 .home {
@@ -201,7 +205,7 @@ export default {
     padding: 0.8rem 0.5rem;
   }
 
-  .newsletter-input {
+  .newsletter-group {
     display: grid;
     grid-template-columns: 1fr max-content;
     grid-gap: 15px;

@@ -6,137 +6,73 @@ const {verifyToken, signToken} = require('../helpers.js');
 const User = require("../models/user");
 const Post = require("../models/post");
 
-
-
 // get one user
-router.get("/:id", (req, res) => {
+router.get("/:id", async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.params.id }, "email firstName lastName isAdmin");
+    if (!user) res.status(404).send({success: false, message: 'User does not exist'});
+    res.status(200).send(user);
 
-  const user = req.params.id;
-  
-  console.log("---------------------");
-  console.log(`Finding by user id: ${user}`);
-  console.log("---------------------");
-
-  console.log("--------- ");
-
-  console.log(JSON.stringify(req.headers));
-  console.log("--------- ");
-
-
-  User.findOne({ _id: user }, "email firstName lastName isAdmin", function(
-    error,
-    user
-  ) {
-    if (error) {
-      console.log(`error: ${error}`);
-    }
-    console.log(user);
-    res.send(user);
-  });
+  } catch (error) {
+    console.log(error);
+  }
 });
-
-
-
-
-router.get("/",(req, res) => {
-  User.find({}, "email firstName lastName password isAdmin", function(error, users) {
-    if (error) {
-      console.error(eror);
-    }
-    res.send({
-      users: users
-    });
-  }).sort({ _id: -1});
-});
-
 
 // Register user
 
+router.post("/", async (req, res) => {
 
-router.post("/", (req, res) => {
-
-  console.log('hi here we are again');
-  console.log(req.body);
-  
   const { error } = validateUser(req.body);
   if (error) console.log(error.details[0].message);
   if (error) return res.status(400).send({success: false, message: error.details[0].message});
-  
-
-  console.log('hey here we arasdade aasadadagain');
 
   const {firstName, lastName, email, password} = req.body;
-
-  console.log(firstName);
-  console.log(lastName);
-  console.log(email);
-  console.log(password);
 
   const salt = bcrypt.genSaltSync(10);
   const hashedPassword = bcrypt.hashSync(req.body.password, salt);
 
- 
-  User.findOne({email: email}, "email, firstName, lastName, password, isAdmin", function(
-    error,
-    user
-  ) {
-    if (error) {
-      console.log(error);
-    } else if (user) {
-      res.status(409)
-        .send('User already exists.');
-    } else {
-      const new_user = new User({
-        email: email,
-        firstName: firstName,
-        lastName: lastName, 
-        password: hashedPassword,
-        isAdmin: false
-      });
+  try {
+    const existingUser = await User.findOne({ email: email }, "email, firstName, lastName, password, isAdmin");
+    if (existingUser) res.status(409).send({success: false, message: 'User does not exist'});
 
-      // const token = jwt.sign({ userID: user._id, isAdmin: user.isAdmin }, privateKey, {expiresIn: '7d'});
+    const new_user = new User({
+      email: email,
+      firstName: firstName,
+      lastName: lastName, 
+      password: hashedPassword,
+      isAdmin: false
+    });
 
+    const user = await new_user.save();
+    const token = signToken(user);
+    
+    res.send({
+      success: true,
+      message: "User created!",
+      user: token
+    });
 
-      new_user.save(function(error, user) {
-        if (error) {
-          console.log(error);
-        }
-
-        const token = signToken(user);
-
-        res.send({
-          success: true,
-          message: "User created!",
-          user: token
-        });
-      }) 
-    }
-  })
-
+  } catch (error) {
+    console.log(error);
+    // throw error;
+  }  
 });
-
-
 
 
 
 // Get posts for one user
 
-router.get("/:id/posts", (req, res) => {
-  
-  const userID = verifyToken(req).userID;
-
-  Post.find({author: userID}, "id title summary content image author createdAt", (error, posts) => {
-    if (error) {
-      console.log(error);
-    }
-    res.send({
-      posts: posts
-    });
-  }).sort({ _id: -1 });
+router.get("/:id/posts", async (req, res) => {
+  try {
+    const userID = verifyToken(req).userID;
+    const posts = await Post.find({ author: userID }, "id title summary content image author createdAt").sort({ _id: -1 });
+    if (!posts) res.status(404).send({success: false, message: 'Post does not exist'});
+    res.status(200).send({ posts: posts }); 
+  } catch (error) {
+    console.log(error);
+    // throw error;
+  }
 });
-
-
-
 
 
 // User validation
