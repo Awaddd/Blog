@@ -9,7 +9,13 @@ export default {
   },
 
   fetchSinglePost(params) {
-    return Api().get(`posts/${params.title}`);
+    return Api().get(`posts/${params.title}`)
+      .then(
+        response => { return response }
+      )
+      .catch(
+        error => { return error.response }
+      );
   },
 
   fetchSinglePostByID(id) {

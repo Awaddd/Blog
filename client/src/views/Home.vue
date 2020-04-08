@@ -115,6 +115,7 @@ export default {
       return formatDate(date);
     },
     sanitizeTitle(title) {
+      console.log('wat')
       return sanitizeTitle(title);
     }
   }

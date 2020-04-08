@@ -1,6 +1,6 @@
 <template>
   <div>
-    <section class="blogPost">
+    <section class="blogPost" v-if="post">
       <div class="has-text-centered">
         <h1 class="title is-3 is-size-4-mobile has-text-primary is-capitalized my-post-title">{{post.title}}</h1>
         <h3 class="subtitle is-size-5 is-size-6-mobile">{{post.summary}}</h3>
@@ -48,8 +48,8 @@ import { formatDate } from '@/helpers/helpers';
 export default {
   data() {
     return {
-      post: []
-    };
+      post: null
+    }
   },
   mounted() {
     this.getPosts();
@@ -59,11 +59,14 @@ export default {
       const response = await PostsService.fetchSinglePost({
         title: this.$route.params.title
       });
-      this.post = response.data;
-      console.log(response.data);
-      console.log(this.$route.params.title);
-      console.log(this.post.tags);
-      console.log(this.post.createdAt);
+      console.log(response);
+      if (response.data.success === false) {
+        console.log(response.data.message); 
+        this.$router.push('/404');
+      }  
+      else if (response.data && response.status === 200) {
+        this.post = response.data;
+      };
     },
     formatDate(date) {
       return formatDate(date);

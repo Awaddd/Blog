@@ -81,5 +81,16 @@ export default new Router({
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "about" */ "./views/Dashboard.vue")
-}
+  },
+  { 
+    path: "/404",
+    name: "404",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "./components/NotFound.vue")    
+  },
+  {
+    path: '*', 
+    redirect: '/404'
+  }
+
 ]});
