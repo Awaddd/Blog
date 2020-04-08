@@ -36,11 +36,11 @@ router.post("/", async (req, res) => {
   const hashedPassword = bcrypt.hashSync(req.body.password, salt);
 
   try {
-    const existingUser = await User.findOne({ email: email }, "email, firstName, lastName, password, isAdmin");
-    if (existingUser) res.status(409).send({success: false, message: 'User does not exist'});
+    const existingUser = await User.findOne({ email: email.toLowerCase() }, "email, firstName, lastName, password, isAdmin");
+    if (existingUser) res.status(409).send({success: false, message: 'An account with that email already exists'});
 
     const new_user = new User({
-      email: email,
+      email: email.toLowerCase(),
       firstName: firstName,
       lastName: lastName, 
       password: hashedPassword,

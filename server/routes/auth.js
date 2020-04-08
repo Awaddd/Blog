@@ -18,7 +18,7 @@ router.post("/", async (req, res) => {
 
   try {
 
-    const user = await User.findOne({ email: email}, "email password isAdmin");
+    const user = await User.findOne({ email: email.toLowerCase()}, "email password isAdmin");
     if (!user) return res.status(401).send({success: false, message: "Email is incorrect"});
 
     const passwordCompareSuccess = await bcrypt.compare(password, user.password);
