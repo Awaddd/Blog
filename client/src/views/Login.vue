@@ -8,20 +8,22 @@
         <div class="container">
 
           <section class="my-form-wrapper container">
-            <form class="my-form container" @keyup.enter="login">
+            <ValidationObserver ref="form" v-slot="{ handleSubmit }">
+            <form class="my-form container" @keyup.enter.prevent="handleSubmit(login)">
 
               <p class="title is-size-4 has-text-primary has-text-centered"><strong>Login</strong></p>
 
-              <BInputWithValidation rules="required|email" type="email" icon="email" placeholder="John.smith@mail.com" label="Email" v-model="email"/>
+              <BInputWithValidation vid="email" rules="required|email" type="email" icon="email" placeholder="John.smith@mail.com" label="Email" v-model="email"/>
 
-              <BInputWithValidation rules="required|min:7|max:30" type="password" icon="lock" label="Password"v-model="password" password-reveal/>
+              <BInputWithValidation vid="password" rules="required" type="password" icon="lock" label="Password"v-model="password" password-reveal/>
 
               <b-field>
-                <b-button type="is-primary my-login-button" expanded @click="login">Login</b-button>
+                <b-button type="submit" class="is-primary my-login-button" expanded @click="handleSubmit(login)">Login</b-button>
               </b-field>
 
               <p class="has-text-dark my-subtext">Don't have an account? <router-link to="/admin/register" class="btn-clear">Register here</router-link></p>
             </form>
+            </ValidationObserver>
           </section>
         </div>
       </div>
@@ -59,9 +61,16 @@ export default {
         });
 
         if (response.status !== 200) {
-
-          console.log('ERROR: ', response.data);
-          console.log(response.data);
+          
+          if (response.data.field.toLowerCase() === 'email') {
+            this.$refs.form.setErrors({
+              email: response.data.message
+            });
+          } else if (response.data.field.toLowerCase() === 'password'){
+            this.$refs.form.setErrors({
+              password: response.data.message
+            });
+          }
 
         } else if (response.status === 200 && response.data.user){
 

@@ -37,7 +37,7 @@ router.post("/", async (req, res) => {
 
   try {
     const existingUser = await User.findOne({ email: email.toLowerCase() }, "email, firstName, lastName, password, isAdmin");
-    if (existingUser) res.status(409).send({success: false, message: 'An account with that email already exists'});
+    if (existingUser) res.status(409).send({success: false, message: 'An account with that email already exists', field: 'email'});
 
     const new_user = new User({
       email: email.toLowerCase(),

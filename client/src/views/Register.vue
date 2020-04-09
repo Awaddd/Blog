@@ -8,24 +8,29 @@
         <div class="container">
 
           <section class="my-form-wrapper container">
-            <form class="my-form container" @keyup.enter="register">
-              <p class="title is-size-4 has-text-primary has-text-centered"><strong>Register</strong></p>
-              <BInputWithValidation rules="required|email" type="email" icon="email" placeholder="John.smith@mail.com" label="Email" v-model="email"/>
-              <BInputWithValidation rules="required|min:2|max:30" type="text" icon="account" placeholder="John" label="First Name" v-model="firstName"/>
-              <BInputWithValidation rules="required|min:2|max:30" type="text" icon="account-group" placeholder="Smith" label="Last Name" v-model="lastName"/>
-              
-              <ValidationObserver class="confirmPassword"> 
+            <ValidationObserver ref="form" v-slot="{ handleSubmit }">
+              <!-- <form class="my-form container" @submit.prevent="handleSubmit(register)"> -->
+              <form class="my-form container" @keyup.enter.prevent="handleSubmit(register)">
+                <p class="title is-size-4 has-text-primary has-text-centered"><strong>Register</strong></p>
+                <BInputWithValidation vid="email" rules="required|email" type="email" icon="email" placeholder="John.smith@mail.com" label="Email" v-model="email"/>
+                <BInputWithValidation rules="required|min:2|max:30" type="text" icon="account" placeholder="John" label="First Name" v-model="firstName"/>
+                <BInputWithValidation rules="required|min:2|max:30" type="text" icon="account-group" placeholder="Smith" label="Last Name" v-model="lastName"/>
+                
+                <ValidationObserver class="confirmPassword"> 
 
-                <BInputWithValidation rules="required|min:7|max:30" type="password" icon="lock" label="Password" vid="confirmation" v-model="password" password-reveal/>
-                <BInputWithValidation rules="required|min:7|max:30|confirmed:confirmation" type="password" icon="lock"  v-model="confirmPassword"  label="Confirm Password" password-reveal/>
+                  <BInputWithValidation rules="required|min:7|max:30" type="password" icon="lock" label="Password" vid="confirmation" v-model="password" password-reveal/>
+                  <BInputWithValidation rules="required|min:7|max:30|confirmed:confirmation" type="password" icon="lock"  v-model="confirmPassword"  label="Confirm Password" password-reveal/>
 
-              </validationObserver>
+                </validationObserver>
 
-              <b-field>
-                <b-button type="is-primary my-register-button" expanded @click="register">Register</b-button>
-              </b-field>
-              <p class="has-text-dark has-text-centered">Got an account? <router-link to="/admin/login" class="btn-clear">Click here to Login</router-link></p>
-            </form>
+                <b-field>
+                  <b-button type="submit" class="is-primary my-register-button" expanded @click="handleSubmit(register)">Register</b-button>
+                </b-field>
+                <p class="has-text-dark has-text-centered">Got an account? <router-link to="/admin/login" class="btn-clear">Click here to Login</router-link></p>
+                {{errorFeedback}}
+              </form>
+            </ValidationObserver>
+
           </section>
         </div>
       </div>
@@ -49,6 +54,7 @@ export default {
         lastName: null,
         password: null,
         confirmPassword: null,
+        errorFeedback: null
       }
   },
   components: {
@@ -59,6 +65,7 @@ export default {
   methods: {
       async register() {
         console.log(this.email, this.firstName, this.lastName, this.password, this.confirmPassword);
+
         if (this.password === this.confirmPassword){
 
           const response = await AuthService.register({
@@ -69,9 +76,13 @@ export default {
           })
           
 
-          console.log(response);
-
           if (response.status !== 200) {
+
+            if (response.data.field.toLowerCase() === 'email') {
+              this.$refs.form.setErrors({
+                email: response.data.message
+              });
+            }
 
             console.log('new post ERROR: ', response.data.message);
 

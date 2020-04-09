@@ -19,12 +19,12 @@ router.post("/", async (req, res) => {
   try {
 
     const user = await User.findOne({ email: email.toLowerCase()}, "email password isAdmin");
-    if (!user) return res.status(401).send({success: false, message: "Email is incorrect"});
+    if (!user) return res.status(401).send({success: false, message: "Email is incorrect", field: 'email'});
 
     const passwordCompareSuccess = await bcrypt.compare(password, user.password);
     
     if (passwordCompareSuccess === false) {
-      res.status(401).send({success: false, message: "Password is incorrect"});
+      res.status(401).send({success: false, message: "Password is incorrect", field: 'password'});
       return;
     } 
 
