@@ -122,6 +122,10 @@ router.patch('/:id', upload().none(), checkLoggedIn, isLoggedIn, async (req, res
   const {title, summary, content, tags} = req.body;
 
   try {
+
+    const existingPost = await Post.findOne({ title: title }, "title summary content image");
+    if (existingPost) res.status(400).send({ success: false, message: 'A post with that title already exists', field: 'title' });
+
     const post = await Post.findByIdAndUpdate(postID, {
       title: title.toLowerCase(),
       summary: summary,

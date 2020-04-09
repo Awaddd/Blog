@@ -4,8 +4,8 @@
       <form class="add-post-form" enctype="multipart/form-data" @key-up.enter.prevent="handleSubmit(addPost)">
         <p><strong>Create a post below</strong></p>
 
-        <BInputWithValidation vid="title" rules="required|min:7|max:150" icon="email" v-model="title" placeholder="Title" name="Title"/>
-        <BInputWithValidation rules="required|min:5|max:150" icon="email" v-model="summary" placeholder="Summary" name="Summary"/>
+        <BInputWithValidation vid="title" rules="required|min:7|max:150" v-model="title" placeholder="Title" name="Title"/>
+        <BInputWithValidation rules="required|min:5|max:150" v-model="summary" placeholder="Summary" name="Summary"/>
 
         <b-field >
           <b-taginput v-model="tags" ellipsis maxtags="6" placeholder="Add a tag">
@@ -45,7 +45,7 @@ import FormData from "form-data";
 import { serverBus } from '../main';
 import uploadFile from '@/components/uploadFile.vue';
 import PostsService from "@/services/PostsService";
-import { ValidationProvider, ValidationObserver } from 'vee-validate';
+import { ValidationObserver } from 'vee-validate';
 import BInputWithValidation from '@/buefyComponents/BInputWithValidation';
 import * as validationRules from '@/helpers/validation';
 import { sanitizeTitle } from '@/helpers/helpers';
@@ -116,7 +116,6 @@ export default {
   components: {
     quillEditor,
     uploadFile,
-    ValidationProvider,
     ValidationObserver,
     BInputWithValidation
   }

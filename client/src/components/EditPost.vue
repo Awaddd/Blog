@@ -1,42 +1,37 @@
 <template>
   <div class="create-posts">
-    <form class="add-post-form" enctype="multipart/form-data">
-      <p>Edit your post ID: {{postID}}</p>
+    <validationObserver ref="form" v-slot=" {handleSubmit} ">
+      <form class="add-post-form" enctype="multipart/form-data" @key-up.enter.prevent="handleSubmit(editPost)">
 
-      <ValidationProvider name="Title" v-slot="v" rules="required|min:7|max:150">
-        <b-input placeholder="Title" v-model="post.title"></b-input>
-        <p class="has-text-danger">{{v.errors[0]}}</p>
-      </ValidationProvider>
+        <p>Edit your post ID: {{postID}}</p>
+        <BInputWithValidation vid="title" rules="required|min:7|max:150" v-model="post.title" placeholder="Title" name="Title"/>
+        <BInputWithValidation rules="required|min:5|max:150" v-model="post.summary" placeholder="Summary" name="Summary"/>
 
-      <ValidationProvider name="Summary" v-slot="v" rules="required|min:3|max:150">
-        <b-input placeholder="Summary" v-model="post.summary"></b-input>
-        <p class="has-text-danger">{{v.errors[0]}}</p>
-      </ValidationProvider>
+        <b-field label="Add some tags to spice up your post">
+          <b-taginput v-model="post.tags" ellipsis maxtags="6" placeholder="Add a tag" class="is-primary">
+          </b-taginput>
+        </b-field>      
 
-      <b-field label="Add some tags to spice up your post">
-        <b-taginput v-model="post.tags" ellipsis maxtags="6" placeholder="Add a tag" class="is-primary">
-        </b-taginput>
-      </b-field>      
+        <!-- <div>
+          <uploadFile/>
+        </div> -->
 
-      <!-- <div>
-        <uploadFile/>
-      </div> -->
-
-      <div>
-        <quill-editor
-          v-model="post.content"
-          ref="myQuillEditor"
-          :options="editorOption"
-          @blur="onEditorBlur($event)"
-          @focus="onEditorFocus($event)"
-          @ready="onEditorReady($event)"
-          class="contentArea"
-        ></quill-editor>
-      </div>
-      <div>
-        <button class="button btn-action is-primary" @click.prevent="editPost">Update</button>
-      </div>
-    </form>
+        <div>
+          <quill-editor
+            v-model="post.content"
+            ref="myQuillEditor"
+            :options="editorOption"
+            @blur="onEditorBlur($event)"
+            @focus="onEditorFocus($event)"
+            @ready="onEditorReady($event)"
+            class="contentArea"
+          ></quill-editor>
+        </div>
+        <div>
+          <button class="button btn-action is-primary" @click.prevent="handleSubmit(editPost)">Update</button>
+        </div>
+      </form>
+    </validationObserver>
   </div>
 </template>
 
@@ -50,8 +45,9 @@ import FormData from "form-data";
 import { serverBus } from '../main';
 import uploadFile from '@/components/uploadFile.vue';
 import PostsService from "@/services/PostsService";
-import { ValidationProvider, ValidationObserver } from 'vee-validate';
+import { ValidationObserver } from 'vee-validate';
 import * as validationRules from '@/helpers/validation';
+import BInputWithValidation from '@/buefyComponents/BInputWithValidation';
 
 export default {
   data: function() {
@@ -93,11 +89,9 @@ export default {
   },
   methods: {
     async getPost() {
-      console.log("AOSHAOUDAHDUHSAID ", this.postID);
       const response = await PostsService.fetchSinglePostByID(this.postID);
       this.post = response.data;
       console.log(this.post);
-      console.log(this.post.title);
     },
 
     async editPost() {
@@ -112,6 +106,11 @@ export default {
       });
 
       if (response.status !== 200) {
+        if (response.data.field === 'title') {
+          this.$refs.form.setErrors({
+            title: response.data.message
+          });
+        }
         console.log('new post ERROR: ', response.data);
       } else if (response.status === 200){
         console.log(response.data.message);
@@ -123,7 +122,8 @@ export default {
   components: {
     quillEditor,
     uploadFile,
-    ValidationProvider
+    ValidationObserver,
+    BInputWithValidation
   },
   props: ['postID']
 };

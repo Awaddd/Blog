@@ -42,7 +42,7 @@
 
 import AuthService from "@/services/AuthService";
 import bcrypt from "bcryptjs";  
-import { ValidationProvider, ValidationObserver } from 'vee-validate';
+import { ValidationObserver } from 'vee-validate';
 import * as validationRules from '@/helpers/validation';
 import BInputWithValidation from '@/buefyComponents/BInputWithValidation';
 
@@ -58,7 +58,6 @@ export default {
       }
   },
   components: {
-    ValidationProvider,
     ValidationObserver,
     BInputWithValidation
   },
