@@ -85,7 +85,7 @@ router.post("/", upload().single('image'), checkLoggedIn, isLoggedIn, async (req
     const user = await User.findOne({ _id: userID}, "_id");
     const existingPost = await Post.findOne({ title: title }, "title summary content image");
 
-    if (existingPost) res.status(400).send({ success: false, message: 'Post already exists' });
+    if (existingPost) res.status(400).send({ success: false, message: 'A post with that title already exists', field: 'title' });
 
     const new_post = new Post({
       title: title,

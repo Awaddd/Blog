@@ -1,42 +1,37 @@
 <template>
   <div class="create-posts">
-    <form class="add-post-form" enctype="multipart/form-data">
-      <p><strong>Create a post below</strong></p>
+    <ValidationObserver ref="form" v-slot=" {handleSubmit} ">
+      <form class="add-post-form" enctype="multipart/form-data" @key-up.enter.prevent="handleSubmit(addPost)">
+        <p><strong>Create a post below</strong></p>
 
-      <ValidationProvider name="Title" v-slot="v" rules="required|min:7|max:150">
-        <b-input placeholder="Title" v-model="title"></b-input>
-        <p class="has-text-danger">{{v.errors[0]}}</p>
-      </ValidationProvider>
+        <BInputWithValidation vid="title" rules="required|min:7|max:150" icon="email" v-model="title" placeholder="Title" name="Title"/>
+        <BInputWithValidation rules="required|min:5|max:150" icon="email" v-model="summary" placeholder="Summary" name="Summary"/>
 
-      <ValidationProvider name="Summary" v-slot="v" rules="required|min:3|max:150">
-        <b-input placeholder="Summary" v-model="summary"></b-input>
-        <p class="has-text-danger">{{v.errors[0]}}</p>
-      </ValidationProvider>
+        <b-field >
+          <b-taginput v-model="tags" ellipsis maxtags="6" placeholder="Add a tag">
+          </b-taginput>
+        </b-field>      
 
-      <b-field >
-        <b-taginput v-model="tags" ellipsis maxtags="6" placeholder="Add a tag">
-        </b-taginput>
-      </b-field>      
+        <div>
+          <uploadFile/>
+        </div>
 
-      <div>
-        <uploadFile/>
-      </div>
-
-      <div>
-        <quill-editor
-          v-model="content"
-          ref="myQuillEditor"
-          :options="editorOption"
-          @blur="onEditorBlur($event)"
-          @focus="onEditorFocus($event)"
-          @ready="onEditorReady($event)"
-          class="contentArea"
-        ></quill-editor>
-      </div>
-      <div>
-        <button class="button btn-action is-primary" @click.prevent="addPost">Add</button>
-      </div>
-    </form>
+        <div>
+          <quill-editor
+            v-model="content"
+            ref="myQuillEditor"
+            :options="editorOption"
+            @blur="onEditorBlur($event)"
+            @focus="onEditorFocus($event)"
+            @ready="onEditorReady($event)"
+            class="contentArea"
+          ></quill-editor>
+        </div>
+        <div>
+          <button class="button btn-action is-primary" @click.prevent="handleSubmit(addPost)">Add</button>
+        </div>
+      </form>
+    </ValidationObserver>
   </div>
 </template>
 
@@ -51,6 +46,7 @@ import { serverBus } from '../main';
 import uploadFile from '@/components/uploadFile.vue';
 import PostsService from "@/services/PostsService";
 import { ValidationProvider, ValidationObserver } from 'vee-validate';
+import BInputWithValidation from '@/buefyComponents/BInputWithValidation';
 import * as validationRules from '@/helpers/validation';
 import { sanitizeTitle } from '@/helpers/helpers';
 
@@ -103,6 +99,13 @@ export default {
       });
 
       if (response.status !== 200) {
+
+        if (response.data.field === 'title') {
+          this.$refs.form.setErrors({
+            title: response.data.message
+          });
+        }
+
         console.log('new post ERROR: ', response.data);
       } else if (response.status === 200){
         console.log(response.data.message);
@@ -113,7 +116,9 @@ export default {
   components: {
     quillEditor,
     uploadFile,
-    ValidationProvider
+    ValidationProvider,
+    ValidationObserver,
+    BInputWithValidation
   }
 };
 </script>
