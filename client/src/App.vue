@@ -27,9 +27,20 @@ export default {
 <style lang="scss">
 @import "./styles/app.scss";
 
+body {
+
+}
+
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   height: 100%;
+  display: flex;
+  flex-direction: column;
 }
+
+.router-view {
+  flex: 1 0 auto;
+}
+
 </style>

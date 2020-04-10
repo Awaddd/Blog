@@ -8,6 +8,7 @@ export default {
     return Api().get("posts");
   },
 
+
   fetchSinglePost(params) {
     return Api().get(`posts/${params.title}`)
       .then(
@@ -18,10 +19,17 @@ export default {
       );
   },
 
+
   fetchSinglePostByID(id) {
     console.log('made it this faaar');
     return Api().get(`posts/id/${id}`);
   },
+
+
+  fetchFeaturedPost() {
+    return Api().get('/posts/featured');
+  },
+
 
   fetchUserPosts() {
     const user = localStorage.getItem('user');
@@ -29,6 +37,7 @@ export default {
     console.log(`decoded: ${decoded.userID}`);
     return Api().get(`users/${decoded.userID}/posts`);
   },
+
 
   addPosts(params) {
     console.log(params);
@@ -62,6 +71,7 @@ export default {
       }
     )
   },
+
   
   editPost(params) {
     console.log('inside edit posts service ', params);
@@ -94,8 +104,16 @@ export default {
     ) 
   },
 
+
   deletePost(id) {
     console.log('inside delete posts service');
     return Api().delete(`posts/${id}`);
+  },
+
+
+  updateFeaturedPost(postID) {
+    const user = localStorage.getItem('user');
+    let decoded = jwt.decode(user);
+    return Api().patch(`users/${decoded.userID}/${postID}`, {userID: decoded.userID, postID: postID}).then(response => response).catch(error => error.response);
   }
 }

@@ -25,6 +25,19 @@ router.get("/", async (req, res) => {
 
 
 
+// Get Featured Post
+
+router.get("/featured", async (req, res) => {
+  try {
+    const featuredPost = await Post.findOne( {featured: true }, "title summary content image tags author createdAt" );
+    if (!featuredPost) res.status(404).send({ success: false, message: 'Could not find a featured post' });
+    res.status(200).send(featuredPost);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+
 // Get One Post
 
 
@@ -49,6 +62,7 @@ router.get("/:title", async (req, res) => {
 });
 
 
+
 // Get post by ID
 
 
@@ -66,6 +80,8 @@ router.get("/id/:id", async (req, res) => {
 
 
 // Add new post
+
+
 router.post("/", upload().single('image'), checkLoggedIn, isLoggedIn, async (req, res) => {
 
   req.body.tags = JSON.parse(req.body.tags);

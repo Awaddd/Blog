@@ -21,14 +21,14 @@
 
     <main class="my-container home-content">
       
-      <section class="featured-post section">
+      <section class="featured-post section" v-if="featuredPost">
 
-        <nav class="level is-mobile">
+        <nav class="level is-mobile my-featured-level">
           <div class="level-left">
             <p class="level-item subtitle has-text-primary">Featured</p>
           </div>
           <div class="level-right">
-            <p class="level-item subtitle is-6"><strong>{{formatDate(featuredPost.createdAt)}}</strong></p>
+            <p class="level-item subtitle is-6"> <strong> {{formatDate(featuredPost.createdAt)}} </strong> </p>
           </div>
         </nav>
 
@@ -37,7 +37,26 @@
           <!-- <img src="../assets/featured.jpeg"> -->
         </div>
 
-        <h1 class="title is-5 is-size-6-mobile is-capitalized has-text-centered-mobile has-text-left-tablet featured-post__title"> {{featuredPost.title}} </h1>
+        <div class="my-featured-post-content">
+
+          <h1 class="title is-5 is-size-6-mobile is-capitalized has-text-centered-mobile has-text-left-tablet featured-post__title"> {{featuredPost.title}} </h1>
+
+          <div class="level featured-post-tags" v-if="featuredPost.tags">
+            <div class="level-item">
+              <div class="field is-grouped is-grouped-multiline" >
+                <div class="control" v-for="(tag, i) in featuredPost.tags.slice(0, 4)" :key="i">
+                  <div class="tags">
+                    <!-- <a class="tag is-link ">{{tag}}</a> -->
+                    <b-tag ellipsis>{{tag}}</b-tag>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+
 
         <div class="featured-post__read-more">
           <!-- <button class="my-btn read-more-btn">READ MORE</button> -->
@@ -49,13 +68,12 @@
       </section>
 
 
-      <section class="section">
+      <section class="section home-posts">
         <!-- add is-paddingless to remove padding on section -->
           <div class="container">
             <p class="title is-size-5-mobile is-size-4 has-text-primary has-text-centered my-page-title">Latest Posts</p>
             <app-posts :showAmount="6"></app-posts>
           </div>          
-
       </section>
 
 
@@ -93,7 +111,7 @@ export default {
   name: "home",
   data () {
     return {
-      featuredPost: {}
+      featuredPost: null
     }
   },
   components: {
@@ -106,8 +124,9 @@ export default {
   methods: {
     async fetchFeaturedPost() {
       console.log('featured post');
-      const tempPost = "google's-ai-can-now-predict-heart-disease-just-by-scanning-your-eyes.";
-      const response = await PostsService.fetchSinglePost({title: tempPost});
+      // const tempPost = "google's-ai-can-now-predict-heart-disease-just-by-scanning-your-eyes.";
+      // const tempPost = "the-latest-shitpost-from-senior-dev-top-waffler-junior-de-bunior";
+      const response = await PostsService.fetchFeaturedPost();
       this.featuredPost = response.data;
       console.log(response);
     },
@@ -115,7 +134,6 @@ export default {
       return formatDate(date);
     },
     sanitizeTitle(title) {
-      console.log('wat')
       return sanitizeTitle(title);
     }
   }
@@ -140,11 +158,11 @@ export default {
 }
 
  .read-more-btn {
-    font-size: 0.78rem;
-    font-weight: 700;
-    letter-spacing: 1px;
-    padding: 10px 20px;
-    height: auto;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 10px 20px;
+  height: auto;
 }
 
 .read-more-btn:hover {
@@ -207,6 +225,9 @@ export default {
     .featured-post {
       
       padding: 3rem 1.5rem 0 1.5rem;
+
+      display: grid;
+      grid-gap: 20px;
   
       .featured-post__image {
         img {
@@ -215,10 +236,6 @@ export default {
         }
       }
 
-      .featured-post__title {
-        margin-top: 10px;
-      }
-      
     }
 
     .my-page-title {
@@ -226,15 +243,24 @@ export default {
     }
   }
 
+   .my-featured-level {
+   margin-bottom: 0;
+ }
+
+  .home-posts {
+    margin: 0;
+    padding: 1rem 1.5rem;
+  }
+
 }
 
 @media only screen and (min-width: 700px) {
-
+  
   .my-page-title {
     padding: 20px 0 30px 0;
   }
 
-.newsletter-group {
+  .newsletter-group {
     display: grid;
     grid-template-columns: 1fr max-content;
     grid-gap: 15px;
@@ -263,6 +289,7 @@ export default {
         grid-template-columns: repeat(2, 1fr);
         max-width: 100%;
         grid-column-gap: 50px;
+        grid-row-gap: 10px;
 
         .featured-post__image {
           img {
@@ -274,10 +301,6 @@ export default {
           grid-row-end: 4;
         }
 
-        .featured-post__title {
-          margin: 0;
-        }
-        
       }
     }
   }
@@ -285,6 +308,10 @@ export default {
 
 @media only screen and (min-width: 770px) {
   .featured-post__read-more {
+    margin: 0;
+  }
+  .featured-post-tags {
+    display: grid !important;
     margin: 0;
   }
 }

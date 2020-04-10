@@ -1,6 +1,17 @@
 <template>
   <div class="posts-table">
     
+    <div class="select-featured-post">
+      <b-field label="Select a post to display on the homepage">
+        <b-select placeholder="Choose Post" expanded v-model="featuredPostID" @input="selectFeaturedPost()">
+          <option :value="post._id" v-for="(post, i) in tableData" :key="i">{{post.title}}</option>
+        </b-select>
+      </b-field>
+    </div>
+
+    <br>
+    <br>
+
     <template>
       <div v-if="!tableData">
         No posts at the moment
@@ -102,14 +113,26 @@ export default {
       ],
       currentPage: 1,
       perPage: 5,
-      paginationPosition: 'bottom'
+      paginationPosition: 'bottom',
+      featuredPostID: null
     }
+  },
+  computed: {
+    ...mapGetters({tableData : "getUserPosts"})
   },
   methods: {
     async getPosts() {
       const response = await PostsService.fetchUserPosts();
       this.$store.dispatch("SET_USER_POSTS", response.data.posts);
       // this.tableData = (response.data.posts);
+    },
+
+    async selectFeaturedPost() {
+      console.log('wafflah');
+      console.log(this.featuredPostID);
+    
+      const response = await PostsService.updateFeaturedPost(this.featuredPostID);
+      console.log(response);
     },
 
     sanitizeTitle: function(title) {
@@ -126,7 +149,6 @@ export default {
         this.$store.dispatch("DELETE_USER_POST", post);       
       }
     },
-
     editPost(post){
       console.log('posttable.vue');
       serverBus.$emit('editPost', post);
@@ -134,9 +156,6 @@ export default {
   },
   mounted () {
     this.getPosts();
-  },
-  computed: {
-    ...mapGetters({tableData : "getUserPosts"})
   }
 };
 </script>
