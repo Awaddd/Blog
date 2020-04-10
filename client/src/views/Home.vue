@@ -246,12 +246,13 @@ export default {
    margin-bottom: 0;
  }
 
+}
+
   .home-posts {
     margin: 0;
     padding: 1rem 1.5rem;
   }
 
-}
 
 @media only screen and (min-width: 700px) {
   
@@ -316,6 +317,11 @@ export default {
 }
 
 @media only screen and (min-width: 1200px) {
+
+  .home-posts {
+    margin: 0;
+    padding: 3rem 1.5rem;
+  }
 
   .newsletter-wrapper {
     grid-gap: 40px;
