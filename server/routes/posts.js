@@ -137,11 +137,7 @@ router.patch('/:id', upload().none(), checkLoggedIn, isLoggedIn, async (req, res
 
   const {title, summary, content, tags} = req.body;
 
-  try {
-
-    const existingPost = await Post.findOne({ title: title }, "title summary content image");
-    if (existingPost) res.status(400).send({ success: false, message: 'A post with that title already exists', field: 'title' });
-
+  try {    
     const post = await Post.findByIdAndUpdate(postID, {
       title: title.toLowerCase(),
       summary: summary,
@@ -150,12 +146,12 @@ router.patch('/:id', upload().none(), checkLoggedIn, isLoggedIn, async (req, res
     });
 
     if (!post) res.status(404).send({ success: false, message: 'Could not find post' });
-
-    res.status(200).send({ success: true, message: 'Post edited successfully' });
+    else res.status(200).send({ success: true, message: 'Post edited successfully' });
     
   } catch (error) {
-    console.log(error);
-    // throw(error);
+    // console.log(error);
+    if (error.code = '11000') res.status(404).send({success: false, message: 'Post with that title already exists', field: 'title', error});
+    throw(error);
   }
 });
 
