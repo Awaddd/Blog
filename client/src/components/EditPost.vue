@@ -12,9 +12,9 @@
           </b-taginput>
         </b-field>      
 
-        <!-- <div>
+        <div>
           <uploadFile/>
-        </div> -->
+        </div>
 
         <div>
           <quill-editor
@@ -102,7 +102,8 @@ export default {
         title: this.post.title.trim(),
         summary: this.post.summary,
         content: this.post.content,
-        tags: this.post.tags
+        tags: this.post.tags,
+        image: this.image
       });
 
       if (response.status !== 200) {

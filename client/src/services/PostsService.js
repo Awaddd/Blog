@@ -83,6 +83,7 @@ export default {
     formData.append("title", params.title);
     formData.append("summary", params.summary);
     formData.append("content", params.content);
+    formData.append("image", params.image, params.image.name);
     formData.append("tags", JSON.stringify(params.tags));
 
     return axios.patch(

@@ -128,7 +128,8 @@ router.post("/", upload().single('image'), checkLoggedIn, isLoggedIn, async (req
 // Update Post
 
 
-router.patch('/:id', upload().none(), checkLoggedIn, isLoggedIn, async (req, res) => {
+// router.patch('/:id', upload().none(), checkLoggedIn, isLoggedIn, async (req, res) => {
+router.patch('/:id', upload().single('image'), checkLoggedIn, isLoggedIn, async (req, res) => {
   const postID = req.params.id;
 
   req.body.tags = JSON.parse(req.body.tags);
@@ -136,13 +137,15 @@ router.patch('/:id', upload().none(), checkLoggedIn, isLoggedIn, async (req, res
   if (error) return res.status(400).send({success: false, message: error.details[0].message});
 
   const {title, summary, content, tags} = req.body;
+  const image = `${process.env.URL}/uploads/${req.file.filename}`;
 
   try {    
     const post = await Post.findByIdAndUpdate(postID, {
       title: title.toLowerCase(),
       summary: summary,
       content: content,
-      tags: tags
+      tags: tags,
+      image: image
     });
 
     if (!post) res.status(404).send({ success: false, message: 'Could not find post' });
