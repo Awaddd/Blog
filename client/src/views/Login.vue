@@ -1,8 +1,10 @@
 <template>
   <div class="">
     <section class="welcome-content is-fullheight">
-      <img class="welcome-content-image is-hidden-mobile" src="../assets/water2-min.jpg" width="100%">
-      <span class="welcome-content-shade is-hidden-mobile"></span>
+      <img class="welcome-content-image is-hidden-mobile" src="../assets/Flat-Mountains.svg" width="100%">
+      <!-- Got this svg background from https://www.svgbackgrounds.com/#flat-mountains -->
+
+      <!-- <span class="welcome-content-shade is-hidden-mobile"></span> -->
       <div class="hero-body my-login-hero">
         
         <div class="container">

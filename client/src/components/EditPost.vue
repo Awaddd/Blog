@@ -1,37 +1,88 @@
 <template>
   <div class="create-posts">
-    <validationObserver ref="form" v-slot=" {handleSubmit} ">
-      <form class="add-post-form" enctype="multipart/form-data" @key-up.enter.prevent="handleSubmit(editPost)">
 
-        <p>Edit your post ID: {{postID}}</p>
-        <BInputWithValidation vid="title" rules="required|min:7|max:150" v-model="post.title" placeholder="Title" name="Title"/>
-        <BInputWithValidation rules="required|min:5|max:150" v-model="post.summary" placeholder="Summary" name="Summary"/>
 
-        <b-field label="Add some tags to spice up your post">
-          <b-taginput v-model="post.tags" ellipsis maxtags="6" placeholder="Add a tag" class="is-primary">
-          </b-taginput>
-        </b-field>      
+        <b-steps v-model="activeStep" size="is-small">
+            <template v-for="(step, index) in baseSteps">
+                <b-step-item
+                    v-if="step.displayed"
+                    :key="index"
+                    :label="step.label">
 
-        <div>
-          <uploadFile/>
-        </div>
+                  <!-- <p class="has-text-centered">Skip any fields or steps you don't want to change.</p> -->
+                                        
+                  <validationObserver ref="form" v-slot=" {handleSubmit} ">
+                    <form class="add-post-form" enctype="multipart/form-data" @key-up.enter.prevent="handleSubmit(editPost)">
 
-        <div>
-          <quill-editor
-            v-model="post.content"
-            ref="myQuillEditor"
-            :options="editorOption"
-            @blur="onEditorBlur($event)"
-            @focus="onEditorFocus($event)"
-            @ready="onEditorReady($event)"
-            class="contentArea"
-          ></quill-editor>
-        </div>
-        <div>
-          <button class="button btn-action is-primary" @click.prevent="handleSubmit(editPost)">Update</button>
-        </div>
-      </form>
-    </validationObserver>
+                      <div class="stepOne my-step-wrapper" v-if="index === 0">
+                        <p class="subtitle is-size-5 has-text-centered">Title, Summary &amp; Tags</p>
+                        <div class="my-step-content">
+                          <BInputWithValidation vid="title" rules="required|min:7|max:150" v-model="post.title" placeholder="Title" name="Title"/>
+                          <BInputWithValidation rules="required|min:5|max:150" v-model="post.summary" placeholder="Summary" name="Summary"/>
+
+                          <b-field>
+                            <b-taginput v-model="post.tags" ellipsis maxtags="6" placeholder="Add a tag" class="is-primary">
+                            </b-taginput>
+                          </b-field>  
+                        </div>
+                      </div>
+
+                      <div class="stepTwo my-step-wrapper" v-if="index === 1">
+                        <p class="subtitle is-size-5 has-text-centered">Change Image?</p>
+                        <div class="my-step-content stepTwo-content">
+
+                            <img class="is-rounded my-edit-post-image" :src="post.image">
+
+
+                          <b-field>
+                              <b-upload v-model="newImage"
+                                drag-drop>
+                                  <section class="section">
+                                      <div class="content has-text-centered">
+                                          <p>
+                                              <b-icon
+                                                  icon="upload"
+                                                  size="is-large">
+                                              </b-icon>
+                                          </p>
+                                          <p>Drop your files here or click to upload</p>
+                                      </div>
+                                  </section>
+                              </b-upload>
+                          </b-field>  
+
+                        </div>        
+                      </div>
+
+
+
+                      <div class="stepThree my-step-wrapper" v-if="index === 2">
+                        <p class="subtitle is-size-5 has-text-centered">Content &amp; Submit</p>
+
+                        <div class="my-step-content">
+                          <div>
+                            <quill-editor
+                              v-model="post.content"
+                              ref="myQuillEditor"
+                              :options="editorOption"
+                              @blur="onEditorBlur($event)"
+                              @focus="onEditorFocus($event)"
+                              @ready="onEditorReady($event)"
+                              class="contentArea"
+                            ></quill-editor>
+                          </div>
+                          <div>
+                            <button class="button btn-action is-primary" @click.prevent="handleSubmit(editPost)">Update</button>
+                          </div>
+                        </div>
+                      </div>
+
+                    </form>
+                  </validationObserver>
+                </b-step-item>
+            </template>
+        </b-steps>
+
   </div>
 </template>
 
@@ -58,6 +109,7 @@ export default {
       content: "",
       tags: [],
       image: "",
+      newImage: null,
       editorOption: {
         modules: {
           toolbar: [
@@ -76,7 +128,8 @@ export default {
             highlight: text => hljs.highlightAuto(text).value
           }
         }
-      }
+      },
+      activeStep: 0
     };
   },
   created() {
@@ -86,6 +139,22 @@ export default {
   },
   mounted () {
     this.getPost();
+  },
+  computed: {
+    baseSteps() {
+      return [{
+        label: 'Step One',
+        displayed: true
+      },
+      {
+        label: 'Step Two',
+        displayed: true
+      },
+      {
+        label: 'Step Three',
+        displayed: true
+      }]
+    }
   },
   methods: {
     async getPost() {
@@ -97,14 +166,17 @@ export default {
     async editPost() {
       this.tags = this.tags.slice(0, 6);
 
-      const response = await PostsService.editPost({
+      const editPostParams = {
         id: this.postID,
         title: this.post.title.trim(),
         summary: this.post.summary,
         content: this.post.content,
-        tags: this.post.tags,
-        image: this.image
-      });
+        tags: this.post.tags
+      }
+
+      if (this.newImage) editPostParams.image = this.newImage;
+
+      const response = await PostsService.editPost(editPostParams);
 
       if (response.status !== 200) {
         if (response.data.field === 'title') {
@@ -145,22 +217,62 @@ export default {
 .add-post-form {
   width: 100%;
   box-sizing: border-box;
-  display: grid;
-  grid-gap: 20px;
 
-  div input,
-  div textarea,
-  div button {
-    width: 100%;
-  }
-  h2 {
-    margin: 0;
-  }
+  // div input,
+  // div textarea,
+  // div button {
+  //   width: 100%;
+  // }
 }
 
+.my-step-wrapper {
+  // background: red;
+  padding: 2rem 0;
+  display: grid;
+}
 
-@media only screen and (min-width: 700px) {
+.my-step-content {
+  display: grid;
+  grid-gap: 15px;
+}
 
+.step-navigation {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: max-content max-content;
+}
+
+.my-figure, .my-upload-button {
+  display: grid;
+  justify-content: center;
+  justify-items: center;
+}
+
+.my-figure {
+    width: 300px;
+    margin: 0 auto;
+}
+
+.my-edit-post-image {
+  width: 300px;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.stepTwo-content {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  align-content: center;
+  align-items: center;
+  justify-items: center;
+  justify-self: center;
+}
+
+@media only screen and (min-width: 770px) {
+  .stepTwo-content {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+  }
 }
 
 @media only screen and (min-width: 1200px) {

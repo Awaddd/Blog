@@ -68,7 +68,7 @@ router.get("/:title", async (req, res) => {
 
 router.get("/id/:id", async (req, res) => {
   try {
-    const post = await Post.findOne({ _id: req.params.id }, "title summary content tags");
+    const post = await Post.findOne({ _id: req.params.id }, "title summary content tags image");
     if (!post) res.status(404).send({ success: false, message: 'Post not found' });
     res.status(200).send(post);
   } catch (error) {
@@ -137,16 +137,24 @@ router.patch('/:id', upload().single('image'), checkLoggedIn, isLoggedIn, async 
   if (error) return res.status(400).send({success: false, message: error.details[0].message});
 
   const {title, summary, content, tags} = req.body;
-  const image = `${process.env.URL}/uploads/${req.file.filename}`;
+
+  let image = null;
+
+  if (req.file) {
+    image = `${process.env.URL}/uploads/${req.file.filename}`;
+  }
 
   try {    
-    const post = await Post.findByIdAndUpdate(postID, {
+    const updatedPost = {
       title: title.toLowerCase(),
       summary: summary,
       content: content,
       tags: tags,
-      image: image
-    });
+    }
+
+    if (image) updatedPost.image = image;
+
+    const post = await Post.findByIdAndUpdate(postID, updatedPost);
 
     if (!post) res.status(404).send({ success: false, message: 'Could not find post' });
     else res.status(200).send({ success: true, message: 'Post edited successfully' });

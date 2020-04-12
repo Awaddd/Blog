@@ -1,8 +1,10 @@
 <template>
   <div class="">
     <section class="welcome-content is-fullheight">
-      <img class="welcome-content-image is-hidden-mobile" src="../assets/water2-min.jpg" width="100%">
-      <span class="welcome-content-shade is-hidden-mobile"></span>
+      <img class="welcome-content-image is-hidden-mobile" src="../assets/Sun-Tornado.svg" width="100%">
+      <!-- Got this svg background from https://www.svgbackgrounds.com/#sun-tornado -->
+      
+      <!-- <span class="welcome-content-shade is-hidden-mobile"></span> -->
       <div class="hero-body">
         
         <div class="container">
