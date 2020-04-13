@@ -71,8 +71,8 @@ router.get("/:id/posts", async (req, res) => {
   try {
     const userID = verifyToken(req).userID;
     const posts = await Post.find({ author: userID }, "id title summary content image author createdAt featured").sort({ _id: -1 });
-    if (!posts) res.status(404).send({success: false, message: 'User does not have any posts'});
-    res.status(200).send({ posts: posts }); 
+    if (posts.length < 1) res.status(404).send({success: false, message: 'User does not have any posts'});
+    else res.status(200).send({ posts: posts }); 
   } catch (error) {
     console.log(error);
     // throw error;

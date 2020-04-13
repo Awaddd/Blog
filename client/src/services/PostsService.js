@@ -35,7 +35,9 @@ export default {
     const user = localStorage.getItem('user');
     let decoded = jwt.decode(user);
     console.log(`decoded: ${decoded.userID}`);
-    return Api().get(`users/${decoded.userID}/posts`);
+    return Api().get(`users/${decoded.userID}/posts`)
+      .then(response => { return response })
+      .catch(error => { return error.response });
   },
 
 
