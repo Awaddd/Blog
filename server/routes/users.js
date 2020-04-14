@@ -6,7 +6,24 @@ const {verifyToken, signToken} = require('../helpers.js');
 const User = require("../models/user");
 const Post = require("../models/post");
 
-// get one user
+
+
+
+router.get("/profile/:id", async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.params.id }, "email firstName lastName password isAdmin");
+    if (!user) res.status(404).send({success: false, message: 'User does not exist'});
+    else res.status(200).send(user);
+
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+
+
+// get one user 
+
 
 router.get("/:id", async (req, res) => {
   try {

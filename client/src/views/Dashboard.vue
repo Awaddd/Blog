@@ -22,7 +22,18 @@
 
                 <div class="menu-label my-icon-group">
                   <div class="field is-grouped my-icon-group">
-                    <b-icon icon="book-open-variant" type="is-primary"></b-icon>
+                    <b-icon icon="account" type="is-dark"></b-icon>
+                    <p class="is-size-5 title">Account</p>
+                  </div>
+                </div>
+
+                <ul class="menu-list">
+                  <li><a @click="setActive('profile')">Profile</a></li>
+                </ul>
+
+                <div class="menu-label my-icon-group">
+                  <div class="field is-grouped my-icon-group">
+                    <b-icon icon="book-open-variant" type="is-dark"></b-icon>
                     <p class="is-size-5 title">Posts</p>
                   </div>
                 </div>
@@ -34,7 +45,7 @@
 
                 <div class="menu-label my-icon-group">
                   <div class="field is-grouped my-icon-group">
-                    <b-icon icon="view-dashboard" type="is-primary"></b-icon>
+                    <b-icon icon="view-dashboard" type="is-dark"></b-icon>
                     <p class="title is-size-5">Journals</p>
                   </div>
                 </div>
@@ -46,7 +57,7 @@
 
                 <div class="menu-label my-icon-group">
                   <div class="field is-grouped my-icon-group">
-                    <b-icon icon="view-dashboard" type="is-primary"></b-icon>
+                    <b-icon icon="view-dashboard" type="is-dark"></b-icon>
                     <p class="title is-size-5">Stories</p>
                   </div>
                 </div>
@@ -74,6 +85,10 @@
             </section>
 
             <div class="dashboard-content-wrapper">
+
+              <section v-if="this.activeItem === 'profile'">
+                <profile></profile>
+              </section>
 
               <section v-if="this.activeItem === 'allPosts'">
                 <posts-table></posts-table>
@@ -108,6 +123,7 @@ import Nav from "@/components/Nav.vue";
 import NewPost from "@/components/NewPost.vue";
 import PostsTable from "@/components/PostsTable.vue";
 import EditPost from "@/components/EditPost.vue";
+import Profile from "@/components/Profile.vue";
 import {getToken} from "@/helpers/helpers";
 import { serverBus } from '../main';
 import { mapGetters } from 'vuex';
@@ -125,7 +141,8 @@ export default {
     "app-nav": Nav,
     "new-post": NewPost,
     "posts-table": PostsTable,
-    "edit-post": EditPost
+    "edit-post": EditPost,
+    Profile
     },
     created() {
       serverBus.$on('editPost', (post) => {
