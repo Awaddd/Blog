@@ -1,23 +1,36 @@
 <template>
   <div class="posts-table">
 
+    <nav class="dashboard-breadcrumbs" aria-label="breadcrumbs">
+      <p class="is-size-5-mobile">
+        <span>Dashboard / </span> 
+        <span>Posts / </span> 
+        <span class="dashboard-breadcrumbs-current">All</span>
+      </p>
+    </nav>    
+
     <div class="my-placeholder-message" v-if="!tableData">
       <p class="subtitle is-5 is-size-6-mobile has-text-success has-text-centered">You don't have any posts at the moment. Click below to get started!</p>
       <button class="my-btn" @click="startWriting">Start Writing</button>
     </div>
     
-    <div v-else>
+    <div class="posts-table-content" v-else>
 
       <div class="select-featured-post">
-        <b-field label="Select a post to display on the homepage">
+        <b-field label="Featured Post"  custom-class="is-size-7-mobile is-size-7-tablet">
           <b-select placeholder="Choose Post" expanded v-model="featuredPostID" @input="selectFeaturedPost()">
             <option :value="post._id" v-for="(post, i) in tableData" :key="i">{{post.title}}</option>
           </b-select>
         </b-field>
       </div>
 
-      <br>
-      <br>
+
+      <div class="searchPosts">
+        <b-field label="search"  custom-class="is-size-7-mobile is-size-7-tablet">
+          <b-input type="search" icon-right="magnify" placeholder="The name of the wind..."></b-input>
+        </b-field>
+      </div>
+
 
       <template>
         <div v-if="!tableData">
@@ -119,7 +132,7 @@ export default {
         }
       ],
       currentPage: 1,
-      perPage: 5,
+      perPage: 3,
       paginationPosition: 'bottom',
       featuredPostID: null
     }
@@ -180,6 +193,16 @@ export default {
   justify-items: center; 
 }
 
+.posts-table {
+  display: grid;
+  grid-gap: 30px;
+}
+
+.posts-table-content {
+  display: grid;
+  grid-gap: 20px;
+}
+
 @media only screen and (min-width: 770px) {
 
   .my-btn {
@@ -187,6 +210,7 @@ export default {
     font-weight: 700;
     letter-spacing: 1.5px;
   }
+  
 
 }
 

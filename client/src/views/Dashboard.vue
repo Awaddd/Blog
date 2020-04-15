@@ -1,255 +1,234 @@
 <template>
-    <section class="section wallpaper-wrapper">
-      <div class="container">
+  <section class="my-dashboard">
+    <div class="container">
+      <div class="has-background-white dashboard-container">
+        <!-- aside/sidebar -->
+        <div class="dashboard-nav-wrapper">
 
-        <div class="columns is-tablet dashboard-wrapper has-background-white">
-          <div class="column is-3-tablet is-2-desktop dashboard-aside-wrapper">
-
-            <div class="my-burger-wrapper">
-              <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-              </a>
+          <div class="dashboard-nav">
+            <div class="dashboard-menu-header">
+              <b-icon icon="view-dashboard"></b-icon>
+              <span>Dashboard</span>
             </div>
 
-            <aside class="menu dashboard-aside" role="navigation" aria-label="main navigation">
 
-              <div class="dashboard-aside-content-wrapper">
-                <div class="dashboard-aside-header">
-                  <h5 class="is-size-5">Manage Posts</h5>
-                </div>
-
-                <div class="menu-label my-icon-group">
-                  <div class="field is-grouped my-icon-group">
-                    <b-icon icon="account" type="is-dark"></b-icon>
-                    <p class="is-size-5 title">Account</p>
-                  </div>
-                </div>
-
-                <ul class="menu-list">
-                  <li><a @click="setActive('profile')">Profile</a></li>
-                </ul>
-
-                <div class="menu-label my-icon-group">
-                  <div class="field is-grouped my-icon-group">
-                    <b-icon icon="book-open-variant" type="is-dark"></b-icon>
-                    <p class="is-size-5 title">Posts</p>
-                  </div>
-                </div>
-
-                <ul class="menu-list">
-                  <li><a @click="setActive('allPosts')">All Posts</a></li>
-                  <li><a @click="setActive('newPost')">New Post</a></li>
-                </ul>
-
-                <div class="menu-label my-icon-group">
-                  <div class="field is-grouped my-icon-group">
-                    <b-icon icon="view-dashboard" type="is-dark"></b-icon>
-                    <p class="title is-size-5">Journals</p>
-                  </div>
-                </div>
-
-                <ul class="menu-list">
-                  <li><a>All Journals</a></li>
-                  <li><a>New Journal</a></li>
-                </ul>
-
-                <div class="menu-label my-icon-group">
-                  <div class="field is-grouped my-icon-group">
-                    <b-icon icon="view-dashboard" type="is-dark"></b-icon>
-                    <p class="title is-size-5">Stories</p>
-                  </div>
-                </div>
-                
-                <ul class="menu-list">
-                  <li><a>All Stories</a></li>
-                  <li><a>New Story</a></li>
-                </ul>
+            <div class="dashboard-menu-group">
+              <div class="dashboard-menu-item-parent">
+                <b-icon icon="book-open"></b-icon>
+                <span>Posts</span>
               </div>
 
-            </aside>
+              <p class="dashboard-menu-item-child">All</p>
+              <p class="dashboard-menu-item-child">New</p>
 
+            </div>
+
+            <div class="dashboard-menu-group">
+              <div class="dashboard-menu-item-parent">
+                <b-icon icon="book-variant"></b-icon>
+                <span>Journals</span>
+              </div>
+              <p class="dashboard-menu-item-child">All</p>
+              <p class="dashboard-menu-item-child">New</p>
+            </div>
+
+            <div class="dashboard-menu-group">
+              <div class="dashboard-menu-item-parent">
+                <b-icon icon="account"></b-icon>
+                <span>Account</span>
+              </div>
+              
+              <p class="dashboard-menu-item-child">Profile</p>
+
+            </div>
 
           </div>
 
-          <div class="column">
+        </div>
 
-            <section class="hero is-small">
-              <div class="hero-body">
-                <div class="container has-text-centered">
-                  <h1 class="title has-text-primary">Dashboard</h1>
-                  <p class="subtitle is-size-5">Manage your blog here <span class="is-capitalized">{{user.firstName}}</span></p>
-                </div>
-              </div>
-            </section>
+        <!-- main window -->
+        <div class="dashboard-content-wrapper section">
+          <div class="container dashboard-content">
 
-            <div class="dashboard-content-wrapper">
-
-              <section v-if="this.activeItem === 'profile'">
-                <profile></profile>
-              </section>
-
-              <section v-if="this.activeItem === 'allPosts'">
+            <section>
                 <posts-table></posts-table>
-              </section>
-                
-
-              <section v-if="this.activeItem === 'newPost'"> 
-                <div class="container new-post-wrapper">
-                  <new-post></new-post>
-                </div>
-              </section>
-
-              <section v-if="this.activeItem === 'editPost'"> 
-                <div class="container new-post-wrapper">
-                  <edit-post :postID="postID"></edit-post>
-                </div>
-              </section>
-
-            </div>
+            </section>
 
           </div>
         </div>
-       </div>
 
-    </section>
+
+      </div>
+    </div>
+  </section>
 </template>
 
 <script>
-
-import AuthService from "@/services/AuthService";
-import Nav from "@/components/Nav.vue";
-import NewPost from "@/components/NewPost.vue";
 import PostsTable from "@/components/PostsTable.vue";
-import EditPost from "@/components/EditPost.vue";
-import Profile from "@/components/Profile.vue";
-import {getToken} from "@/helpers/helpers";
-import { serverBus } from '../main';
-import { mapGetters } from 'vuex';
 
 export default {
-    data () {
-      return {
-        user: {
-
-        },
-        postID: ''
-      }
-    },
-    components: {
-    "app-nav": Nav,
-    "new-post": NewPost,
-    "posts-table": PostsTable,
-    "edit-post": EditPost,
-    Profile
-    },
-    created() {
-      serverBus.$on('editPost', (post) => {
-        console.log(`${post}`);
-        this.$store.dispatch("SET_ACTIVE_DASHBOARD_TAB", 'editPost');
-        this.postID = post;
-      })
-    },
-    mounted() {
-      this.getAdminData();
-    },
-    methods: {
-      async getAdminData() {
-
-        const decoded = getToken();
-        if(decoded) {
-          const response = await AuthService.fetchUserData(decoded.userID);
-          this.user = response.data;
-          console.log(this.user);
-        }
-      },  
-      setActive (item) {
-        this.$store.dispatch("SET_ACTIVE_DASHBOARD_TAB", item);
-      }
-    },
-    computed: {
-      ...mapGetters({activeItem: 'getActiveDashboardTab'})
-    }
+  components: {
+    "posts-table": PostsTable
+  }
 }
 </script>
-
 
 <style lang="scss">
 @import "../styles/app.scss";
 
-html, body {
-  height: 100%;
-}
-
-
-.wallpaper-wrapper {
-  background-image: url("../assets/email-pattern.png");
-  min-height: 100%;
-}
-
-.dashboard-aside-wrapper {
-  // background-color: rgb(250, 253, 255);
-  background-color: #fff;
-  border: 1px solid #eeeeee;
-  margin: 0;
-  padding: 0;
-}
-
-.dashboard-aside {
-  // background-color: #fff;
-  padding: 0.75rem;
+html {
   box-sizing: border-box;
 }
-
-.my-burger-wrapper {
-  background: #fff;
+*, *:before, *:after {
+  box-sizing: inherit;
 }
 
-.dashboard-aside-content-wrapper {
-  padding: 1rem;
-  // background: #fff;
-  display: grid;
+  .dashboard-nav-wrapper {
+    background: #313137;
+    color: #fff;
+    // margin-top: 1rem;
+    // padding: 0;
+    font-size: 1rem;
+  }
+
+  .dashboard-nav {
+    padding: 1.3rem 0;
+  }
+
+  .dashboard-nav, .dashboard-menu-group {
+    display: grid;
+    grid-gap: 17px;
+  }
+
+  .dashboard-menu-header, .dashboard-menu-item-parent, .dashboard-menu-item-child {
+    padding: 0 1.5rem;
+  }
+
+  .dashboard-menu-header {
+    // padding-top: 1.3rem; 
+    // padding-bottom: 1.3rem;
+    font-weight: 600;
+  }
+
+  .dashboard-menu-header, .dashboard-menu-item-parent {
+    display: grid;
+    grid-template-columns: max-content max-content;
+    grid-column-gap: 10px;
+  }
+
+  .dashboard-menu-item-parent {
+    background: #24242A;
+    padding-top: 0.7rem; padding-bottom: 0.7rem;
+  }
+  
+  .dashboard-menu-item-child {
+    margin-left: 2.3rem;
+  }
+
+  // End sidebar
+
+  .dashboard-content-wrapper {
+  }
+
+  .dashboard-content {
+
+  }
+
+  .dashboard-breadcrumbs {
+    font-weight: 600;
+  }
+
+  .dashboard-breadcrumbs-current {
+    color: $primary;
+    font-weight: 700;
+  }
+
+
+@media only screen and (min-width: 700px) {
+
+  .dashboard-content-wrapper {
+    margin: 0 auto;
+    padding-left: 5rem; padding-right: 5rem;
+  }
+
 }
 
-.dashboard-aside-header {
-  margin-bottom: 1rem;
+@media only screen and (min-width: 1000px) {
+
+  .my-dashboard {
+    background-image: url("../assets/Liquid-Cheese.svg");
+    background-attachment: fixed;
+    background-size: cover;
+    height: 100%;    
+  }
+
+  .dashboard-nav-wrapper {
+    font-size: 1rem;
+  }
+
+  .dashboard-container {
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    max-width: 90%;
+    // max-height: 600px;
+    margin: 60px auto;
+    min-height: 550px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+  }
+
+  .dashboard-content-wrapper {
+    padding-top: 1.5rem;
+    padding-left: 2rem;
+    padding-bottom: 0;
+    padding-right: 2rem;
+    margin: 0;
+    // max-height: inherit;
+    // overflow: scroll;
+  }
+
 }
 
-.dashboard-content-wrapper {
-  padding: 2rem 0;
-}
 
-.my-icon-group {
-  display: grid !important;
-  grid-template-columns: auto auto;
-  grid-column-gap: 0.6rem;
-  text-transform: capitalize;
-}
-
-
-// @media (max-width:1200px) and (min-width:800px) {
-//   .wallpaper-wrapper  {
-//     background: red;
-//   }
-// }
 
 @media only screen and (min-width: 1200px) {
 
-  .dashboard-wrapper {
+  .dashboard-nav-wrapper {
+
+  }
+
+  .dashboard-container {
     min-height: 600px;
   }
 
   .dashboard-content-wrapper {
-    padding: 2rem;
+    padding-top: 2rem;
+    padding-bottom: 1rem;
   }
+
+}
+
+@media only screen and (min-width: 1400px) {
+
+
+  .dashboard-container {
+    margin: 75px auto;
+    min-height: 650px;
+  }
+
+
 }
 
 
 @media only screen and (min-width: 1600px) {
-  .dashboard-wrapper {
-    min-height:  800px;
+
+
+  .dashboard-container {
+    margin: 85px auto;
+    min-height: 700px;
   }
+
+
 }
+
 
 </style>
