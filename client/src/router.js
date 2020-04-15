@@ -15,36 +15,18 @@ const router = new Router({
     {
       path: "/posts",
       name: "Posts",
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () =>
         import(/* webpackChunkName: "about" */ "./views/Posts.vue")
     },
-    // {
-    //   path: "/posts/new",
-    //   name: "NewPost",
-    //   // route level code-splitting
-    //   // this generates a separate chunk (about.[hash].js) for this route
-    //   // which is lazy-loaded when the route is visited.
-    //   component: () =>
-    //     import(/* webpackChunkName: "about" */ "./views/NewPost.vue")
-    // },
     {
       path: "/posts/:title",
       name: "BlogPost",
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () =>
         import(/* webpackChunkName: "about" */ "./views/BlogPost.vue")
     },
     {
       path: "/admin/login",
       name: "Login",
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       beforeEnter: (to, from, next) => {
         const user = localStorage.getItem('user');
         user ? next('/') : next();
@@ -55,9 +37,6 @@ const router = new Router({
     {
       path: "/admin/register",
       name: "Register",
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       beforeEnter: (to, from, next) => {
         const user = localStorage.getItem('user');
         user ? next('/') : next();
@@ -67,7 +46,6 @@ const router = new Router({
   },
   {
     path: "/dashboard",
-    name: "Dashboard",
     beforeEnter: (to, from, next) => {
       console.log("Message from the router.");
       const user = localStorage.getItem('user');
@@ -76,11 +54,34 @@ const router = new Router({
       if (!user) next("/admin/login");
       else next();
     },
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "./views/Dashboard.vue")
+      import(/* webpackChunkName: "about" */ "./views/Dashboard.vue"),
+    children: [
+      {
+        path: '',
+        name: "Dashboard",
+        component: () =>
+          import("./components/dashboard/Overview.vue")
+      },
+      {
+        path: 'profile',
+        name: 'newPost',
+        component: () =>
+          import("./components/dashboard/Profile.vue")
+      },
+      {
+        path: 'posts/all',
+        name: 'postsTable',
+        component: () =>
+          import("./components/dashboard/PostsTable.vue")
+      },
+      {
+        path: 'posts/new',
+        name: 'newPost',
+        component: () =>
+          import("./components/dashboard/PostsNew.vue")
+      }
+    ]
   },
   { 
     path: "/404",

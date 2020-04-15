@@ -1,5 +1,14 @@
 <template>
   <div class="create-posts">
+
+    <nav class="dashboard-breadcrumbs" aria-label="breadcrumbs">
+      <p class="is-size-5-mobile">
+        <span>Dashboard / </span> 
+        <span>Posts / </span> 
+        <span class="dashboard-breadcrumbs-current">New</span>
+      </p>
+    </nav>    
+
     <ValidationObserver ref="form" v-slot=" {handleSubmit} ">
       <form class="add-post-form" enctype="multipart/form-data" @key-up.enter.prevent="handleSubmit(addPost)">
         <p><strong>Create a post below</strong></p>
@@ -42,7 +51,6 @@ import "quill/dist/quill.bubble.css";
 
 import { quillEditor } from "vue-quill-editor";
 import FormData from "form-data";
-import { serverBus } from '../main';
 import uploadFile from '@/components/uploadFile.vue';
 import PostsService from "@/services/PostsService";
 import { ValidationObserver } from 'vee-validate';
@@ -79,11 +87,6 @@ export default {
         }
       }
     };
-  },
-  created() {
-    serverBus.$on('fileSelected', (file) => {
-      this.image = file;
-    })
   },
   methods: {
     async addPost() {
@@ -124,14 +127,14 @@ export default {
 
 
 <style lang="scss">
-@import "../styles/app.scss";
 
 .ql-container {
   min-height: 150px;
 }
 
 .create-posts {
-  background: #ffffff;
+  display: grid;
+  grid-gap: 30px;
 }
 
 .add-post-form {
@@ -160,6 +163,8 @@ export default {
 }
 
 @media only screen and (min-width: 1600px) {
-
+  .create-posts {
+    grid-gap: 50px;
+  }
 }
 </style>

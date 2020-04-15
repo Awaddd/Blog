@@ -14,12 +14,23 @@
 
             <div class="dashboard-menu-group">
               <div class="dashboard-menu-item-parent">
+                <b-icon icon="account"></b-icon>
+                <span>Account</span>
+              </div>
+              
+              <router-link tag="a" class="dashboard-menu-item-child" :to="{path: '/dashboard' }">Overview</router-link>
+              <router-link tag="a" class="dashboard-menu-item-child" :to="{path: '/dashboard/profile' }">Profile</router-link>
+
+            </div>
+
+            <div class="dashboard-menu-group">
+              <div class="dashboard-menu-item-parent">
                 <b-icon icon="book-open"></b-icon>
                 <span>Posts</span>
               </div>
 
-              <p class="dashboard-menu-item-child">All</p>
-              <p class="dashboard-menu-item-child">New</p>
+              <router-link tag="a" class="dashboard-menu-item-child" :to="{path: '/dashboard/posts/all' }">All</router-link>
+              <router-link tag="a" class="dashboard-menu-item-child" :to="{path: '/dashboard/posts/new' }">New</router-link>
 
             </div>
 
@@ -28,18 +39,8 @@
                 <b-icon icon="book-variant"></b-icon>
                 <span>Journals</span>
               </div>
-              <p class="dashboard-menu-item-child">All</p>
-              <p class="dashboard-menu-item-child">New</p>
-            </div>
-
-            <div class="dashboard-menu-group">
-              <div class="dashboard-menu-item-parent">
-                <b-icon icon="account"></b-icon>
-                <span>Account</span>
-              </div>
-              
-              <p class="dashboard-menu-item-child">Profile</p>
-
+              <router-link tag="a" class="dashboard-menu-item-child" :to="{path: '/' }">All</router-link>
+              <router-link tag="a" class="dashboard-menu-item-child" :to="{path: '/' }">New</router-link>
             </div>
 
           </div>
@@ -47,13 +48,9 @@
         </div>
 
         <!-- main window -->
-        <div class="dashboard-content-wrapper section">
-          <div class="container dashboard-content">
-
-            <section>
-                <posts-table></posts-table>
-            </section>
-
+        <div class="dashboard-content-wrapper">
+          <div class="section dashboard-content">
+            <router-view/>
           </div>
         </div>
 
@@ -64,11 +61,11 @@
 </template>
 
 <script>
-import PostsTable from "@/components/PostsTable.vue";
+// import PostsTable from "@/components/PostsTable.vue";
 
 export default {
   components: {
-    "posts-table": PostsTable
+    // "posts-table": PostsTable
   }
 }
 </script>
@@ -125,14 +122,16 @@ html {
     margin-left: 2.3rem;
   }
 
+  .dashboard-menu-group a {
+    color: #fff;
+  }
+
+  .dashboard-menu-group a:hover {
+    background-color: $primary;
+    transition: 0.2s ease-in-out all;
+  }
+
   // End sidebar
-
-  .dashboard-content-wrapper {
-  }
-
-  .dashboard-content {
-
-  }
 
   .dashboard-breadcrumbs {
     font-weight: 600;
@@ -143,12 +142,20 @@ html {
     font-weight: 700;
   }
 
+  .dashboard-view {
+    display: grid;
+    grid-gap: 30px;
+  }
+
 
 @media only screen and (min-width: 700px) {
 
   .dashboard-content-wrapper {
-    margin: 0 auto;
-    padding-left: 5rem; padding-right: 5rem;
+    display: grid;
+    align-content: center;
+    align-items: center;
+    justify-items: center;
+    justify-content: center
   }
 
 }
@@ -163,71 +170,62 @@ html {
   }
 
   .dashboard-nav-wrapper {
-    font-size: 1rem;
+    font-size: 0.8rem;
   }
 
   .dashboard-container {
     display: grid;
     grid-template-columns: 1fr 4fr;
-    max-width: 90%;
-    // max-height: 600px;
-    margin: 60px auto;
+    margin-top: 2rem;
     min-height: 550px;
     box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
   }
 
   .dashboard-content-wrapper {
-    padding-top: 1.5rem;
-    padding-left: 2rem;
-    padding-bottom: 0;
-    padding-right: 2rem;
-    margin: 0;
-    // max-height: inherit;
-    // overflow: scroll;
+    display: block;
   }
 
 }
 
 
-
 @media only screen and (min-width: 1200px) {
 
   .dashboard-nav-wrapper {
-
+    font-size: 0.9rem;
   }
+
 
   .dashboard-container {
-    min-height: 600px;
-  }
-
-  .dashboard-content-wrapper {
-    padding-top: 2rem;
-    padding-bottom: 1rem;
+    margin-top: 3rem;
+    min-height: 625px;
   }
 
 }
 
 @media only screen and (min-width: 1400px) {
 
-
-  .dashboard-container {
-    margin: 75px auto;
-    min-height: 650px;
+  .dashboard-nav-wrapper {
+    font-size: 1rem;
   }
 
+  .dashboard-container {
+    margin: 5rem auto;
+    min-height: 650px;
+    max-width: 1200px;
+  }
 
 }
 
 
 @media only screen and (min-width: 1600px) {
 
-
-  .dashboard-container {
-    margin: 85px auto;
-    min-height: 700px;
+  .dashboard-view {
+    grid-gap: 50px;
   }
 
-
+  .dashboard-container {
+    min-height: 750px;
+  }
 }
 
 

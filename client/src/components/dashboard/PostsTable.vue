@@ -1,5 +1,5 @@
 <template>
-  <div class="posts-table">
+  <div class="dashboard-view">
 
     <nav class="dashboard-breadcrumbs" aria-label="breadcrumbs">
       <p class="is-size-5-mobile">
@@ -17,7 +17,7 @@
     <div class="posts-table-content" v-else>
 
       <div class="select-featured-post">
-        <b-field label="Featured Post"  custom-class="is-size-7-mobile is-size-7-tablet">
+        <b-field label="Featured Post" horizontal custom-class="is-size-7-mobile is-size-7-tablet is-size-6-desktop">
           <b-select placeholder="Choose Post" expanded v-model="featuredPostID" @input="selectFeaturedPost()">
             <option :value="post._id" v-for="(post, i) in tableData" :key="i">{{post.title}}</option>
           </b-select>
@@ -26,7 +26,7 @@
 
 
       <div class="searchPosts">
-        <b-field label="search"  custom-class="is-size-7-mobile is-size-7-tablet">
+        <b-field label="search" horizontal custom-class="is-size-7-mobile is-size-7-tablet is-size-6-desktop">
           <b-input type="search" icon-right="magnify" placeholder="The name of the wind..."></b-input>
         </b-field>
       </div>
@@ -110,7 +110,7 @@
 
 <script>
 import PostsService from "@/services/PostsService";
-import { serverBus } from '../main';
+// import { serverBus } from '../main';
 import { mapGetters } from 'vuex';
 import { sanitizeTitle, formatDate} from '@/helpers/helpers';
 
@@ -193,11 +193,6 @@ export default {
   justify-items: center; 
 }
 
-.posts-table {
-  display: grid;
-  grid-gap: 30px;
-}
-
 .posts-table-content {
   display: grid;
   grid-gap: 20px;
@@ -212,6 +207,9 @@ export default {
   }
   
 
+}
+
+@media only screen and (min-width: 1600px) {
 }
 
 </style>
