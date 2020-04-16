@@ -8,84 +8,90 @@
         <span class="dashboard-breadcrumbs-current">New</span>
       </p>
     </nav>    
+    
     <div class="dashboard-newPost-content">
-      <b-steps v-model="activeStep" size="is-small">
-        <template v-for="(step, index) in baseSteps">
-            <b-step-item
-                v-if="step.displayed"
-                :key="index"
-                :label="step.label">
+      <validationObserver ref="form" v-slot=" {handleSubmit} ">
+        <form class="add-post-form" enctype="multipart/form-data" @key-up.enter.prevent="handleSubmit(editPost)">
 
-              <!-- <p class="has-text-centered">Skip any fields or steps you don't want to change.</p> -->
-                                    
-              <validationObserver ref="form" v-slot=" {handleSubmit} ">
-                <form class="add-post-form" enctype="multipart/form-data" @key-up.enter.prevent="handleSubmit(editPost)">
+          <b-tabs v-model="activeStep" position="is-centered" type="is-toggle">
+            <b-tab-item label="Step 1">
+            
+              <div class="stepOne my-step-wrapper">
+                <p class="subtitle is-size-5 has-text-centered">Title, Summary &amp; Tags</p>
+                <div class="my-step-content">
+                  <BInputWithValidation vid="title" rules="required|min:7|max:150"  placeholder="Title" name="Title"/>
+                  <BInputWithValidation rules="required|min:5|max:150"  placeholder="Summary" name="Summary"/>
 
-                  <div class="stepOne my-step-wrapper" v-if="index === 0">
-                    <p class="subtitle is-size-5 has-text-centered">Title, Summary &amp; Tags</p>
-                    <div class="my-step-content">
-                      <BInputWithValidation vid="title" rules="required|min:7|max:150"  placeholder="Title" name="Title"/>
-                      <BInputWithValidation rules="required|min:5|max:150"  placeholder="Summary" name="Summary"/>
+                  <b-field>
+                    <b-taginput  ellipsis maxtags="6" placeholder="Add a tag" class="is-primary">
+                    </b-taginput>
+                  </b-field>  
+                </div>
+              </div>
+            </b-tab-item>
+            <b-tab-item label="Step 2">
+              
+              <div class="stepTwo my-step-wrapper">
+                <p class="subtitle is-size-5 has-text-centered">Upload Image</p>
+                <div class="my-step-content stepTwo-content">
 
-                      <b-field>
-                        <b-taginput  ellipsis maxtags="6" placeholder="Add a tag" class="is-primary">
-                        </b-taginput>
-                      </b-field>  
-                    </div>
+                  <b-field>
+                      <b-upload
+                        drag-drop>
+                          <section class="section">
+                              <div class="content has-text-centered">
+                                  <p>
+                                      <b-icon
+                                          icon="upload"
+                                          size="is-large">
+                                      </b-icon>
+                                  </p>
+                                  <p>Drop your files here or click to upload</p>
+                              </div>
+                          </section>
+                      </b-upload>
+                  </b-field>  
+
+                </div>        
+              </div>
+            </b-tab-item>
+
+            <b-tab-item label="Step 3"> 
+
+              <div class="stepThree my-step-wrapper">
+                <p class="subtitle is-size-5 has-text-centered">Content &amp; Submit</p>
+
+                <div class="my-step-content stepThree-content">
+                  <div>
+                    <quill-editor
+                      v-model="post.content"
+                      ref="myQuillEditor"
+                      :options="editorOption"
+                      @blur="onEditorBlur($event)"
+                      @focus="onEditorFocus($event)"
+                      @ready="onEditorReady($event)"
+                      class="contentArea"
+                    ></quill-editor>
                   </div>
-
-                  <div class="stepTwo my-step-wrapper" v-if="index === 1">
-                    <p class="subtitle is-size-5 has-text-centered">Change Image?</p>
-                    <div class="my-step-content stepTwo-content">
-
-                      <b-field>
-                          <b-upload
-                            drag-drop>
-                              <section class="section">
-                                  <div class="content has-text-centered">
-                                      <p>
-                                          <b-icon
-                                              icon="upload"
-                                              size="is-large">
-                                          </b-icon>
-                                      </p>
-                                      <p>Drop your files here or click to upload</p>
-                                  </div>
-                              </section>
-                          </b-upload>
-                      </b-field>  
-
-                    </div>        
+                  <div class="stepThree-content-buttons">
+                    <b-button class="">Full Screen Editor</b-button>
+                    <b-button expanded class="is-primary" @click.prevent="handleSubmit(editPost)">Update</b-button>
                   </div>
+                </div>
+              </div>
+            </b-tab-item>
+          </b-tabs>
+        </form>
+      </validationObserver>
+      
+
+      <div class="step-navigation">
+
+        <b-button class="my-step-buttons" @click="prevStep"> <b-icon icon="chevron-left"></b-icon> </b-button>
+        <b-button class="my-step-buttons" @click="nextStep"> <b-icon icon="chevron-right"></b-icon> </b-button>
+      </div>
 
 
-
-                  <div class="stepThree my-step-wrapper" v-if="index === 2">
-                    <p class="subtitle is-size-5 has-text-centered">Content &amp; Submit</p>
-
-                    <div class="my-step-content">
-                      <div>
-                        <quill-editor
-                          v-model="post.content"
-                          ref="myQuillEditor"
-                          :options="editorOption"
-                          @blur="onEditorBlur($event)"
-                          @focus="onEditorFocus($event)"
-                          @ready="onEditorReady($event)"
-                          class="contentArea"
-                        ></quill-editor>
-                      </div>
-                      <div>
-                        <b-button expanded class="is-primary" @click.prevent="handleSubmit(editPost)">Update</b-button>
-                      </div>
-                    </div>
-                  </div>
-
-                </form>
-              </validationObserver>
-            </b-step-item>
-        </template>
-    </b-steps>
     </div>
         
 
@@ -138,6 +144,14 @@ export default {
   },
   mounted () {
   },
+  methods: {
+    prevStep() {
+      if (this.activeStep > 0) this.activeStep = this.activeStep - 1;
+    },
+    nextStep() {
+      if (this.activeStep <= 1) this.activeStep = this.activeStep + 1;
+    }
+  },
   computed: {
     baseSteps() {
       return [{
@@ -170,10 +184,13 @@ export default {
 //   justify-content: center;
 // }
 
+.ql-editor {
+  min-height: 100px;
+}
+
 .my-step-wrapper {
   // background: red;
-  padding: 2rem 0;
-  display: grid;
+  padding: 0.5rem 0;
 }
 
 .my-step-content {
@@ -186,6 +203,10 @@ export default {
   justify-content: center;
   grid-template-columns: max-content max-content;
 }
+
+// .my-step-buttons {
+//   box-sizing: border-box;
+// }
 
 .my-figure, .my-upload-button {
   display: grid;
@@ -213,10 +234,51 @@ export default {
   justify-self: center;
 }
 
+.stepThree-content {
+}
+
+.stepThree-content-buttons {
+  display: grid;
+  justify-content: center;
+  grid-gap: 10px;
+}
+
 @media only screen and (min-width: 770px) {
   .stepTwo-content {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     grid-template-rows: 1fr;
   }
+  .stepThree-content-buttons {
+  }
 }
+
+@media only screen and (min-width: 1000px) {
+  .ql-editor {
+    max-height: 100px;
+  }
+
+  .stepThree-content-buttons {
+    grid-template-columns: max-content max-content;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .ql-editor {
+    max-height: 150px;
+  }
+
+}
+
+@media only screen and (min-width: 1600px) {
+  .my-step-wrapper {
+    padding: 1rem 0;
+  }
+  .ql-editor {
+    max-height: 250px;
+  }
+  .stepThree-content-buttons {
+    grid-template-columns: 1fr;
+  }
+}
+
 </style>

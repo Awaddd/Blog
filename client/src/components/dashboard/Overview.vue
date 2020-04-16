@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="dashboard-view">
 
     <nav class="dashboard-breadcrumbs" aria-label="breadcrumbs">
       <p class="is-size-5-mobile">

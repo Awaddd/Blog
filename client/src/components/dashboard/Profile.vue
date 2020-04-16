@@ -11,8 +11,8 @@
     <section class="hero is-primary is-small">
       <div class="hero-body">
         <div class="container">
-          <h1 class="title is-size-4-mobile is-size-4-tablet is-size-3">Hi Awad</h1>
-          <h2 class="subtitle is-size-6-mobile is-size-6-tablet is-size-5">This is your dashboard. Manage all your content here as well
+          <h1 class="title is-size-4-mobile is-size-5-tablet is-size-4-desktop">Hi Awad</h1>
+          <h2 class="subtitle is-size-6-mobile is-size-7-tablet is-size-6-desktop">This is your dashboard. Manage all your content here as well
             as account optiins.
           </h2>
         </div>
@@ -46,28 +46,26 @@
           <img class="author-picture" src="https://bulma.io/images/placeholders/128x128.png">
         </figure>
         <b-button class="is-primary">Edit</b-button>
+        <!-- <b-button class="is-primary">Edit</b-button> -->
       </div>
 
       <div class="profile-content">
-        <b-field horizontal label="bio">
+        <b-field horizontal label="bio" custom-class="is-small">
           <b-input maxlength="200" type="textarea" disabled value="asodhoahdsaudsa hiuadhiauhsaiudh usihai dhahidahi dhasidha asdosadhaudhaso ahodah ohdohasodh saodha haodha odhuoadhoshdaou dhsd saohdaodh saohad" ></b-input>
         </b-field>
-        <b-field horizontal label="Email Name">
+        <b-field horizontal label="Email Name" custom-class="is-small">
           <b-input :value="user.email" disabled></b-input>
         </b-field>
-        <b-field horizontal label="First Name">
+        <b-field horizontal label="First Name" custom-class="is-small">
           <b-input :value="user.firstName" disabled></b-input>
         </b-field>
-        <b-field horizontal label="Last Name">
+        <b-field horizontal label="Last Name" custom-class="is-small">
           <b-input :value="user.lastName" disabled></b-input>
         </b-field>  
-        <b-field horizontal label="Password">
+        <b-field horizontal label="Password" custom-class="is-small">
           <b-input type="password" :value="user.password" disabled></b-input>
         </b-field>
       </div>
-
-      
-
 
     </div>
 
@@ -110,6 +108,8 @@ export default {
     grid-template-columns: max-content max-content;
     grid-gap: 30px;
     align-items: center;
+    justify-items: center;
+    justify-content: center;
     // grid-row: 1/2;
   }
 
@@ -141,4 +141,13 @@ export default {
     grid-column: 2/3;
   }
 }
+
+@media only screen and (min-width: 1000px) { 
+
+  .profile-image-group {
+
+  }
+
+}
+
 </style>

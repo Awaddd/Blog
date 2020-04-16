@@ -177,7 +177,7 @@ html {
     display: grid;
     grid-template-columns: 1fr 4fr;
     margin-top: 2rem;
-    min-height: 550px;
+    min-height: 610px;
     box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
   }
 
@@ -185,6 +185,10 @@ html {
     display: block;
   }
 
+  .dashboard-view {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
 }
 
 
@@ -221,6 +225,8 @@ html {
 
   .dashboard-view {
     grid-gap: 50px;
+    padding-left: 2rem;
+    padding-right: 2rem;
   }
 
   .dashboard-container {
