@@ -1,6 +1,6 @@
 <template>
   <div>
-    <section class="blogPost" v-if="post">
+    <section class="blogPost section" v-if="post">
       <div class="has-text-centered">
         <h1 class="title is-3 is-size-4-mobile has-text-primary is-capitalized my-post-title">{{post.title}}</h1>
         <h3 class="subtitle is-size-5 is-size-6-mobile">{{post.summary}}</h3>
@@ -89,7 +89,7 @@ export default {
 }
 
 .blogPost {
-  margin: 3rem 1.5rem;
+  margin: 0 1.5rem;
   line-height: 1.5;
 }
 
@@ -113,7 +113,7 @@ export default {
 @media only screen and (min-width: 700px) {
   .blogPost {
     width: 70%;
-    margin: 5rem auto;
+    margin: 0 auto;
   }
   .level {
     display: grid;
@@ -145,7 +145,7 @@ export default {
 @media only screen and (min-width: 1600px) {
   .blogPost {
     width: 50%;
-    margin: 5rem auto;
+    margin: 0 auto;
   }
   .cover-image {
     max-height: 300px;

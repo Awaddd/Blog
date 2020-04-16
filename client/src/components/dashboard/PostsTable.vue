@@ -168,12 +168,7 @@ export default {
       }
     },
     editPost(post){
-      console.log('posttable.vue');
-      console.log('olool, ', post);
-      // this.$router.push({ path: '/dashboard/posts/edit', params: { postID: post }});
-      // this.$router.push({ name: 'PostsEdit', params: {title: post} });
-      this.$router.push({ name: "PostsEdit", params: {postID: post } });
-      // serverBus.$emit('editPost', post);
+      this.$router.push({ name: "EditPost", params: {postID: post } });
     },
 
     startWriting () {

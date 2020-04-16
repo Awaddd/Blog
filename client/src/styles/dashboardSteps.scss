@@ -1,0 +1,75 @@
+.ql-editor {
+  min-height: 100px;
+}
+
+.my-step-wrapper {
+  padding: 0.5rem 0;
+}
+
+.my-step-content {
+  display: grid;
+  grid-gap: 15px;
+}
+
+.my-step-navigation {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: max-content max-content;
+  grid-gap: 10px;
+}
+
+.stepTwo-content {
+  display: grid;
+  grid-gap: 10px;
+  justify-items: center;
+  justify-content: center;
+}
+
+.stepTwo-image {
+  max-width: 300px;
+}
+
+
+.stepThree-content-buttons {
+  display: grid;
+  justify-content: center;
+  grid-gap: 10px;
+}
+
+
+@media only screen and (min-width: 1000px) {
+  .ql-editor {
+    max-height: 100px;
+  }
+  
+  .stepTwo-content {
+    grid-gap: 20px;
+  }
+
+  .stepThree-content-buttons {
+    grid-template-columns: max-content max-content;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .ql-editor {
+    max-height: 150px;
+  }  
+
+  .stepTwo-image {
+    max-width: 350px;
+  }
+
+}
+
+@media only screen and (min-width: 1600px) {
+  .my-step-wrapper {
+    padding: 1rem 0;
+  }
+  .ql-editor {
+    max-height: 250px;
+  }
+  .stepThree-content-buttons {
+    grid-template-columns: 1fr;
+  }
+}

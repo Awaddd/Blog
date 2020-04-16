@@ -49,10 +49,12 @@
         <!-- <b-button class="is-primary">Edit</b-button> -->
       </div>
 
+            
       <div class="profile-content">
         <b-field horizontal label="bio" custom-class="is-small">
           <b-input maxlength="200" type="textarea" disabled value="asodhoahdsaudsa hiuadhiauhsaiudh usihai dhahidahi dhasidha asdosadhaudhaso ahodah ohdohasodh saodha haodha odhuoadhoshdaou dhsd saohdaodh saohad" ></b-input>
         </b-field>
+
         <b-field horizontal label="Email Name" custom-class="is-small">
           <b-input :value="user.email" disabled></b-input>
         </b-field>

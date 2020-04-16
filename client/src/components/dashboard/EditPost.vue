@@ -5,13 +5,13 @@
       <p class="is-size-5-mobile">
         <span>Dashboard / </span> 
         <span>Posts / </span> 
-        <span class="dashboard-breadcrumbs-current">New</span>
+        <span class="dashboard-breadcrumbs-current">Edit</span>
       </p>
     </nav>    
     
-    <div class="dashboard-newPost-content">
+    <div class="">
       <validationObserver ref="form" v-slot=" {handleSubmit} ">
-        <form class="add-post-form" enctype="multipart/form-data" @key-up.enter.prevent="handleSubmit(addPost)">
+        <form class="add-post-form" enctype="multipart/form-data" v-if="post" @key-up.enter.prevent="handleSubmit(editPost)">
 
           <b-tabs v-model="activeStep" position="is-centered" type="is-toggle">
             <b-tab-item label="Step 1">
@@ -19,11 +19,11 @@
               <div class="stepOne my-step-wrapper">
                 <p class="subtitle is-size-5 has-text-centered">Title, Summary &amp; Tags</p>
                 <div class="my-step-content">
-                  <BInputWithValidation vid="title" rules="required|min:7|max:150" v-model="title" placeholder="Example Title ..." horizontal label="Title"/>
-                  <BInputWithValidation rules="required|min:5|max:150" v-model="summary" placeholder="The future of the..." horizontal label="Summary"/>
+                  <BInputWithValidation vid="title" rules="required|min:7|max:150" v-model="post.title" placeholder="Example Title ..." horizontal label="Title"/>
+                  <BInputWithValidation rules="required|min:5|max:150" v-model="post.summary" placeholder="The future of the..." horizontal label="Summary"/>
 
                   <b-field horizontal label="Tags">
-                    <b-taginput v-model="tags" ellipsis maxtags="6" placeholder="Technology, Survival, Cooking" class="is-primary">
+                    <b-taginput v-model="post.tags" ellipsis maxtags="6">
                     </b-taginput>
                   </b-field>  
                 </div>
@@ -34,21 +34,14 @@
               <div class="stepTwo my-step-wrapper">
                 <p class="subtitle is-size-5 has-text-centered">Upload Image</p>
                 <div class="my-step-content stepTwo-content">
+                  
+                  <figure class="stepTwo-image">
+                    <img :src="post.image"></img>
+                  </figure>
 
                   <b-field>
-                      <b-upload v-model="image"
-                        drag-drop>
-                          <section class="section">
-                              <div class="content has-text-centered">
-                                  <p>
-                                      <b-icon
-                                          icon="upload"
-                                          size="is-large">
-                                      </b-icon>
-                                  </p>
-                                  <p>Drop your files here or click to upload</p>
-                              </div>
-                          </section>
+                      <b-upload v-model="newImage">
+                        <b-button tag="a" class="is-primary" icon-left="arrow-up" outlined >Upload</b-button>
                       </b-upload>
                   </b-field>  
 
@@ -64,7 +57,7 @@
                 <div class="my-step-content stepThree-content">
                   <div>
                     <quill-editor
-                      v-model="content"
+                      v-model="post.content"
                       ref="myQuillEditor"
                       :options="editorOption"
                       @blur="onEditorBlur($event)"
@@ -75,7 +68,7 @@
                   </div>
                   <div class="stepThree-content-buttons">
                     <b-button class="">Full Screen Editor</b-button>
-                    <b-button expanded class="is-primary" @click.prevent="handleSubmit(addPost)">Update</b-button>
+                    <b-button expanded class="is-primary" @click.prevent="handleSubmit(editPost)">Update</b-button>
                   </div>
                 </div>
               </div>
@@ -84,9 +77,7 @@
         </form>
       </validationObserver>
       
-
-      <div class="step-navigation">
-
+      <div class="my-step-navigation">
         <b-button class="my-step-buttons" @click="prevStep"> <b-icon icon="chevron-left"></b-icon> </b-button>
         <b-button class="my-step-buttons" @click="nextStep"> <b-icon icon="chevron-right"></b-icon> </b-button>
       </div>
@@ -109,16 +100,13 @@ import PostsService from "@/services/PostsService";
 import { ValidationObserver } from 'vee-validate';
 import * as validationRules from '@/helpers/validation';
 import BInputWithValidation from '@/buefyComponents/BInputWithValidation';
-import { sanitizeTitle } from '@/helpers/helpers';
 
 export default {
   data: function() {
     return {
-      title: null,
-      summary: null,
-      content: null,
-      tags: null,
-      image: null,
+      post: null,
+      postID: null,
+      newImage: null,
       editorOption: {
         modules: {
           toolbar: [
@@ -142,36 +130,46 @@ export default {
     };
   },
   mounted () {
+    this.getPost();
   },
   methods: {
-    async addPost() {
+    async getPost() {
+      this.postID = this.$route.params.postID;
+      const response = await PostsService.fetchSinglePostByID(this.postID);
+      if (response.status === 200) this.post = response.data;
+      console.log(this.post);
+    },
 
-      this.tags = this.tags.slice(0, 6);
+    async editPost() {
+      this.post.tags = this.post.tags.slice(0, 6);
 
-      const response = await PostsService.addPosts({
-        title: this.title.trim(),
-        summary: this.summary,
-        image: this.image,
-        content: this.content,
-        tags: this.tags
-      });
+      const editPostParams = {
+        id: this.postID,
+        title: this.post.title.trim(),
+        summary: this.post.summary,
+        content: this.post.content,
+        tags: this.post.tags
+      }
+
+      if (this.newImage) editPostParams.image = this.newImage;
+
+      const response = await PostsService.editPost(editPostParams);
 
       if (response.status !== 200) {
-
         if (response.data.field === 'title') {
           this.$refs.form.setErrors({
             title: response.data.message
           });
           this.activeStep = 0;
         }
-
         console.log('new post ERROR: ', response.data);
-
       } else if (response.status === 200){
         console.log(response.data.message);
-        this.$router.push({ name: "BlogPost", params: {title: sanitizeTitle(response.data.title)} });
+        this.$router.push({ path: '/dashboard/posts/all'});
       }
     },
+
+
     prevStep() {
       if (this.activeStep > 0) this.activeStep = this.activeStep - 1;
     },
@@ -203,103 +201,9 @@ export default {
 }
 
 </script>
+
 <style lang="scss">
 
-.ql-editor {
-  min-height: 100px;
-}
-
-.my-step-wrapper {
-  // background: red;
-  padding: 0.5rem 0;
-}
-
-.my-step-content {
-  display: grid;
-  grid-gap: 15px;
-}
-
-.step-navigation {
-  display: grid;
-  justify-content: center;
-  grid-template-columns: max-content max-content;
-}
-
-.my-figure, .my-upload-button {
-  display: grid;
-  justify-content: center;
-  justify-items: center;
-}
-
-.my-figure {
-    width: 300px;
-    margin: 0 auto;
-}
-
-.my-edit-post-image {
-  width: 300px;
-  max-width: 100%;
-  max-height: 100%;
-}
-
-.stepTwo-content {
-  display: grid;
-  grid-gap: 10px;
-  justify-items: center;
-  justify-content: center;
-  figure {
-    max-width: 300px;
-  }
-}
-
-.stepThree-content-buttons {
-  display: grid;
-  justify-content: center;
-  grid-gap: 10px;
-}
-
-@media only screen and (min-width: 770px) {
-  .stepTwo-content {
-
-  }
-}
-
-@media only screen and (min-width: 1000px) {
-  .ql-editor {
-    max-height: 100px;
-  }
-  
-  .stepTwo-content {
-    grid-gap: 20px;
-  }
-
-  .stepThree-content-buttons {
-    grid-template-columns: max-content max-content;
-  }
-}
-
-@media only screen and (min-width: 1200px) {
-  .ql-editor {
-    max-height: 150px;
-  }
-
-  .stepTwo-content {
-    figure {
-      max-width: 350px;
-    }
-  }
-}
-
-@media only screen and (min-width: 1600px) {
-  .my-step-wrapper {
-    padding: 1rem 0;
-  }
-  .ql-editor {
-    max-height: 250px;
-  }
-  .stepThree-content-buttons {
-    grid-template-columns: 1fr;
-  }
-}
+@import '@/styles/dashboardSteps.scss';
 
 </style>

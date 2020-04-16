@@ -130,9 +130,11 @@ router.post("/", upload().single('image'), checkLoggedIn, isLoggedIn, async (req
 
 // router.patch('/:id', upload().none(), checkLoggedIn, isLoggedIn, async (req, res) => {
 router.patch('/:id', upload().single('image'), checkLoggedIn, isLoggedIn, async (req, res) => {
+
   const postID = req.params.id;
 
-  req.body.tags = JSON.parse(req.body.tags);
+  if (req.body.tags) req.body.tags = JSON.parse(req.body.tags);
+
   const { error } = validatePost(req.body);
   if (error) return res.status(400).send({success: false, message: error.details[0].message});
 
@@ -146,13 +148,13 @@ router.patch('/:id', upload().single('image'), checkLoggedIn, isLoggedIn, async 
 
   try {    
     const updatedPost = {
-      title: title.toLowerCase(),
       summary: summary,
       content: content,
       tags: tags,
     }
 
     if (image) updatedPost.image = image;
+    if (title) updatedPost.title = title.toLowerCase();
 
     const post = await Post.findByIdAndUpdate(postID, updatedPost);
 
