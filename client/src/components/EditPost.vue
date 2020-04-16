@@ -158,6 +158,9 @@ export default {
   },
   methods: {
     async getPost() {
+      this.postID = this.$route.params.postID;
+      console.log(this.$route.params.postID);
+      console.log(this.postID);
       const response = await PostsService.fetchSinglePostByID(this.postID);
       this.post = response.data;
       console.log(this.post);

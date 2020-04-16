@@ -148,9 +148,7 @@ export default {
     },
 
     async selectFeaturedPost() {
-      console.log('wafflah');
       console.log(this.featuredPostID);
-    
       const response = await PostsService.updateFeaturedPost(this.featuredPostID);
       console.log(response);
     },
@@ -171,7 +169,11 @@ export default {
     },
     editPost(post){
       console.log('posttable.vue');
-      serverBus.$emit('editPost', post);
+      console.log('olool, ', post);
+      // this.$router.push({ path: '/dashboard/posts/edit', params: { postID: post }});
+      // this.$router.push({ name: 'PostsEdit', params: {title: post} });
+      this.$router.push({ name: "PostsEdit", params: {postID: post } });
+      // serverBus.$emit('editPost', post);
     },
 
     startWriting () {

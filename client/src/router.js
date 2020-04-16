@@ -65,21 +65,27 @@ const router = new Router({
       },
       {
         path: 'profile',
-        name: 'newPost',
+        name: 'Profile',
         component: () =>
           import("./components/dashboard/Profile.vue")
       },
       {
         path: 'posts/all',
-        name: 'postsTable',
+        name: 'PostsTable',
         component: () =>
           import("./components/dashboard/PostsTable.vue")
       },
       {
         path: 'posts/new',
-        name: 'newPost',
+        name: 'PostsNew',
         component: () =>
           import("./components/dashboard/PostsNew.vue")
+      },
+      {
+        path: 'posts/edit',
+        name: 'PostsEdit',
+        component: () =>
+          import("./components/dashboard/PostsEdit.vue")
       }
     ]
   },
