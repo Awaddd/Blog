@@ -11,7 +11,7 @@
 
     <div class="my-placeholder-message" v-if="!tableData">
       <p class="subtitle is-5 is-size-6-mobile has-text-success has-text-centered">You don't have any posts at the moment. Click below to get started!</p>
-      <button class="my-btn" @click="startWriting">Start Writing</button>
+      <button class="my-btn" @click="redirectNewPost">Start Writing</button>
     </div>
     
     <div class="posts-table-content" v-else>
@@ -167,13 +167,13 @@ export default {
         this.$store.dispatch("DELETE_USER_POST", post);       
       }
     },
+
     editPost(post){
       this.$router.push({ name: "EditPost", params: {postID: post } });
     },
 
-    startWriting () {
-      const item = 'newPost';
-      this.$store.dispatch("SET_ACTIVE_DASHBOARD_TAB", item);
+    redirectNewPost () {
+      this.$router.push({ name: "NewPost" });
     }
   },
   mounted () {

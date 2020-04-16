@@ -75,7 +75,7 @@
                   </div>
                   <div class="stepThree-content-buttons">
                     <b-button class="">Full Screen Editor</b-button>
-                    <b-button expanded class="is-primary" @click.prevent="handleSubmit(addPost)">Update</b-button>
+                    <b-button expanded class="is-primary" @click.prevent="handleSubmit(addPost)">Create Post</b-button>
                   </div>
                 </div>
               </div>
