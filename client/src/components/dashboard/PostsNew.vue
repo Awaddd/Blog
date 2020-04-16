@@ -11,7 +11,7 @@
     
     <div class="dashboard-newPost-content">
       <validationObserver ref="form" v-slot=" {handleSubmit} ">
-        <form class="add-post-form" enctype="multipart/form-data" @key-up.enter.prevent="handleSubmit(editPost)">
+        <form class="add-post-form" enctype="multipart/form-data" @key-up.enter.prevent="handleSubmit(addPost)">
 
           <b-tabs v-model="activeStep" position="is-centered" type="is-toggle">
             <b-tab-item label="Step 1">
@@ -19,11 +19,11 @@
               <div class="stepOne my-step-wrapper">
                 <p class="subtitle is-size-5 has-text-centered">Title, Summary &amp; Tags</p>
                 <div class="my-step-content">
-                  <BInputWithValidation vid="title" rules="required|min:7|max:150"  placeholder="Title" name="Title"/>
-                  <BInputWithValidation rules="required|min:5|max:150"  placeholder="Summary" name="Summary"/>
+                  <BInputWithValidation vid="title" rules="required|min:7|max:150" v-model="title" placeholder="Example Title ..." horizontal label="Title"/>
+                  <BInputWithValidation rules="required|min:5|max:150" v-model="summary" placeholder="The future of the..." horizontal label="Summary"/>
 
-                  <b-field>
-                    <b-taginput  ellipsis maxtags="6" placeholder="Add a tag" class="is-primary">
+                  <b-field horizontal label="Tags">
+                    <b-taginput v-model="tags" ellipsis maxtags="6" placeholder="Technology, Survival, Cooking" class="is-primary">
                     </b-taginput>
                   </b-field>  
                 </div>
@@ -36,7 +36,7 @@
                 <div class="my-step-content stepTwo-content">
 
                   <b-field>
-                      <b-upload
+                      <b-upload v-model="image"
                         drag-drop>
                           <section class="section">
                               <div class="content has-text-centered">
@@ -64,7 +64,7 @@
                 <div class="my-step-content stepThree-content">
                   <div>
                     <quill-editor
-                      v-model="post.content"
+                      v-model="content"
                       ref="myQuillEditor"
                       :options="editorOption"
                       @blur="onEditorBlur($event)"
@@ -75,7 +75,7 @@
                   </div>
                   <div class="stepThree-content-buttons">
                     <b-button class="">Full Screen Editor</b-button>
-                    <b-button expanded class="is-primary" @click.prevent="handleSubmit(editPost)">Update</b-button>
+                    <b-button expanded class="is-primary" @click.prevent="handleSubmit(addPost)">Update</b-button>
                   </div>
                 </div>
               </div>
@@ -109,17 +109,16 @@ import PostsService from "@/services/PostsService";
 import { ValidationObserver } from 'vee-validate';
 import * as validationRules from '@/helpers/validation';
 import BInputWithValidation from '@/buefyComponents/BInputWithValidation';
+import { sanitizeTitle } from '@/helpers/helpers';
 
 export default {
   data: function() {
     return {
-      post: {},
-      title: "",
-      summary: "",
-      content: "",
-      tags: [],
-      image: "",
-      newImage: null,
+      title: null,
+      summary: null,
+      content: null,
+      tags: null,
+      image: null,
       editorOption: {
         modules: {
           toolbar: [
@@ -145,6 +144,34 @@ export default {
   mounted () {
   },
   methods: {
+    async addPost() {
+
+      this.tags = this.tags.slice(0, 6);
+
+      const response = await PostsService.addPosts({
+        title: this.title.trim(),
+        summary: this.summary,
+        image: this.image,
+        content: this.content,
+        tags: this.tags
+      });
+
+      if (response.status !== 200) {
+
+        if (response.data.field === 'title') {
+          this.$refs.form.setErrors({
+            title: response.data.message
+          });
+          this.activeStep = 0;
+        }
+
+        console.log('new post ERROR: ', response.data);
+
+      } else if (response.status === 200){
+        console.log(response.data.message);
+        this.$router.push({ name: "BlogPost", params: {title: sanitizeTitle(response.data.title)} });
+      }
+    },
     prevStep() {
       if (this.activeStep > 0) this.activeStep = this.activeStep - 1;
     },
@@ -266,6 +293,7 @@ export default {
   .ql-editor {
     max-height: 150px;
   }
+  
 
 }
 

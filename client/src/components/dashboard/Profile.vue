@@ -123,6 +123,11 @@ export default {
   }
 
 @media only screen and (min-width: 770px) {
+
+}
+
+@media only screen and (min-width: 1000px) { 
+
   .profile-content-wrapper {
     display: grid;
     grid-template-columns: 3fr max-content;
@@ -139,13 +144,6 @@ export default {
     align-self: start;
     grid-row: 1;
     grid-column: 2/3;
-  }
-}
-
-@media only screen and (min-width: 1000px) { 
-
-  .profile-image-group {
-
   }
 
 }

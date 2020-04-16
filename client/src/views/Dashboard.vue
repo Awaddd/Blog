@@ -149,13 +149,10 @@ html {
 
 
 @media only screen and (min-width: 700px) {
-
-  .dashboard-content-wrapper {
-    display: grid;
-    align-content: center;
-    align-items: center;
-    justify-items: center;
-    justify-content: center
+  
+  .dashboard-view {
+    padding-left: 2rem;
+    padding-right: 2rem;
   }
 
 }
