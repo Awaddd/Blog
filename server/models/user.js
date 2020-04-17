@@ -12,7 +12,9 @@ const UserSchema = new Schema({
   password: String,
   isAdmin: {
     type: Boolean
-  }
+  },
+  image: {type: String},
+  bio: String
 })
 
 UserSchema.index({ email: 1 });

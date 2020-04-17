@@ -27,13 +27,13 @@
 
       <div class="profile-image-group">
 
-        <figure class="image is-128x128" v-if="!edit[5].field">
+        <figure class="image is-128x128" v-if="!edit[4].field">
           <img class="author-picture" src="https://bulma.io/images/placeholders/128x128.png">
         </figure>
 
         <figure class="image is-128x128 " v-else>
             <b-field>
-              <b-upload v-model="newImage">
+              <b-upload v-model="image">
                 <div class="author-picture-wrapper">
                   <img class="author-picture author-picture-edit" src="https://bulma.io/images/placeholders/128x128.png">
                   <div class="author-picture-overlay ">
@@ -51,39 +51,39 @@
 
             
       <div class="profile-content">
-        <div @click="editable(0)">
+        <div @click="editable(0)" v-if="user.bio">
           <b-field horizontal label="bio" custom-class="is-small" class="field">
-            <b-input maxlength="200" custom-class="my-disabled-input" type="textarea" v-if="!edit[0].field"  disabled value="asodhoahdsaudsa hiuadhiauhsaiudh usihai dhahidahi dhasidha asdosadhaudhaso ahodah ohdohasodh saodha haodha odhuoadhoshdaou dhsd saohdaodh saohad" ></b-input>
-            <b-input maxlength="200" type="textarea" v-else value="asodhoahdsaudsa hiuadhiauhsaiudh usihai dhahidahi dhasidha asdosadhaudhaso ahodah ohdohasodh saodha haodha odhuoadhoshdaou dhsd saohdaodh saohad" ></b-input>
+            <b-input maxlength="200" custom-class="my-disabled-input" type="textarea" v-if="!edit[0].field" v-model="user.bio" disabled ></b-input>
+            <b-input maxlength="200" type="textarea" v-model="user.bio" v-else></b-input>
+          </b-field>
+        </div>
+
+        <div @click="editable(0)" v-else>
+          <b-field horizontal label="bio" custom-class="is-small" class="field">
+            <b-input maxlength="200" custom-class="my-disabled-input" type="textarea" placeholder="I'M EMPTY!" v-if="!edit[0].field" v-model="bio" disabled ></b-input>
+            <b-input maxlength="200" type="textarea" v-model="bio" v-else></b-input>
           </b-field>
         </div>
 
         <div @click="editable(1)" class="field">
           <b-field horizontal label="Email" custom-class="is-small">
             <b-input v-if="!edit[1].field" type="text" :value="user.email" custom-class="my-disabled-input" disabled></b-input>
-            <b-input v-else type="text" :value="user.email"></b-input>
+            <b-input v-else type="text" v-model="user.email"></b-input>
           </b-field>
         </div>
 
         <div @click="editable(2)" class="field">
           <b-field horizontal label="First Name" custom-class="is-small">
             <b-input v-if="!edit[2].field" type="text" :value="user.firstName" custom-class="my-disabled-input" disabled></b-input>
-            <b-input v-else type="text" :value="user.firstName"></b-input>
+            <b-input v-else type="text" v-model="user.firstName"></b-input>
           </b-field>
         </div>
 
         <div @click="editable(3)" class="field">
           <b-field horizontal label="Last Name" custom-class="is-small">
             <b-input v-if="!edit[3].field"  :value="user.lastName" custom-class="my-disabled-input" disabled></b-input>
-            <b-input v-else :value="user.lastName"></b-input>
+            <b-input v-else v-model="user.lastName"></b-input>
           </b-field>  
-        </div>
-
-        <div @click="editable(4)" class="field">
-          <b-field horizontal label="Password" custom-class="is-small">
-            <b-input v-if="!edit[4].field"  type="password" :value="user.password" custom-class="my-disabled-input" disabled></b-input>
-            <b-input v-else type="password" :value="user.password"></b-input>
-          </b-field>
         </div>
 
       </div>
@@ -100,13 +100,14 @@ export default {
   data () {
     return {
       user: null,
+      image: null,
+      bio: null,
       editBtn: true,
       edit: [
         {field: false},
         {field: false},
         {field: false},
         {field: false}, 
-        {field: false},
         {field: false}
       ]
     }
@@ -122,17 +123,36 @@ export default {
       else this.user = response.data;
       console.log(response);
     },
+    
     editAll () {
       this.edit.forEach( obj => {
         obj.field = true;
       });
       this.editBtn = false;
     },
+
     editable (i) {
       this.edit[i].field = true;
       this.editBtn = false;
     },
-    updateProfile () {
+
+    async updateProfile () {
+
+      let updateUserParams = {
+        email: this.user.email,
+        firstName: this.user.firstName,
+        lastName: this.user.lastName,
+      }
+
+      if (this.user.bio) updateUserParams.bio = this.user.bio; 
+      else updateUserParams.bio = this.bio;
+      if (!this.user.image) updateUserParams.image = this.image; 
+
+      const response = await UserService.updateUserDetails(updateUserParams);
+
+      if (response.status !== 200) console.log(response.data.message);
+      else console.log(response);
+
       this.edit.forEach( obj => {
         obj.field = false;
       });
