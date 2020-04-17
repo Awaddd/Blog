@@ -1,7 +1,7 @@
 const JWT = require('jsonwebtoken');
 const multer = require('multer');
 const {privateKey} = require('./config.json');
-const {verifyToken} = require('./helpers.js');
+const {verifyToken} = require('./helpers/helpers.js');
 const User = require("./models/user");
 
 const storage = multer.diskStorage({

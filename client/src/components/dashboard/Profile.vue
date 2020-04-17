@@ -11,9 +11,9 @@
     <section class="hero is-primary is-small">
       <div class="hero-body">
         <div class="container">
-          <h1 class="title is-size-4-mobile is-size-5-tablet is-size-4-desktop">Hi Awad</h1>
+          <h1 class="title is-size-4-mobile is-size-5-tablet is-size-4-desktop">Hi {{user.firstName}}</h1>
           <h2 class="subtitle is-size-6-mobile is-size-7-tablet is-size-6-desktop">This is your dashboard. Manage all your content here as well
-            as account optiins.
+            as your account. 
           </h2>
         </div>
       </div>

@@ -5,6 +5,7 @@ const morgan = require("morgan");
 const mongoose = require("mongoose");
 const posts = require("./routes/posts");
 const users = require("./routes/users");
+const userPosts = require("./routes/userPosts");
 const auth = require("./routes/auth");
 const cookieParser = require('cookie-parser');
 
@@ -33,6 +34,7 @@ app.use(cors());
 
 app.use("/api/posts", posts);
 app.use("/api/users", users);
+app.use("/api/userPosts", userPosts);
 app.use("/api/auth", auth);
 
 app.get("/", (req, res) => {

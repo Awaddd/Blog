@@ -4,6 +4,7 @@ import { authHeader } from '@/helpers/helpers';
 import jwt from "jsonwebtoken";
 
 export default {
+  
   fetchPosts() {
     return Api().get("posts");
   },
@@ -35,7 +36,7 @@ export default {
     const user = localStorage.getItem('user');
     let decoded = jwt.decode(user);
     console.log(`decoded: ${decoded.userID}`);
-    return Api().get(`users/${decoded.userID}/posts`)
+    return Api().get(`userPosts/${decoded.userID}/posts`)
       .then(response => { return response })
       .catch(error => { return error.response });
   },
@@ -118,6 +119,6 @@ export default {
   updateFeaturedPost(postID) {
     const user = localStorage.getItem('user');
     let decoded = jwt.decode(user);
-    return Api().patch(`users/${decoded.userID}/${postID}`, {userID: decoded.userID, postID: postID}).then(response => response).catch(error => error.response);
+    return Api().patch(`userPosts/${decoded.userID}/${postID}`, {userID: decoded.userID, postID: postID}).then(response => response).catch(error => error.response);
   }
 }

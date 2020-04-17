@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const Joi = require('@hapi/joi');
 const bcrypt = require('bcryptjs');
-const {signToken} = require('../helpers.js');
+const { validateLogin } = require('../helpers/validation.js');
+const {signToken} = require('../helpers/helpers.js');
 
 const User = require("../models/user");
 
@@ -10,7 +10,7 @@ router.post("/", async (req, res) => {
 
   console.log(req.body.email, req.body.password);
 
-  const { error } = validateUser(req.body);
+  const { error } = validateLogin(req.body);
   if (error) console.log(error.details[0].message);
   if (error) return res.status(400).send({success: false, message: error.details[0].message});
 
@@ -41,22 +41,6 @@ router.post("/", async (req, res) => {
   }
 });
 
-
-
-
-function validateUser(user) {
-  
-  const schema = Joi.object({
-    email: Joi.string()
-      .email({ minDomainSegments: 2})
-      .required(),
-    password: Joi.string()
-      .min(7)
-      .required()
-  });
-
-  return schema.validate(user);
-}
 
 
 module.exports = router;

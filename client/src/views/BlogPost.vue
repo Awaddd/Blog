@@ -116,7 +116,16 @@ export default {
     margin: 0 auto;
   }
   .level {
-    display: grid;
+    display: block;
+  }
+  .level-right {
+    justify-content: flex-start;
+  }
+}
+
+@media only screen and (min-width: 850px) {
+  .level {
+    display: flex;
   }
 }
 

@@ -9,9 +9,24 @@
       </p>
     </nav>    
 
-    <div class="my-placeholder-message" v-if="!tableData">
+    <!-- <div class="my-placeholder-message" v-if="!tableData">
       <p class="subtitle is-5 is-size-6-mobile has-text-success has-text-centered">You don't have any posts at the moment. Click below to get started!</p>
       <button class="my-btn" @click="redirectNewPost">Start Writing</button>
+    </div> -->
+
+    <div class="postsTable-placeholder-content" v-if="!tableData">
+
+      <div class="has-text-centered">
+        <h1 class="title is-size-4-mobile">I'm Empty :(</h1>
+        <p class="subtitle is-size-6-mobile">Click the button below to start writing</p>
+      </div>
+
+      <figure class="image postsTable-placeholder-image">
+        <img src="../../assets/empty.svg" alt="">
+      </figure>
+
+      <b-button type="is-primary" outlined @click="redirectNewPost">Start Writing</b-button>
+
     </div>
     
     <div class="posts-table-content" v-else>
@@ -195,6 +210,18 @@ export default {
   grid-gap: 20px;
 }
 
+.postsTable-placeholder-content {
+  display: grid;
+  grid-gap: 30px;
+  justify-content: center;
+  justify-items: center;
+  padding: 1rem 0;
+}
+
+.postsTable-placeholder-image {
+  max-width: 200px;
+}
+
 @media only screen and (min-width: 770px) {
 
   .my-btn {
@@ -202,11 +229,25 @@ export default {
     font-weight: 700;
     letter-spacing: 1.5px;
   }
+
+  .postsTable-placeholder-content { 
+    grid-gap: 50px;
+  }
+
   
 
 }
 
+@media only screen and (min-width: 1200px) {
+  .postsTable-placeholder-image {
+    max-width: 250px;
+  }
+}
+
 @media only screen and (min-width: 1600px) {
+  .postsTable-placeholder-image {
+    max-width: 400px;
+  }
 }
 
 </style>

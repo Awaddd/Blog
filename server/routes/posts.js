@@ -1,10 +1,9 @@
 const express = require("express");
-const Joi = require('@hapi/joi');
 const router = express.Router();
 const {checkLoggedIn, isLoggedIn, upload} = require('../middleware');
-const JWT = require('jsonwebtoken');
 const {privateKey} = require('../config.json');
-const {verifyToken} = require('../helpers.js');
+const {verifyToken} = require('../helpers/helpers.js');
+const { validatePost } = require('../helpers/validation.js');
 const Post = require("../models/post");
 const User = require("../models/user");
 
@@ -36,6 +35,7 @@ router.get("/featured", async (req, res) => {
     console.log(error);
   }
 });
+
 
 
 // Get One Post
@@ -128,7 +128,6 @@ router.post("/", upload().single('image'), checkLoggedIn, isLoggedIn, async (req
 // Update Post
 
 
-// router.patch('/:id', upload().none(), checkLoggedIn, isLoggedIn, async (req, res) => {
 router.patch('/:id', upload().single('image'), checkLoggedIn, isLoggedIn, async (req, res) => {
 
   const postID = req.params.id;
@@ -186,29 +185,6 @@ router.delete('/:id', checkLoggedIn, isLoggedIn, async (req, res) => {
     // throw(error);
   }
 });
-
-
-
-// Post validation
-
-
-function validatePost(post) {
-  
-  const schema = Joi.object({
-    title: Joi.string()
-      .min(7)
-      .required(),
-    summary: Joi.string()
-      .min(5)
-      .max(100)
-      .required(),
-    content: Joi.string()
-      // .min(100)
-      .required(),
-    tags: Joi.array()
-  });
-  return schema.validate(post);
-}
 
 
 
