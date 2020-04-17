@@ -26,11 +26,26 @@
     <div class="profile-content-wrapper" v-if="user">
 
       <div class="profile-image-group">
-        <figure class="image is-128x128">
+
+        <figure class="image is-128x128" v-if="!edit[5].field">
           <img class="author-picture" src="https://bulma.io/images/placeholders/128x128.png">
         </figure>
-        <b-button class="is-primary" v-if="editBtn" @click="editAll">Edit</b-button>
-        <b-button class="is-primary" outlined v-else @click="updateProfile" >Update</b-button>
+
+        <figure class="image is-128x128 " v-else>
+            <b-field>
+              <b-upload v-model="newImage">
+                <div class="author-picture-wrapper">
+                  <img class="author-picture author-picture-edit" src="https://bulma.io/images/placeholders/128x128.png">
+                  <div class="author-picture-overlay ">
+                    <b-icon icon="upload" size="is-medium"></b-icon>
+                  </div>
+                </div>
+              </b-upload>
+            </b-field>  
+        </figure>
+
+        <b-button class="is-primary" v-if="editBtn" @click="editAll">Edit All</b-button>
+        <b-button type="is-primary" outlined v-else @click="updateProfile" >Update</b-button>
         <!-- <b-button class="is-primary">Edit</b-button> -->
       </div>
 
@@ -91,6 +106,7 @@ export default {
         {field: false},
         {field: false},
         {field: false}, 
+        {field: false},
         {field: false}
       ]
     }
@@ -150,6 +166,27 @@ export default {
 
   .author-picture {
     border-radius: 100px;
+  }
+
+  .author-picture-wrapper {
+    // position: relative;
+  }
+
+  .author-picture-edit {
+    // filter: brightness(70%);
+    opacity: 0.8;
+    cursor: pointer;
+  }
+
+  .author-picture-overlay {
+    position: absolute;
+    bottom: 50px;
+    left: 50px;
+    right: 50px;
+    top: 50px;
+    color: #fff;
+    cursor: pointer;
+
   }
 
   .my-disabled-input {
