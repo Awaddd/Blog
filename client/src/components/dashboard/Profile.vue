@@ -11,7 +11,10 @@
     <section class="hero is-primary is-small">
       <div class="hero-body">
         <div class="container">
-          <h1 class="title is-size-4-mobile is-size-5-tablet is-size-4-desktop">Hi {{user.firstName}}</h1>
+          <h1 class="title is-size-4-mobile is-size-5-tablet is-size-4-desktop is-capitalized">
+            Hi 
+            <span v-if="user" >{{user.firstName}}</span>
+          </h1>
           <h2 class="subtitle is-size-6-mobile is-size-7-tablet is-size-6-desktop">This is your dashboard. Manage all your content here as well
             as your account. 
           </h2>
@@ -19,54 +22,55 @@
       </div>
     </section>
 
-    <div class="" v-if="user && edit">
 
-
-      <b-field horizontal label="bio">
-        <b-input maxlength="200" type="textarea"></b-input>
-      </b-field>
-      <b-field horizontal label="Email Name">
-        <b-input :value="user.email"></b-input>
-      </b-field>
-      <b-field horizontal label="First Name">
-        <b-input :value="user.firstName"></b-input>
-      </b-field>
-      <b-field horizontal label="Last Name">
-        <b-input :value="user.lastName"></b-input>
-      </b-field>
-      <!-- <b-field horizontal label="Password">
-        <b-input :value="user.password"></b-input>
-      </b-field> -->
-
-    </div>
-    <div class="profile-content-wrapper" v-else-if="user">
+    <div class="profile-content-wrapper" v-if="user">
 
       <div class="profile-image-group">
         <figure class="image is-128x128">
           <img class="author-picture" src="https://bulma.io/images/placeholders/128x128.png">
         </figure>
-        <b-button class="is-primary">Edit</b-button>
+        <b-button class="is-primary" v-if="editBtn" @click="editAll">Edit</b-button>
+        <b-button class="is-primary" outlined v-else @click="updateProfile" >Update</b-button>
         <!-- <b-button class="is-primary">Edit</b-button> -->
       </div>
 
             
       <div class="profile-content">
-        <b-field horizontal label="bio" custom-class="is-small">
-          <b-input maxlength="200" type="textarea" disabled value="asodhoahdsaudsa hiuadhiauhsaiudh usihai dhahidahi dhasidha asdosadhaudhaso ahodah ohdohasodh saodha haodha odhuoadhoshdaou dhsd saohdaodh saohad" ></b-input>
-        </b-field>
+        <div @click="editable(0)">
+          <b-field horizontal label="bio" custom-class="is-small" class="field">
+            <b-input maxlength="200" custom-class="my-disabled-input" type="textarea" v-if="!edit[0].field"  disabled value="asodhoahdsaudsa hiuadhiauhsaiudh usihai dhahidahi dhasidha asdosadhaudhaso ahodah ohdohasodh saodha haodha odhuoadhoshdaou dhsd saohdaodh saohad" ></b-input>
+            <b-input maxlength="200" type="textarea" v-else value="asodhoahdsaudsa hiuadhiauhsaiudh usihai dhahidahi dhasidha asdosadhaudhaso ahodah ohdohasodh saodha haodha odhuoadhoshdaou dhsd saohdaodh saohad" ></b-input>
+          </b-field>
+        </div>
 
-        <b-field horizontal label="Email Name" custom-class="is-small">
-          <b-input :value="user.email" disabled></b-input>
-        </b-field>
-        <b-field horizontal label="First Name" custom-class="is-small">
-          <b-input :value="user.firstName" disabled></b-input>
-        </b-field>
-        <b-field horizontal label="Last Name" custom-class="is-small">
-          <b-input :value="user.lastName" disabled></b-input>
-        </b-field>  
-        <b-field horizontal label="Password" custom-class="is-small">
-          <b-input type="password" :value="user.password" disabled></b-input>
-        </b-field>
+        <div @click="editable(1)" class="field">
+          <b-field horizontal label="Email" custom-class="is-small">
+            <b-input v-if="!edit[1].field" type="text" :value="user.email" custom-class="my-disabled-input" disabled></b-input>
+            <b-input v-else type="text" :value="user.email"></b-input>
+          </b-field>
+        </div>
+
+        <div @click="editable(2)" class="field">
+          <b-field horizontal label="First Name" custom-class="is-small">
+            <b-input v-if="!edit[2].field" type="text" :value="user.firstName" custom-class="my-disabled-input" disabled></b-input>
+            <b-input v-else type="text" :value="user.firstName"></b-input>
+          </b-field>
+        </div>
+
+        <div @click="editable(3)" class="field">
+          <b-field horizontal label="Last Name" custom-class="is-small">
+            <b-input v-if="!edit[3].field"  :value="user.lastName" custom-class="my-disabled-input" disabled></b-input>
+            <b-input v-else :value="user.lastName"></b-input>
+          </b-field>  
+        </div>
+
+        <div @click="editable(4)" class="field">
+          <b-field horizontal label="Password" custom-class="is-small">
+            <b-input v-if="!edit[4].field"  type="password" :value="user.password" custom-class="my-disabled-input" disabled></b-input>
+            <b-input v-else type="password" :value="user.password"></b-input>
+          </b-field>
+        </div>
+
       </div>
 
     </div>
@@ -80,7 +84,15 @@ import UserService from "@/services/UserService";
 export default {
   data () {
     return {
-      user: null
+      user: null,
+      editBtn: true,
+      edit: [
+        {field: false},
+        {field: false},
+        {field: false},
+        {field: false}, 
+        {field: false}
+      ]
     }
   },
   mounted () {
@@ -93,6 +105,22 @@ export default {
       if (response.status !== 200) console.log(response.error);
       else this.user = response.data;
       console.log(response);
+    },
+    editAll () {
+      this.edit.forEach( obj => {
+        obj.field = true;
+      });
+      this.editBtn = false;
+    },
+    editable (i) {
+      this.edit[i].field = true;
+      this.editBtn = false;
+    },
+    updateProfile () {
+      this.edit.forEach( obj => {
+        obj.field = false;
+      });
+      this.editBtn = true;
     }
   }
 }
@@ -122,6 +150,10 @@ export default {
 
   .author-picture {
     border-radius: 100px;
+  }
+
+  .my-disabled-input {
+    cursor: pointer !important;
   }
 
 @media only screen and (min-width: 770px) {
