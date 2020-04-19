@@ -2,7 +2,7 @@
   <div>
     <section class="blogPost section" v-if="post">
       <div class="has-text-centered">
-        <h1 class="title is-3 is-size-4-mobile has-text-primary is-capitalized my-post-title">{{post.title}}</h1>
+        <h1 class="title is-size-3  is-size-4-mobile  is-capitalized my-post-title">{{post.title}}</h1>
         <h3 class="subtitle is-size-5 is-size-6-mobile">{{post.summary}}</h3>
 
       </div>
@@ -162,6 +162,10 @@ export default {
         margin-top: -150px;
       }
     }
+  }
+  .my-post-title {
+    max-width: 95%;
+    margin: 0 auto;
   }
 }
 

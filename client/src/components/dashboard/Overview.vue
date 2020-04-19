@@ -94,4 +94,11 @@
 
 }
 
+@media only screen and (min-width: 1600px) {
+  .overview-content {
+    padding: 5rem 2rem;
+  }
+
+}
+
 </style>

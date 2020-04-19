@@ -41,7 +41,7 @@
 
 
       <div class="searchPosts">
-        <b-field label="search" horizontal custom-class="is-size-7-mobile is-size-7-tablet is-size-6-desktop">
+        <b-field label="Search" horizontal custom-class="is-size-7-mobile is-size-7-tablet is-size-6-desktop">
           <b-input type="search" icon-right="magnify" placeholder="The name of the wind..."></b-input>
         </b-field>
       </div>
