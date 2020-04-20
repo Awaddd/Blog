@@ -26,13 +26,11 @@
             </div>
           </div>
         </div>
-      </header>
-
-
-
-        
+      </header>      
 
       <div class="content breakOffLongWords" v-html="post.content"></div>
+
+      <AboutAuthor></AboutAuthor>
 
     </section>
 
@@ -41,11 +39,14 @@
 
 <script>
 import PostsService from "@/services/PostsService";
-import Nav from "@/components/Nav.vue";
+import AboutAuthor from "@/components/AboutAuthor.vue";
 import moment from "moment";
 import { formatDate } from '@/helpers/helpers';
 
 export default {
+  components: {
+    AboutAuthor
+  },
   data() {
     return {
       post: null
