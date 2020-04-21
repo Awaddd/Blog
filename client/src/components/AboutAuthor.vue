@@ -1,23 +1,26 @@
 <template>
   <div class="author-section">
-    <div class="container">
-      <h1 class="title is-size-4">Meet the author</h1>
+      <!-- <h1 class="title is-size-4">Meet the author</h1> -->
+      <div class="author-section-title">
+        <h2 class="title is-size-5">Meet The Author</h2>
+        <hr class="subtitle">
+      </div>
+      
       <div class="author-section-wrapper">
         <div class="author-section-media">
           <figure class="image is-128x128">
             <img src="../assets/person.png" alt="">
           </figure>
-          <h2 class="is-size-5-mobile is-size-4">{{user.firstName}} {{user.lastName}}</h2>
+          <div class="author-section-bio">
+            <h2 class="title is-size-5-mobile is-size-4">{{user.firstName}} {{user.lastName}}</h2>
+            <h3 class="subtitle is-size-6-mobile is-size-6">{{user.bio}}</h3>
+          </div>
           
         </div>
         <div class="author-section-bio">
-          <h3 class="is-size-6-mobile is-size-5">Studied at Yale. Writes for the daily waffle.</h3>
-          <br>
-          <p>{{user.bio}}</p>
+          <!-- <p>{{user.bio}}</p> -->
         </div>
       </div>
-
-    </div>
   </div>
 </template>
 
@@ -28,7 +31,7 @@ export default {
       user: {
         firstName: 'Awad',
         lastName: 'Dini',
-        bio: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum nam rem iure fuga delectus unde amet vel, quidem architecto enim. Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi consequuntur voluptatibus est reiciendis iure at accusamus, tempore voluptas omnis quasi.'
+        bio: 'Studied at Yale. Writes for the daily waffle.'
       }
     }
   }
@@ -38,7 +41,14 @@ export default {
 <style lang="scss">
 
 .author-section {
-  padding: 3rem 0;
+  margin-top: 3rem;
+  display: grid;
+  grid-gap: 3rem;
+}
+
+.author-section-title {
+  // display: grid;
+  // justify-items: center;
 }
 
 .author-section-wrapper {
@@ -48,19 +58,30 @@ export default {
 
 .author-section-media {
   display: grid;
-  grid-template-columns: max-content max-content;
-  align-items: center;
+  justify-items: center;
   grid-gap: 20px;
 }
 
 .author-section-bio {
-  
+  text-align: center;
 }
 
 
-@media only screen and (min-width: 1600px) {
-  .author-section-media {
+@media only screen and (min-width: 770px) {
+  .author-section {
+    // padding: 3rem 0;
+    margin-top: 3rem;
+  }
 
+  .author-section-media {
+    grid-template-columns: max-content max-content;
+    align-items: center;
+    grid-gap: 20px;
+  }
+
+  .author-section-bio {
+    text-align: start;
   }
 }
+
 </style>

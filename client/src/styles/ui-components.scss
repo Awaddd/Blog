@@ -5,6 +5,18 @@ body {
   height: 100%;
 }
 
+hr {
+  display: block; margin-top: 0.5em; margin-bottom: 0.5em; margin-left: 0; margin-right: 0; background-color: #333; border-width: 1px; width: 30px;
+}
+
+.hr-centered {
+  margin: 0.5em auto;
+}
+
+.circle-picture {
+  border-radius: 100px;
+}
+
 .welcome-content {
   @extend .hero;
   // background-image: url('../assets/oasis.jpg');

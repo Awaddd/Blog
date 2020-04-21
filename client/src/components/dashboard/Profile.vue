@@ -28,14 +28,14 @@
       <div class="profile-image-group">
 
         <figure class="image is-128x128" v-if="!edit[4].field">
-          <img class="author-picture" src="https://bulma.io/images/placeholders/128x128.png">
+          <img class="circle-picture" src="https://bulma.io/images/placeholders/128x128.png">
         </figure>
 
         <figure class="image is-128x128 " v-else>
             <b-field>
               <b-upload v-model="image">
                 <div class="author-picture-wrapper">
-                  <img class="author-picture author-picture-edit" src="https://bulma.io/images/placeholders/128x128.png">
+                  <img class="circle-picture author-picture-edit" src="https://bulma.io/images/placeholders/128x128.png">
                   <div class="author-picture-overlay ">
                     <b-icon icon="upload" size="is-medium"></b-icon>
                   </div>

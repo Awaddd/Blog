@@ -30,7 +30,10 @@
 
       <div class="content breakOffLongWords" v-html="post.content"></div>
 
-      <AboutAuthor></AboutAuthor>
+      
+
+      <AboutAuthor />
+      <Comments />
 
     </section>
 
@@ -40,12 +43,14 @@
 <script>
 import PostsService from "@/services/PostsService";
 import AboutAuthor from "@/components/AboutAuthor.vue";
+import Comments from "@/components/Comments.vue";
 import moment from "moment";
 import { formatDate } from '@/helpers/helpers';
 
 export default {
   components: {
-    AboutAuthor
+    AboutAuthor,
+    Comments
   },
   data() {
     return {
