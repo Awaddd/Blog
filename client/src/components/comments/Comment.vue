@@ -1,22 +1,22 @@
 <template>
-  <article class="media">
+  <article class="media comment-wrapper">
     <figure class="media-left">
-        <img class="circle-picture image is-64x64" src="https://bulma.io/images/placeholders/128x128.png">
+        <img class="circle-picture image is-64x64" :src="comment.image">
     </figure>
     <div class="comments-section-comment">
-      <strong>Awad Dini</strong>
+      <strong>{{comment.name}}</strong>
       <br>
-      <p class="comments-section-comment-reply" v-if="isReply">
+      <p class="comments-section-comment-reply" v-if="comment.replyingTo">
         <b-icon icon="reply" type="is-primary"></b-icon>
-        <span>Replying to John</span>
+        <span>Replying to {{comment.replyingTo}}</span>
       </p>
-      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facere, quo! Corrupti cupiditate architecto, a quasi omnis voluptates distinctio totam labore!
+      {{comment.comment}}
       <br>
       <!-- <small><a>Like</a> · <a>Reply</a> · 3 hrs </small> -->
       <div class="comments-section-comment-controls">
         <b-icon icon="heart" type="is-danger"></b-icon>
         <b-icon icon="reply" type="is-dark"></b-icon>
-        <span>3 hrs</span>
+        <span>{{comment.dateTime}} ago</span>
       </div>
     </div>
   </article>
@@ -24,6 +24,12 @@
 
 <script>
 export default {
-  props: ['isReply']
+  props: ['comment']
 }
 </script>
+
+<style lang="scss">
+  .comment-wrapper {
+    padding: 1rem 0;
+  }
+</style>
