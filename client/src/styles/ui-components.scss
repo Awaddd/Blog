@@ -17,6 +17,10 @@ hr {
   border-radius: 100px;
 }
 
+.icon-button {
+  cursor: pointer;
+}
+
 .welcome-content {
   @extend .hero;
   // background-image: url('../assets/oasis.jpg');

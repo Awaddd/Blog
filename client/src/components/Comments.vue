@@ -5,22 +5,33 @@
       <hr class="subtitle">
     </div>
     <div class="comments-section-loadmore" v-if="!commentsExist">
-      <b-button is-outlined type="is-danger" @click="loadComments(5)">Load Comments (60)</b-button>
+      <b-button type="is-primary" expanded outlined @click="loadComments(5)">Load Comments (60)</b-button>
     </div>
     <div class="comments-section-wrapper" v-else>
-      <div v-for="(comment, i) in comments" :key="i">
-        <Comment :comment="comment" /> 
-      </div> 
+
+      <AddComment />
+
+      <div class="comments-section-comment">
+        <div v-for="(comment, i) in comments" :key="i">
+          <Comment :comment="comment" /> 
+        </div> 
+      </div>
+      
+    </div>
+    <div class="comments-section-wrapper">
+
     </div>
   </div>
 </template>
 
 <script>
 import Comment from "@/components/comments/Comment.vue";
+import AddComment from "@/components/comments/AddComment.vue";
 
 export default {
   components: {
-    Comment
+    Comment,
+    AddComment
   },
   data () {
     return {
@@ -81,6 +92,7 @@ export default {
 }
 
 .comments-section-comment {
+  margin-top: 3rem;
 }
 
 .comments-section-comment-reply {
