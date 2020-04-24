@@ -109,6 +109,11 @@ export default {
   padding: 1rem 0;
 }
 
+.comments-section-title {
+  display: grid;
+  justify-items: center;
+}
+
 @media only screen and (width: 770px) {
   .comments-section {
     margin-top: 3rem;

@@ -30,8 +30,7 @@
 
       <div class="content breakOffLongWords" v-html="post.content"></div>
 
-      
-
+      <br>
       <AboutAuthor />
       <Comments />
 
@@ -85,6 +84,11 @@ export default {
 <style lang="scss" scoped>
 
 @import "../styles/app.scss";
+
+.blogPost-separator {
+  width: 100%;
+  border-bottom: 5px solid rgba(250, 250, 250, 0.5);
+}
 
 .my-post-title {
   font-weight: 600;

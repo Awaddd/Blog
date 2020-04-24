@@ -1,10 +1,10 @@
 <template>
   <div class="author-section">
       <!-- <h1 class="title is-size-4">Meet the author</h1> -->
-      <div class="author-section-title">
-        <h2 class="title is-size-5">Meet The Author</h2>
+      <!-- <div class="blogPost-section-title">
+        <h2 class="title is-size-5">Written By</h2>
         <hr class="subtitle">
-      </div>
+      </div> -->
       
       <div class="author-section-wrapper">
         <div class="author-section-media">
@@ -76,11 +76,6 @@ export default {
   grid-gap: 3rem;
 }
 
-.author-section-title {
-  // display: grid;
-  // justify-items: center;
-}
-
 .author-section-wrapper {
   display: grid;
   grid-gap: 20px;
@@ -111,7 +106,10 @@ export default {
   .author-section-media {
     grid-template-columns: max-content max-content;
     align-items: center;
+    justify-content: center;
     grid-gap: 20px;
+    // padding: 2rem 0;
+    margin-bottom: 2rem;
   }
 
   .author-section-bio {

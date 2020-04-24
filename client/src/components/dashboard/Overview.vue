@@ -11,7 +11,7 @@
     <div class="overview-wrapper">
 
       <div class="has-text-centered">
-        <h1 class="title is-size-4-mobile">Welcome to your dashboard</h1>
+        <h1 class="title is-size-4 ">Welcome to your dashboard</h1>
         <p class="subtitle is-size-6-mobile">All your content in one place</p>
       </div>
 
@@ -77,6 +77,7 @@
     justify-content: center;
     justify-items: center;
     text-align: center;
+    padding: 0 3rem;
   }
 
   .overview-points-item-icon {
@@ -95,6 +96,12 @@
 }
 
 @media only screen and (min-width: 1600px) {
+  // .overview-points {
+  //   grid-template-columns: min-content;
+  // }
+  // .overview-points-item {
+  //   min-width: 250px;
+  // }
   .overview-content {
     padding: 5rem 2rem;
   }

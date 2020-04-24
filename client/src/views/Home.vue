@@ -60,18 +60,26 @@
 
         <div class="featured-post__read-more">
           <!-- <button class="my-btn read-more-btn">READ MORE</button> -->
-          <b-button tag="router-link" :to="{
+          <!-- <b-button tag="router-link" :to="{
               name: 'BlogPost',
               params: {title: sanitizeTitle(featuredPost.title)}}" class="my-btn read-more-btn">Learn More
-          </b-button>
+          </b-button> -->
+          <button tag="router-link" class="featured-post__button">
+            <router-link class="featured-post__link" :to="{
+              name: 'BlogPost',
+              params: {title: sanitizeTitle(featuredPost.title)}}">
+              Find Out More
+            </router-link>
+            </button>
         </div>
+        
       </section>
 
 
       <section class="section home-posts">
         <!-- add is-paddingless to remove padding on section -->
           <div class="container">
-            <p class="title is-size-5-mobile is-size-4 has-text-primary has-text-centered my-page-title">Latest Posts</p>
+            <p class="title is-size-5-mobile is-size-4 has-text-dark has-text-centered my-page-title">Latest Posts</p>
             <app-posts :showAmount="6"></app-posts>
           </div>          
       </section>
@@ -156,6 +164,30 @@ export default {
   margin: 0 auto;
 }
 
+.featured-post__button {
+  padding: 0.7rem 2rem;
+  background: $primary;
+  border: 0;
+  color: rgba(255, 255, 255, 0.973);
+  font-size: 1rem;
+  border-radius: 3px;
+  // text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  cursor: pointer;
+  transition: 0.3s;
+
+  .featured-post__link {
+    color: #fff;
+  }
+}
+
+.featured-post__button:hover {
+  // $darkenPrimary: color.adjust($primary, $red: 15);
+  background-color: darken($primary, 7%);
+  transform: translateX(10px);
+}
+
  .read-more-btn {
   font-size: 0.78rem;
   font-weight: 700;
@@ -236,14 +268,10 @@ export default {
       }
 
     }
-
-    .my-page-title {
-      padding: 0 0 10px 0;
-    }
   }
 
-   .my-featured-level {
-   margin-bottom: 0;
+  .my-featured-level {
+    margin-bottom: 0;
  }
 
 }
