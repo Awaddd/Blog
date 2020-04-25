@@ -33,6 +33,7 @@ import bcrypt from "bcryptjs";
 import { ValidationObserver } from 'vee-validate';
 import * as validationRules from '@/helpers/validation';
 import BInputWithValidation from '@/buefyComponents/BInputWithValidation';
+import UserService from "@/services/UserService";
 
 export default {
     data() {
@@ -70,6 +71,14 @@ export default {
 
           const user = response.data.user;
           localStorage.setItem('user', user);
+
+          (async () => {
+            console.log('FROM LOGIN!');
+            const response = await UserService.fetchUserDetails();
+            if (response.status !== 200) console.log(response.error);
+            else this.$store.dispatch('SET_USER',response.data);
+            console.log(response);
+          })();
 
           console.log(response.data.message);
 

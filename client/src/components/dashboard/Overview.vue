@@ -29,12 +29,12 @@
           </p>
 
           <p class="overview-points-item">
-            <b-icon class="overview-points-item-icon" type="is-success" icon="animation" size="is-medium"></b-icon>
+            <b-icon class="overview-points-item-icon" icon="animation" size="is-medium"></b-icon>
             View and sort your content
           </p>
 
           <p class="overview-points-item">
-            <b-icon class="overview-points-item-icon" type="is-warning" icon="bell" size="is-medium"></b-icon>
+            <b-icon class="overview-points-item-icon" icon="bell" size="is-medium"></b-icon>
             Edit &amp; Update and even remove your Content
           </p>
 
@@ -81,7 +81,7 @@
   }
 
   .overview-points-item-icon {
-    color: #1C86FF;
+    color: #92c5ff;
   }
 
 @media only screen and (min-width: 770px) {

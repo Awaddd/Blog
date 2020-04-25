@@ -1,6 +1,8 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
+import store from "./store/store.js";
+import { getToken } from '@/helpers/helpers';
 
 Vue.use(Router);
 
@@ -48,10 +50,12 @@ const router = new Router({
     path: "/dashboard",
     beforeEnter: (to, from, next) => {
       console.log("Message from the router.");
-      const user = localStorage.getItem('user');
+      const user = getToken();
+      store.dispatch("SET_ADMIN_STATUS", user.isAdmin);
       console.log(user);
 
       if (!user) next("/admin/login");
+      else if (user.isAdmin === false) next("/");
       else next();
     },
     component: () =>

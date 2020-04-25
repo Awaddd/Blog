@@ -17,8 +17,12 @@
         </b-navbar-dropdown>
 
         <b-navbar-item tag="div">
-          <div class="" v-if="getLoginStatus">
-            <router-link tag="button" :to="{name: 'Dashboard' }" class="my-btn-nav my-btn-dashboard">Dashboard</router-link>
+          <div class="my-nav-controls" v-if="getLoginStatus">
+            <router-link v-if="getAdminStatus" tag="button" :to="{name: 'Dashboard' }" class="my-btn-nav my-btn-dashboard">Dashboard</router-link>
+            <div class="my-account" v-else>
+              <b-icon icon="account" class="my-account-icon"></b-icon>
+              <span class="my-account-user" v-if="getUser">{{getUser.firstName}}</span>
+            </div>
             <button class="my-btn-nav has-background-danger" @click="logout">Logout</button>
           </div>
           <div class="" v-else>
@@ -35,15 +39,22 @@
   
 <script>
 import { mapGetters } from 'vuex'
+import { getToken } from '@/helpers/helpers';
+import UserService from "@/services/UserService";
 
 export default {
   computed: {
-    ...mapGetters(["getLoginStatus"])
+    ...mapGetters(["getUser","getLoginStatus", "getAdminStatus"])
+  },
+  data () {
+    return {
+    }
   },
   methods: {
     logout() {
       localStorage.removeItem('user');
       this.$store.dispatch("SET_LOGIN_STATUS", null);
+      this.$store.dispatch("SET_USER", null);
       this.$router.push('/');
     }
   }
@@ -57,6 +68,32 @@ export default {
   .my-brand {
     display: grid;
     grid-gap: 15px;
+  }
+
+  .my-nav-controls {
+    display: grid;
+    grid-template-columns: max-content max-content;
+    grid-gap: 10px;
+  }
+
+  .my-account {
+    margin-left: 1rem;
+    margin-right: 2.2rem;
+    padding: 0 0.5rem 0 0;
+    display: grid;
+    grid-auto-flow: column;
+    grid-gap: 5px;
+    align-items: center;
+    border-bottom: 3px solid rgba(0, 0, 55, 0.5);
+    color: rgba(0, 0, 55, 0.5);
+  }
+
+  .my-account-user {
+    font-weight: 500;
+    text-transform: capitalize;
+  }
+
+  .my-account-icon {
   }
 
   .my-nav-btn {
@@ -117,5 +154,11 @@ export default {
     align-items: bottom;
     align-content: bottom;
   }
+
+@media only screen and (min-width: 768px) {
+  .my-nav-controls {
+    grid-gap: 0;
+  }
+}
 
 </style>

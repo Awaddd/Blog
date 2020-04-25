@@ -15,9 +15,12 @@
         <br>
         <!-- <small><a>Like</a> · <a>Reply</a> · 3 hrs </small> -->
         <div class="comments-section-comment-controls">
-          <b-icon icon="heart" type="is-danger"></b-icon>
+          <div @click="favourite" class="icon-button">
+            <b-icon icon="heart-outline" size="is-small" class="heart" v-if="!isFavourite"></b-icon>
+            <b-icon icon="heart" type="is-danger" size="is-small" class="heart" v-else></b-icon>
+          </div>
           <div @click="reply" class="icon-button">
-            <b-icon icon="reply" type="is-dark"></b-icon>
+            <b-icon icon="reply" size="is-small" type="reply"></b-icon>
           </div>
           <span>{{comment.dateTime}} ago</span>
         </div>
@@ -42,13 +45,16 @@ export default {
   },
   data () {
     return {
-      isReply: false
+      isReply: false,
+      isFavourite: false
     }
   },
   methods: {
     reply () {
       this.isReply = !this.isReply;
-      console.log('SKR');
+    },
+    favourite () {
+      this.isFavourite = !this.isFavourite;
     }
   }
 }
