@@ -33,7 +33,6 @@
       <br>
       <AboutAuthor />
       <Comments />
-
     </section>
 
   </div>
@@ -41,9 +40,9 @@
 
 <script>
 import PostsService from "@/services/PostsService";
+import CommentsService from "@/services/CommentsService";
 import AboutAuthor from "@/components/AboutAuthor.vue";
 import Comments from "@/components/Comments.vue";
-import moment from "moment";
 import { formatDate } from '@/helpers/helpers';
 
 export default {
@@ -53,7 +52,8 @@ export default {
   },
   data() {
     return {
-      post: null
+      post: null,
+      comments: null
     }
   },
   mounted() {
@@ -71,7 +71,18 @@ export default {
       }  
       else if (response.data && response.status === 200) {
         this.post = response.data;
-        this.$store.dispatch('SET_CURRENT_POST_TITLE', this.$route.params.title);
+        this.$store.dispatch('SET_CURRENT_POST', { title: this.$route.params.title, id: this.post._id });
+        this.getComments();
+      };
+    },
+    async getComments() {
+
+      const response = await CommentsService.fetchComments(this.post._id);
+      if (response.data.success === false) console.log(response.data.message); 
+      else if (response.data && response.status === 200) {
+        this.comments = response.data;
+        this.$store.dispatch('SET_COMMENTS', response.data);
+        console.log(response.data);
       };
     },
     formatDate(date) {

@@ -2,16 +2,19 @@
   <div>
     <article class="comment-wrapper">
       <figure class="media-left">
-          <img class="circle-picture image is-64x64" :src="comment.image">
+          <!-- <img class="circle-picture image is-64x64" :src="comment.image"> -->
+          <img class="circle-picture image is-64x64" src="https://bulma.io/images/placeholders/128x128.png" />
       </figure>
       <div>
-        <strong>{{comment.name}}</strong>
+        <strong class="is-capitalized">{{comment.author.firstName}} {{comment.author.lastName}}</strong>
         <br>
-        <p class="comments-section-comment-reply" v-if="comment.replyingTo">
+        <p class="comments-section-comment-reply">
+        <!-- <p class="comments-section-comment-reply" v-if="comment.replyingTo"> -->
           <b-icon icon="reply" type="is-primary"></b-icon>
-          <span>Replying to {{comment.replyingTo}}</span>
+          <!-- <span>Replying to {{comment.replyingTo}}</span> -->
+          <span>Replying to John Smith</span>
         </p>
-        {{comment.comment}}
+        {{comment.content}}
         <br>
         <!-- <small><a>Like</a> · <a>Reply</a> · 3 hrs </small> -->
         <div class="comments-section-comment-controls">
@@ -29,7 +32,8 @@
           <div @click="reply" class="icon-button">
             <b-icon icon="reply" size="is-small" type="reply"></b-icon>
           </div>
-          <span>{{comment.dateTime}} ago</span>
+          <span>{{formatDate(comment.createdAt)}}</span>
+          <!-- <span> 2 hrs ago</span> -->
         </div>
       </div>
 
@@ -44,6 +48,7 @@
 
 <script>
 import AddComment from "@/components/comments/AddComment.vue";
+import { formatDate } from '@/helpers/helpers';
 
 export default {
   props: ['comment'],
@@ -62,6 +67,9 @@ export default {
     },
     favourite () {
       this.isFavourite = !this.isFavourite;
+    },
+    formatDate(date) {
+      return formatDate(date);
     }
   }
 }
@@ -83,8 +91,6 @@ export default {
 }
 
 @media only screen and (min-width: 770px) {
-  .comment-wrapper {
-  }
 
   .add-comment-reply-wrapper {
     display: grid;

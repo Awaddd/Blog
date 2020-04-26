@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const CommmentSchema = new Schema({
   content: String,
   hearts: Number,
+  createdAt: {type: Date, default: Date.now},
   discussion_id: {
     type: Schema.Types.ObjectId, ref: 'Discussion', required: true
   },

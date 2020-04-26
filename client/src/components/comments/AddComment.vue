@@ -31,16 +31,17 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getCurrentPostTitle", "getLoginStatus"])
+    ...mapGetters(["getCurrentPost", "getLoginStatus"])
   },
   methods: {
     async addComment () {
       console.log('before res');
+      console.log(this.getCurrentPost);
       if (!this.getLoginStatus) this.notification = 'Please login';
       else {
         let comment = {
           content: this.content,
-          postTitle: this.getCurrentPostTitle.replace(/-/g, " ").toLowerCase()
+          postTitle: this.getCurrentPost.title.replace(/-/g, " ").toLowerCase()
         };
         // retrieve discussion id
         const response = await CommentsService.addComment(comment);
@@ -49,7 +50,7 @@ export default {
           console.log('add comment error ERROR: ', response.data);
         } else if (response.status === 200) this.content = null;
         
-        console.log('after res', response);
+        console.log('after res', response.data);
       } 
     }
   }

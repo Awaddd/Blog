@@ -9,23 +9,17 @@ const Comment = require("../models/comment");
 const Discussion = require("../models/discussion");
 
 
-router.get("/", async (req, res) => {
-  try {
-    const comments = await Comment.findOne({}, "content hearts discussion_id author post").sort({ _id: -1 });
-    if (!comments) res.status(404).send({ status: false, message: 'Comments not found' });
-    else res.status(200).send({comments: comments});
-  } catch (error) {
-    console.log(error);
-  }
-});
+// Get comments for a post
 
 
-router.get("/:postID/comments", async (req, res) => {
+router.get("/:postID", async (req, res) => {
   try {
-    const postID = req.params.id;
-    const comments = await Comment.find({}, "content hearts discussion_id author post").sort({ _id: -1 });
+    const postID = req.params.postID;
+    console.log('*******************');
+    console.log('*******************');
+    const comments = await Comment.find({post: postID}, "content hearts createdAt discussion_id author post").sort({ _id: -1 }).populate('author', 'firstName lastName').exec();
     if (!comments) res.status(404).send({ status: false, message: 'Comments not found' });
-    else res.status(200).send({comments: comments});
+    else res.status(200).send({comments});
   } catch (error) {
     console.log(error);
   }
@@ -36,7 +30,7 @@ router.get("/:postID/comments", async (req, res) => {
 // Post comment
 
 
-router.post("/", async (req, res) => {
+router.post("/", checkLoggedIn, isLoggedIn, async (req, res) => {
 
   let {content, postTitle, discussion_id} = req.body;
   const author = verifyToken(req).userID;

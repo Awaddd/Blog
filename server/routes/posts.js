@@ -43,9 +43,10 @@ router.get("/featured", async (req, res) => {
 router.get("/:title", async (req, res) => {
   try {
     const param = req.params.title.replace(/\-+/g, " ");
-    const post = await Post.findOne({ title: param }, "title summary content image tags createdAt").populate('author', 'firstName lastName').exec();
+    const post = await Post.findOne({ title: param }, "_id title summary content image tags createdAt").populate('author', 'firstName lastName').exec();
     if (!post) res.status(404).send({ success: false, message: 'Post not found' });
     res.status(200).json({
+      _id: post._id,
       title: post.title,
       summary: post.summary,
       content: post.content,

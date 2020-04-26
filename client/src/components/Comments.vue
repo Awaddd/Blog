@@ -12,14 +12,11 @@
       <AddComment />
 
       <div class="comments-section-comment">
-        <div v-for="(comment, i) in comments" :key="i">
+        <div v-for="(comment, i) in getComments.comments" :key="i">
           <Comment :comment="comment" /> 
         </div> 
       </div>
       
-    </div>
-    <div class="comments-section-wrapper">
-
     </div>
   </div>
 </template>
@@ -27,40 +24,47 @@
 <script>
 import Comment from "@/components/comments/Comment.vue";
 import AddComment from "@/components/comments/AddComment.vue";
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
     Comment,
     AddComment
   },
+  computed: {
+    ...mapGetters(['getComments'])
+  },
+  mounted () {
+    console.log(this.getComments.comments[0].author);
+  },
   data () {
     return {
-      comments: [
-        {
-          image: 'https://bulma.io/images/placeholders/128x128.png',
-          name: 'Peter Brian',
-          comment: 'Typical google being google. "hurr durr we have money, we have power, we can do what we want"',
-          dateTime: '5 hrs'
-        }, {
-          image: 'https://bulma.io/images/placeholders/128x128.png',
-          name: 'Awad Dini',
-          comment: '"Typical google being google. "hurr durr we have money, we have power, we can do what we want" - What a disgusting argument. I disagree with it whole-heartedly. How can you endorse such a fallacy?',
-          dateTime: '3 hrs',
-          replyingTo: 'Peter Brian'
-        }, {
-          image: 'https://bulma.io/images/placeholders/128x128.png',
-          name: 'John Smith',
-          comment: 'I think we really should push for this as a society.',
-          dateTime: '2 hrs'
-        }, {
-          image: 'https://bulma.io/images/placeholders/128x128.png',
-          name: 'Charlie Waffling',
-          comment: 'How can you stand behind such a despondent decision!?',
-          dateTime: '2 hrs',
-          replyingTo: 'John Smith'
-        }, 
-      ],
-      commentsExist: false,
+      // comments: [
+      //   {
+      //     image: 'https://bulma.io/images/placeholders/128x128.png',
+      //     name: 'Peter Brian',
+      //     comment: 'Typical google being google. "hurr durr we have money, we have power, we can do what we want"',
+      //     dateTime: '5 hrs'
+      //   }, {
+      //     image: 'https://bulma.io/images/placeholders/128x128.png',
+      //     name: 'Awad Dini',
+      //     comment: '"Typical google being google. "hurr durr we have money, we have power, we can do what we want" - What a disgusting argument. I disagree with it whole-heartedly. How can you endorse such a fallacy?',
+      //     dateTime: '3 hrs',
+      //     replyingTo: 'Peter Brian'
+      //   }, {
+      //     image: 'https://bulma.io/images/placeholders/128x128.png',
+      //     name: 'John Smith',
+      //     comment: 'I think we really should push for this as a society.',
+      //     dateTime: '2 hrs'
+      //   }, {
+      //     image: 'https://bulma.io/images/placeholders/128x128.png',
+      //     name: 'Charlie Waffling',
+      //     comment: 'How can you stand behind such a despondent decision!?',
+      //     dateTime: '2 hrs',
+      //     replyingTo: 'John Smith'
+      //   }, 
+      // ],
+      commentsExist: true,
       numOfComments: null
     }
   },

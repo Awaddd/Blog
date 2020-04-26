@@ -2,8 +2,8 @@ import Api from "@/services/Api";
 
 export default {
 
-  fetchAllComments() {
-    return Api().get("comments");
+  fetchComments(postID) {
+    return Api().get(`comments/${postID}`);
   },
 
   addComment(comment) {

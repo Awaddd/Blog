@@ -12,7 +12,8 @@ const store = new Vuex.Store({
     userPostsTable: null,
     activeDashboardTab: 'allPosts', // get rid of this but check it first
     isAdmin: null,
-    currentPostTitle: null
+    currentPost: null,
+    comments: null
   },
   getters: {
     getUser: state => state.user,
@@ -20,7 +21,8 @@ const store = new Vuex.Store({
     getUserPosts: state => state.userPostsTable,
     getActiveDashboardTab: state => state.activeDashboardTab,
     getAdminStatus: state => state.isAdmin,
-    getCurrentPostTitle: state => state.currentPostTitle
+    getCurrentPost: state => state.currentPost,
+    getComments: state => state.comments
   },
   mutations: {
     SET_USER: (state, payload) => payload ? state.user = payload : state.user = null,
@@ -32,7 +34,8 @@ const store = new Vuex.Store({
       state.userPostsTable.splice(item, 1);
     },
     SET_ADMIN_STATUS: (state, payload) => payload ? state.isAdmin = payload : state.isAdmin = null,
-    SET_CURRENT_POST_TITLE: (state, payload) => payload ? state.currentPostTitle = payload : state.currentPostTitle = null
+    SET_CURRENT_POST: (state, payload) => payload ? state.currentPost = payload : state.currentPost = null,
+    SET_COMMENTS: (state, payload) => payload ? state.comments = payload : state.comments = null
   },
   actions: {
     SET_USER ({commit}, payload) {
@@ -53,8 +56,11 @@ const store = new Vuex.Store({
     SET_ADMIN_STATUS ({commit}, payload) {
       commit('SET_ADMIN_STATUS', payload);
     },
-    SET_CURRENT_POST_TITLE ({commit}, payload) {
-      commit('SET_CURRENT_POST_TITLE', payload);
+    SET_CURRENT_POST ({commit}, payload) {
+      commit('SET_CURRENT_POST', payload);
+    },
+    SET_COMMENTS ({commit}, payload) {
+      commit('SET_COMMENTS', payload);
     }
   }
 });
