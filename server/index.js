@@ -7,6 +7,7 @@ const posts = require("./routes/posts");
 const users = require("./routes/users");
 const userPosts = require("./routes/userPosts");
 const auth = require("./routes/auth");
+const comments = require("./routes/comments");
 const cookieParser = require('cookie-parser');
 
 require('dotenv').config();
@@ -36,6 +37,7 @@ app.use("/api/posts", posts);
 app.use("/api/users", users);
 app.use("/api/userPosts", userPosts);
 app.use("/api/auth", auth);
+app.use("/api/comments", comments);
 
 app.get("/", (req, res) => {
   res.send(`The Api`);  

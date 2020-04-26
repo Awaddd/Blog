@@ -1,6 +1,6 @@
 <template>
   <div>
-    <section class="blogPost section" v-if="post">
+    <section class="blogPost" v-if="post">
       <div class="has-text-centered">
         <h1 class="title is-size-3  is-size-4-mobile  is-capitalized my-post-title">{{post.title}}</h1>
         <h3 class="subtitle is-size-5 is-size-6-mobile">{{post.summary}}</h3>
@@ -71,6 +71,7 @@ export default {
       }  
       else if (response.data && response.status === 200) {
         this.post = response.data;
+        this.$store.dispatch('SET_CURRENT_POST_TITLE', this.$route.params.title);
       };
     },
     formatDate(date) {
@@ -101,6 +102,7 @@ export default {
 .blogPost {
   margin: 0 1.5rem;
   line-height: 1.5;
+  padding: 2rem 0;
 }
 
 .blogPost-wrapper {
@@ -119,11 +121,17 @@ export default {
   }
 }
 
+@media only screen and (min-width: 360px) {
+  .blogPost {
+    padding: 2rem 1rem;
+  }
+}
 
 @media only screen and (min-width: 700px) {
   .blogPost {
     width: 70%;
     margin: 0 auto;
+    padding: 3rem 1.5rem;
   }
   .level {
     display: block;

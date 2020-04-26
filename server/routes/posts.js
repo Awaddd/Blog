@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const {checkLoggedIn, isLoggedIn, upload} = require('../middleware');
-const {privateKey} = require('../config.json');
 const {verifyToken} = require('../helpers/helpers.js');
 const { validatePost } = require('../helpers/validation.js');
 const Post = require("../models/post");
@@ -98,7 +97,6 @@ router.post("/", upload().single('image'), checkLoggedIn, isLoggedIn, async (req
 
   try {
 
-    const user = await User.findOne({ _id: userID}, "_id");
     const existingPost = await Post.findOne({ title: title }, "title summary content image");
 
     if (existingPost) res.status(400).send({ success: false, message: 'A post with that title already exists', field: 'title' });

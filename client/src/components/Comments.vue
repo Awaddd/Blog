@@ -104,7 +104,7 @@ export default {
 
 .comments-section-comment-controls {
   display: grid;
-  grid-template-columns: repeat(3, max-content);
+  grid-template-columns: repeat(4, max-content);
   grid-gap: 10px;
   padding: 1rem 0;
 }

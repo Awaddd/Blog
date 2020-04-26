@@ -88,7 +88,7 @@
 
     </main>
 
-    <section class="section is-medium has-background-primary">
+    <section class="section is-medium has-background-primary newsletter-section-wrapper">
       <div class="container">
         <div class="content has-text-centered newsletter-wrapper">
           <div>
@@ -284,23 +284,6 @@ export default {
 
 @media only screen and (min-width: 700px) {
   
-  .my-page-title {
-    padding: 20px 0 30px 0;
-  }
-
-  .newsletter-group {
-    display: grid;
-    grid-template-columns: 1fr max-content;
-    grid-gap: 15px;
-    button {
-      padding: 0.8rem 36px;
-    }
-    input {
-      min-width: 500px;
-    }
-    margin: 0 auto;
-  }
-
   .featured-post__read-more {
     display: block;
   }
@@ -331,6 +314,27 @@ export default {
 
       }
     }
+  }
+
+  .my-page-title {
+    padding: 20px 0 30px 0;
+  }
+
+  .newsletter-section-wrapper {
+    margin-top: 3rem;
+  }
+
+  .newsletter-group {
+    display: grid;
+    grid-template-columns: 1fr max-content;
+    grid-gap: 15px;
+    button {
+      padding: 0.8rem 36px;
+    }
+    input {
+      min-width: 500px;
+    }
+    margin: 0 auto;
   }
 }
 

@@ -16,9 +16,16 @@
         <!-- <small><a>Like</a> · <a>Reply</a> · 3 hrs </small> -->
         <div class="comments-section-comment-controls">
           <div @click="favourite" class="icon-button">
-            <b-icon icon="heart-outline" size="is-small" class="heart" v-if="!isFavourite"></b-icon>
-            <b-icon icon="heart" type="is-danger" size="is-small" class="heart" v-else></b-icon>
+            <div v-if="!isFavourite" >
+              <span style="margin-right: 10px; font-weight: 600;">13</span>
+              <b-icon icon="heart-outline" size="is-small" class="heart" ></b-icon>
+            </div>
+            <div v-else>
+              <span style="margin-right: 10px; font-weight: 600;">13</span>
+              <b-icon icon="heart" type="is-danger" size="is-small" class="heart"></b-icon>
+            </div>
           </div>
+          
           <div @click="reply" class="icon-button">
             <b-icon icon="reply" size="is-small" type="reply"></b-icon>
           </div>

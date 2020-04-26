@@ -8,7 +8,7 @@
               params: {title: sanitizeTitle(post.title)}
           }">
           <div class="card-image">
-            <figure class="image is-4by4">
+            <figure class="image is-5by3">
               <img :src="post.image" alt="" class="">
             </figure>
           </div>
@@ -63,13 +63,17 @@ export default {
 <style lang="scss">
   @import "../styles/app.scss";
 
-  .cards-wrapper {
-    a {
-      color: #333;
-    }
-    a:hover{
-      color: #333;
-    }
+.cards-wrapper {
+  a {
+    color: #333;
   }
+  a:hover{
+    color: #333;
+  }
+}
+
+.card-image {
+  
+}
 </style>
 

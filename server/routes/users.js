@@ -5,7 +5,6 @@ const { signToken } = require('../helpers/helpers.js');
 const { validateUser } = require('../helpers/validation.js');
 const {checkLoggedIn, isLoggedIn, upload} = require('../middleware');
 const User = require("../models/user");
-const Post = require("../models/post");
 
 
 
