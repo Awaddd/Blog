@@ -24,6 +24,7 @@ import CommentsService from "@/services/CommentsService";
 import {mapGetters} from 'vuex';
 
 export default {
+  props: ['discussion'],
   data () {
     return {
       content: null,
@@ -37,12 +38,15 @@ export default {
     async addComment () {
       console.log('before res');
       console.log(this.getCurrentPost);
+      console.log('REPLYING TO: ', this.replyingTo);
       if (!this.getLoginStatus) this.notification = 'Please login';
       else {
         let comment = {
           content: this.content,
           postTitle: this.getCurrentPost.title.replace(/-/g, " ").toLowerCase()
         };
+
+        if (this.discussion) comment.discussion_id = this.discussion;
         // retrieve discussion id
         const response = await CommentsService.addComment(comment);
       

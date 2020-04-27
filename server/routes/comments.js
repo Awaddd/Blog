@@ -9,6 +9,7 @@ const Comment = require("../models/comment");
 const Discussion = require("../models/discussion");
 
 
+
 // Get comments for a post
 
 
@@ -24,6 +25,52 @@ router.get("/:postID", async (req, res) => {
     console.log(error);
   }
 });
+
+
+
+// Get child comments for a discussion/comment thread 
+
+
+router.get("/discussion/:discussionID", async (req, res) => {
+
+  console.log('REPLY THREAD');
+  console.log('REPLY THREAD');
+  console.log('REPLY THREAD');
+  console.log('REPLY THREAD');
+  const discussion_id = req.params.discussionID;
+  console.log(discussion_id);
+  try {
+
+    const comments = await Comment.find({discussion_id: discussion_id}, "content hearts createdAt discussion_id author post").sort({ _id: -1 }).populate('author', 'firstName lastName').exec();
+    if (!comments) res.status(404).send({ status: false, message: 'Comments not found' });
+    else res.status(200).send({comments});
+
+  } catch (error) {
+    console.log(error);
+  }
+
+});
+
+
+
+// Get comments for a post
+
+
+router.get("/:postID", async (req, res) => {
+  try {
+    const postID = req.params.postID;
+    console.log('*******************');
+    console.log('*******************');
+    const comments = await Comment.find({post: postID}, "content hearts createdAt discussion_id author post").sort({ _id: -1 }).populate('author', 'firstName lastName').exec();
+    if (!comments) res.status(404).send({ status: false, message: 'Comments not found' });
+    else res.status(200).send({comments});
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.get("/")
+
 
 
 

@@ -8,12 +8,10 @@
       <div>
         <strong class="is-capitalized">{{comment.author.firstName}} {{comment.author.lastName}}</strong>
         <br>
-        <p class="comments-section-comment-reply">
-        <!-- <p class="comments-section-comment-reply" v-if="comment.replyingTo"> -->
+        <!-- <p class="comments-section-comment-reply">
           <b-icon icon="reply" type="is-primary"></b-icon>
-          <!-- <span>Replying to {{comment.replyingTo}}</span> -->
           <span>Replying to John Smith</span>
-        </p>
+        </p> -->
         {{comment.content}}
         <br>
         <!-- <small><a>Like</a> · <a>Reply</a> · 3 hrs </small> -->
@@ -38,7 +36,7 @@
       </div>
 
       <div class="add-comment-reply-wrapper">
-        <AddComment class="add-comment-reply" v-if="isReply" />
+        <AddComment class="add-comment-reply" v-if="isReply" :discussion="comment.discussion_id" />
       </div>
     </article>
     

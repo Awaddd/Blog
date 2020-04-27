@@ -33,6 +33,10 @@
       <br>
       <AboutAuthor />
       <Comments />
+      <br>
+      <div class="section has-background-dark has-text-white">
+        <b-button type="is-primary" @click="getReplies">View replies</b-button>
+      </div>
     </section>
 
   </div>
@@ -53,7 +57,8 @@ export default {
   data() {
     return {
       post: null,
-      comments: null
+      comments: null,
+      replies: null
     }
   },
   mounted() {
@@ -76,13 +81,23 @@ export default {
       };
     },
     async getComments() {
-
       const response = await CommentsService.fetchComments(this.post._id);
       if (response.data.success === false) console.log(response.data.message); 
       else if (response.data && response.status === 200) {
         this.comments = response.data;
         this.$store.dispatch('SET_COMMENTS', response.data);
         console.log(response.data);
+      };
+    },
+    async getReplies() {
+      console.log(this.comments.comments[0].discussion_id);
+      console.log(this.comments.comments[0].content);
+      const response = await CommentsService.fetchReplies(this.comments.comments[0].discussion_id);
+      if (response.data.success === false) console.log(response.data.message); 
+      else if (response.data && response.status === 200) {
+        this.replies = response.data;
+        // this.$store.dispatch('SET_REPLIES', response.data);
+        console.log(this.replies);
       };
     },
     formatDate(date) {
