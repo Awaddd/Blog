@@ -14,13 +14,12 @@ const Discussion = require("../models/discussion");
 
 
 router.get("/:postID", async (req, res) => {
-  try {
     const postID = req.params.postID;
-    console.log('*******************');
-    console.log('*******************');
-    const comments = await Comment.find({post: postID}, "content hearts createdAt discussion_id author post").sort({ _id: -1 }).populate('author', 'firstName lastName').exec();
-    if (!comments) res.status(404).send({ status: false, message: 'Comments not found' });
-    else res.status(200).send({comments});
+
+    try {
+      const comments = await Comment.find({ post: postID, replyingTo: { $exists: false }}, "content hearts createdAt discussion_id author post replyingTo").sort({ _id: -1 }).populate('author', 'firstName lastName').exec();
+      if (!comments) res.status(404).send({ status: false, message: 'Comments not found' });
+      else res.status(200).send({comments});
   } catch (error) {
     console.log(error);
   }
@@ -41,7 +40,7 @@ router.get("/discussion/:discussionID", async (req, res) => {
   console.log(discussion_id);
   try {
 
-    const comments = await Comment.find({discussion_id: discussion_id}, "content hearts createdAt discussion_id author post").sort({ _id: -1 }).populate('author', 'firstName lastName').exec();
+    const comments = await Comment.find({discussion_id: discussion_id, replyingTo: { $exists: true }}, "content hearts createdAt discussion_id author post").sort({ _id: -1 }).populate('author', 'firstName lastName').exec();
     if (!comments) res.status(404).send({ status: false, message: 'Comments not found' });
     else res.status(200).send({comments});
 
@@ -50,27 +49,6 @@ router.get("/discussion/:discussionID", async (req, res) => {
   }
 
 });
-
-
-
-// Get comments for a post
-
-
-router.get("/:postID", async (req, res) => {
-  try {
-    const postID = req.params.postID;
-    console.log('*******************');
-    console.log('*******************');
-    const comments = await Comment.find({post: postID}, "content hearts createdAt discussion_id author post").sort({ _id: -1 }).populate('author', 'firstName lastName').exec();
-    if (!comments) res.status(404).send({ status: false, message: 'Comments not found' });
-    else res.status(200).send({comments});
-  } catch (error) {
-    console.log(error);
-  }
-});
-
-router.get("/")
-
 
 
 
@@ -79,7 +57,10 @@ router.get("/")
 
 router.post("/", checkLoggedIn, isLoggedIn, async (req, res) => {
 
-  let {content, postTitle, discussion_id} = req.body;
+  console.log(`................ NEW COMMENT`);
+  console.log(`................ NEW COMMENT`);
+  console.log(`................ NEW COMMENT`);
+  let {content, postTitle, discussion_id, replyingTo} = req.body;
   const author = verifyToken(req).userID;
 
   try {
@@ -89,10 +70,17 @@ router.post("/", checkLoggedIn, isLoggedIn, async (req, res) => {
     const new_comment = new Comment({
       content,
       author,
-      post: post._id,
+      post: post._id
     });
 
-    if (discussion_id) new_comment.discussion_id = discussion_id;
+    if (discussion_id) {
+      new_comment.discussion_id = discussion_id;
+      new_comment.replyingTo = replyingTo;
+      console.log(new_comment.discussion_id);
+      console.log(`................ NEW reply`);
+      console.log(`${new_comment.replyingTo} REPLYING TO`);
+      console.log(`................ NEW reply`);
+}
     else {
       const new_discussion = new Discussion({});
       const discussion = await new_discussion.save();

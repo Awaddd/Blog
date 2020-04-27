@@ -4,16 +4,71 @@
       <h2 class="title is-size-5">Comments</h2>
       <hr class="subtitle">
     </div>
-    <div class="comments-section-loadmore" v-if="!commentsExist">
+    <!-- <div class="comments-section-loadmore" v-if="!commentsExist">
       <b-button type="is-primary" expanded outlined @click="loadComments(5)">Load Comments (60)</b-button>
-    </div>
-    <div class="comments-section-wrapper" v-else>
+    </div> -->
+    <div class="comments-section-wrapper">
 
       <AddComment />
 
       <div class="comments-section-comment">
         <div v-for="(comment, i) in getComments.comments" :key="i">
-          <Comment :comment="comment" /> 
+          <!-- <Comment :comment="comment" /> -->
+
+          <article class="comment-wrapper">
+            <figure class="media-left">
+                <!-- <img class="circle-picture image is-64x64" :src="comment.image"> -->
+                <img class="circle-picture image is-64x64" src="https://bulma.io/images/placeholders/128x128.png" />
+            </figure>
+            <div>
+              <strong class="is-capitalized">{{comment.author.firstName}} {{comment.author.lastName}}</strong>
+              <br>
+              <!-- <p class="comments-section-comment-reply">
+                <b-icon icon="reply" type="is-primary"></b-icon>
+                <span>Replying to John Smith</span>
+              </p> -->
+              {{comment.content}}
+              <br>
+              <div class="comments-section-comment-controls">
+                <div @click="favourite" class="icon-button">
+                  <div v-if="!isFavourite" >
+                    <span style="margin-right: 10px; font-weight: 600;">13</span>
+                    <b-icon icon="heart-outline" size="is-small" class="heart" ></b-icon>
+                  </div>
+                  <div v-else>
+                    <span style="margin-right: 10px; font-weight: 600;">13</span>
+                    <b-icon icon="heart" type="is-danger" size="is-small" class="heart"></b-icon>
+                  </div>
+                </div>
+                
+                <div @click="reply(i)" class="icon-button">
+                  <b-icon icon="reply" size="is-small" type="reply"></b-icon>
+                </div>
+                <span>{{formatDate(comment.createdAt)}}</span>
+                <!-- <span> 2 hrs ago</span> -->
+              </div>
+              <span tag="button" class="add-comment-view-more" v-if="!isReply" @click="getReplies(i)">  
+                <b-icon icon="chevron-down"></b-icon>
+                View replies
+              </span>
+            </div>
+
+            <div class="add-comment-reply-wrapper" v-if="isReply && (replyingTo === comment._id)" >
+              <AddComment class="add-comment-reply" :discussion="comment.discussion_id" :replyingTo="comment._id" />
+            </div>
+
+<!-- REPLY START -->
+            <div v-if="replies && (replyingTo === comment._id)" class="add-comment-reply-wrapper">
+              <div class="section has-text-white has-background-success" style="margin-top: 5px; margin-bottom: 5px;" v-for="(reply, i) in replies.comments" :key="i">
+                <!-- <Comment :comment="comment" /> -->
+                <p>{{reply.author.firstName}}</p>
+                <p>{{reply.author.lastName}}</p>
+                <p>{{reply.content}}</p>
+              </div>
+            </div>
+<!-- REPLY END -->
+
+          </article> 
         </div> 
       </div>
       
@@ -24,7 +79,9 @@
 <script>
 import Comment from "@/components/comments/Comment.vue";
 import AddComment from "@/components/comments/AddComment.vue";
+import CommentsService from "@/services/CommentsService";
 import { mapGetters } from 'vuex';
+import { formatDate } from '@/helpers/helpers';
 
 export default {
   components: {
@@ -39,41 +96,41 @@ export default {
   },
   data () {
     return {
-      // comments: [
-      //   {
-      //     image: 'https://bulma.io/images/placeholders/128x128.png',
-      //     name: 'Peter Brian',
-      //     comment: 'Typical google being google. "hurr durr we have money, we have power, we can do what we want"',
-      //     dateTime: '5 hrs'
-      //   }, {
-      //     image: 'https://bulma.io/images/placeholders/128x128.png',
-      //     name: 'Awad Dini',
-      //     comment: '"Typical google being google. "hurr durr we have money, we have power, we can do what we want" - What a disgusting argument. I disagree with it whole-heartedly. How can you endorse such a fallacy?',
-      //     dateTime: '3 hrs',
-      //     replyingTo: 'Peter Brian'
-      //   }, {
-      //     image: 'https://bulma.io/images/placeholders/128x128.png',
-      //     name: 'John Smith',
-      //     comment: 'I think we really should push for this as a society.',
-      //     dateTime: '2 hrs'
-      //   }, {
-      //     image: 'https://bulma.io/images/placeholders/128x128.png',
-      //     name: 'Charlie Waffling',
-      //     comment: 'How can you stand behind such a despondent decision!?',
-      //     dateTime: '2 hrs',
-      //     replyingTo: 'John Smith'
-      //   }, 
-      // ],
-      commentsExist: true,
-      numOfComments: null
+      replies: null,
+      isReply: null,
+      replyingTo: null,
+      isFavourite: false
     }
   },
   methods: {
+    async getReplies(comment) {
+      this.replyingTo = this.getComments.comments[comment]._id;
+      console.log(this.getComments.comments[comment].discussion_id);
+      console.log(this.getComments.comments[comment].content);
+
+      const response = await CommentsService.fetchReplies(this.getComments.comments[comment].discussion_id);
+      if (response.data.success === false) console.log(response.data.message); 
+      else if (response.data && response.status === 200) {
+        this.replies = response.data;
+        console.log(this.replies);
+      };
+    },
     loadComments(numOfComments) {
       this.commentsExist = true;
       this.numOfComments = numOfComments;
       console.log(this.commentsExist);
       console.log(this.numOfComments);
+    },
+    reply(comment) {
+      console.log(this.getComments.comments[comment]);
+      this.replyingTo = this.getComments.comments[comment]._id;
+      this.isReply = !this.isReply;
+    },
+    favourite () {
+      this.isFavourite = !this.isFavourite;
+    },
+    formatDate(date) {
+      return formatDate(date);
     }
   }
 }

@@ -33,10 +33,14 @@
           <span>{{formatDate(comment.createdAt)}}</span>
           <!-- <span> 2 hrs ago</span> -->
         </div>
+        <span tag="button" class="add-comment-view-more">  
+          <b-icon icon="chevron-down"></b-icon>
+          View replies
+        </span>
       </div>
 
-      <div class="add-comment-reply-wrapper">
-        <AddComment class="add-comment-reply" v-if="isReply" :discussion="comment.discussion_id" />
+      <div class="add-comment-reply-wrapper" v-if="isReply" >
+        <AddComment class="add-comment-reply" :discussion="comment.discussion_id" />
       </div>
     </article>
     
@@ -80,6 +84,13 @@ export default {
   grid-template-columns: max-content 1fr;
 }
 
+.add-comment-view-more {
+  display: grid; 
+  grid-template-columns: max-content max-content; 
+  grid-gap: 5px;
+  cursor: pointer;
+}
+
 .add-comment-reply-wrapper {
   grid-column: 1/4;
 }
@@ -100,5 +111,7 @@ export default {
     // min-width: 90%;
   }
 }
+
+
 
 </style>
