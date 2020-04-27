@@ -51,25 +51,6 @@ export default {
 
 <style lang="scss">
 
-.icon-group {
-  display: grid;
-  grid-template-columns: repeat(3, max-content);
-  grid-gap: 12px;
-  justify-content: center;
-}
-
-.facebook {
-  color: #3b5999;
-}
-
-.twitter {
-  color: #55acee;
-}
-
-.linkedin {
-  color: #0077B5;
-}
-
 .author-section {
   margin-top: 3rem;
   display: grid;
@@ -91,6 +72,24 @@ export default {
   text-align: center;
 }
 
+.icon-group {
+  display: grid;
+  grid-template-columns: repeat(3, max-content);
+  grid-gap: 12px;
+  justify-content: center;
+}
+
+.facebook {
+  color: #3b5999;
+}
+
+.twitter {
+  color: #55acee;
+}
+
+.linkedin {
+  color: #0077B5;
+}
 
 @media only screen and (min-width: 770px) {
   .author-section {
