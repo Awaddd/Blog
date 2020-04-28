@@ -9,7 +9,7 @@
     <addComment />
 
     <div>
-      <div v-for="(comment, i) in getComments.comments" :key="i">
+      <div v-for="(comment, i) in comments" :key="i">
         <article class="comment-wrapper">
           <figure class="media-left">
               <img class="circle-picture image is-64x64" src="https://bulma.io/images/placeholders/128x128.png" />
@@ -39,23 +39,26 @@
                 </div>
                 <span> 2 hrs ago</span>
               </div>
-              <span tag="button" class="add-comment-view-more" @click="showReplies(i)" v-if="!showHideReplies">  
+              <span tag="button" class="add-comment-view-more" v-if="showHideOpenRepliesButton(comment)" @click="getReplies(i)">  
                 <b-icon icon="chevron-down"></b-icon>
                 View replies
               </span>
 
-              <span tag="button" class="add-comment-view-more" @click="hideReplies(i)" v-if="showHideReplies && (parentCommentID === comment._id)">  
+              <span tag="button" class="add-comment-view-more" v-if="showHideCloseRepliesButton(comment, currentReply)" @click="hideReplies(comment, currentReply)">  
                 <b-icon icon="chevron-up"></b-icon>
                 Close
               </span>
           </div>
 
-          <div class="add-comment-reply-wrapper" v-if="isReply && (parentCommentID === comment._id)">
+          <div class="add-comment-reply-wrapper" v-if="isReply">
             <AddComment class="add-comment-reply" :discussion="comment.discussion_id" :replyingTo="comment._id" />
           </div>
-
-          <div class="add-comment-reply-wrapper" v-if="replies && (parentCommentID === comment._id)">
-            <div v-for="(reply, k) in replies.comments" :key="k">
+<!-- (parentDiscussionID === comment.discussion_id)
+(parentCommentID === comment._id)
+ -->
+          <!-- REPLIES -->
+          <div class="add-comment-reply-wrapper" v-if="showReplies(comment, currentReply)">
+            <div v-for="(reply, k) in replies" :key="k">
 
               <article class="comment-wrapper">
                 <figure class="media-left">
@@ -105,40 +108,60 @@ export default {
     AddComment
   },
   computed: {
-    ...mapGetters(['getComments'])
+    ...mapGetters({ comments: 'getComments' })
   },
   data () {
     return {
       replies: null,
-      parentCommentID: null,
+      copyOfReplies: [],
       isReply: null,
-      showHideReplies: null
+      currentReply: null,
+      currentOpenRepliesButton: true
     }
   },
   methods: {
-    showReplies (i) {
-      this.getReplies(i);
-      this.showHideReplies = !this.showHideReplies
-    },
-    hideReplies (i) {
-      this.showHideReplies = null;
-      this.replies = null;
-    },
     async getReplies(i) {
-      // this.replyingTo = this.getComments.comments[comment]._id;
-      console.log(this.getComments.comments[i].discussion_id);
-      console.log(this.getComments.comments[i].content);
+      console.log('-----------------');
 
-      const response = await CommentsService.fetchReplies(this.getComments.comments[i].discussion_id);
-      if (response.data.success === false) console.log(response.data.message); 
+      const response = await CommentsService.fetchReplies(this.comments[i].discussion_id);
+      if (response.status !== 200) console.log(response.data); 
       else if (response.data && response.status === 200) {
         this.replies = response.data;
+        this.copyOfReplies.push(this.replies);
+        console.log(this.copyOfReplies);
+        this.currentReply = {
+          _id: this.comments[i]._id,
+          discussion_id: this.comments[i].discussion_id
+        };
         console.log(this.replies);
-        this.parentCommentID = this.getComments.comments[i]._id;
       }
     },
     reply(i) {
       this.isReply = !this.isReply;
+    },
+    showReplies(comment, reply) {
+      if (this.replies && (comment._id === reply._id)) return true;
+      return false;
+    },
+    hideReplies(comment, reply) {
+      if (this.replies && (comment._id === reply._id)) { 
+        this.replies = null; 
+        this.openRepliesButton = true;
+      }
+    },
+    showHideOpenRepliesButton(comment) {
+      if (this.currentReply) {
+        if (comment._id === this.currentReply._id) {
+          console.log(comment);
+          return false;
+        }
+        return true;
+      } else return true;
+    },
+    showHideCloseRepliesButton(comment, reply) {
+      if (this.replies && (comment._id === reply._id)) {
+        return true;
+      }
     }
   }
 }
