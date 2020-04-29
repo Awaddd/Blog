@@ -8,7 +8,7 @@
 
     <addComment />
 
-    <div>
+    <div class="comments-section-wrapper">
       <div v-for="(comment, i) in comments" :key="i">
         <article class="comment-wrapper">
           <figure class="media-left">
@@ -53,9 +53,7 @@
           <div class="add-comment-reply-wrapper" v-if="isReply">
             <AddComment class="add-comment-reply" :discussion="comment.discussion_id" :replyingTo="comment._id" />
           </div>
-<!-- (parentDiscussionID === comment.discussion_id)
-(parentCommentID === comment._id)
- -->
+
           <!-- REPLIES -->
           <div class="add-comment-reply-wrapper" v-if="showReplies(comment, currentReply)">
             <div v-for="(reply, k) in replies" :key="k">
@@ -173,8 +171,17 @@ export default {
   margin-top: 3rem;
 }
 
+.comments-section-title {
+  margin-bottom: 2rem;
+}
+
+.comments-section-wrapper {
+  margin-top: 2rem;
+
+}
+
 .comment-wrapper {
-  padding: 0.5rem 0;
+  padding: 1rem 0;
   display: grid;
   grid-template-columns: max-content 1fr;
 }
