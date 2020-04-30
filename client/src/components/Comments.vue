@@ -148,12 +148,8 @@ export default {
       }
     },
     showHideOpenRepliesButton(comment) {
-      if (this.currentReply) {
-        if (comment._id === this.currentReply._id) {
-          console.log(comment);
-          return false;
-        }
-        return true;
+      if (this.replies && (comment._id === this.currentReply._id)) {
+        return false;
       } else return true;
     },
     showHideCloseRepliesButton(comment, reply) {
@@ -177,7 +173,6 @@ export default {
 
 .comments-section-wrapper {
   margin-top: 2rem;
-
 }
 
 .comment-wrapper {

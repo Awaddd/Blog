@@ -55,6 +55,7 @@ export default {
     return {
       post: null,
       comments: null,
+      discussionIDs: null,
       replies: null
     }
   },
@@ -82,9 +83,28 @@ export default {
       if (response.data.success === false) console.log(response.data.message); 
       else if (response.data && response.status === 200) {
         this.comments = response.data;
+
+        this.discussionIDs = [];
+        this.comments.forEach( item => {
+          console.log(item.discussion_id);
+          this.discussionIDs.push(item.discussion_id);
+        });
+
+        this.getReplies();
+
         this.$store.dispatch('SET_COMMENTS', response.data);
         console.log(response.data);
       };
+    },
+    async getReplies(i) {
+      console.log('-----------------');
+
+      const response = await CommentsService.fetchReplies(this.discussionIDs);
+      if (response.status !== 200) console.log(response.data); 
+      else if (response.data && response.status === 200) {
+        this.replies = response.data;
+        console.log(this.replies);
+      }
     },
     formatDate(date) {
       return formatDate(date);

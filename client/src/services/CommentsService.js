@@ -6,8 +6,9 @@ export default {
     return Api().get(`comments/${postID}`);
   },
 
-  fetchReplies(discussionID) {
-    return Api().get(`comments/discussion/${discussionID}`);
+  fetchReplies(discussionIDs) {
+    console.log(discussionIDs);
+    return Api().get(`comments/discussion/${discussionIDs}`);
   },
 
   addComment(comment) {

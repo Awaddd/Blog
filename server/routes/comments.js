@@ -30,25 +30,62 @@ router.get("/:postID", async (req, res) => {
 // Get child comments for a discussion/comment thread 
 
 
-router.get("/discussion/:discussionID", async (req, res) => {
+// router.get("/discussion/:discussionID", async (req, res) => {
 
+//   console.log('REPLY THREAD');
+//   console.log('REPLY THREAD');
+//   console.log('REPLY THREAD');
+//   console.log('REPLY THREAD');
+//   const discussion_id = req.params.discussionID;
+//   console.log(discussion_id);
+//   try {
+
+//     const comments = await Comment.find({discussion_id: discussion_id, replyingTo: { $exists: true }}, "content hearts createdAt discussion_id author post").sort({ _id: -1 }).populate('author', 'firstName lastName').exec();
+//     if (comments.length === 0) res.status(404).send({ status: false, message: 'Comments not found' });
+//     else res.status(200).send(comments);
+
+//   } catch (error) {
+//     console.log(error);
+//   }
+
+// });
+
+
+
+// get all replies 
+
+
+router.get("/discussion/:discussionIDs", async (req, res) => {
   console.log('REPLY THREAD');
   console.log('REPLY THREAD');
   console.log('REPLY THREAD');
   console.log('REPLY THREAD');
-  const discussion_id = req.params.discussionID;
-  console.log(discussion_id);
+  let discussionIDs = req.params.discussionIDs;
+  console.log(discussionIDs);
   try {
 
-    const comments = await Comment.find({discussion_id: discussion_id, replyingTo: { $exists: true }}, "content hearts createdAt discussion_id author post").sort({ _id: -1 }).populate('author', 'firstName lastName').exec();
-    if (comments.length === 0) res.status(404).send({ status: false, message: 'Comments not found' });
-    else res.status(200).send(comments);
+    // const comments = await Comment.find({discussion_id: discussion_id, replyingTo: { $exists: true }}, "content hearts createdAt discussion_id author post").sort({ _id: -1 }).populate('author', 'firstName lastName').exec();
+    
+    const allComments = await Comment.find({
+      discussion_id: {
+        $in: discussionIDs
+      },
+      replyingTo: {$exists: true}
+    });
+    
+    console.log(allComments);
+    
+    if (allComments.length === 0) res.status(404).send({ status: false, message: 'Comments not found' });
+    else res.status(200).send(allComments);
 
   } catch (error) {
     console.log(error);
   }
 
+  // const discussion_id = req.params.discussionIDs;
+  // console.log(...discussionIDs);
 });
+
 
 
 
