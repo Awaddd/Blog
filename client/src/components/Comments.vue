@@ -1,11 +1,11 @@
 <template>
-  <div class="comments-section">
+  <div>
 
-    <addComment />
+    <addComment class="add-comment-section" />
 
     <div class="comments-section-wrapper">
-      <div v-for="(comment, i) in comments" :key="i" class="comment-wrapper-parent">
-        <article class="comment-wrapper">
+      <div v-for="(comment, i) in comments" :key="i" class="comment-wrapper-parent" :class="{ 'currentComment': activeCommentThread(comment, i) }">
+        <article class="parent-comment">
           <figure class="media-left">
               <img class="circle-picture image is-64x64" src="https://bulma.io/images/placeholders/128x128.png" />
           </figure>
@@ -50,10 +50,10 @@
           </div>
 
           <!-- REPLIES -->
-          <div class="add-comment-reply-wrapper" v-if="showReplies(comment, i)">
+          <div class="add-comment-reply-wrapper replies-wrapper" v-if="showReplies(comment, i)" >
             <div v-for="(reply, k) in replies" :key="k" class="comment-wrapper-child">
 
-              <article class="comment-wrapper">
+              <article class="child-comment">
                 <figure class="media-left">
                     <img class="circle-picture image is-64x64" src="https://bulma.io/images/placeholders/128x128.png" />
                 </figure>
@@ -121,7 +121,8 @@ export default {
     return {
       replies: null,
       isReply: null,
-      currentReply: null
+      currentReply: null,
+      active: null
     }
   },
   mounted () {
@@ -131,7 +132,14 @@ export default {
     renderCorrectly() {
       console.log('TOP WAFF');
     },
+    activeCommentThread(comment, i) {
+      if ((this.replies) && (comment._id === this.currentReply._id)) return true;
+      return false;
+    },
     viewReplies(comment, i) {
+
+      this.active = true;
+
       this.currentReply = {
         _id: this.comments[i]._id,
         discussion_id: this.comments[i].discussion_id
@@ -174,8 +182,12 @@ export default {
 
 <style lang="scss">
 
-.comments-section {
-  margin-top: 3rem;
+
+
+
+
+.add-comment-section {
+  padding: 0 2rem;
 }
 
 .comments-section-title {
@@ -183,20 +195,34 @@ export default {
 }
 
 .comments-section-wrapper {
-  margin-top: 2rem;
+  margin-top: 3rem;
+}
+
+
+.replies-wrapper {
+  margin-top: 1.5rem;
+  display: grid;
+  grid-gap: 1.5rem;
 }
 
 .comment-wrapper-parent {
-  margin: 3rem 0;
+  margin: 2rem 0;
+  border-left: 7px solid #fff;
+  border-right: 7px solid #fff;
 }
 
-.comment-wrapper-child {
-  margin-top: 1rem;
+.currentComment {
+  border-left: 7px solid rgba(0, 0, 255, 0.5);
 }
 
-.comment-wrapper {
+.parent-comment, .child-comment {
   display: grid;
   grid-template-columns: max-content 1fr;
+}
+
+.parent-comment {
+  padding: 0 2rem;
+
 }
 
 .comments-section-comment-reply {
@@ -211,10 +237,11 @@ export default {
   display: grid;
   grid-template-columns: repeat(4, max-content);
   grid-gap: 10px;
-  padding: 0.5rem 0 1rem 0;
+  padding: 0.5rem 0 0 0;
 }
 
 .add-comment-view-more {
+  margin-top: 10px;
   display: grid; 
   grid-template-columns: max-content max-content; 
   grid-gap: 5px;
@@ -231,6 +258,10 @@ export default {
 
 
 @media only screen and (min-width: 770px) {
+
+  .currentComment {
+    border: 0;
+  }
 
   .add-comment-reply-wrapper {
     display: grid;

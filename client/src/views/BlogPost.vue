@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="blogPost-wrapper">
     <section class="blogPost" v-if="post">
       <div class="has-text-centered">
         <h1 class="title is-size-3  is-size-4-mobile  is-capitalized my-post-title">{{post.title}}</h1>
@@ -28,18 +28,16 @@
         </div>
       </header>      
 
-      <div class="content breakOffLongWords" v-html="post.content"></div>
-
-      <br>
-      <AboutAuthor />
-
-      <div class="viewCommentsWrapper" v-if="!showComments">
-        <b-button class="viewCommentsButton" type="is-danger" outlined @click="getComments">View comments</b-button>
-      </div>
-
-      <Comments v-else />
-  
+      <div class="content breakOffLongWords" v-html="post.content"></div> 
     </section>
+
+    <AboutAuthor />
+
+    <div class="viewCommentsWrapper" v-if="!showComments">
+      <b-button class="viewCommentsButton" type="is-danger" outlined @click="getComments">View comments</b-button>
+    </div>
+
+    <Comments class="comments-section" v-else />
 
   </div>
 </template>
@@ -81,13 +79,15 @@ export default {
       else if (response.data && response.status === 200) {
         this.post = response.data;
         this.$store.dispatch('SET_CURRENT_POST', { title: this.$route.params.title, id: this.post._id });
+        this.$store.dispatch('SET_COMMENTS', null);
+        this.$store.dispatch('SET_REPLIES', null);
       };
     },
     async getComments() {
+      this.showComments = true;
       const response = await CommentsService.fetchComments(this.post._id);
       if (response.data.success === false) console.log(response.data.message); 
       else if (response.data && response.status === 200) {
-        this.showComments = true;
         this.comments = response.data;
 
         this.discussionIDs = [];
@@ -146,10 +146,6 @@ export default {
   padding: 2rem 0;
 }
 
-.blogPost-wrapper {
-  text-align: center;
-}
-
 .cover-image {
     margin: 2rem 0 0 0;
     max-height: 200px;
@@ -168,7 +164,8 @@ export default {
   justify-items: center;
 }
 
-.viewCommentsButton {
+.comments-section {
+  margin: 3rem 0;
 }
 
 @media only screen and (min-width: 360px) {
@@ -178,7 +175,7 @@ export default {
 }
 
 @media only screen and (min-width: 700px) {
-  .blogPost {
+  .blogPost-wrapper {
     width: 70%;
     margin: 0 auto;
     padding: 3rem 1.5rem;
@@ -220,7 +217,7 @@ export default {
 }
 
 @media only screen and (min-width: 1600px) {
-  .blogPost {
+  .blogPost-wrapper {
     width: 50%;
     margin: 0 auto;
   }
