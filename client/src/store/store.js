@@ -13,7 +13,8 @@ const store = new Vuex.Store({
     activeDashboardTab: 'allPosts', // get rid of this but check it first
     isAdmin: null,
     currentPost: null,
-    comments: null
+    comments: null,
+    replies: null
   },
   getters: {
     getUser: state => state.user,
@@ -22,7 +23,8 @@ const store = new Vuex.Store({
     getActiveDashboardTab: state => state.activeDashboardTab,
     getAdminStatus: state => state.isAdmin,
     getCurrentPost: state => state.currentPost,
-    getComments: state => state.comments
+    getComments: state => state.comments,
+    getReplies: state => state.replies
   },
   mutations: {
     SET_USER: (state, payload) => payload ? state.user = payload : state.user = null,
@@ -35,7 +37,8 @@ const store = new Vuex.Store({
     },
     SET_ADMIN_STATUS: (state, payload) => payload ? state.isAdmin = payload : state.isAdmin = null,
     SET_CURRENT_POST: (state, payload) => payload ? state.currentPost = payload : state.currentPost = null,
-    SET_COMMENTS: (state, payload) => payload ? state.comments = payload : state.comments = null
+    SET_COMMENTS: (state, payload) => payload ? state.comments = payload : state.comments = null,
+    SET_REPLIES: (state, payload) => payload ? state.replies = payload : state.replies = null
   },
   actions: {
     SET_USER ({commit}, payload) {
@@ -61,6 +64,9 @@ const store = new Vuex.Store({
     },
     SET_COMMENTS ({commit}, payload) {
       commit('SET_COMMENTS', payload);
+    },
+    SET_REPLIES({commit}, payload) {
+      commit('SET_REPLIES', payload);
     }
   }
 });

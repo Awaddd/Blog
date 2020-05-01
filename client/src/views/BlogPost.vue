@@ -32,7 +32,12 @@
 
       <br>
       <AboutAuthor />
-      <Comments />
+
+      <div class="viewCommentsWrapper" v-if="!showComments">
+        <b-button class="viewCommentsButton" type="is-danger" outlined @click="getComments">View comments</b-button>
+      </div>
+
+      <Comments v-else />
   
     </section>
 
@@ -56,7 +61,8 @@ export default {
       post: null,
       comments: null,
       discussionIDs: null,
-      replies: null
+      replies: null,
+      showComments: false
     }
   },
   mounted() {
@@ -75,13 +81,13 @@ export default {
       else if (response.data && response.status === 200) {
         this.post = response.data;
         this.$store.dispatch('SET_CURRENT_POST', { title: this.$route.params.title, id: this.post._id });
-        this.getComments();
       };
     },
     async getComments() {
       const response = await CommentsService.fetchComments(this.post._id);
       if (response.data.success === false) console.log(response.data.message); 
       else if (response.data && response.status === 200) {
+        this.showComments = true;
         this.comments = response.data;
 
         this.discussionIDs = [];
@@ -89,6 +95,8 @@ export default {
           console.log(item.discussion_id);
           this.discussionIDs.push(item.discussion_id);
         });
+
+        console.log(this.discussionIDs);
 
         this.getReplies();
 
@@ -103,6 +111,7 @@ export default {
       if (response.status !== 200) console.log(response.data); 
       else if (response.data && response.status === 200) {
         this.replies = response.data;
+        this.$store.dispatch('SET_REPLIES', response.data);
         console.log(this.replies);
       }
     },
@@ -151,6 +160,15 @@ export default {
     max-width: 100%;
     margin-top: -50px;
   }
+}
+
+.viewCommentsWrapper {
+  margin: 2rem 0;
+  display: grid;
+  justify-items: center;
+}
+
+.viewCommentsButton {
 }
 
 @media only screen and (min-width: 360px) {

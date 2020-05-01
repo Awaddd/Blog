@@ -8,6 +8,7 @@ export default {
 
   fetchReplies(discussionIDs) {
     console.log(discussionIDs);
+    discussionIDs = JSON.stringify(discussionIDs);
     return Api().get(`comments/discussion/${discussionIDs}`);
   },
 
