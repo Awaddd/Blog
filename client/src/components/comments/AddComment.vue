@@ -24,7 +24,7 @@ import CommentsService from "@/services/CommentsService";
 import {mapGetters} from 'vuex';
 
 export default {
-  props: ['discussion', 'replyingTo'],
+  props: ['discussion', 'replyingTo', 'replyingToUser'],
   data () {
     return {
       content: null,
@@ -36,9 +36,6 @@ export default {
   },
   methods: {
     async addComment () {
-      console.log('before res');
-      console.log(this.getCurrentPost);
-      console.log('REPLYING TO: ', this.replyingTo);
       if (!this.getLoginStatus) this.notification = 'Please login';
       else {
         let comment = {
@@ -49,6 +46,7 @@ export default {
         if (this.discussion) {
           comment.discussion_id = this.discussion;
           comment.replyingTo = this.replyingTo;
+          comment.replyingToUser = this.replyingToUser;
         }
         // retrieve discussion id
         const response = await CommentsService.addComment(comment);
@@ -57,7 +55,6 @@ export default {
           console.log('add comment error ERROR: ', response.data);
         } else if (response.status === 200) this.content = null;
         
-        console.log('after res', response.data);
       } 
     }
   }

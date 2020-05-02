@@ -16,6 +16,9 @@ const CommmentSchema = new Schema({
   },
   replyingTo: {
     type: Schema.Types.ObjectId, ref: 'Comment'
+  },
+  replyingToUser: {
+    type: Schema.Types.ObjectId, ref: 'User'
   }
 });
 

@@ -17,7 +17,11 @@ router.get("/:postID", async (req, res) => {
     const postID = req.params.postID;
 
     try {
-      const comments = await Comment.find({ post: postID, replyingTo: { $exists: false }}, "content hearts createdAt discussion_id author post replyingTo").sort({ _id: -1 }).populate('author', 'firstName lastName').exec();
+      const comments = await Comment.find({
+        post: postID, 
+        replyingTo: { $exists: false 
+      }}, "content hearts createdAt discussion_id author post replyingTo").sort({ _id: -1 }).populate('author', '_id firstName lastName').exec();
+
       if (comments.length === 0) res.status(404).send({ status: false, message: 'Comments not found' });
       else res.status(200).send(comments);
   } catch (error) {
@@ -41,7 +45,7 @@ router.get("/discussion/:discussionIDs", async (req, res) => {
         $in: discussionIDs
       },
       replyingTo: {$exists: true}
-    }, "content hearts createdAt discussion_id author post" ).sort({ _id: -1 }).populate('author', 'firstName lastName').exec();;
+    }, "content hearts createdAt discussion_id post" ).populate('author', 'firstName lastName').populate('replyingToUser', '_id firstName lastName').exec();;
     
     console.log(allComments);
     
@@ -61,10 +65,7 @@ router.get("/discussion/:discussionIDs", async (req, res) => {
 
 router.post("/", checkLoggedIn, isLoggedIn, async (req, res) => {
 
-  console.log(`................ NEW COMMENT`);
-  console.log(`................ NEW COMMENT`);
-  console.log(`................ NEW COMMENT`);
-  let {content, postTitle, discussion_id, replyingTo} = req.body;
+  let {content, postTitle, discussion_id, replyingTo, replyingToUser} = req.body;
   const author = verifyToken(req).userID;
 
   try {
@@ -80,10 +81,7 @@ router.post("/", checkLoggedIn, isLoggedIn, async (req, res) => {
     if (discussion_id) {
       new_comment.discussion_id = discussion_id;
       new_comment.replyingTo = replyingTo;
-      console.log(new_comment.discussion_id);
-      console.log(`................ NEW reply`);
-      console.log(`${new_comment.replyingTo} REPLYING TO`);
-      console.log(`................ NEW reply`);
+      new_comment.replyingToUser = replyingToUser;
 }
     else {
       const new_discussion = new Discussion({});

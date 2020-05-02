@@ -29,7 +29,7 @@
 
                 </div>
                 
-                <div @click="reply(i)" class="icon-button">
+                <div @click="reply(comment, i)" class="icon-button">
                   <b-icon icon="reply" size="is-small" type="reply"></b-icon>
                 </div>
                 <span> 2 hrs ago</span>
@@ -45,8 +45,8 @@
               </span>
           </div>
 
-          <div class="add-comment-reply-wrapper" v-if="isReply">
-            <AddComment class="add-comment-reply" :discussion="comment.discussion_id" :replyingTo="comment._id" />
+          <div class="add-comment-reply-wrapper" v-if="isReply && (currentReply._id === comment._id)">
+            <AddComment class="add-comment-reply" :discussion="comment.discussion_id" :replyingTo="comment._id" :replyingToUser="comment.author._id" />
           </div>
 
           <!-- REPLIES -->
@@ -64,7 +64,8 @@
                     <b-icon icon="reply" type="is-primary"></b-icon>
                     <span>Replying to {{comment.author.firstName}}</span>
                   </p> -->
-                  <p> <span class="has-text-primary">@{{comment.author.firstName}}</span> {{reply.content}} </p>
+                  
+                  <p> <span class="has-text-primary" v-if="reply.replyingToUser">@{{reply.replyingToUser.firstName}}</span> {{reply.content}} </p>
                   <!-- <div class="comments-section-comment-controls">
                     <div class="icon-button">
                       <div >
@@ -84,11 +85,15 @@
                       </div>
 
                     </div>
-                    <div @click="reply(i)" class="icon-button">
+                    <div @click="replyChild(reply, k)" class="icon-button">
                       <b-icon icon="reply" size="is-small" type="reply"></b-icon>
                     </div>
                     <span> 2 hrs ago</span>
                   </div>
+                </div>
+
+                <div class="add-comment-reply-wrapper" v-if="isReplyChild && (currentReplyChild._id === reply._id)">
+                  <AddComment class="add-comment-reply" :discussion="comment.discussion_id" :replyingTo="reply._id" :replyingToUser="reply.author._id"  />
                 </div>
 
               </article> 
@@ -121,17 +126,13 @@ export default {
     return {
       replies: null,
       isReply: null,
+      isReplyChild: null,
       currentReply: null,
+      currentReplyChild: null,
       active: null
     }
   },
-  mounted () {
-    this.renderCorrectly();
-  },
   methods: {
-    renderCorrectly() {
-      console.log('TOP WAFF');
-    },
     activeCommentThread(comment, i) {
       if ((this.replies) && (comment._id === this.currentReply._id)) return true;
       return false;
@@ -153,8 +154,19 @@ export default {
         }
       });
     },
-    reply(i) {
+    reply(comment, i) {
+      this.currentReply = {
+        _id: this.comments[i]._id,
+        discussion_id: this.comments[i].discussion_id
+      };
       this.isReply = !this.isReply;
+    },
+    replyChild(reply, i) {
+      this.currentReplyChild = {
+        _id: this.replies[i]._id,
+        discussion_id: this.replies[i].discussion_id
+      };
+      this.isReplyChild = !this.isReplyChild;
     },
     showReplies(comment, reply) {
       if ((this.replies) && (comment._id === this.currentReply._id)) return true;
@@ -253,7 +265,6 @@ export default {
 }
 
 .add-comment-reply {
-  margin-bottom: 3rem;
 }
 
 
