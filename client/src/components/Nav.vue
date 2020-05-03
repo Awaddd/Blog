@@ -41,10 +41,12 @@
 import { mapGetters } from 'vuex'
 import { getToken } from '@/helpers/helpers';
 import UserService from "@/services/UserService";
+import * as firebase from 'firebase/app';
+require('firebase/auth');
 
 export default {
   computed: {
-    ...mapGetters(["getUser","getLoginStatus", "getAdminStatus"])
+    ...mapGetters(["getUser", "getLoginStatus", "getAdminStatus", "getSocialStatus"])
   },
   data () {
     return {
@@ -52,10 +54,17 @@ export default {
   },
   methods: {
     logout() {
+      if (this.getSocialStatus) this.socialSignOut();
       localStorage.removeItem('user');
       this.$store.dispatch("SET_LOGIN_STATUS", null);
       this.$store.dispatch("SET_USER", null);
       this.$router.push('/');
+    },
+    socialSignOut () {
+      firebase.auth().signOut().then(() => {
+        console.log('signed out!');
+        this.user = null;
+      }).catch(error => console.log(error));
     }
   }
 }
@@ -73,18 +82,17 @@ export default {
   .my-nav-controls {
     display: grid;
     grid-template-columns: max-content max-content;
-    grid-gap: 10px;
+    grid-gap: 20px;
+    justify-content: center;
   }
 
   .my-account {
-    margin-left: 1rem;
-    margin-right: 2.2rem;
     padding: 0 0.5rem 0 0;
     display: grid;
     grid-auto-flow: column;
     grid-gap: 5px;
     align-items: center;
-    border-bottom: 3px solid rgba(0, 0, 55, 0.5);
+    // border-bottom: 3px solid rgba(0, 0, 55, 0.5);
     color: rgba(0, 0, 55, 0.5);
   }
 
@@ -155,9 +163,25 @@ export default {
     align-content: bottom;
   }
 
+@media only screen and (max-width: 360px) {
+  .my-nav-controls {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: max-content;
+  }
+  .my-account {
+    margin-left: 1rem;
+    margin-right: 2.2rem;
+  }
+}
+
 @media only screen and (min-width: 768px) {
   .my-nav-controls {
     grid-gap: 0;
+  }
+  .my-account {
+    margin-left: 1rem;
+    margin-right: 2.2rem;
   }
 }
 

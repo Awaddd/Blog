@@ -5,7 +5,8 @@ const UserSchema = new Schema({
   email: {
     type: String,
     unique: true,
-    index: true
+    // index: true
+    sparse: true
   },
   firstName: String,
   lastName: String,
@@ -17,7 +18,7 @@ const UserSchema = new Schema({
   bio: String
 })
 
-UserSchema.index({ email: 1 });
+// UserSchema.index({ email: 1 });
 
 var User = mongoose.model("User", UserSchema);
 module.exports = User;

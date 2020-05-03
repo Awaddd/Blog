@@ -14,7 +14,8 @@ const store = new Vuex.Store({
     isAdmin: null,
     currentPost: null,
     comments: null,
-    replies: null
+    replies: null,
+    isSocial: false
   },
   getters: {
     getUser: state => state.user,
@@ -24,7 +25,8 @@ const store = new Vuex.Store({
     getAdminStatus: state => state.isAdmin,
     getCurrentPost: state => state.currentPost,
     getComments: state => state.comments,
-    getReplies: state => state.replies
+    getReplies: state => state.replies,
+    getSocialStatus: state => state.isSocial,
   },
   mutations: {
     SET_USER: (state, payload) => payload ? state.user = payload : state.user = null,
@@ -38,7 +40,8 @@ const store = new Vuex.Store({
     SET_ADMIN_STATUS: (state, payload) => payload ? state.isAdmin = payload : state.isAdmin = null,
     SET_CURRENT_POST: (state, payload) => payload ? state.currentPost = payload : state.currentPost = null,
     SET_COMMENTS: (state, payload) => payload ? state.comments = payload : state.comments = null,
-    SET_REPLIES: (state, payload) => payload ? state.replies = payload : state.replies = null
+    SET_REPLIES: (state, payload) => payload ? state.replies = payload : state.replies = null,
+    SET_SOCIAL_STATUS: (state, payload) => payload ? state.isSocial = payload : state.isSocial = false
   },
   actions: {
     SET_USER ({commit}, payload) {
@@ -67,6 +70,9 @@ const store = new Vuex.Store({
     },
     SET_REPLIES({commit}, payload) {
       commit('SET_REPLIES', payload);
+    },
+    SET_SOCIAL_STATUS({commit}, payload) {
+      commit('SET_SOCIAL_STATUS', payload);
     }
   }
 });

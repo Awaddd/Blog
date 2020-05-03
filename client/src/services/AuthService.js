@@ -9,10 +9,20 @@ export default {
     return await Api().post("auth", params).then(response => response).catch(error => error.response);  
   },
   
+  socialLogin(params) {
+    console.log(`Login Social: ${params.displayName} ${params.email} ${params.photoURL}`);
+    return Api().post("auth/social", params).then(response => response).catch(error => error.response);
+  },
+
   async register(params) {
     console.log(`Register: ${params.firstName} ${params.lastName} ${params.email} ${params.password}`)
     return Api().post("users", params).then(response => response).catch(error => error.response);
   },
+
+  // socialRegister(params) {
+  //   console.log(`Register Social: ${params.displayName}, ${params.photoURL}, ${params.email}`);
+  //   return Api().post("users/social", params).then(response => response).catch(error => error.response);
+  // },
 
   fetchUserData(id) {
     console.log('we here');

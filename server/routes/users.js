@@ -82,6 +82,53 @@ router.post("/", async (req, res) => {
 });
 
 
+// router.post("/social", async (req, res) => {
+//   const { email, displayName, photoURL } = req.body;
+
+//   try {
+//     let newUser = {
+//       isAdmin: false
+//     };
+//     let existingUser = null;
+
+//     if (email) newUser.email = email;
+//     if (displayName) newUser.firstName = displayName;
+//     if (photoURL) newUser.image = photoURL;
+
+//     if (email) {
+//       existingUser = await User.findOne({ email: email.toLowerCase() }, "firstName email _id isAdmin");
+//     } else if (displayName) {
+//       existingUser = await User.findOne({ firstName: displayName }, "firstName email _id isAdmin");
+//     }
+
+//     console.log(existingUser);
+
+//     if (!existingUser) {  
+//       const new_user = new User(newUser);
+//       const user = await new_user.save();
+//       const token = signToken(user);
+      
+//       res.send({
+//         success: true,
+//         message: "User created!",
+//         user: token
+//       });  
+//     } else {
+//       const token = signToken(existingUser);
+
+//       res.status(200).send({
+//         success: true,
+//         message: "User already exists, logged in!",
+//         user: token
+//       })
+//     }
+
+//   } catch (error) {
+//     console.log(error);
+//   }
+// });
+
+
 router.patch("/:id", upload().single('image'), async (req, res) => {
 
   const userID = req.params.id;
