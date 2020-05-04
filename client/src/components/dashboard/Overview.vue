@@ -10,8 +10,8 @@
     
     <div class="overview-wrapper">
 
-      <div class="has-text-centered">
-        <h1 class="title is-size-4 ">Welcome to your dashboard</h1>
+      <div class="overview-header">
+        <h1 class="title is-size-4-tablet is-size-5">Welcome to your dashboard</h1>
         <p class="subtitle is-size-6-mobile">All your content in one place</p>
       </div>
 
@@ -22,21 +22,22 @@
       <!-- <p class="is-size-7-mobile is-size-6 has-text-centered">Lorem ipsum dolor sit amet consectetur adipisicing elit. 
         At libero vel sunt optio delectus harum? Totam error ut quasi dolorum iusto commodi corporis omnis libero necessitatibus facilis! 
         Iusto quos voluptate provident fugiat explicabo quia quibusdam, exercitationem eveniet voluptatibus quae ipsum!</p> -->
+
         <div class="overview-points">
-          <p class="overview-points-item">
-            <b-icon class="overview-points-item-icon" icon="folder-plus" size="is-medium"></b-icon>
-            Create Content
-          </p>
+          <div class="overview-points-item">
+            <b-icon class="overview-points-item-icon" icon="brush" size="is-medium"></b-icon>
+            <p>Blog posts? Stories? Reviews? Journals? Everything you need to make whatever content you want - and all in one place</p>
+          </div>
 
-          <p class="overview-points-item">
+          <div class="overview-points-item">
             <b-icon class="overview-points-item-icon" icon="animation" size="is-medium"></b-icon>
-            View and sort your content
-          </p>
+            <p>Manage your content. Make your content appear exactly how you want the world to see it</p>
+          </div>
 
-          <p class="overview-points-item">
-            <b-icon class="overview-points-item-icon" icon="bell" size="is-medium"></b-icon>
-            Edit &amp; Update and even remove your Content
-          </p>
+          <div class="overview-points-item">
+            <b-icon class="overview-points-item-icon" icon="desktop-mac" size="is-medium"></b-icon>
+            <p>Edit &amp; Update or delete content however you see fit. It's in your control</p>
+          </div>
 
           <!-- <p class="overview-points-item">
             <b-icon class="overview-points-item-icon" icon="star" size="is-medium"></b-icon>
@@ -56,8 +57,16 @@
 
 <style lang="scss">
 
+  .overview-wrapper {
+    display: grid;
+    grid-gap: 40px;
+  }
 
-  .overview-wrapper, .overview-content {
+  .overview-header {
+    // padding: 0 1.5rem;
+  }
+
+  .overview-content {
     display: grid;
     grid-gap: 30px;
     justify-content: center;
@@ -74,10 +83,11 @@
 
   .overview-points-item {
     display: grid;
-    justify-content: center;
-    justify-items: center;
-    text-align: center;
-    padding: 0 3rem;
+    // justify-content: center;
+    // justify-items: center;
+    // text-align: center;
+    padding: 0 1.5rem;
+    grid-gap: 10px;
   }
 
   .overview-points-item-icon {
@@ -86,22 +96,47 @@
 
 @media only screen and (min-width: 770px) {
   .overview-content {
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 40px;
+    grid-template-columns: 3fr 2fr;
     align-content: center;
     align-items: center;
     padding: 2rem;
+    grid-gap: 20px;
+  }
+
+  .overview-points-item {
+    padding: 0;
+    display: grid;
+    grid-auto-flow: column;
+    align-items: center;
+    grid-gap: 20px;
   }
 
 }
 
+@media only screen and (min-width: 1000px) {
+
+  .overview-wrapper {
+    grid-gap: 20px;
+  }
+
+  .overview-header {
+    margin-left: 2rem;
+  }
+
+  .overview-content {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
 @media only screen and (min-width: 1600px) {
-  // .overview-points {
-  //   grid-template-columns: min-content;
-  // }
-  // .overview-points-item {
-  //   min-width: 250px;
-  // }
+  .overview-wrapper {
+    grid-gap: 0;
+  }
+
+  .overview-points-item {
+    grid-gap: 30px;
+  }
+
   .overview-content {
     padding: 5rem 2rem;
   }

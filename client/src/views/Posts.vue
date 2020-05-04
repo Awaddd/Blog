@@ -1,8 +1,15 @@
 <template>
-  <div>
-    <section class="section">
-        <app-posts></app-posts>
-    </section>
+  <div class="posts">
+
+    <header>
+    </header>
+
+    <main class="my-container posts-content">
+      <section class="post-posts">
+        <!-- add is-paddingless to remove padding on section -->
+        <app-posts :title="title"></app-posts>     
+      </section>
+    </main>
   </div>
 </template>
 
@@ -12,42 +19,46 @@ import AppPosts from "@/components/AppPosts.vue";
 export default {
   components: {
     "app-posts": AppPosts
+  },
+  data () {
+    return {
+      title: 'All Posts'
+    }
   }
-};
+}
 </script>
 
 <style lang="scss">
 @import "../styles/app.scss";
 
-.post-wrapper {
-  margin-top: 1rem;
-  padding: 0 1rem;
-  display: grid;
-  grid-gap: 10px;
+
+.posts {
+  margin: 1.5rem 0;
+  padding: 0 1.5rem 0 1.5rem;;
 }
 
-@media only screen and (min-width: 700px){
-  .post-wrapper {
-    margin-top: 2rem;
-    padding: 0 2rem;
-    grid-gap: 20px;
+.posts-content {
+  padding: 1rem;
+}
+
+.posts-posts {
+  margin: 0;
+  padding: 1rem 1.5rem;
+}
+
+@media only screen and (min-width: 768px) {
+  .posts-content {
+    padding: 0
   }
 }
 
-@media only screen and (min-width: 1200px){
-  .post-wrapper {
-    margin-top: 2rem;
-    padding: 0;
-    grid-gap: 30px;
+@media only screen and (min-width: 1200px) {
+  .posts {
+    margin-bottom: 5rem;
+  }
+  .posts-posts {
+    margin: 0;
+    padding: 3rem 1.5rem;
   }
 }
-
-@media only screen and (min-width: 1200px){
-  .post-wrapper {
-    margin-top: 3rem;
-    padding: 0;
-    grid-gap: 30px;
-  }
-}
-
 </style>

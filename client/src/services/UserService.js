@@ -13,7 +13,6 @@ export default {
   },
 
   updateUserDetails (params) {
-    console.log('inside update user service');
     const user = localStorage.getItem('user');
     let decoded = jwt.decode(user);
     const url = localStorage.getItem('url');
@@ -27,10 +26,6 @@ export default {
 
     if (params.bio) formData.append("bio", params.bio);
     if (params.image) formData.append("image", params.image, params.image.name);
-
-    // for (var val of formData.values()){
-    //   console.log(val);
-    // }
 
     return axios.patch(`${url}users/${decoded.userID}`, formData, { headers: authHeader(true) }).then(response => response).catch(error => error.response);
   }

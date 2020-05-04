@@ -104,11 +104,11 @@ export default {
         console.log(response.data);
       };
     },
-    async getReplies(i) {
+    async getReplies() {
       console.log('-----------------');
 
       const response = await CommentsService.fetchReplies(this.discussionIDs);
-      if (response.status !== 200) console.log(response.data); 
+      if (response.status !== 200) console.log('No Replies ', response.data); 
       else if (response.data && response.status === 200) {
         this.replies = response.data;
         this.$store.dispatch('SET_REPLIES', response.data);

@@ -15,7 +15,9 @@ module.exports = {
   
       password: Joi.string()
         .min(7)
-        .required()
+        .required(),
+  
+        isAdmin: Joi.boolean()
     });
   
     return schema.validate(user);

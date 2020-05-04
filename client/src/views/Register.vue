@@ -17,12 +17,12 @@
               <BInputWithValidation rules="required|min:7|max:30|confirmed:confirmation" type="password" icon="lock"  v-model="confirmPassword"  label="Confirm Password" password-reveal/>
 
             </validationObserver>
+            <b-switch size="is-small" v-model="isAdmin">Enable Admin</b-switch>
 
             <b-field>
               <b-button type="submit" class="is-primary my-register-button" expanded @click="handleSubmit(register)">Register</b-button>
             </b-field>
             <p class="has-text-dark has-text-centered">Got an account? <router-link to="/admin/login" class="btn-clear">Click here to Login</router-link></p>
-            {{errorFeedback}}
           </form>
         </ValidationObserver>
       </section>        
@@ -39,6 +39,7 @@ import bcrypt from "bcryptjs";
 import { ValidationObserver } from 'vee-validate';
 import * as validationRules from '@/helpers/validation';
 import BInputWithValidation from '@/buefyComponents/BInputWithValidation';
+import UserService from "@/services/UserService";
 
 export default {
   data() {
@@ -48,7 +49,7 @@ export default {
         lastName: null,
         password: null,
         confirmPassword: null,
-        errorFeedback: null
+        isAdmin: false
       }
   },
   components: {
@@ -56,41 +57,43 @@ export default {
     BInputWithValidation
   },
   methods: {
-      async register() {
-        console.log(this.email, this.firstName, this.lastName, this.password, this.confirmPassword);
+    async register() {
 
-        if (this.password === this.confirmPassword){
+      if (this.password === this.confirmPassword){
+        const response = await AuthService.register({
+          email: this.email,
+          firstName: this.firstName,
+          lastName: this.lastName,
+          password: this.password,
+          isAdmin: this.isAdmin
+        })
 
-          const response = await AuthService.register({
-            email: this.email,
-            firstName: this.firstName,
-            lastName: this.lastName,
-            password: this.password
-          })
-          
+        if (response.status !== 200) {
 
-          if (response.status !== 200) {
-
-            if (response.data.field.toLowerCase() === 'email') {
-              this.$refs.form.setErrors({
-                email: response.data.message
-              });
-            }
-
-            console.log('new post ERROR: ', response.data.message);
-
-          } else if (response.status === 200 && response.data.user){
-
-            const user = response.data.user;
-            localStorage.setItem('user', user);
-            console.log(response.data.message);
-            this.$store.dispatch("SET_LOGIN_STATUS", localStorage.getItem('user'));
-            this.$router.push({ name: "Dashboard" });
+          if (response.data.field.toLowerCase() === 'email') {
+            this.$refs.form.setErrors({
+              email: response.data.message
+            });
           }
+
+          console.log('register ERROR: ', response.data.message);
+
+        } else if (response.status === 200 && response.data.user){
+          const user = response.data.user;
+          localStorage.setItem('user', user);
+          console.log(user);
+
+          (async () => {
+            const response = await UserService.fetchUserDetails();
+            if (response.status !== 200) console.log(response.error);
+            else this.$store.dispatch('SET_USER',response.data);
+          })();
+
+          this.$store.dispatch("SET_LOGIN_STATUS", localStorage.getItem('user'));
+          this.$router.push({ name: "Dashboard" });
         }
-        
       }
-    
+    }
   }
 }
 

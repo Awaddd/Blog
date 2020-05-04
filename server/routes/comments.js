@@ -20,7 +20,7 @@ router.get("/:postID", async (req, res) => {
       const comments = await Comment.find({
         post: postID, 
         replyingTo: { $exists: false 
-      }}, "content hearts createdAt discussion_id author post replyingTo").sort({ _id: -1 }).populate('author', '_id firstName lastName').exec();
+      }}, "content hearts createdAt discussion_id author post replyingTo").sort({ _id: -1 }).populate('author', '_id firstName lastName image').exec();
 
       if (comments.length === 0) res.status(404).send({ status: false, message: 'Comments not found' });
       else res.status(200).send(comments);
@@ -45,11 +45,11 @@ router.get("/discussion/:discussionIDs", async (req, res) => {
         $in: discussionIDs
       },
       replyingTo: {$exists: true}
-    }, "content hearts createdAt discussion_id post" ).populate('author', 'firstName lastName').populate('replyingToUser', '_id firstName lastName').exec();;
+    }, "content hearts createdAt discussion_id post" ).populate('author', 'firstName lastName image').populate('replyingToUser', '_id firstName lastName').exec();;
     
     console.log(allComments);
     
-    if (allComments.length === 0) res.status(404).send({ status: false, message: 'Comments not found' });
+    if (allComments.length === 0) res.status(404).send({ status: false, message: 'replies not found' });
     else res.status(200).send(allComments);
 
   } catch (error) {

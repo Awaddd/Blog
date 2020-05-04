@@ -60,7 +60,7 @@
 
         <div @click="editable(0)" v-else>
           <b-field horizontal label="bio" custom-class="is-small" class="field">
-            <b-input maxlength="200" custom-class="my-disabled-input" type="textarea" placeholder="I'M EMPTY!" v-if="!edit[0].field" v-model="bio" disabled ></b-input>
+            <b-input maxlength="200" custom-class="my-disabled-input" type="textarea" placeholder="No Bio currently. Click any field or the edit all button to edit" v-if="!edit[0].field" v-model="bio" disabled ></b-input>
             <b-input maxlength="200" type="textarea" v-model="bio" v-else></b-input>
           </b-field>
         </div>

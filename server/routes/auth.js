@@ -8,8 +8,6 @@ const User = require("../models/user");
 
 router.post("/", async (req, res) => {
 
-  console.log(req.body.email, req.body.password);
-
   const { error } = validateLogin(req.body);
   if (error) console.log(error.details[0].message);
   if (error) return res.status(400).send({success: false, message: error.details[0].message});
@@ -45,10 +43,7 @@ router.post("/", async (req, res) => {
 
 router.post("/social", async (req, res) => {
   const {email, displayName, photoURL} = req.body;
-  console.log(email);
-  console.log(displayName);
-  console.log(photoURL);
-
+  
   try {
     let user = null;
 

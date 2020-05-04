@@ -63,7 +63,7 @@ export default {
     socialSignOut () {
       firebase.auth().signOut().then(() => {
         console.log('signed out!');
-        this.user = null;
+        this.$store.dispatch("SET_SOCIAL_STATUS", null);
       }).catch(error => console.log(error));
     }
   }

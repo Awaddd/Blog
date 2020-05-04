@@ -22,7 +22,6 @@ export default {
 
 
   fetchSinglePostByID(id) {
-    console.log('made it this faaar');
     return Api().get(`posts/id/${id}`);
   },
 
@@ -34,7 +33,6 @@ export default {
 
   fetchUserPosts() {
     let decoded = getToken();
-    console.log(`decoded: ${decoded.userID}`);
     return Api().get(`userPosts/${decoded.userID}/posts`)
       .then(response => { return response })
       .catch(error => { return error.response });
@@ -42,9 +40,6 @@ export default {
 
 
   addPosts(params) {
-    console.log(params);
-    console.log(params.image);
-    console.log(`Image NAME${params.image.name}`);
 
     const url = localStorage.getItem('url');
 
@@ -76,7 +71,6 @@ export default {
 
   
   editPost(params) {
-    console.log('inside edit posts service ', params);
 
     const url = localStorage.getItem('url');
 
@@ -110,7 +104,6 @@ export default {
 
 
   deletePost(id) {
-    console.log('inside delete posts service');
     return Api().delete(`posts/${id}`);
   },
 

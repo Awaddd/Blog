@@ -3,13 +3,16 @@ import Api from "@/services/Api";
 export default {
 
   fetchComments(postID) {
-    return Api().get(`comments/${postID}`);
+    return Api().get(`comments/${postID}`)
+    .then( response => response)
+    .catch( error => error.response);
   },
 
   fetchReplies(discussionIDs) {
-    console.log(discussionIDs);
     discussionIDs = JSON.stringify(discussionIDs);
-    return Api().get(`comments/discussion/${discussionIDs}`);
+    return Api().get(`comments/discussion/${discussionIDs}`)
+    .then( response => response)
+    .catch( error => error.response);
   },
 
   addComment(comment) {

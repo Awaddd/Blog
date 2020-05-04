@@ -64,24 +64,23 @@
               name: 'BlogPost',
               params: {title: sanitizeTitle(featuredPost.title)}}" class="my-btn read-more-btn">Learn More
           </b-button> -->
-          <button tag="router-link" class="featured-post__button">
-            <router-link class="featured-post__link" :to="{
+
+          <div class="featured-post-button-wrapper">
+            <router-link class="featured-post__button" :to="{
               name: 'BlogPost',
               params: {title: sanitizeTitle(featuredPost.title)}}">
               Find Out More
             </router-link>
-            </button>
+          </div>
+
         </div>
         
       </section>
 
 
-      <section class="section home-posts">
+      <section class="home-posts">
         <!-- add is-paddingless to remove padding on section -->
-          <div class="container">
-            <p class="title is-size-5-mobile is-size-4 has-text-dark has-text-centered my-page-title">Latest Posts</p>
-            <app-posts :showAmount="6"></app-posts>
-          </div>          
+        <app-posts :title="title" :showAmount="6"></app-posts>     
       </section>
 
 
@@ -110,7 +109,6 @@
 <script>
 // @ is an alias to /src
 import AppPosts from "@/components/AppPosts.vue";
-import Nav from "@/components/Nav.vue";
 import PostsService from "@/services/PostsService";
 import { formatDate, sanitizeTitle } from '@/helpers/helpers';
 
@@ -119,12 +117,12 @@ export default {
   name: "home",
   data () {
     return {
-      featuredPost: null
+      featuredPost: null,
+      title: 'Latest Posts'
     }
   },
   components: {
-    "app-posts": AppPosts,
-    "app-nav": Nav
+    "app-posts": AppPosts
   },
   mounted () {
     this.fetchFeaturedPost();
@@ -164,7 +162,12 @@ export default {
   margin: 0 auto;
 }
 
+.featured-post-button-wrapper {
+  width: max-content;
+}
+
 .featured-post__button {
+  display: block;
   padding: 0.7rem 2rem;
   background: $primary;
   border: 0;
@@ -176,16 +179,12 @@ export default {
   letter-spacing: 0.2px;
   cursor: pointer;
   transition: 0.3s;
-
-  .featured-post__link {
-    color: #fff;
-  }
 }
 
 .featured-post__button:hover {
-  // $darkenPrimary: color.adjust($primary, $red: 15);
   background-color: darken($primary, 7%);
   transform: translateX(10px);
+  color: #fff;
 }
 
  .read-more-btn {

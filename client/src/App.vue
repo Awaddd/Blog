@@ -16,10 +16,11 @@
 <script>
 import Nav from "@/components/Nav.vue";
 import firebase from 'firebase/app';
+import {privateKey, authDomain} from '../config.json';
 
 firebase.initializeApp({
-  apiKey: "AIzaSyBK7AjTI-6THtF-Etrrj48s3ueM0KHOvos",
-  authDomain: "oasisblog-6ebc7.firebaseapp.com"
+  apiKey: privateKey,
+  authDomain: authDomain
 });
 
 export default {

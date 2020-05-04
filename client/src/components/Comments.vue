@@ -3,11 +3,16 @@
 
     <addComment class="add-comment-section" />
 
+    <div class="no-commments" v-if="!comments">
+      No comments at the moment. Be the first!
+    </div>
+
     <div class="comments-section-wrapper">
       <div v-for="(comment, i) in comments" :key="i" class="comment-wrapper-parent" :class="{ 'currentComment': activeCommentThread(comment, i) }">
         <article class="parent-comment">
           <figure class="media-left">
-              <img class="circle-picture image is-64x64" src="https://bulma.io/images/placeholders/128x128.png" />
+              <img class="circle-picture image is-48x48" src="https://bulma.io/images/placeholders/128x128.png" />
+              <!-- <img class="circle-picture image is-64x64" :src="comment.author.image" /> -->
           </figure>
           <div>
              <strong class="is-capitalized">{{comment.author.firstName}} {{comment.author.lastName}}</strong>
@@ -55,7 +60,8 @@
 
               <article class="child-comment">
                 <figure class="media-left">
-                    <img class="circle-picture image is-64x64" src="https://bulma.io/images/placeholders/128x128.png" />
+                    <img class="circle-picture image is-48x48" src="https://bulma.io/images/placeholders/128x128.png" />
+                    <!-- <img class="circle-picture image is-64x64" :src="reply.author.image" /> -->
                 </figure>
                 <div>
                   <strong class="is-capitalized">{{reply.author.firstName}} {{reply.author.lastName}}</strong>
@@ -148,11 +154,13 @@ export default {
 
       this.replies = [];
 
-      this.allReplies.forEach(item => {
-      if (comment.discussion_id === item.discussion_id) {
-          this.replies.push(item);
-        }
-      });
+      if (this.allReplies) {
+        this.allReplies.forEach(item => {
+          if (comment.discussion_id === item.discussion_id) {
+              this.replies.push(item);
+            }
+        });
+      }
     },
     reply(comment, i) {
       this.currentReply = {
@@ -196,10 +204,15 @@ export default {
 
 
 
-
-
 .add-comment-section {
   padding: 0 2rem;
+}
+
+.no-commments {
+  margin-top: 2rem;
+  padding: 1rem 2rem;
+  font-weight: 600;
+  border-left: 5px solid rgba(255, 0, 0, 0.5);
 }
 
 .comments-section-title {
@@ -269,6 +282,13 @@ export default {
 
 
 @media only screen and (min-width: 770px) {
+
+  .no-commments {
+    margin-top: 2rem;
+    padding: 0.5rem 1rem;
+    margin-left: 2rem;
+    border-left: 3px solid rgba(255, 0, 0, 0.5);
+  }
 
   .currentComment {
     border: 0;

@@ -14,8 +14,9 @@
 
           <BInputWithValidation vid="password" rules="required" type="password" icon="lock" label="Password" v-model="password" password-reveal/>
 
-          <b-field>
-            <b-button type="submit" class="is-primary my-login-button" expanded @click="handleSubmit(login)">Login</b-button>
+          <b-field class="email-login-wrapper">
+            <button type="submit" class="social-login email-login" @click.prevent="handleSubmit(login)">Login</button>
+            <!-- <b-button type="submit" class="is-primary my-login-button" expanded @click="handleSubmit(login)">Login</b-button> -->
           </b-field>
   
           <p class="social-login-title">Login with socials</p>
@@ -23,14 +24,14 @@
           <b-field>
             <a class="social-login google-login" @click="googleLogin">
               <b-icon icon="google" class=""></b-icon>
-              Login With Google
+              Google
             </a>
           </b-field>
 
           <b-field>
             <a class="social-login facebook-login" @click="facebookLogin">
               <b-icon icon="facebook" class=""></b-icon>
-              Login With Facebook
+              Facebook
             </a>
           </b-field>
 
@@ -101,14 +102,10 @@ export default {
           localStorage.setItem('user', user);
 
           (async () => {
-            console.log('FROM LOGIN!');
             const response = await UserService.fetchUserDetails();
             if (response.status !== 200) console.log(response.error);
             else this.$store.dispatch('SET_USER',response.data);
-            console.log(response);
           })();
-
-          console.log(response.data.message);
 
           this.$store.dispatch("SET_LOGIN_STATUS", localStorage.getItem('user'));
           this.$router.push({ name: "Dashboard" });
@@ -120,13 +117,8 @@ export default {
           let token = result.credential.accessToken;
           let user = result.user;
           let newUser = result.additionalUserInfo.isNewUser;
-          console.log(result.additionalUserInfo.isNewUser);
-          // if (newUser) {
-          //   this.socialSignUp(user);   
-          // } else {
-          //   this.socialLogin(user);
-          // }
-            this.socialLogin(user);
+
+          this.socialLogin(user);
 
         }).catch(error => {
           console.log(error);
@@ -138,13 +130,8 @@ export default {
           let token = result.credential.accessToken;
           let user = result.user;
           let newUser = result.additionalUserInfo.isNewUser;
-          console.log(result.additionalUserInfo.isNewUser);
-          // if (newUser) {
-          //   this.socialSignUp(user);   
-          // } else {
-          //   this.socialLogin(user);
-          // }
-            this.socialLogin(user);
+
+          this.socialLogin(user);
 
         }).catch(error => {
           console.log(error);
@@ -163,20 +150,6 @@ export default {
           this.onSocialSuccess(response);
         }     
       },
-      // async socialSignUp (user) {
-      //   let newSocialUser = {};
-      //   if (user.displayName) newSocialUser.displayName = user.displayName;
-      //   if (user.email) newSocialUser.email = user.email;
-      //   if (user.photoURL) newSocialUser.photoURL = user.photoURL;
-
-      //   console.log('new user ', newSocialUser);
-      //   const response = await AuthService.socialRegister(newSocialUser);
-        
-      //   if (response.status !== 200) console.log('Login error: ', response.data.message);
-      //   else if (response.status === 200 && response.data.user){
-      //     this.onSocialSuccess(response);
-      //   }
-      // },
       async onSocialSuccess(response) {
         localStorage.setItem('user', response.data.user);
         this.$store.dispatch("SET_LOGIN_STATUS", localStorage.getItem('user'));
@@ -231,24 +204,27 @@ export default {
   font-size: 0.95rem;
   border-radius: 2px;
   cursor: pointer;
+  // box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 }
 
 .social-login:hover {
   color: #fff;
 }
 
-// .email-login {
-//   // justify-content: center;
-//   // width: max-content;
-//   // justify-self: center;
-//   padding: 0.7rem 2rem;
-// }
+.email-login-wrapper {
+}
+
+.email-login {
+  padding: 0.7rem 0;
+  width: 100%;
+}
 
 .social-login-title {
   justify-self: center;
-  margin: 1rem 0 1rem 0;
-  font-weight:600;
+  margin: 0.7rem 0 1.2rem 0;
+  font-weight: 600;
   font-size: 1rem;
+  color: rgb(22, 22, 22);
 }
 
 

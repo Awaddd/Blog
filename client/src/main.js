@@ -8,12 +8,6 @@ Vue.use(Buefy, {
   defaultIconPack: 'mdi'
 });
 
-router.beforeEach((to, from, next) => {
-  console.log('waffle');
-  store.dispatch("SET_ACTIVE_DASHBOARD_TAB", 'allPosts');
-  next();
-});
-
 Vue.config.productionTip = false;
 
 export const serverBus = new Vue();

@@ -49,7 +49,7 @@ router.post("/", async (req, res) => {
   if (error) console.log(error.details[0].message);
   if (error) return res.status(400).send({success: false, message: error.details[0].message});
 
-  const {firstName, lastName, email, password} = req.body;
+  const {firstName, lastName, email, password, isAdmin} = req.body;
 
   const salt = bcrypt.genSaltSync(10);
   const hashedPassword = bcrypt.hashSync(req.body.password, salt);
@@ -58,13 +58,15 @@ router.post("/", async (req, res) => {
     const existingUser = await User.findOne({ email: email.toLowerCase() }, "email, firstName, lastName, password, isAdmin");
     if (existingUser) res.status(409).send({success: false, message: 'An account with that email already exists', field: 'email'});
 
-    const new_user = new User({
+    let newUser = {
       email: email.toLowerCase(),
       firstName: firstName,
       lastName: lastName, 
       password: hashedPassword,
-      isAdmin: false
-    });
+      isAdmin: isAdmin
+    }
+
+    const new_user = new User(newUser);
 
     const user = await new_user.save();
     const token = signToken(user);
@@ -82,51 +84,6 @@ router.post("/", async (req, res) => {
 });
 
 
-// router.post("/social", async (req, res) => {
-//   const { email, displayName, photoURL } = req.body;
-
-//   try {
-//     let newUser = {
-//       isAdmin: false
-//     };
-//     let existingUser = null;
-
-//     if (email) newUser.email = email;
-//     if (displayName) newUser.firstName = displayName;
-//     if (photoURL) newUser.image = photoURL;
-
-//     if (email) {
-//       existingUser = await User.findOne({ email: email.toLowerCase() }, "firstName email _id isAdmin");
-//     } else if (displayName) {
-//       existingUser = await User.findOne({ firstName: displayName }, "firstName email _id isAdmin");
-//     }
-
-//     console.log(existingUser);
-
-//     if (!existingUser) {  
-//       const new_user = new User(newUser);
-//       const user = await new_user.save();
-//       const token = signToken(user);
-      
-//       res.send({
-//         success: true,
-//         message: "User created!",
-//         user: token
-//       });  
-//     } else {
-//       const token = signToken(existingUser);
-
-//       res.status(200).send({
-//         success: true,
-//         message: "User already exists, logged in!",
-//         user: token
-//       })
-//     }
-
-//   } catch (error) {
-//     console.log(error);
-//   }
-// });
 
 
 router.patch("/:id", upload().single('image'), async (req, res) => {
