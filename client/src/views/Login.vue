@@ -217,6 +217,7 @@ export default {
 .email-login {
   padding: 0.7rem 0;
   width: 100%;
+  justify-content: center;
 }
 
 .social-login-title {
