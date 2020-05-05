@@ -40,12 +40,12 @@ app.use("/api/auth", auth);
 app.use("/api/comments", comments);
 
 app.get("/", (req, res) => {
-  res.send(`The Api`);  
+  res.send(`The Api \n hit /api/posts to see a list of posts`);  
 });
 
 app.use((err, req, res, next) => res.status(err.status).json(err));
 
-process.env.URL = process.env.NODE_ENV === 'dev' ? 'http://localhost:3000' : 'http://oasisblog.herokuapp.com'; 
+process.env.URL = process.env.NODE_ENV === 'dev' ? 'http://localhost:3000' : 'http://178.62.84.235/'; 
 console.log(process.env.NODE_ENV);
 console.log(process.env.URL);
 const PORT = process.env.PORT || 3000;
