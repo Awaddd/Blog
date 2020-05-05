@@ -45,7 +45,7 @@ app.get("/", (req, res) => {
 
 app.use((err, req, res, next) => res.status(err.status).json(err));
 
-process.env.URL = process.env.NODE_ENV === 'dev' ? 'http://localhost:3000' : 'https://dinisoasis.herokuapp.com'; 
+process.env.URL = process.env.NODE_ENV === 'dev' ? 'http://localhost:3000' : 'http://oasisblog.herokuapp.com'; 
 console.log(process.env.NODE_ENV);
 console.log(process.env.URL);
 const PORT = process.env.PORT || 3000;
