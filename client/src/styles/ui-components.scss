@@ -44,8 +44,9 @@ hr {
   position: absolute;
   height: 100%;
   width: 100%;
+  content: '';
   background-color: rgb(16, 10, 66);
-  opacity: 35%;
+  opacity: 0.35;
 }
 
 button {

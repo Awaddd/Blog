@@ -2,7 +2,7 @@
   <div class="container">
 
     <p class="title is-size-5-mobile is-size-4 has-text-dark has-text-centered my-page-title">{{title}}</p>
-    <app-posts-placeholder :showAmount="6" v-if="loading === true"></app-posts-placeholder>
+    <app-posts-placeholder :showAmount="3" v-if="loading === true"></app-posts-placeholder>
 
     <div class="cards-wrapper my-container" v-else>
       <div class="card" v-for="(post, i) in posts.slice(0, showAmount)" :key="i">
@@ -43,7 +43,7 @@ import { mapGetters } from 'vuex';
 export default {
   data () {
     return {
-      posts: []
+      posts: null
     };
   },
   mounted () {
@@ -59,7 +59,7 @@ export default {
   methods: {
     async getPosts() {
       const response = await PostsService.fetchPosts();
-      this.posts = response.data.posts;
+      response.data.posts.length > 0 ? this.posts = response.data.posts : this.posts = null;
       if (this.posts) this.$store.dispatch("SET_LOADING_POSTS_STATUS", false);
     },
     sanitizeTitle (title) {
