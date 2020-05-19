@@ -13,7 +13,10 @@ const PostSchema = new Schema({
   createdAt: {type: Date, default: Date.now},
   tags: {type: Array},
   featured: {type: Boolean},
-  author: {type: Schema.Types.ObjectId, ref: 'User', required: true}
+  author: {type: Schema.Types.ObjectId, ref: 'User', required: true},
+  category_id: {
+    type: Schema.Types.ObjectId, ref: 'Category', required: true
+  }
 });
 
 PostSchema.index({ title: 1 });
