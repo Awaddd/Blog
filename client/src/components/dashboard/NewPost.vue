@@ -14,11 +14,20 @@
         <form class="add-post-form" enctype="multipart/form-data" @key-up.enter.prevent="handleSubmit(addPost)">
 
           <b-tabs v-model="activeStep" position="is-centered" type="is-toggle">
-            <b-tab-item label="Step 1">
+            <b-tab-item :label="`Step 1`">
             
               <div class="stepOne my-step-wrapper">
                 <p class="subtitle is-size-5 has-text-centered">Title, Summary &amp; Tags</p>
                 <div class="my-step-content">
+                  
+                  <b-field v-if="categories" class="select-category" label="Category" horizontal>
+                    <b-select placeholder="Category" expanded v-model="category">
+                      <template v-for="(category, i) in categories" >
+                        <option :value="category" :key="i">{{category.title}}</option>
+                      </template>
+                    </b-select>
+                  </b-field>
+                    
                   <BInputWithValidation vid="title" rules="required|min:7|max:150" v-model="title" placeholder="Example Title ..." horizontal label="Title"/>
                   <BInputWithValidation rules="required|min:5|max:150" v-model="summary" placeholder="The future of the..." horizontal label="Summary"/>
 
@@ -26,10 +35,12 @@
                     <b-taginput v-model="tags" ellipsis maxtags="6" placeholder="Technology, Survival, Cooking">
                     </b-taginput>
                   </b-field>  
+
+
                 </div>
               </div>
             </b-tab-item>
-            <b-tab-item label="Step 2">
+            <b-tab-item :label="`Step 2`" v-if="(category) && (category.hasMedia === true)">
               
               <div class="stepTwo my-step-wrapper">
                 <p class="subtitle is-size-5 has-text-centered">Upload Image</p>
@@ -56,7 +67,7 @@
               </div>
             </b-tab-item>
 
-            <b-tab-item label="Step 3"> 
+            <b-tab-item :label="lastStep"> 
 
               <div class="stepThree my-step-wrapper">
                 <p class="subtitle is-size-5 has-text-centered">Content &amp; Submit</p>
@@ -114,8 +125,10 @@ import { sanitizeTitle } from '@/helpers/helpers';
 export default {
   data: function() {
     return {
+      categories: null,
       title: null,
       summary: null,
+      category: null,
       content: null,
       tags: null,
       image: null,
@@ -142,8 +155,17 @@ export default {
     };
   },
   mounted () {
+    this.getCategories();
   },
   methods: {
+    async getCategories() {
+      console.log('INSIDE CATEGORIES . VUE');
+      const response = await PostsService.fetchCategories();
+      if (response.status !== 200) console.log('CATEGORY PROBLEM!!');
+      else if (response.status === 200){
+        this.categories = response.data;
+      }
+    },
     async addPost() {
 
       this.tags = this.tags.slice(0, 6);
@@ -180,19 +202,9 @@ export default {
     }
   },
   computed: {
-    baseSteps() {
-      return [{
-        label: 'Step One',
-        displayed: true
-      },
-      {
-        label: 'Step Two',
-        displayed: true
-      },
-      {
-        label: 'Step Three',
-        displayed: true
-      }]
+    lastStep () {
+      if ((this.categories) && (this.category) && (this.category.hasMedia === true)) return `Step 3`;
+      else return `Step 2`;
     }
   },
   components: {

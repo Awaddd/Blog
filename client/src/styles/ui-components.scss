@@ -16,6 +16,16 @@ hr {
   width: 30px;
 }
 
+
+.select-category {
+  margin-bottom: 0 !important;
+}
+
+.select.is-empty select {
+  color: #CECECE !important;
+}
+
+
 .hr-centered {
   margin: 0.5em auto;
 }

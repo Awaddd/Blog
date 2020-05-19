@@ -27,13 +27,19 @@ export default {
 
 
   fetchFeaturedPost() {
-    return Api().get('/posts/featured');
+    return Api().get('posts/featured');
   },
 
 
   fetchUserPosts() {
     let decoded = getToken();
     return Api().get(`userPosts/${decoded.userID}/posts`)
+      .then(response => { return response })
+      .catch(error => { return error.response });
+  },
+
+  fetchCategories() {
+    return Api().get('posts/categories')
       .then(response => { return response })
       .catch(error => { return error.response });
   },

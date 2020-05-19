@@ -32,7 +32,7 @@
     <div class="posts-table-content" v-else>
 
       <div class="select-featured-post">
-        <b-field label="Featured Post" horizontal custom-class="is-size-7-mobile is-size-7-tablet is-size-6-desktop">
+        <b-field label="Featured Post" horizontal>
           <b-select placeholder="Choose Post" expanded v-model="featuredPostID" @input="selectFeaturedPost()">
             <option :value="post._id" v-for="(post, i) in tableData" :key="i">{{post.title}}</option>
           </b-select>
@@ -41,7 +41,7 @@
 
 
       <div class="searchPosts">
-        <b-field label="Search" horizontal custom-class="is-size-7-mobile is-size-7-tablet is-size-6-desktop">
+        <b-field label="Search" horizontal>
           <b-input type="search" icon-right="magnify" placeholder="The name of the wind..."></b-input>
         </b-field>
       </div>

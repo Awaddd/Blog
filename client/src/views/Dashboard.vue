@@ -34,14 +34,14 @@
 
             </div>
 
-            <div class="dashboard-menu-group">
+            <!-- <div class="dashboard-menu-group">
               <div class="dashboard-menu-item-parent">
                 <b-icon icon="book-variant"></b-icon>
                 <span>Journals</span>
               </div>
               <router-link tag="a" class="dashboard-menu-item-child" :to="{path: '/' }">All</router-link>
               <router-link tag="a" class="dashboard-menu-item-child" :to="{path: '/' }">New</router-link>
-            </div>
+            </div> -->
 
           </div>
 
@@ -127,7 +127,7 @@ html {
   }
 
   .dashboard-menu-group a:hover {
-    background-color: $primary;
+    color: lighten($primary, 5%);
     transition: 0.2s ease-in-out all;
   }
 

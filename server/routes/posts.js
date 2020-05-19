@@ -5,6 +5,7 @@ const {verifyToken} = require('../helpers/helpers.js');
 const { validatePost } = require('../helpers/validation.js');
 const Post = require("../models/post");
 const User = require("../models/user");
+const Category = require("../models/category");
 
 
 // Get all posts
@@ -12,12 +13,31 @@ const User = require("../models/user");
 
 router.get("/", async (req, res) => {
   try {
-    const posts = await Post.find({}, "title summary content image createdAt tags").sort({ _id: -1 });;
+    const posts = await Post.find({}, "title summary content image createdAt tags").sort({ _id: -1 });
     if (!posts) res.status(404).send({ status: false, message: 'Posts not found' });
     res.status(200).send({ posts: posts });
   } catch (error) {
     console.log(error);
     // throw(error);
+  }
+});
+
+
+
+// Get post categories
+
+
+router.get("/categories", async (req, res) => {
+  console.log('-------------------------');
+  console.log('INSIDE CATEGORIES');
+  console.log('-------------------------');
+  try {
+    const categories = await Category.find({}, "id title hasMedia").sort({ _id: -1 });
+    if (!categories) res.status(404).send({ status: false, message: 'Categories not found' });
+    res.status(200).send(categories);
+
+  } catch (error) {
+    console.log(error);
   }
 });
 
