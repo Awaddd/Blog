@@ -41,6 +41,7 @@ export function sanitizeTitle(title){
   return title.replace(/\s+/g, "-").toLowerCase();
 }
 
-export function formatDate(date){
-  return moment(date).format('MMMM Do YYYY');
+export function formatDate(date, format){
+  if (format) return moment(date).format(format) 
+  else return moment(date).format('MMMM Do YYYY');
 }

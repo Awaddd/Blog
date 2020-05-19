@@ -105,12 +105,16 @@ router.get("/id/:id", async (req, res) => {
 router.post("/", upload().single('image'), checkLoggedIn, isLoggedIn, async (req, res) => {
 
   req.body.tags = JSON.parse(req.body.tags);
-  const { error } = validatePost(req.body);
 
-  if (error) return res.status(400).send({success: false, message: error.details[0].message});
+  // const { error } = validatePost(req.body);
+  // if (error) return res.status(400).send({success: false, message: error.details[0].message});
+
+  console.log('--------------------------');
+  console.log(req.body.category);
+  console.log('--------------------------');
 
   const image = `${process.env.URL}/uploads/${req.file.filename}`;
-  const {summary, content, tags} = req.body;
+  const {category, summary, content, tags} = req.body;
   const title = req.body.title.toLowerCase();
   console.log(tags);
 
@@ -128,7 +132,8 @@ router.post("/", upload().single('image'), checkLoggedIn, isLoggedIn, async (req
       content: content,
       image: image,
       tags: tags,
-      author: userID
+      author: userID,
+      category: category
     });
 
     const post = await new_post.save();

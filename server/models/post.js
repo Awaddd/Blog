@@ -14,7 +14,7 @@ const PostSchema = new Schema({
   tags: {type: Array},
   featured: {type: Boolean},
   author: {type: Schema.Types.ObjectId, ref: 'User', required: true},
-  category_id: {
+  category: {
     type: Schema.Types.ObjectId, ref: 'Category', required: true
   }
 });

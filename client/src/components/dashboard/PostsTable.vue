@@ -65,7 +65,8 @@
         
           <template slot-scope="props" >
 
-            <b-table-column field="tableData.title" label="Title">
+
+            <b-table-column field="tableData.title" label="Title" class="is-capitalized">
               <template slot="header" slot-scope="{ column }">
                 <b-tooltip :label="column.label">
                   {{ column.label }}
@@ -74,16 +75,16 @@
               {{ props.row.title }}
             </b-table-column>
 
-            <b-table-column field="tableData.summary" label="Summary">
+            <b-table-column field="tableData.category" label="Category">
               <template slot="header" slot-scope="{ column }">
                 <b-tooltip :label="column.label">
                   {{ column.label }}
                 </b-tooltip>
               </template>
-              {{ props.row.summary }}
+              {{ props.row.category.title }}
             </b-table-column>
 
-            <b-table-column field="tableData.createdAt" label="Published Date">
+            <b-table-column field="tableData.createdAt" label="Created">
               <template slot="header" slot-scope="{ column }">
                 <b-tooltip :label="column.label">
                   {{ column.label }}
@@ -138,8 +139,8 @@ export default {
           label: 'Title'
         },
         {
-          field: 'summary',
-          label: 'Summary'
+          field: 'category',
+          label: 'Category'
         },
         {
           field: 'createdAt',
@@ -173,7 +174,7 @@ export default {
     },
 
     formatDate(date) {
-      return formatDate(date);
+      return formatDate(date, "DD/MM/YYYY");
     },
 
     async deletePost(post) {
@@ -207,7 +208,6 @@ export default {
 
 .posts-table-content {
   display: grid;
-  grid-gap: 20px;
 }
 
 .postsTable-placeholder-content {
@@ -220,6 +220,10 @@ export default {
 
 .postsTable-placeholder-image {
   max-width: 200px;
+}
+
+.searchPosts {
+  margin-bottom: 2rem;
 }
 
 @media only screen and (min-width: 770px) {
@@ -236,6 +240,16 @@ export default {
 
   
 
+}
+
+@media only screen and (min-width: 1000px) {
+  .posts-table-content {
+    grid-gap: 20px;
+  }
+
+  .searchPosts {
+    margin-bottom: 1rem;
+  }
 }
 
 @media only screen and (min-width: 1200px) {

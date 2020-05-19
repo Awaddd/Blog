@@ -78,9 +78,6 @@
                       v-model="content"
                       ref="myQuillEditor"
                       :options="editorOption"
-                      @blur="onEditorBlur($event)"
-                      @focus="onEditorFocus($event)"
-                      @ready="onEditorReady($event)"
                       class="contentArea"
                     ></quill-editor>
                   </div>
@@ -171,6 +168,7 @@ export default {
       this.tags = this.tags.slice(0, 6);
 
       const response = await PostsService.addPosts({
+        category: this.category._id,
         title: this.title.trim(),
         summary: this.summary,
         image: this.image,

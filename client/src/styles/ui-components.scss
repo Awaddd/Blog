@@ -25,6 +25,16 @@ hr {
   color: #CECECE !important;
 }
 
+.field-label .label {
+  font-weight: 600;
+  margin-top: 1.5rem;
+}
+
+.my-step-content {
+  .field-label .label {
+    margin-top: 0;
+  }
+}
 
 .hr-centered {
   margin: 0.5em auto;
@@ -103,6 +113,18 @@ button {
   .welcome-content {
     box-shadow: inset 0 5px 20px rgba(0,0,0,0.10), inset 0 -5px 20px rgba(0,0,0,0.10);
   }
+
+  .field-label .label {
+    font-weight: 600;
+    margin-top: 0;
+  }
+
+  .my-step-content, .posts-table-content {
+    .field-label .label {
+      text-align: start !important;
+    }
+  }
+  
 }
 
 @media only screen and (min-width: 1200px) {
