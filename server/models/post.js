@@ -9,7 +9,7 @@ const PostSchema = new Schema({
   },
   summary: String,
   content: String,
-  image: {type: String, required: true},
+  image: {type: String},
   createdAt: {type: Date, default: Date.now},
   tags: {type: Array},
   featured: {type: Boolean},

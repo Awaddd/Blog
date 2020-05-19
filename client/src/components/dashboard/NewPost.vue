@@ -20,13 +20,21 @@
                 <p class="subtitle is-size-5 has-text-centered">Title, Summary &amp; Tags</p>
                 <div class="my-step-content">
                   
-                  <b-field v-if="categories" class="select-category" label="Category" horizontal>
+                  <!-- <b-field v-if="categories" class="select-category" label="Category" horizontal>
                     <b-select placeholder="Category" expanded v-model="category">
                       <template v-for="(category, i) in categories" >
                         <option :value="category" :key="i">{{category.title}}</option>
                       </template>
                     </b-select>
-                  </b-field>
+                  </b-field> -->
+
+
+                  <BSelectWithValidation rules="required" horizontal label="Category" v-model="category">
+                      <option value>None</option>
+                      <template v-for="(category, i) in categories" >
+                        <option :value="category" :key="i">{{category.title}}</option>
+                      </template>
+                  </BSelectWithValidation>
                     
                   <BInputWithValidation vid="title" rules="required|min:7|max:150" v-model="title" placeholder="Example Title ..." horizontal label="Title"/>
                   <BInputWithValidation rules="required|min:5|max:150" v-model="summary" placeholder="The future of the..." horizontal label="Summary"/>
@@ -117,6 +125,7 @@ import PostsService from "@/services/PostsService";
 import { ValidationObserver } from 'vee-validate';
 import * as validationRules from '@/helpers/validation';
 import BInputWithValidation from '@/buefyComponents/BInputWithValidation';
+import BSelectWithValidation from '@/buefyComponents/BSelectWithValidation';
 import { sanitizeTitle } from '@/helpers/helpers';
 
 export default {
@@ -167,14 +176,16 @@ export default {
 
       this.tags = this.tags.slice(0, 6);
 
-      const response = await PostsService.addPosts({
+      let newPost = {
         category: this.category._id,
         title: this.title.trim(),
         summary: this.summary,
-        image: this.image,
         content: this.content,
         tags: this.tags
-      });
+      };
+
+      if (this.image) newPost.image = this.image;
+      const response = await PostsService.addPosts(newPost);
 
       if (response.status !== 200) {
 
@@ -208,7 +219,8 @@ export default {
   components: {
     quillEditor,
     ValidationObserver,
-    BInputWithValidation
+    BInputWithValidation,
+    BSelectWithValidation
   }
 }
 

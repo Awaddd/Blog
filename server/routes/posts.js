@@ -113,7 +113,9 @@ router.post("/", upload().single('image'), checkLoggedIn, isLoggedIn, async (req
   console.log(req.body.category);
   console.log('--------------------------');
 
-  const image = `${process.env.URL}/uploads/${req.file.filename}`;
+  const image = null;
+  if (req.file) image = `${process.env.URL}/uploads/${req.file.filename}`;
+
   const {category, summary, content, tags} = req.body;
   const title = req.body.title.toLowerCase();
   console.log(tags);
@@ -126,15 +128,16 @@ router.post("/", upload().single('image'), checkLoggedIn, isLoggedIn, async (req
 
     if (existingPost) res.status(400).send({ success: false, message: 'A post with that title already exists', field: 'title' });
 
-    const new_post = new Post({
+    let newPost = {
       title: title,
       summary: summary,
       content: content,
-      image: image,
       tags: tags,
       author: userID,
       category: category
-    });
+    };
+    if (image) newPost.image = image;
+    const new_post = new Post(newPost);
 
     const post = await new_post.save();
     if (post) res.status(200).send(post);
