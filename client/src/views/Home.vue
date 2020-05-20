@@ -80,7 +80,7 @@
 
       <section class="home-posts">
         <!-- add is-paddingless to remove padding on section -->
-        <app-posts :title="title" :showAmount="6"></app-posts>     
+        <app-posts :title="title" :showAmount="3"></app-posts>     
       </section>
 
 

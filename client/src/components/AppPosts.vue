@@ -4,58 +4,59 @@
     <p class="title is-size-5-mobile is-size-4 has-text-dark has-text-centered my-page-title">{{title}}</p>
     <app-posts-placeholder :showAmount="3" v-if="loading === true"></app-posts-placeholder>
 
-    <div class="cards-wrapper my-container" v-else>
-      <template v-for="(post, i) in posts.slice(0, showAmount)">
-
-        <div class="card" :key="i" v-if="post.image">
-          <router-link
-          :to="{
-                name: 'BlogPost',
-                params: {title: sanitizeTitle(post.title)}
-            }">
-            <div class="card-image" v-if="post.image">
-              <figure class="image is-5by3">
-                <img :src="post.image" alt="" class="">
-              </figure>
-            </div>
-            <div class="card-content">
-              <p class="title is-6 is-capitalized">{{post.title}}</p>
-              <div class="content">
-                
-                <p class="">{{sanitizeSummary(post)}}</p>
-                <p class="has-text-primary">Read More...</p>
+    <div class="" v-else>
+        <div class="cards-wrapper my-container">
+          <div class="card" :key="i" v-for="(post, i) in postsWithMedia.slice(0, showAmount)">
+            <router-link
+            :to="{
+                  name: 'BlogPost',
+                  params: {title: sanitizeTitle(post.title)}
+              }">
+              <div class="card-image" v-if="post.image">
+                <figure class="image is-5by3">
+                  <img :src="post.image" alt="" class="">
+                </figure>
               </div>
-            </div>
-          </router-link>
-        </div>
-
-        <div class="alt__card" :key="i" v-else>
-          <router-link
-          :to="{
-                name: 'BlogPost',
-                params: {title: sanitizeTitle(post.title)}
-            }">
-            <div class="alt__card--wrapper">
-
-              <div class="alt__card--content">
-                <p class="alt__card--title title is-6 is-capitalized">{{post.title}}</p>
-                <p class="">{{sanitizeSummary(post)}}</p>
-
-
-                <div class="control">
-                  <div class="tags">
-                    <b-tag ellipsis type="is-warning">{{post.category.name}}</b-tag>
-                  </div>
+              <div class="card-content">
+                <p class="title is-6 is-capitalized">{{post.title}}</p>
+                <div class="content">
+                  
+                  <p class="">{{sanitizeSummary(post)}}</p>
+                  <p class="has-text-primary">Read More...</p>
                 </div>
-
-                <p class="has-text-primary alt__card--read-more">Read More...</p>
               </div>
-              
-            </div>
-          </router-link>
+            </router-link>
+          </div>
         </div>
 
-      </template>
+        <div class="cards-wrapper my-container">
+          <div class="alt__card" :key="i" v-for="(post, i) in postsWithoutMedia.slice(0, showAmount)">
+            <router-link
+            :to="{
+                  name: 'BlogPost',
+                  params: {title: sanitizeTitle(post.title)}
+              }">
+              <div class="alt__card--wrapper">
+
+                <div class="alt__card--content">
+                  <p class="alt__card--title title is-6 is-capitalized">{{post.title}}</p>
+                  <p class="">{{sanitizeSummary(post)}}</p>
+
+
+                  <div class="control">
+                    <div class="tags">
+                      <b-tag ellipsis type="is-warning">{{post.category.name}}</b-tag>
+                    </div>
+                  </div>
+
+                  <p class="has-text-primary alt__card--read-more">Read More...</p>
+                </div>
+                
+              </div>
+            </router-link>
+          </div>
+        </div>
+
 
     </div>
 
@@ -74,7 +75,9 @@ import { mapGetters } from 'vuex';
 export default {
   data () {
     return {
-      posts: null
+      posts: null,
+      postsWithMedia: [],
+      postsWithoutMedia: []
     };
   },
   mounted () {
@@ -91,7 +94,17 @@ export default {
     async getPosts() {
       const response = await PostsService.fetchPosts();
       response.data.posts.length > 0 ? this.posts = response.data.posts : this.posts = null;
-      if (this.posts) this.$store.dispatch("SET_LOADING_POSTS_STATUS", false);
+      if (this.posts) {
+        console.log('WARRRRRRR');
+        console.log('WARRRRRRR');
+        this.$store.dispatch("SET_LOADING_POSTS_STATUS", false);
+        this.posts.forEach( i => {
+          console.log(i.category.hasMedia);
+          if (i.category.hasMedia === true) this.postsWithMedia.push(i);
+          else this.postsWithoutMedia.push(i);
+        })
+      }
+
     },
     sanitizeTitle (title) {
       return sanitizeTitle(title);
@@ -125,7 +138,10 @@ export default {
 }
 
 .alt__card {
-
+  border-radius: 3px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+      border-left: 3px solid $warning;
+    border-right: 3px solid #fff;
 }
 
 .alt__card-content {
@@ -162,11 +178,10 @@ export default {
 
 @media only screen and (min-width: 700px) {
   .alt__card {
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-    border-left: 3px solid $warning;
-    border-right: 3px solid #fff;
+    // box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+
     // border-top: 3px solid $warning;
-    border-radius: 3px;
+    // border-radius: 3px;
     min-height: 220px;
   }
 }

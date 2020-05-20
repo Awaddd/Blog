@@ -14,7 +14,7 @@ const Category = require("../models/category");
 
 router.get("/", async (req, res) => {
   try {
-    const posts = await Post.find({}, "title summary content image createdAt tags category").populate('category', 'name').sort({ _id: -1 }).exec();;
+    const posts = await Post.find({}, "title summary content image createdAt tags category").populate('category', 'name hasMedia').sort({ _id: -1 }).exec();;
     if (!posts) res.status(404).send({ status: false, message: 'Posts not found' });
     res.status(200).send({ posts: posts });
   } catch (error) {
