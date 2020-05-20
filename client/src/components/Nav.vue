@@ -10,7 +10,17 @@
 
       <template slot="end">
         <b-navbar-item tag="router-link" :to="{ name: 'Home' }">Home</b-navbar-item>
-        <b-navbar-item tag="router-link" :to="{ name: 'Posts' }">All Posts</b-navbar-item>
+
+        <b-navbar-dropdown label="Categories">
+          <template v-for="(category, i) in categories">
+            <b-navbar-item tag="router-link" :to="{ name: 'Posts' }" :key="i">{{category.plural}}</b-navbar-item>
+          </template>
+          <!-- <b-navbar-item tag="router-link" :to="{ name: 'Posts' }" >Journals</b-navbar-item>
+          <b-navbar-item tag="router-link" :to="{ name: 'Posts' }">Stories</b-navbar-item>
+          <b-navbar-item tag="router-link" :to="{ name: 'Posts' }">Book Reviews</b-navbar-item>
+          <b-navbar-item tag="router-link" :to="{ name: 'Posts' }">Other</b-navbar-item> -->
+        </b-navbar-dropdown>
+
         <b-navbar-dropdown label="More">
           <b-navbar-item>News Letter</b-navbar-item>
           <b-navbar-item>Contact</b-navbar-item>
@@ -40,7 +50,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import { getToken } from '@/helpers/helpers';
-import UserService from "@/services/UserService";
+import PostsService from "@/services/PostsService";
 import * as firebase from 'firebase/app';
 require('firebase/auth');
 
@@ -50,7 +60,11 @@ export default {
   },
   data () {
     return {
+      categories: null
     }
+  },
+  mounted () {
+    this.getCategories();
   },
   methods: {
     logout() {
@@ -65,6 +79,15 @@ export default {
         console.log('signed out!');
         this.$store.dispatch("SET_SOCIAL_STATUS", null);
       }).catch(error => console.log(error));
+    },
+    async getCategories() {
+      console.log('INSIDE CATEGORIES . VUE');
+      const response = await PostsService.fetchCategories();
+      if (response.status !== 200) console.log('CATEGORY PROBLEM!!');
+      else if (response.status === 200){
+        this.categories = response.data;
+        this.$store.dispatch("SET_CATEGORIES", this.categories);
+      }
     }
   }
 }

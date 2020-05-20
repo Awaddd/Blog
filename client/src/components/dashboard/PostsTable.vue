@@ -81,7 +81,7 @@
                   {{ column.label }}
                 </b-tooltip>
               </template>
-              {{ props.row.category.title }}
+              {{ props.row.category.name }}
             </b-table-column>
 
             <b-table-column field="tableData.createdAt" label="Created">

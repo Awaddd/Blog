@@ -11,7 +11,7 @@ const Post = require("../models/post");
 router.get("/:id/posts", async (req, res) => {
   try {
     const userID = verifyToken(req).userID;
-    const posts = await Post.find({ author: userID }, "id title summary content image author createdAt category featured").populate('category', 'title').sort({ _id: -1 }).exec();
+    const posts = await Post.find({ author: userID }, "id title summary content image author createdAt category featured").populate('category', 'name').sort({ _id: -1 }).exec();
     if (posts.length < 1) res.status(404).send({success: false, message: 'User does not have any posts'});
     else res.status(200).send({ posts: posts }); 
   } catch (error) {

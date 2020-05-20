@@ -32,7 +32,7 @@
                   <BSelectWithValidation rules="required" horizontal label="Category" v-model="category">
                       <option value>None</option>
                       <template v-for="(category, i) in categories" >
-                        <option :value="category" :key="i">{{category.title}}</option>
+                        <option :value="category" :key="i">{{category.name}}</option>
                       </template>
                   </BSelectWithValidation>
                     
@@ -127,11 +127,11 @@ import * as validationRules from '@/helpers/validation';
 import BInputWithValidation from '@/buefyComponents/BInputWithValidation';
 import BSelectWithValidation from '@/buefyComponents/BSelectWithValidation';
 import { sanitizeTitle } from '@/helpers/helpers';
+import { mapGetters } from 'vuex';
 
 export default {
   data: function() {
     return {
-      categories: null,
       title: null,
       summary: null,
       category: null,
@@ -160,18 +160,7 @@ export default {
       activeStep: 0
     };
   },
-  mounted () {
-    this.getCategories();
-  },
   methods: {
-    async getCategories() {
-      console.log('INSIDE CATEGORIES . VUE');
-      const response = await PostsService.fetchCategories();
-      if (response.status !== 200) console.log('CATEGORY PROBLEM!!');
-      else if (response.status === 200){
-        this.categories = response.data;
-      }
-    },
     async addPost() {
 
       this.tags = this.tags.slice(0, 6);
@@ -211,6 +200,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({ categories : 'getCategories' }),
     lastStep () {
       if ((this.categories) && (this.category) && (this.category.hasMedia === true)) return `Step 3`;
       else return `Step 2`;

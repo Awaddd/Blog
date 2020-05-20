@@ -8,18 +8,44 @@ const User = require("../models/user");
 const Category = require("../models/category");
 
 
+
 // Get all posts
 
 
 router.get("/", async (req, res) => {
   try {
-    const posts = await Post.find({}, "title summary content image createdAt tags").sort({ _id: -1 });
+    const posts = await Post.find({}, "title summary content image createdAt tags category").populate('category', 'name').sort({ _id: -1 }).exec();;
     if (!posts) res.status(404).send({ status: false, message: 'Posts not found' });
     res.status(200).send({ posts: posts });
   } catch (error) {
     console.log(error);
     // throw(error);
   }
+});
+
+
+
+// Get posts based on category
+
+
+router.get("/all/:category", async (req, res) => {
+
+  try {
+
+    const categories = await Category.find({}, "id title hasMedia").sort({ _id: -1 });
+    console.log('----------------------');
+    console.log('----------------------');
+    console.log('----------------------');
+    console.log(categories);
+    console.log('----------------------');
+    console.log('----------------------');
+    console.log('----------------------');
+    // const posts = await Post.find({}, "title summary content image createdAt tags category").sort({ _id: -1 });
+
+  } catch (error) {
+
+  }
+
 });
 
 
@@ -32,7 +58,7 @@ router.get("/categories", async (req, res) => {
   console.log('INSIDE CATEGORIES');
   console.log('-------------------------');
   try {
-    const categories = await Category.find({}, "id title hasMedia").sort({ _id: -1 });
+    const categories = await Category.find({}, "id name hasMedia plural");
     if (!categories) res.status(404).send({ status: false, message: 'Categories not found' });
     res.status(200).send(categories);
 
@@ -113,7 +139,7 @@ router.post("/", upload().single('image'), checkLoggedIn, isLoggedIn, async (req
   console.log(req.body.category);
   console.log('--------------------------');
 
-  const image = null;
+  let image = null;
   if (req.file) image = `${process.env.URL}/uploads/${req.file.filename}`;
 
   const {category, summary, content, tags} = req.body;
