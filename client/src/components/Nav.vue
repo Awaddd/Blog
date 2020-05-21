@@ -13,18 +13,20 @@
 
         <b-navbar-dropdown label="Categories">
           <template v-for="(category, i) in categories">
-            <b-navbar-item tag="router-link" :to="{ name: 'Posts' }" :key="i">{{category.plural}}</b-navbar-item>
+            <b-navbar-item tag="router-link" :to="{ name: 'AllPosts',  params: {categoryID: category._id, plural: category.plural} }" :key="i">{{category.plural}}</b-navbar-item>
           </template>
           <!-- <b-navbar-item tag="router-link" :to="{ name: 'Posts' }" >Journals</b-navbar-item>
           <b-navbar-item tag="router-link" :to="{ name: 'Posts' }">Stories</b-navbar-item>
           <b-navbar-item tag="router-link" :to="{ name: 'Posts' }">Book Reviews</b-navbar-item>
           <b-navbar-item tag="router-link" :to="{ name: 'Posts' }">Other</b-navbar-item> -->
         </b-navbar-dropdown>
-
+<!-- 
         <b-navbar-dropdown label="More">
-          <b-navbar-item>News Letter</b-navbar-item>
-          <b-navbar-item>Contact</b-navbar-item>
-        </b-navbar-dropdown>
+
+        </b-navbar-dropdown> -->
+
+        <b-navbar-item>News Letter</b-navbar-item>
+        <b-navbar-item>Contact</b-navbar-item>
 
         <b-navbar-item tag="div">
           <div class="my-nav-controls" v-if="getLoginStatus">

@@ -16,9 +16,20 @@ const router = new Router({
     },
     {
       path: "/posts",
-      name: "Posts",
       component: () =>
-        import(/* webpackChunkName: "about" */ "./views/Posts.vue")
+        import(/* webpackChunkName: "about" */ "./views/Posts.vue"),
+      children: [
+        {
+          path: '',
+          redirect: 'articles'
+        },
+        {
+          path: ':plural',
+          name: "AllPosts",
+          component: () =>
+            import("./components/posts/AllPosts.vue")
+        }
+      ]
     },
     {
       path: "/posts/:title",

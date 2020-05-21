@@ -1,36 +1,19 @@
 <template>
   <div class="posts">
-
-    <header>
-    </header>
-
     <main class="my-container posts-content">
       <section class="post-posts">
-        <!-- add is-paddingless to remove padding on section -->
-        <app-posts :title="title"></app-posts>     
+        <router-view/>
       </section>
     </main>
   </div>
 </template>
 
 <script>
-import AppPosts from "@/components/AppPosts.vue";
 
-export default {
-  components: {
-    "app-posts": AppPosts
-  },
-  data () {
-    return {
-      title: 'All Posts'
-    }
-  }
-}
 </script>
 
 <style lang="scss">
 @import "../styles/app.scss";
-
 
 .posts {
   margin: 1.5rem 0;

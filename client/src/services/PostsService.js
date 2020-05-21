@@ -44,6 +44,12 @@ export default {
       .catch(error => { return error.response });
   },
 
+  fetchPostsByCategory(categoryID) {
+    console.log(categoryID);
+    return Api().get(`posts/all/${categoryID}`)
+      .then(response => { return response })
+      .catch(error => { return error.response });
+  },
 
   addPosts(params) {
 
