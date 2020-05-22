@@ -179,7 +179,7 @@ router.patch('/:id', upload().single('image'), checkLoggedIn, isLoggedIn, async 
   const { error } = validatePost(req.body);
   if (error) return res.status(400).send({success: false, message: error.details[0].message});
 
-  const {category, title, summary, content, tags} = req.body;
+  const {category, title, summary, content, tags, removeImage} = req.body;
 
   let image = null;
   if (req.file) image = `${process.env.URL}/uploads/${req.file.filename}`;
@@ -189,11 +189,18 @@ router.patch('/:id', upload().single('image'), checkLoggedIn, isLoggedIn, async 
       summary: summary,
       content: content,
       tags: tags,
-      category: category,
+      category: category
     }
 
     if (image) updatedPost.image = image;
     if (title) updatedPost.title = title.toLowerCase();
+
+    console.log('LOOOOOOOL');
+    console.log('category ', category);
+    console.log(removeImage);
+    console.log('LOOOOOOOL');
+
+    if (removeImage) updatedPost.image = null;
 
     const post = await Post.findByIdAndUpdate(postID, updatedPost);
 

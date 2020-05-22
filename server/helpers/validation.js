@@ -51,7 +51,8 @@ module.exports = {
       content: Joi.string()
         // .min(100)
         .required(),
-      tags: Joi.array()
+      tags: Joi.array(),
+      removeImage: Joi.boolean()
     });
 
     return schema.validate(post);

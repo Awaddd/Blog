@@ -15,7 +15,7 @@ const router = new Router({
       component: Home
     },
     {
-      path: "/posts",
+      path: "/categories",
       component: () =>
         import(/* webpackChunkName: "about" */ "./views/Posts.vue"),
       children: [

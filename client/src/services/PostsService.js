@@ -96,6 +96,7 @@ export default {
     formData.append("tags", JSON.stringify(params.tags));
 
     if (params.image) formData.append("image", params.image, params.image.name);
+    if (params.removeImage) formData.append("removeImage", params.removeImage);
 
     return axios.patch(
       `${url}posts/${params.id}`,
