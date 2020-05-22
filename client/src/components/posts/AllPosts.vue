@@ -1,6 +1,6 @@
 <template>
   <div>
-    <app-posts :categoryID="$route.params.categoryID" :title="$route.params.plural" ></app-posts>
+    <app-posts :title="$route.params.plural" ></app-posts>
   </div>
 </template>
 

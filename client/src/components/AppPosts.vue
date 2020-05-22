@@ -1,7 +1,7 @@
 <template>
   <div  class="container" v-if="isEmpty === true">
 
-    <p class="title is-size-5-mobile is-size-4 has-text-dark has-text-centered my-page-title">{{title}}</p>
+    <p class="title is-size-5-mobile is-size-4 has-text-dark has-text-centered my-page-title is-capitalized">{{title}}</p>
     <div class="has-text-centered">
 
       <h1 class="is-size-6-mobile is-size-5 has-text-weight-normal">No {{$route.params.plural}} at the moment. Check out the other categories!</h1>
@@ -13,7 +13,7 @@
   </div>
 
   <div class="container" v-else>
-    <p class="title is-size-5-mobile is-size-4 has-text-dark has-text-centered my-page-title">{{title}}</p>
+    <p class="title is-size-5-mobile is-size-4 has-text-dark has-text-centered my-page-title is-capitalized">{{title}}</p>
     <app-posts-placeholder :showAmount="3" v-if="loading === true"></app-posts-placeholder>
 
     <div class="" v-else>
@@ -106,48 +106,42 @@ export default {
   computed: {
     ...mapGetters({ 'loading': 'getLoadingPostsStatus' })
   },
-  props: ['showAmount', 'title', 'categoryID'],
+  props: ['showAmount', 'title'],
   methods: {
     async loadContent () {
       this.posts = null;
       this.postsWithMedia = [];
       this.postsWithoutMedia = [];
-      if (this.categoryID) await this.getPostsByCategory();
+      console.log(this.$route.params.plural);
+      if (this.$route.params.plural) await this.getPostsByCategory();
       else await this.getPosts();
       if (this.posts === null) {
         this.isEmpty = true;
-        console.log('ARRRRRRRIBAAAAAAA');
       } else {
         this.isEmpty = false;
       }
     },
+    handleSuccess() {
+      // handle success for the retrieve post methods
+      this.$store.dispatch("SET_LOADING_POSTS_STATUS", false);
+      this.posts.forEach( i => {
+        if (i.category.hasMedia === true) this.postsWithMedia.push(i);
+        else this.postsWithoutMedia.push(i);
+      })
+
+    },
     async getPosts() {
+      // get all posts and display media content on different rows from content without media
+      // used for the homepage
       const response = await PostsService.fetchPosts();
       response.data.posts.length > 0 ? this.posts = response.data.posts : this.posts = null;
-      if (this.posts) {
-        console.log('WARRRRRRR');
-        console.log('WARRRRRRR');
-        this.$store.dispatch("SET_LOADING_POSTS_STATUS", false);
-        this.posts.forEach( i => {
-          console.log(i.category.hasMedia);
-          if (i.category.hasMedia === true) this.postsWithMedia.push(i);
-          else this.postsWithoutMedia.push(i);
-        })
-      }
+      if (this.posts) this.handleSuccess();
     },
     async getPostsByCategory() {
-      const response = await PostsService.fetchPostsByCategory(this.categoryID);
+      // get posts for a specific category, used for each category's page.
+      const response = await PostsService.fetchPostsByCategory(this.$route.params.plural);
       response.data.posts.length > 0 ? this.posts = response.data.posts : this.posts = null;
-      if (this.posts) {
-        console.log('WARRRRRRR');
-        console.log('WARRRRRRR');
-        this.$store.dispatch("SET_LOADING_POSTS_STATUS", false);
-        this.posts.forEach( i => {
-          console.log(i.category.hasMedia);
-          if (i.category.hasMedia === true) this.postsWithMedia.push(i);
-          else this.postsWithoutMedia.push(i);
-        })
-      } 
+      if (this.posts) this.handleSuccess();
     },
     sanitizeTitle (title) {
       return sanitizeTitle(title);
@@ -192,17 +186,8 @@ export default {
     border-right: 3px solid #fff;
 }
 
-.alt__card-content {
-  
-}
-
-
 .alt__card--category{
   padding: 0.7rem 0.7rem;
-  // background: #7878ff;
-  // p {
-  //   color: #fff;
-  // }
 }
 
 .alt__card--title {
@@ -210,26 +195,15 @@ export default {
 }
 
 .alt__card--content {
-  // border-left: 5px solid rgba(0, 255, 0, 0.5);
   padding: 1rem 1.5rem;
   margin-bottom: 1rem;
   display: grid;
   grid-gap: 10px;
 }
 
-.alt__card--tags {
-}
-
-.alt__card--read-more {
-}
-
 
 @media only screen and (min-width: 700px) {
   .alt__card {
-    // box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-
-    // border-top: 3px solid $warning;
-    // border-radius: 3px;
     min-height: 220px;
   }
 }

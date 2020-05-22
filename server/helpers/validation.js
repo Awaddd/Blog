@@ -1,4 +1,5 @@
 const Joi = require('@hapi/joi');
+Joi.objectId = require('joi-objectid')(Joi) 
 
 module.exports = {
   validateUser(user) {
@@ -38,6 +39,8 @@ module.exports = {
   validatePost(post) {
   
     const schema = Joi.object({
+      category: Joi.objectId()
+        .required(),
       title: Joi.string()
         .min(7)
         .required(),

@@ -61,7 +61,7 @@ const router = new Router({
     path: "/dashboard",
     beforeEnter: (to, from, next) => {
       const user = getToken();
-      store.dispatch("SET_ADMIN_STATUS", user.isAdmin);
+      if (user) store.dispatch("SET_ADMIN_STATUS", user.isAdmin);
 
       if (!user) next("/admin/login");
       else if (user.isAdmin === false) next("/");

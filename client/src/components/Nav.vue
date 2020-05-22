@@ -13,7 +13,7 @@
 
         <b-navbar-dropdown label="Categories">
           <template v-for="(category, i) in categories">
-            <b-navbar-item tag="router-link" :to="{ name: 'AllPosts',  params: {categoryID: category._id, plural: category.plural} }" :key="i">{{category.plural}}</b-navbar-item>
+            <b-navbar-item tag="router-link" :to="{ name: 'AllPosts',  params: {plural: category.plural} }" :key="i">{{category.plural.charAt(0).toUpperCase() + category.plural.slice(1)}}</b-navbar-item>
           </template>
           <!-- <b-navbar-item tag="router-link" :to="{ name: 'Posts' }" >Journals</b-navbar-item>
           <b-navbar-item tag="router-link" :to="{ name: 'Posts' }">Stories</b-navbar-item>

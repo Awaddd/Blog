@@ -60,9 +60,6 @@
                       v-model="post.content"
                       ref="myQuillEditor"
                       :options="editorOption"
-                      @blur="onEditorBlur($event)"
-                      @focus="onEditorFocus($event)"
-                      @ready="onEditorReady($event)"
                       class="contentArea"
                     ></quill-editor>
                   </div>

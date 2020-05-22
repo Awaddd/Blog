@@ -14,7 +14,7 @@ const Category = require("../models/category");
 
 router.get("/", async (req, res) => {
   try {
-    const posts = await Post.find({}, "title summary content image createdAt tags category").populate('category', 'name hasMedia').sort({ _id: -1 }).exec();;
+    const posts = await Post.find({}, "title summary content image createdAt tags category").populate('category', 'name hasMedia').sort({ _id: -1 }).exec();
     if (!posts) res.status(404).send({ status: false, message: 'Posts not found' });
     res.status(200).send({ posts: posts });
   } catch (error) {
@@ -28,22 +28,16 @@ router.get("/", async (req, res) => {
 // Get posts based on category
 
 
-router.get("/all/:category", async (req, res) => {
+router.get("/all/:pluralName", async (req, res) => {
 
   try {
-
-    const categories = await Category.find({}, "id title hasMedia").sort({ _id: -1 });
-    console.log('----------------------');
-    console.log('----------------------');
-    console.log('----------------------');
-    console.log(categories);
-    console.log('----------------------');
-    console.log('----------------------');
-    console.log('----------------------');
-    // const posts = await Post.find({}, "title summary content image createdAt tags category").sort({ _id: -1 });
-
+    const category = req.params.pluralName.toLowerCase();
+    const { _id } = await Category.findOne( { plural: category }, "_id" );
+    const posts = await Post.find({ category: _id  }, "title summary content image createdAt tags category").populate('category', 'name hasMedia').sort({ _id: -1 }).exec();
+    if (!posts) res.status(404).send({ status: false, message: 'Posts not found' });
+    res.status(200).send({ posts: posts });
   } catch (error) {
-
+    console.log(error);
   }
 
 });
@@ -54,9 +48,6 @@ router.get("/all/:category", async (req, res) => {
 
 
 router.get("/categories", async (req, res) => {
-  console.log('-------------------------');
-  console.log('INSIDE CATEGORIES');
-  console.log('-------------------------');
   try {
     const categories = await Category.find({}, "id name hasMedia plural");
     if (!categories) res.status(404).send({ status: false, message: 'Categories not found' });
@@ -114,7 +105,7 @@ router.get("/:title", async (req, res) => {
 
 router.get("/id/:id", async (req, res) => {
   try {
-    const post = await Post.findOne({ _id: req.params.id }, "title summary content tags image");
+    const post = await Post.findOne({ _id: req.params.id }, "category title summary content tags image");
     if (!post) res.status(404).send({ success: false, message: 'Post not found' });
     res.status(200).send(post);
   } catch (error) {
@@ -132,12 +123,10 @@ router.post("/", upload().single('image'), checkLoggedIn, isLoggedIn, async (req
 
   req.body.tags = JSON.parse(req.body.tags);
 
-  // const { error } = validatePost(req.body);
-  // if (error) return res.status(400).send({success: false, message: error.details[0].message});
+  const { error } = validatePost(req.body);
+  if (error) return res.status(400).send({success: false, message: error.details[0].message});
 
-  console.log('--------------------------');
   console.log(req.body.category);
-  console.log('--------------------------');
 
   let image = null;
   if (req.file) image = `${process.env.URL}/uploads/${req.file.filename}`;
@@ -193,10 +182,7 @@ router.patch('/:id', upload().single('image'), checkLoggedIn, isLoggedIn, async 
   const {title, summary, content, tags} = req.body;
 
   let image = null;
-
-  if (req.file) {
-    image = `${process.env.URL}/uploads/${req.file.filename}`;
-  }
+  if (req.file) image = `${process.env.URL}/uploads/${req.file.filename}`;
 
   try {    
     const updatedPost = {

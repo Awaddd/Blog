@@ -32,7 +32,7 @@
                   <BSelectWithValidation rules="required" horizontal label="Category" v-model="category">
                       <option value>None</option>
                       <template v-for="(category, i) in categories" >
-                        <option :value="category" :key="i">{{category.name}}</option>
+                        <option :value="category" :key="i" class="is-capitalized">{{category.name}}</option>
                       </template>
                   </BSelectWithValidation>
                     
