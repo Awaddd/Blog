@@ -14,11 +14,18 @@
         <form class="add-post-form" enctype="multipart/form-data" v-if="post" @key-up.enter.prevent="handleSubmit(editPost)">
 
           <b-tabs v-model="activeStep" position="is-centered" type="is-toggle">
-            <b-tab-item label="Step 1">
+            <b-tab-item :label="`Step 1`">
             
               <div class="stepOne my-step-wrapper">
                 <p class="subtitle is-size-5 has-text-centered">Title, Summary &amp; Tags</p>
                 <div class="my-step-content">
+
+                  <BSelectWithValidation v-model="post.category.name" horizontal label="Category">
+                    <template v-for="(v, i) in categories">
+                      <option :value="v.name" :key="i">{{v.name}}</option>
+                    </template>
+                  </BSelectWithValidation>
+
                   <BInputWithValidation vid="title" rules="required|min:7|max:150" v-model="post.title" placeholder="Example Title ..." horizontal label="Title"/>
                   <BInputWithValidation rules="required|min:5|max:150" v-model="post.summary" placeholder="The future of the..." horizontal label="Summary"/>
 
@@ -29,14 +36,13 @@
                 </div>
               </div>
             </b-tab-item>
-            <b-tab-item label="Step 2">
-              
+            <b-tab-item :label="`Step 2`" v-if="(category) && (category.hasMedia === true)">
               <div class="stepTwo my-step-wrapper">
                 <p class="subtitle is-size-5 has-text-centered">Upload Image</p>
                 <div class="my-step-content stepTwo-content">
                   
                   <figure class="stepTwo-image">
-                    <img :src="post.image"></img>
+                    <img :src="post.image" />
                   </figure>
 
                   <b-field>
@@ -49,7 +55,7 @@
               </div>
             </b-tab-item>
 
-            <b-tab-item label="Step 3"> 
+            <b-tab-item :label="lastStep"> 
 
               <div class="stepThree my-step-wrapper">
                 <p class="subtitle is-size-5 has-text-centered">Content &amp; Submit</p>
@@ -97,10 +103,13 @@ import PostsService from "@/services/PostsService";
 import { ValidationObserver } from 'vee-validate';
 import * as validationRules from '@/helpers/validation';
 import BInputWithValidation from '@/buefyComponents/BInputWithValidation';
+import BSelectWithValidation from '@/buefyComponents/BSelectWithValidation';
+import { mapGetters } from 'vuex';
 
 export default {
   data: function() {
     return {
+      category: null,
       post: null,
       postID: null,
       newImage: null,
@@ -129,6 +138,14 @@ export default {
   mounted () {
     this.getPost();
   },
+  watch: {
+    'post.category.name': function() {
+      const { [0] : category } = this.categories.filter( i => {
+        if (i.name === this.post.category.name) return i;
+      });
+      this.category = category;
+    }
+  },
   methods: {
     async getPost() {
       this.postID = this.$route.params.postID;
@@ -142,6 +159,7 @@ export default {
 
       const editPostParams = {
         id: this.postID,
+        category: this.category._id,
         title: this.post.title.trim(),
         summary: this.post.summary,
         content: this.post.content,
@@ -175,25 +193,17 @@ export default {
     }
   },
   computed: {
-    baseSteps() {
-      return [{
-        label: 'Step One',
-        displayed: true
-      },
-      {
-        label: 'Step Two',
-        displayed: true
-      },
-      {
-        label: 'Step Three',
-        displayed: true
-      }]
+    ...mapGetters({ categories : 'getCategories' }),
+    lastStep () {
+      if ((this.categories) && (this.category) && (this.category.hasMedia === true)) return `Step 3`;
+      else return `Step 2`;
     }
   },
   components: {
     quillEditor,
     ValidationObserver,
-    BInputWithValidation
+    BInputWithValidation,
+    BSelectWithValidation
   }
 }
 

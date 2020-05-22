@@ -105,7 +105,7 @@ router.get("/:title", async (req, res) => {
 
 router.get("/id/:id", async (req, res) => {
   try {
-    const post = await Post.findOne({ _id: req.params.id }, "category title summary content tags image");
+    const post = await Post.findOne({ _id: req.params.id }, "category title summary content tags image").populate('category', 'name hasMedia').exec();
     if (!post) res.status(404).send({ success: false, message: 'Post not found' });
     res.status(200).send(post);
   } catch (error) {
@@ -179,7 +179,7 @@ router.patch('/:id', upload().single('image'), checkLoggedIn, isLoggedIn, async 
   const { error } = validatePost(req.body);
   if (error) return res.status(400).send({success: false, message: error.details[0].message});
 
-  const {title, summary, content, tags} = req.body;
+  const {category, title, summary, content, tags} = req.body;
 
   let image = null;
   if (req.file) image = `${process.env.URL}/uploads/${req.file.filename}`;
@@ -189,6 +189,7 @@ router.patch('/:id', upload().single('image'), checkLoggedIn, isLoggedIn, async 
       summary: summary,
       content: content,
       tags: tags,
+      category: category,
     }
 
     if (image) updatedPost.image = image;

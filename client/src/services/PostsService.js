@@ -89,6 +89,7 @@ export default {
 
     const formData = new FormData();
 
+    formData.append("category", params.category);
     formData.append("title", params.title);
     formData.append("summary", params.summary);
     formData.append("content", params.content);
