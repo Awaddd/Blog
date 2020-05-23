@@ -1,19 +1,19 @@
 <template>
   <div>     
-      <div class="author-section-wrapper">
+      <div class="author-section-wrapper" v-if="user">
         <div class="author-section-media">
           <figure class="image author-section-image">
             <!-- placeholder  -->
-            <img v-if="!user.image" src="../assets/person.png" alt="author-image">
-            <img v-else :src="user.image" alt="author-image">
+            <img v-if="!user.image" src="../assets/person.png" class="circle-picture" alt="author-image">
+            <img v-else class="circle-picture " :src="user.image" alt="author-image">
           </figure>
           <div class="author-section-bio has-text-centered">
             <h2 class="has-text-weight-normal is-size-5-mobile is-size-4 is-capitalized">{{user.firstName}} {{user.lastName}}</h2>
             <h3 class="subtitle is-size-6-mobile is-size-6">{{user.bio}}</h3>
             <div class="icon-group">
               <a href=""><b-icon class="facebook" icon="facebook"></b-icon></a>
-              <a href=""><b-icon class="twitter" icon="twitter"></b-icon></a>
               <a href=""><b-icon class="linkedin" icon="linkedin"></b-icon></a>
+              <a href=""><b-icon class="twitter" icon="twitter"></b-icon></a>
             </div>
           </div>
           
@@ -74,7 +74,7 @@ export default {
 .icon-group {
   display: grid;
   grid-template-columns: repeat(3, max-content);
-  grid-gap: 12px;
+  grid-gap: 10px;
   justify-content: center;
 }
 

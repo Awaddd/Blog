@@ -34,7 +34,7 @@
     <AboutAuthor class="author-section" v-if="post" :authorID="post.authorID" />
 
     <div class="viewCommentsWrapper" v-if="!showComments">
-      <b-button class="viewCommentsButton" type="is-danger" outlined @click="getComments">View comments</b-button>
+      <b-button class="viewCommentsButton" type="is-danger"  outlined @click="getComments">View comments</b-button>
     </div>
 
     <Comments class="comments-section" v-else />
@@ -157,7 +157,7 @@ export default {
 }
 
 .viewCommentsWrapper {
-  margin: 2rem 0;
+  padding: 0 1.5rem;
   display: grid;
   justify-items: center;
 }
@@ -175,8 +175,8 @@ export default {
   .blogPost {
     padding: 2rem 1rem;
   }
-  .author-section {
-    padding: 1rem;
+  .author-section, .viewCommentsWrapper {
+    padding: 1rem 2.2rem;
   }
 }
 
@@ -193,7 +193,7 @@ export default {
     justify-content: flex-start;
   }
 
-  .author-section {
+  .author-section, .viewCommentsWrapper {
     padding: 0 2.5rem;
     margin: 3rem 0;
   }

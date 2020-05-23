@@ -28,14 +28,16 @@
       <div class="profile-image-group">
 
         <figure class="image is-128x128" v-if="!edit[4].field">
-          <img class="circle-picture" src="https://bulma.io/images/placeholders/128x128.png">
+          <img v-if="!user.image" class="circle-picture" src="https://bulma.io/images/placeholders/128x128.png">
+          <img v-else class="circle-picture" :src="user.image">
         </figure>
 
         <figure class="image is-128x128 " v-else>
             <b-field>
               <b-upload v-model="image">
                 <div class="author-picture-wrapper">
-                  <img class="circle-picture author-picture-edit" src="https://bulma.io/images/placeholders/128x128.png">
+                  <img v-if="!user.image" class="circle-picture author-picture-edit" src="https://bulma.io/images/placeholders/128x128.png">
+                  <img v-else class="circle-picture author-picture-edit" :src="user.image">
                   <div class="author-picture-overlay ">
                     <b-icon icon="upload" size="is-medium"></b-icon>
                   </div>
@@ -45,7 +47,10 @@
         </figure>
 
         <b-button class="is-primary" v-if="editBtn" @click="editAll">Edit All</b-button>
-        <b-button type="is-primary" outlined v-else @click="updateProfile" >Update</b-button>
+        <div v-else class="profile-btn-actions">
+          <b-button type="is-primary" outlined @click="updateProfile" >Update</b-button>
+          <b-button type="is-danger" outlined @click="cancelEdit" >Cancel</b-button>
+        </div>
         <!-- <b-button class="is-primary">Edit</b-button> -->
       </div>
 
@@ -147,12 +152,19 @@ export default {
       if (this.user.bio) updateUserParams.bio = this.user.bio; 
       else updateUserParams.bio = this.bio;
       if (!this.user.image) updateUserParams.image = this.image; 
+      else if (this.image) updateUserParams.image = this.image;
 
       const response = await UserService.updateUserDetails(updateUserParams);
 
       if (response.status !== 200) console.log(response.data.message);
       else console.log(response);
 
+      this.edit.forEach( obj => {
+        obj.field = false;
+      });
+      this.editBtn = true;
+    },
+    cancelEdit () {
       this.edit.forEach( obj => {
         obj.field = false;
       });
@@ -204,9 +216,14 @@ export default {
     left: 50px;
     right: 50px;
     top: 50px;
-    color: #fff;
+    // color: #f333ff;
+    mix-blend-mode: darken;
     cursor: pointer;
+  }
 
+  .profile-btn-actions {
+    display: grid;
+    grid-gap: 10px;
   }
 
   .my-disabled-input {
