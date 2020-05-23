@@ -81,6 +81,7 @@ router.get("/:title", async (req, res) => {
   try {
     const param = req.params.title.replace(/\-+/g, " ");
     const post = await Post.findOne({ title: param }, "_id title summary content image tags createdAt").populate('author', 'firstName lastName').exec();
+
     if (!post) res.status(404).send({ success: false, message: 'Post not found' });
     res.status(200).json({
       _id: post._id,
@@ -90,7 +91,8 @@ router.get("/:title", async (req, res) => {
       image: post.image,
       tags: post.tags,
       createdAt: post.createdAt,
-      author: `${post.author.firstName} ${post.author.lastName}`
+      author: `${post.author.firstName} ${post.author.lastName}`,
+      authorID: post.author._id
     });
   } catch (error) {
     console.log(error);
@@ -195,10 +197,7 @@ router.patch('/:id', upload().single('image'), checkLoggedIn, isLoggedIn, async 
     if (image) updatedPost.image = image;
     if (title) updatedPost.title = title.toLowerCase();
 
-    console.log('LOOOOOOOL');
     console.log('category ', category);
-    console.log(removeImage);
-    console.log('LOOOOOOOL');
 
     if (removeImage) updatedPost.image = null;
 

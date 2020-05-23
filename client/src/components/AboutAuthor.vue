@@ -1,29 +1,19 @@
 <template>
-  <div class="author-section">
-      <!-- <h1 class="title is-size-4">Meet the author</h1> -->
-      <!-- <div class="blogPost-section-title">
-        <h2 class="title is-size-5">Written By</h2>
-        <hr class="subtitle">
-      </div> -->
-      
+  <div>     
       <div class="author-section-wrapper">
         <div class="author-section-media">
-          <figure class="image is-128x128">
-            <img src="../assets/person.png" alt="">
+          <figure class="image author-section-image">
+            <!-- placeholder  -->
+            <img v-if="!user.image" src="../assets/person.png" alt="author-image">
+            <img v-else :src="user.image" alt="author-image">
           </figure>
-          <div class="author-section-bio">
-            <h2 class="title is-size-5-mobile is-size-4">{{user.firstName}} {{user.lastName}}</h2>
+          <div class="author-section-bio has-text-centered">
+            <h2 class="has-text-weight-normal is-size-5-mobile is-size-4 is-capitalized">{{user.firstName}} {{user.lastName}}</h2>
             <h3 class="subtitle is-size-6-mobile is-size-6">{{user.bio}}</h3>
             <div class="icon-group">
-              <a href="">
-                <b-icon class="facebook" icon="facebook"></b-icon>
-              </a>
-              <a href="">
-                <b-icon class="twitter" icon="twitter"></b-icon>
-              </a>
-              <a href="">
-                <b-icon class="linkedin" icon="linkedin"></b-icon>
-              </a>
+              <a href=""><b-icon class="facebook" icon="facebook"></b-icon></a>
+              <a href=""><b-icon class="twitter" icon="twitter"></b-icon></a>
+              <a href=""><b-icon class="linkedin" icon="linkedin"></b-icon></a>
             </div>
           </div>
           
@@ -36,13 +26,24 @@
 </template>
 
 <script>
+import UserService from "@/services/UserService";
+
 export default {
+  props: ['authorID'],
   data () {
     return {
-      user: {
-        firstName: 'Awad',
-        lastName: 'Dini',
-        bio: 'Studied at Yale. Writes for the daily waffle.'
+      user: null
+    }
+  },
+  mounted () {
+    this.getAuthor();
+  },
+  methods: {
+    async getAuthor() {
+      const response = await UserService.fetchAuthorDetails(this.authorID);
+      if (response.status !== 200) console.log(response.data.message); 
+      else if ((response.data) && (response.status === 200)) {
+        this.user = response.data;
       }
     }
   }
@@ -51,12 +52,6 @@ export default {
 
 <style lang="scss">
 
-.author-section {
-  margin-top: 3rem;
-  display: grid;
-  grid-gap: 3rem;
-}
-
 .author-section-wrapper {
   display: grid;
   grid-gap: 20px;
@@ -64,8 +59,12 @@ export default {
 
 .author-section-media {
   display: grid;
-  justify-items: center;
   grid-gap: 20px;
+  justify-items: center;
+}
+
+.author-section-image {
+  max-width: 100px;
 }
 
 .author-section-bio {
@@ -92,27 +91,21 @@ export default {
 }
 
 @media only screen and (min-width: 770px) {
-  .author-section {
-    // padding: 3rem 0;
-    margin-top: 3rem;
-  }
-
   .icon-group {
-    justify-content: start;
+    justify-content: center;
     margin-top: -0.5rem;
   }
 
   .author-section-media {
-    grid-template-columns: max-content max-content;
-    align-items: center;
-    justify-content: center;
+    // grid-template-columns: max-content max-content;
+    justify-items: center;
     grid-gap: 20px;
     // padding: 2rem 0;
-    margin-bottom: 2rem;
   }
 
   .author-section-bio {
     text-align: start;
+    max-width: 500px;
   }
 }
 

@@ -5,11 +5,16 @@ import { authHeader } from '@/helpers/helpers';
 
 
 export default {
-
+  // fetch logged in users' details
   fetchUserDetails () {
     const user = localStorage.getItem('user');
     let decoded = jwt.decode(user);
     return Api().get(`users/profile/${decoded.userID}`).then(response => response).catch(error => error.response);
+  },
+
+
+  fetchAuthorDetails (authorID) {
+    return Api().get(`users/profile/${authorID}`).then(response => response).catch(error => error.response);
   },
 
   updateUserDetails (params) {

@@ -31,7 +31,7 @@
       <div class="content breakOffLongWords" v-html="post.content"></div> 
     </section>
 
-    <AboutAuthor />
+    <AboutAuthor class="author-section" v-if="post" :authorID="post.authorID" />
 
     <div class="viewCommentsWrapper" v-if="!showComments">
       <b-button class="viewCommentsButton" type="is-danger" outlined @click="getComments">View comments</b-button>
@@ -86,8 +86,8 @@ export default {
     async getComments() {
       this.showComments = true;
       const response = await CommentsService.fetchComments(this.post._id);
-      if (response.data.success === false) console.log(response.data.message); 
-      else if (response.data && response.status === 200) {
+      if (response.status !== 200) console.log(response.data.message); 
+      else if ((response.data) && (response.status === 200)) {
         this.comments = response.data;
 
         this.discussionIDs = [];
@@ -105,8 +105,6 @@ export default {
       };
     },
     async getReplies() {
-      console.log('-----------------');
-
       const response = await CommentsService.fetchReplies(this.discussionIDs);
       if (response.status !== 200) console.log('No Replies ', response.data); 
       else if (response.data && response.status === 200) {
@@ -164,13 +162,21 @@ export default {
   justify-items: center;
 }
 
+.author-section {
+  padding: 1rem 1.5rem;
+}
+
 .comments-section {
   margin: 3rem 0;
 }
 
+
 @media only screen and (min-width: 360px) {
   .blogPost {
     padding: 2rem 1rem;
+  }
+  .author-section {
+    padding: 1rem;
   }
 }
 
@@ -185,6 +191,11 @@ export default {
   }
   .level-right {
     justify-content: flex-start;
+  }
+
+  .author-section {
+    padding: 0 2.5rem;
+    margin: 3rem 0;
   }
 }
 
