@@ -53,7 +53,10 @@ export default {
       
         if (response.status !== 200) {
           console.log('add comment error ERROR: ', response.data);
-        } else if (response.status === 200) this.content = null;
+        } else if (response.status === 200) {
+          this.content = null;
+          this.$store.dispatch("SET_COMMENT_ADDED", true);
+        }
         
       } 
     }

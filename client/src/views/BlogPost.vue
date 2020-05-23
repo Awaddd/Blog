@@ -37,7 +37,7 @@
       <b-button class="viewCommentsButton" type="is-danger"  outlined @click="getComments">View comments</b-button>
     </div>
 
-    <Comments class="comments-section" v-else />
+    <Comments class="comments-section" :key="commentsKey" v-else />
 
   </div>
 </template>
@@ -48,6 +48,7 @@ import CommentsService from "@/services/CommentsService";
 import AboutAuthor from "@/components/AboutAuthor.vue";
 import Comments from "@/components/Comments.vue";
 import { formatDate } from '@/helpers/helpers';
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
@@ -60,11 +61,22 @@ export default {
       comments: null,
       discussionIDs: null,
       replies: null,
-      showComments: false
+      showComments: false,
+      commentsKey: 0
     }
   },
   mounted() {
     this.getPosts();
+  },
+  computed: {
+    ...mapGetters(['getCommentAdded'])
+  },
+  watch: {
+    'getCommentAdded': function () {
+      console.log('comment added: ', this.getCommentAdded);
+      this.getComments();
+      this.commentsKey += 1;
+    }
   },
   methods: {
     async getPosts() {
