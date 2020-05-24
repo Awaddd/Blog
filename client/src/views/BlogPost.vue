@@ -76,6 +76,7 @@ export default {
       console.log('comment added: ', this.getCommentAdded);
       this.getComments();
       this.commentsKey += 1;
+      this.$store.dispatch("SET_COMMENT_ADDED", false);
     }
   },
   methods: {
