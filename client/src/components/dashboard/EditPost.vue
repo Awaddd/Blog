@@ -165,9 +165,6 @@ export default {
         content: this.post.content,
         tags: this.post.tags
       }
-      console.log('LOOOOOOOL ', this.post.image);
-      console.log('LOOOOOOOOOOOOOOOOOOOL SKRRRRRRRRRRRRRRR');
-      console.log('LOOOOOOOOOOOOOOOOOOOL SKRRRRRRRRRRRRRRR', this.category);
       if ((this.category.hasMedia === false) && (this.post.image)) editPostParams.removeImage = true;
       if (this.newImage) editPostParams.image = this.newImage;
 

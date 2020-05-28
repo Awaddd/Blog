@@ -9,11 +9,6 @@
       </p>
     </nav>    
 
-    <!-- <div class="my-placeholder-message" v-if="!tableData">
-      <p class="subtitle is-5 is-size-6-mobile has-text-success has-text-centered">You don't have any posts at the moment. Click below to get started!</p>
-      <button class="my-btn" @click="redirectNewPost">Start Writing</button>
-    </div> -->
-
     <div class="postsTable-placeholder-content" v-if="!tableData">
 
       <div class="has-text-centered">
@@ -38,20 +33,14 @@
           </b-select>
         </b-field>
       </div>
-
-
-      <div class="searchPosts">
-        <b-field label="Search" horizontal>
-          <b-input type="search" icon-right="magnify" placeholder="The name of the wind..."></b-input>
-        </b-field>
-      </div>
-
-
+      <br>
       <template>
         <div v-if="!tableData">
           No posts at the moment
         </div>
-        <b-table v-else :data="tableData"
+
+
+        <b-table :data="filteredTableData"
         :paginated="true"
         :pagination-simple="true"
         :per-page="perPage"
@@ -62,15 +51,25 @@
         aria-page-label="Page"
         aria-current-label="Current page"
         hoverable>
+
         
           <template slot-scope="props" >
 
-
-            <b-table-column field="tableData.title" label="Title" class="is-capitalized">
+            <b-table-column searchable field="tableData.title" label="Title" class="is-capitalized">
               <template slot="header" slot-scope="{ column }">
                 <b-tooltip :label="column.label">
                   {{ column.label }}
                 </b-tooltip>
+              </template>
+
+              <template
+                slot="searchable"
+                slot-scope=" {column} ">
+                <b-input 
+                  v-model="searchTerm"
+                  type="search" icon-right="magnify" size="is-small"
+                  placeholder="Search...">
+                </b-input>
               </template>
               {{ props.row.title }}
             </b-table-column>
@@ -136,7 +135,8 @@ export default {
       columns: [
         {
           field: 'title',
-          label: 'Title'
+          label: 'Title',
+          searchable: true
         },
         {
           field: 'category',
@@ -150,11 +150,19 @@ export default {
       currentPage: 1,
       perPage: 3,
       paginationPosition: 'bottom',
-      featuredPostID: null
+      featuredPostID: null,
+      searchTerm: ''
     }
   },
   computed: {
-    ...mapGetters({tableData : "getUserPosts"})
+    ...mapGetters({tableData : "getUserPosts"}),
+    filteredTableData() {
+      if (this.tableData) {
+              return this.tableData.filter( item => {
+        return item.title.toLowerCase().includes(this.searchTerm.toLowerCase());
+      })
+      }
+    }
   },
   methods: {
     async getPosts() {
