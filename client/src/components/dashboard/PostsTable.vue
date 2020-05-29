@@ -27,13 +27,12 @@
     <div class="posts-table-content" v-else>
 
       <div class="select-featured-post">
-        <b-field label="Featured Post" horizontal>
+        <b-field label="Featured Post" class="select-featured-post-label" >
           <b-select placeholder="Choose Post" expanded v-model="featuredPostID" @input="selectFeaturedPost()">
             <option :value="post._id" v-for="(post, i) in tableData" :key="i">{{post.title}}</option>
           </b-select>
         </b-field>
       </div>
-      <br>
       <template>
         <div v-if="!tableData">
           No posts at the moment
@@ -207,15 +206,20 @@ export default {
 </script>
 
 
-<style lang="scss" scoped>
+<style lang="scss">
 
 .my-placeholder-message {
   display: grid;
   justify-items: center; 
 }
 
+.select-featured-post label {
+  font-weight: 600;
+}
+
 .posts-table-content {
   display: grid;
+  grid-gap: 30px;
 }
 
 .postsTable-placeholder-content {
@@ -230,9 +234,6 @@ export default {
   max-width: 200px;
 }
 
-.searchPosts {
-  margin-bottom: 2rem;
-}
 
 @media only screen and (min-width: 770px) {
 
@@ -248,16 +249,6 @@ export default {
 
   
 
-}
-
-@media only screen and (min-width: 1000px) {
-  .posts-table-content {
-    grid-gap: 20px;
-  }
-
-  .searchPosts {
-    margin-bottom: 1rem;
-  }
 }
 
 @media only screen and (min-width: 1200px) {

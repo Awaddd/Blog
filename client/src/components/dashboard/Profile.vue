@@ -71,21 +71,21 @@
         </div>
 
         <div @click="editable(1)" class="field">
-          <b-field horizontal label="Email">
+          <b-field horizontal label="Email" custom-class="is-small">
             <b-input v-if="!edit[1].field" type="text" :value="user.email" custom-class="my-disabled-input" disabled></b-input>
             <b-input v-else type="text" v-model="user.email"></b-input>
           </b-field>
         </div>
 
         <div @click="editable(2)" class="field">
-          <b-field horizontal label="First Name" >
+          <b-field horizontal label="First Name" custom-class="is-small">
             <b-input v-if="!edit[2].field" type="text" :value="user.firstName" custom-class="my-disabled-input" disabled></b-input>
             <b-input v-else type="text" v-model="user.firstName"></b-input>
           </b-field>
         </div>
 
         <div @click="editable(3)" class="field">
-          <b-field horizontal label="Last Name" >
+          <b-field horizontal label="Last Name" custom-class="is-small">
             <b-input v-if="!edit[3].field"  :value="user.lastName" custom-class="my-disabled-input" disabled></b-input>
             <b-input v-else v-model="user.lastName"></b-input>
           </b-field>  
