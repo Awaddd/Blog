@@ -23,6 +23,15 @@ const fileFilter = (req, file, callback) => {
 
 
 module.exports = {
+  upload () {
+    return multer({
+      storage: storage, 
+      limits: {
+        fileSize: 1024 * 1024 * 5
+      },
+      fileFilter: fileFilter
+    });
+  },
   // checkLoggedIn runs on every endpoint regardless of if it's a public or private endpoint. Checks and sets.
   async checkLoggedIn (req, res, next) {
     try {
@@ -45,14 +54,5 @@ module.exports = {
     } 
     console.log('Logged In.');
     next();
-  },
-  upload () {
-    return multer({
-      storage: storage, 
-      limits: {
-        fileSize: 1024 * 1024 * 5
-      },
-      fileFilter: fileFilter
-    });
   }
 };

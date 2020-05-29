@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const {checkLoggedIn, isLoggedIn, upload} = require('../middleware');
-const {verifyToken} = require('../helpers/helpers.js');
+const { verifyToken, deleteImage } = require('../helpers/helpers.js');
 const { validatePost } = require('../helpers/validation.js');
 const Post = require("../models/post");
 const User = require("../models/user");
@@ -16,7 +16,7 @@ router.get("/", async (req, res) => {
   try {
     const posts = await Post.find({}, "title summary content image createdAt tags category").populate('category', 'name hasMedia').sort({ _id: -1 }).exec();
     if (!posts) res.status(404).send({ status: false, message: 'Posts not found' });
-    res.status(200).send({ posts: posts });
+    else res.status(200).send({ posts: posts });
   } catch (error) {
     console.log(error);
     // throw(error);
@@ -35,7 +35,7 @@ router.get("/all/:pluralName", async (req, res) => {
     const { _id } = await Category.findOne( { plural: category }, "_id" );
     const posts = await Post.find({ category: _id  }, "title summary content image createdAt tags category").populate('category', 'name hasMedia').sort({ _id: -1 }).exec();
     if (!posts) res.status(404).send({ status: false, message: 'Posts not found' });
-    res.status(200).send({ posts: posts });
+    else res.status(200).send({ posts: posts });
   } catch (error) {
     console.log(error);
   }
@@ -51,7 +51,7 @@ router.get("/categories", async (req, res) => {
   try {
     const categories = await Category.find({}, "id name hasMedia plural");
     if (!categories) res.status(404).send({ status: false, message: 'Categories not found' });
-    res.status(200).send(categories);
+    else res.status(200).send(categories);
 
   } catch (error) {
     console.log(error);
@@ -66,12 +66,11 @@ router.get("/featured", async (req, res) => {
   try {
     const featuredPost = await Post.findOne( {featured: true }, "title summary content image tags author createdAt" );
     if (!featuredPost) res.status(404).send({ success: false, message: 'Could not find a featured post' });
-    res.status(200).send(featuredPost);
+    else res.status(200).send(featuredPost);
   } catch (error) {
     console.log(error);
   }
 });
-
 
 
 // Get One Post
@@ -83,7 +82,7 @@ router.get("/:title", async (req, res) => {
     const post = await Post.findOne({ title: param }, "_id title summary content image tags createdAt").populate('author', 'firstName lastName').exec();
 
     if (!post) res.status(404).send({ success: false, message: 'Post not found' });
-    res.status(200).json({
+    else res.status(200).json({
       _id: post._id,
       title: post.title,
       summary: post.summary,
@@ -109,7 +108,7 @@ router.get("/id/:id", async (req, res) => {
   try {
     const post = await Post.findOne({ _id: req.params.id }, "category title summary content tags image").populate('category', 'name hasMedia').exec();
     if (!post) res.status(404).send({ success: false, message: 'Post not found' });
-    res.status(200).send(post);
+    else res.status(200).send(post);
   } catch (error) {
     // console.log(error);
     throw(error);
@@ -178,8 +177,8 @@ router.patch('/:id', upload().single('image'), checkLoggedIn, isLoggedIn, async 
 
   if (req.body.tags) req.body.tags = JSON.parse(req.body.tags);
 
-  const { error } = validatePost(req.body);
-  if (error) return res.status(400).send({success: false, message: error.details[0].message});
+  // const { error } = validatePost(req.body);
+  // if (error) return res.status(400).send({success: false, message: error.details[0].message});
 
   const {category, title, summary, content, tags, removeImage} = req.body;
 
@@ -194,13 +193,18 @@ router.patch('/:id', upload().single('image'), checkLoggedIn, isLoggedIn, async 
       category: category
     }
 
-    if (image) updatedPost.image = image;
+    if (image) {
+      deleteImage(req.params.id, 'post');
+      updatedPost.image = image;
+    }
     if (title) updatedPost.title = title.toLowerCase();
 
     console.log('category ', category);
 
-    if (removeImage) updatedPost.image = null;
-
+    if (removeImage) {
+      updatedPost.image = null;
+      deleteImage(req.params.id, 'post');
+    }
     const post = await Post.findByIdAndUpdate(postID, updatedPost);
 
     if (!post) res.status(404).send({ success: false, message: 'Could not find post' });
@@ -220,10 +224,10 @@ router.patch('/:id', upload().single('image'), checkLoggedIn, isLoggedIn, async 
 
 router.delete('/:id', checkLoggedIn, isLoggedIn, async (req, res) => {
   try {
-
+    deleteImage(req.params.id, 'post');
     const post = await Post.findByIdAndDelete(req.params.id);
-    if (!post) res.status(404).send({ success: false, message: 'Could not find post' });
-    res.status(200).send({ success: true, message: 'Post deleted successfully' });
+    if (!post) res.status(404).send({ success: false, message: 'Could not find post' }); 
+    else res.status(200).send({ success: true, message: 'Post deleted successfully' });
 
   } catch (error) {
     console.log(error);

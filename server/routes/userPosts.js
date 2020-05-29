@@ -44,8 +44,7 @@ router.patch("/:id/:postID", async (req, res) => {
     });
 
     if (!post) res.status(404).send({ success: false, message: "Couldn't set featured post"});
-
-    res.status(200).send({
+    else res.status(200).send({
       success: true,
       message: 'Post set to featured',
       post: post

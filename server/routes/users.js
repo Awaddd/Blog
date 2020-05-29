@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require('bcryptjs');
-const { signToken } = require('../helpers/helpers.js');
+const { signToken, deleteImage } = require('../helpers/helpers.js');
 const { validateUser } = require('../helpers/validation.js');
 const {checkLoggedIn, isLoggedIn, upload} = require('../middleware');
 const User = require("../models/user");
@@ -31,7 +31,7 @@ router.get("/:id", async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.params.id }, "email firstName lastName isAdmin");
     if (!user) res.status(404).send({success: false, message: 'User does not exist'});
-    res.status(200).send(user);
+    else res.status(200).send(user);
 
   } catch (error) {
     console.log(error);
@@ -71,7 +71,7 @@ router.post("/", async (req, res) => {
     const user = await new_user.save();
     const token = signToken(user);
     
-    res.send({
+    if (user) res.send({
       success: true,
       message: "User created!",
       user: token
@@ -106,8 +106,10 @@ router.patch("/:id", upload().single('image'), async (req, res) => {
     if (firstName) updatedUser.firstName = firstName;
     if (lastName) updatedUser.lastName = lastName;
     if (bio) updatedUser.bio = bio;
-    if (image) updatedUser.image = image;
-
+    if (image) {
+      updatedUser.image = image;
+      deleteImage(req.params.id, 'user');
+    }
     const user = await User.findByIdAndUpdate(userID, updatedUser);
 
     if (!user) res.status(404).send({ success: false, message: 'Could not find user' });
