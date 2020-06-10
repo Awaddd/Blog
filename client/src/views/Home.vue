@@ -88,19 +88,7 @@
     </main>
 
     <section class="section is-medium has-background-primary newsletter-section-wrapper">
-      <div class="container">
-        <div class="content has-text-centered newsletter-wrapper">
-          <div>
-            <h1 class="title is-3 has-text-white is-size-4-mobile">Newsletter</h1>
-            <p class="subtitle is-5 has-text-white is-size-6-mobile">Want to be the first to know when a new article comes out?</p>
-          </div>
-          <div class="newsletter-group">
-            <input type="email" placeholder="John.smith@mail.com" class="input is-medium newsletter-input">
-            <button class="newsletter-button">Notify Me</button>
-          </div>
-        </div>
-
-      </div>
+      <app-contact></app-contact>
     </section>
 
   </div>
@@ -109,6 +97,7 @@
 <script>
 // @ is an alias to /src
 import AppPosts from "@/components/AppPosts.vue";
+import Contact from "@/components/Contact.vue";
 import PostsService from "@/services/PostsService";
 import { formatDate, sanitizeTitle } from '@/helpers/helpers';
 
@@ -122,7 +111,8 @@ export default {
     }
   },
   components: {
-    "app-posts": AppPosts
+    "app-posts": AppPosts,
+    "app-contact": Contact
   },
   mounted () {
     this.fetchFeaturedPost();
@@ -224,12 +214,15 @@ export default {
 }
 
 .newsletter-input {
-  text-align: center;
+  // text-align: center;
+  font-size: 1rem;
 }
 
 .newsletter-input::placeholder {
   font-size: 1rem;
+  color: rgb(61, 61, 61);
 }
+
 
 .home {
   .welcome {
@@ -325,7 +318,7 @@ export default {
 
   .newsletter-group {
     display: grid;
-    grid-template-columns: 1fr max-content;
+    // grid-template-columns: 1fr max-content;
     grid-gap: 15px;
     button {
       padding: 0.8rem 36px;
@@ -371,8 +364,12 @@ export default {
     padding: 16px 45px;
   }
 
+
+  .newsletter-input {
+    font-size: 1.25rem;
+  }
   .newsletter-input::placeholder {
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
 }
 </style>
