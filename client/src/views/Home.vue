@@ -142,11 +142,6 @@ export default {
   margin: 0;
 }
 
-.newsletter-wrapper {
-  display: grid;
-  grid-gap: 30px;
-}
-
 .featured-post__read-more {
   display: grid;
   margin: 0 auto;
@@ -189,38 +184,6 @@ export default {
   background: #006fee;
   color: #fff;
   transition: all 0.2s ease-in-out;
-}
-
-.newsletter-group {
-  display: grid;
-  grid-gap: 15px;
-}
-
-.newsletter-button {
-  @extend .my-btn;
-  // background: #f2ff00;
-  // background: #ffe600;
-  background: #006fee;
-  color: #fff;
-  font-weight: 700;
-  font-size: 0.9rem;
-  // text-transform: none;
-  letter-spacing: 2px;
-}
-
-.newsletter-button:hover {
-  background: #004bd6;
-  transition: all 0.2s ease-in-out;
-}
-
-.newsletter-input {
-  // text-align: center;
-  font-size: 1rem;
-}
-
-.newsletter-input::placeholder {
-  font-size: 1rem;
-  color: rgb(61, 61, 61);
 }
 
 
@@ -315,19 +278,6 @@ export default {
   .newsletter-section-wrapper {
     margin-top: 3rem;
   }
-
-  .newsletter-group {
-    display: grid;
-    // grid-template-columns: 1fr max-content;
-    grid-gap: 15px;
-    button {
-      padding: 0.8rem 36px;
-    }
-    input {
-      min-width: 500px;
-    }
-    margin: 0 auto;
-  }
 }
 
 @media only screen and (min-width: 770px) {
@@ -347,10 +297,6 @@ export default {
     padding: 3rem 1.5rem;
   }
 
-  .newsletter-wrapper {
-    grid-gap: 40px;
-  }
-
   .featured-post {
     padding: 3rem 1.5rem 6rem 1.5rem;
     display: grid;
@@ -362,14 +308,6 @@ export default {
     font-weight: 700;
     letter-spacing: 1px;
     padding: 16px 45px;
-  }
-
-
-  .newsletter-input {
-    font-size: 1.25rem;
-  }
-  .newsletter-input::placeholder {
-    font-size: 1rem;
   }
 }
 </style>

@@ -5,6 +5,9 @@ const sendMail = require('../helpers/mail.js');
 router.get("/", async (req, res) => {
   res.json({message: 'HEY!'});
 });
+
+
+
 // email admin
 
 router.post("/", async (req, res) => {
@@ -13,11 +16,19 @@ router.post("/", async (req, res) => {
   console.log('data, ', req.body);
   console.log('-----------------------------------');
   console.log('-----------------------------------');
-  const {email, subject, text} = req.body;
-  sendMail(email, subject, text, function(err, data) {
-    if (err) res.status(500).json({message: 'Failed to send email'})
-    else res.status(200).json({message: 'Email sent!!!'});
-  });
+
+  try {
+    
+    const {email, subject, text} = req.body;
+
+    sendMail(email, subject, text, (err, data) => {
+      if (err) res.status(500).json({message: 'Something went wrong. Please try again.'})
+      else res.status(200).json({message: 'Email sent!'});
+    });
+
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 module.exports = router;
