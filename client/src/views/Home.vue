@@ -129,12 +129,14 @@ export default {
   }
 }
 
-@media only screen and (min-width: 900px) {
-  .home {
-    .home-content {
-      // padding: 0 1.5rem;
-    }
+@media only screen and (min-width: 1000px) {
+  .home .home-content {
+    padding: 0;
   }
+  .home-posts {
+    padding: 0;
+  }
+
 }
 
 @media only screen and (min-width: 1200px) {
