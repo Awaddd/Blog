@@ -35,7 +35,7 @@
 
     </main>
 
-    <section class="section is-medium has-background-primary newsletter-section-wrapper">
+    <section class="section has-background-primary contact-section-wrapper">
       <app-contact></app-contact>
     </section>
 
@@ -124,7 +124,7 @@ export default {
     padding: 3rem 1.5rem 0 1.5rem;
   }
 
-  .newsletter-section-wrapper {
+  .contact-section-wrapper {
     margin-top: 3rem;
   }
 }

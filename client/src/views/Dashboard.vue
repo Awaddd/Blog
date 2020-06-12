@@ -18,8 +18,8 @@
                 <span>Account</span>
               </div>
               
-              <router-link tag="a" class="dashboard-menu-item-child" :to="{path: '/dashboard' }">Overview</router-link>
-              <router-link tag="a" class="dashboard-menu-item-child" :to="{path: '/dashboard/profile' }">Profile</router-link>
+              <router-link tag="a" class="dashboard-menu-item-child" :to="{path: '/dashboard' }" :class="[currentPage === '/dashboard' ? activeLink : '']">Overview</router-link>
+              <router-link tag="a" class="dashboard-menu-item-child" :to="{path: '/dashboard/profile' }" :class="[currentPage.includes('profile') ? activeLink : '']">Profile</router-link>
 
             </div>
 
@@ -29,8 +29,8 @@
                 <span>Posts</span>
               </div>
 
-              <router-link tag="a" class="dashboard-menu-item-child" :to="{path: '/dashboard/posts/all' }">All</router-link>
-              <router-link tag="a" class="dashboard-menu-item-child" :to="{path: '/dashboard/posts/new' }">New</router-link>
+              <router-link tag="a" class="dashboard-menu-item-child" :to="{path: '/dashboard/posts/all' }" :class="[currentPage.includes('posts/all') ? activeLink : '']">All</router-link>
+              <router-link tag="a" class="dashboard-menu-item-child" :to="{path: '/dashboard/posts/new' }" :class="[currentPage.includes('posts/new') ? activeLink : '']">New</router-link>
 
             </div>
 
@@ -66,6 +66,16 @@
 export default {
   components: {
     // "posts-table": PostsTable
+  },
+  data () {
+    return {
+      activeLink: 'active-dashboard-tab'
+    }
+  },
+  computed: {
+    currentPage() {
+      return this.$route.path;
+    }
   }
 }
 </script>
@@ -80,72 +90,81 @@ html {
   box-sizing: inherit;
 }
 
-  .dashboard-nav-wrapper {
-    background: #313137;
-    color: #fff;
-    // margin-top: 1rem;
-    // padding: 0;
-    font-size: 1rem;
-  }
-
-  .dashboard-nav {
-    padding: 1.3rem 0;
-  }
-
-  .dashboard-nav, .dashboard-menu-group {
-    display: grid;
-    grid-gap: 17px;
-  }
-
-  .dashboard-menu-header, .dashboard-menu-item-parent, .dashboard-menu-item-child {
-    padding: 0 1.5rem;
-  }
-
-  .dashboard-menu-header {
-    // padding-top: 1.3rem; 
-    // padding-bottom: 1.3rem;
-    font-weight: 600;
-  }
-
-  .dashboard-menu-header, .dashboard-menu-item-parent {
-    display: grid;
-    grid-template-columns: max-content max-content;
-    grid-column-gap: 10px;
-  }
-
-  .dashboard-menu-item-parent {
-    background: #24242A;
-    padding-top: 0.7rem; padding-bottom: 0.7rem;
-  }
+.active-dashboard-tab {
+  // background-color: #cce4ff !important;
+  color: $primary !important;
   
-  .dashboard-menu-item-child {
-    margin-left: 2.3rem;
-  }
+}
+.active-dashboard-tab:focus {
+  outline: none;
+}
 
-  .dashboard-menu-group a {
-    color: #fff;
-  }
+.dashboard-nav-wrapper {
+  background: #313137;
+  color: #fff;
+  // margin-top: 1rem;
+  // padding: 0;
+  font-size: 1rem;
+}
 
-  .dashboard-menu-group a:hover {
-    color: lighten($primary, 5%);
-    transition: 0.2s ease-in-out all;
-  }
+.dashboard-nav {
+  padding: 1.3rem 0;
+}
 
-  // End sidebar
+.dashboard-nav, .dashboard-menu-group {
+  display: grid;
+  grid-gap: 17px;
+}
 
-  .dashboard-breadcrumbs {
-    font-weight: 600;
-  }
+.dashboard-menu-header, .dashboard-menu-item-parent, .dashboard-menu-item-child {
+  padding: 0 1.5rem;
+}
 
-  .dashboard-breadcrumbs-current {
-    color: $primary;
-    font-weight: 700;
-  }
+.dashboard-menu-header {
+  // padding-top: 1.3rem; 
+  // padding-bottom: 1.3rem;
+  font-weight: 600;
+}
 
-  .dashboard-view {
-    display: grid;
-    grid-gap: 30px;
-  }
+.dashboard-menu-header, .dashboard-menu-item-parent {
+  display: grid;
+  grid-template-columns: max-content max-content;
+  grid-column-gap: 10px;
+}
+
+.dashboard-menu-item-parent {
+  background: #24242A;
+  padding-top: 0.7rem; padding-bottom: 0.7rem;
+}
+
+.dashboard-menu-item-child {
+  margin-left: 2.3rem;
+}
+
+.dashboard-menu-group a {
+  color: #fff;
+}
+
+.dashboard-menu-group a:hover {
+  color: lighten($primary, 5%);
+  transition: 0.2s ease-in-out all;
+}
+
+// End sidebar
+
+.dashboard-breadcrumbs {
+  font-weight: 600;
+}
+
+.dashboard-breadcrumbs-current {
+  color: $primary;
+  font-weight: 700;
+}
+
+.dashboard-view {
+  display: grid;
+  grid-gap: 30px;
+}
 
 
 @media only screen and (min-width: 700px) {

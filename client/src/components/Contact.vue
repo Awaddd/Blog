@@ -1,11 +1,11 @@
 <template>
   <div class="container">
-    <div class="content has-text-centered newsletter-wrapper">
-      <div class="newsletter-info">
+    <div class="content has-text-centered contact-wrapper">
+      <div class="contact-header">
         <h1 class="title is-4 has-text-white is-size-5-mobile">Contact</h1>
         <p class="subtitle is-5 has-text-white is-size-6-mobile">What do you have to say?</p>
       </div>
-      <form class="newsletter-group">
+      <form class="contact-form">
         <b-field label="Email">
           <b-input type="email" placeholder="john.smith@mail.com" v-model="email" />
         </b-field>
@@ -13,9 +13,9 @@
           <b-input type="text" placeholder="When is the next post?" v-model="subject" />
         </b-field>
         <b-field class="field" label="Content">
-          <b-input maxlength="5000" type="textarea" placeholder="Whatever you want to say to the author" v-model="text"></b-input>
+          <b-input maxlength="5000" type="textarea" placeholder="Speak your mind" v-model="text"></b-input>
         </b-field>
-        <button class="newsletter-button" @click.prevent="contactAuthor">Get In Touch</button>
+        <button class="contact-button" @click.prevent="contactAuthor">Get In Touch</button>
       </form>
     </div>
 
@@ -64,11 +64,11 @@ export default {
 <style lang="scss">
 @import "../styles/app.scss";
 
-.newsletter-info {
+.contact-header {
   text-align: center;
 }
 
-.newsletter-group {
+.contact-form {
   text-align: start;
 
   .field:not(:last-child) {
@@ -98,18 +98,18 @@ export default {
 
 // l
 
-.newsletter-wrapper {
+.contact-wrapper {
   display: grid;
   grid-gap: 30px;
 }
 
 
-.newsletter-group {
+.contact-form {
   display: grid;
   grid-gap: 15px;
 }
 
-.newsletter-button {
+.contact-button {
   @extend .my-btn;
   // background: #f2ff00;
   // background: #ffe600;
@@ -121,7 +121,7 @@ export default {
   letter-spacing: 2px;
 }
 
-.newsletter-button:hover {
+.contact-button:hover {
   background: #004bd6;
   transition: all 0.2s ease-in-out;
 }
@@ -129,10 +129,13 @@ export default {
 
 
 @media only screen and (min-width: 700px) {
-  .newsletter-group {
-    display: grid;
-    // grid-template-columns: 1fr max-content;
-    grid-gap: 15px;
+
+  .contact-wrapper {
+    grid-gap: 40px;
+    padding: 2rem 0;
+  }
+
+  .contact-form {
     button {
       padding: 0.8rem 36px;
     }
@@ -146,16 +149,11 @@ export default {
 
 @media only screen and (min-width: 1200px) {
 
-  .newsletter-wrapper {
-    grid-gap: 40px;
+  .contact-wrapper {
+    padding: 3rem 0;
+    grid-gap: 50px;
   }
 
-  .newsletter-input {
-    font-size: 1.25rem;
-  }
-  .newsletter-input::placeholder {
-    font-size: 1rem;
-  }
 }
 
 </style>

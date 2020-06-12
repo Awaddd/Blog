@@ -9,11 +9,13 @@
       </template>
 
       <template slot="end">
-        <b-navbar-item tag="router-link" :to="{ name: 'Home' }">Home</b-navbar-item>
-
+        <b-navbar-item tag="router-link" :to="{ name: 'Home' }" :class="[currentPage === '/' ? activeLink : '']" >Home</b-navbar-item>
+        <b-navbar-item tag="router-link">Contact</b-navbar-item>
         <b-navbar-dropdown label="Categories">
           <template v-for="(category, i) in categories">
-            <b-navbar-item tag="router-link" :to="{ name: 'AllPosts',  params: {plural: category.plural} }" :key="i">{{category.plural.charAt(0).toUpperCase() + category.plural.slice(1)}}</b-navbar-item>
+            <b-navbar-item tag="router-link" :to="{ name: 'AllPosts',  params: {plural: category.plural} }" 
+            :class="[currentPage.includes(category.plural) ? activeLink : '']"
+            :key="i">{{category.plural.charAt(0).toUpperCase() + category.plural.slice(1)}}</b-navbar-item>
           </template>
           <!-- <b-navbar-item tag="router-link" :to="{ name: 'Posts' }" >Journals</b-navbar-item>
           <b-navbar-item tag="router-link" :to="{ name: 'Posts' }">Stories</b-navbar-item>
@@ -25,12 +27,10 @@
 
         </b-navbar-dropdown> -->
 
-        <b-navbar-item>News Letter</b-navbar-item>
-        <b-navbar-item>Contact</b-navbar-item>
 
         <b-navbar-item tag="div">
           <div class="my-nav-controls" v-if="getLoginStatus">
-            <router-link v-if="getAdminStatus" tag="button" :to="{name: 'Dashboard' }" class="my-btn-nav my-btn-dashboard">Dashboard</router-link>
+            <router-link v-if="getAdminStatus" tag="button" :to="{name: 'Dashboard' }" :class="[currentPage.includes('dashboard') ? activeLink : '', 'my-btn-nav my-btn-dashboard']">Dashboard</router-link>
             <div class="my-account" v-else>
               <b-icon icon="account" class="my-account-icon"></b-icon>
               <span class="my-account-user" v-if="getUser">{{getUser.firstName}}</span>
@@ -38,7 +38,7 @@
             <button class="my-btn-nav has-background-danger" @click="logout">Logout</button>
           </div>
           <div class="" v-else>
-            <router-link class="my-btn-nav my-btn-dashboard" :to="{name: 'Register'}">Register</router-link> 
+            <router-link class="my-btn-nav my-btn-dashboard" :to="{name: 'Register'}" :class="[currentPage.includes('register') ? activeLink : '']">Register</router-link> 
             <router-link class="my-btn-nav has-background-primary" :to="{name: 'Login'}">Login</router-link> 
           </div>
         </b-navbar-item>
@@ -58,11 +58,15 @@ require('firebase/auth');
 
 export default {
   computed: {
-    ...mapGetters(["getUser", "getLoginStatus", "getAdminStatus", "getSocialStatus"])
+    ...mapGetters(["getUser", "getLoginStatus", "getAdminStatus", "getSocialStatus"]),
+    currentPage() {
+      return this.$route.path;
+    }
   },
   data () {
     return {
-      categories: null
+      categories: null,
+      activeLink: 'active'
     }
   },
   mounted () {
@@ -98,6 +102,11 @@ export default {
 <style lang="scss" scoped>
 
 @import "../styles/app.scss";
+
+  .active {
+    // background-color: #cce4ff !important;
+    color: $primary !important;
+  }
 
   .my-brand {
     display: grid;
