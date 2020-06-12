@@ -13,7 +13,7 @@
           <b-input type="text" placeholder="When is the next post?" v-model="subject" />
         </b-field>
         <b-field class="field" label="Content">
-          <b-input maxlength="200" type="textarea" placeholder="Whatever you want to say to the author" v-model="text"></b-input>
+          <b-input maxlength="5000" type="textarea" placeholder="Whatever you want to say to the author" v-model="text"></b-input>
         </b-field>
         <button class="newsletter-button" @click.prevent="contactAuthor">Get In Touch</button>
       </form>

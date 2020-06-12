@@ -21,60 +21,8 @@
 
     <main class="my-container home-content">
       
-      <section class="featured-post section" v-if="featuredPost">
-
-        <nav class="level is-mobile my-featured-level">
-          <div class="level-left">
-            <p class="level-item subtitle has-text-primary">Featured</p>
-          </div>
-          <div class="level-right">
-            <p class="level-item subtitle is-6"> <strong> {{formatDate(featuredPost.createdAt)}} </strong> </p>
-          </div>
-        </nav>
-
-        <div class="featured-post__image">
-          <img :src="featuredPost.image">
-          <!-- <img src="../assets/featured.jpeg"> -->
-        </div>
-
-        <div class="my-featured-post-content">
-
-          <h1 class="title is-5 is-size-6-mobile is-capitalized has-text-centered-mobile has-text-left-tablet featured-post__title"> {{featuredPost.title}} </h1>
-
-          <div class="level featured-post-tags" v-if="featuredPost.tags">
-            <div class="level-item">
-              <div class="field is-grouped is-grouped-multiline" >
-                <div class="control" v-for="(tag, i) in featuredPost.tags.slice(0, 4)" :key="i">
-                  <div class="tags">
-                    <!-- <a class="tag is-link ">{{tag}}</a> -->
-                    <b-tag ellipsis>{{tag}}</b-tag>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-
-
-        <div class="featured-post__read-more">
-          <!-- <button class="my-btn read-more-btn">READ MORE</button> -->
-          <!-- <b-button tag="router-link" :to="{
-              name: 'BlogPost',
-              params: {title: sanitizeTitle(featuredPost.title)}}" class="my-btn read-more-btn">Learn More
-          </b-button> -->
-
-          <div class="featured-post-button-wrapper">
-            <router-link class="featured-post__button" :to="{
-              name: 'BlogPost',
-              params: {title: sanitizeTitle(featuredPost.title)}}">
-              Find Out More
-            </router-link>
-          </div>
-
-        </div>
-        
+      <section class="featured-section-wrapper">
+        <app-featured-post></app-featured-post>        
       </section>
 
 
@@ -98,39 +46,19 @@
 // @ is an alias to /src
 import AppPosts from "@/components/AppPosts.vue";
 import Contact from "@/components/Contact.vue";
-import PostsService from "@/services/PostsService";
-import { formatDate, sanitizeTitle } from '@/helpers/helpers';
-
+import FeaturedPost from "@/components/FeaturedPost.vue";
 
 export default {
   name: "home",
   data () {
     return {
-      featuredPost: null,
       title: 'Latest Posts'
     }
   },
   components: {
     "app-posts": AppPosts,
-    "app-contact": Contact
-  },
-  mounted () {
-    this.fetchFeaturedPost();
-  },
-  methods: {
-    async fetchFeaturedPost() {
-      console.log('featured post');
-      // const tempPost = "google's-ai-can-now-predict-heart-disease-just-by-scanning-your-eyes.";
-      const response = await PostsService.fetchFeaturedPost();
-      this.featuredPost = response.data;
-      console.log(response);
-    },
-    formatDate(date) {
-      return formatDate(date);
-    },
-    sanitizeTitle(title) {
-      return sanitizeTitle(title);
-    }
+    "app-contact": Contact,
+    "app-featured-post": FeaturedPost
   }
 };
 </script>
@@ -142,132 +70,49 @@ export default {
   margin: 0;
 }
 
-.featured-post__read-more {
-  display: grid;
-  margin: 0 auto;
-}
-
-.featured-post-button-wrapper {
-  width: max-content;
-}
-
-.featured-post__button {
-  display: block;
-  padding: 0.7rem 2rem;
-  background: $primary;
-  border: 0;
-  color: rgba(255, 255, 255, 0.973);
-  font-size: 1rem;
-  border-radius: 3px;
-  // text-transform: uppercase;
-  font-weight: 500;
-  letter-spacing: 0.2px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.featured-post__button:hover {
-  background-color: darken($primary, 7%);
-  transform: translateX(10px);
-  color: #fff;
-}
-
- .read-more-btn {
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 1px;
-  padding: 10px 20px;
-  height: auto;
-}
-
-.read-more-btn:hover {
-  background: #006fee;
-  color: #fff;
-  transition: all 0.2s ease-in-out;
-}
-
-
 .home {
+
   .welcome {
     background-image: radial-gradient(circle at 10% 20%, #4facfe 0%, #00f2fe 90%);
     text-align: center;
     color: #fff;
     padding: 1.2rem 0 0.8rem 0;
+
     .welcome__message {
       font-size: 1.3rem;
       line-height: 1.25rem;
       font-weight: 400;
     }
+
     .welcome__slogan {
       opacity: 0.9;
     }
+
   }
 
   .home-content {
     padding: 1rem;
     display: grid;
     grid-gap: 15px;
-
-    .featured-post {
-      
-      padding: 3rem 1.5rem 0 1.5rem;
-
-      display: grid;
-      grid-gap: 20px;
-  
-      .featured-post__image {
-        img {
-          // max-width: 300px;
-          width: 100%;
-        }
-      }
-
-    }
   }
-
-  .my-featured-level {
-    margin-bottom: 0;
- }
-
+  
 }
 
-  .home-posts {
-    margin: 0;
-    padding: 1rem 1.5rem;
-  }
+.featured-section-wrapper {
+  padding: 3rem 1.5rem 1rem 1.5rem;
+}
+
+.home-posts {
+  margin: 0;
+  padding: 1rem 1.5rem;
+}
 
 
 @media only screen and (min-width: 700px) {
   
-  .featured-post__read-more {
-    display: block;
-  }
-
   .home {
-
     .home-content {
       margin-top: 1rem;
-      // padding: 2rem;
-      // grid-gap: 50px;
-
-      .featured-post {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        max-width: 100%;
-        grid-column-gap: 50px;
-        grid-row-gap: 10px;
-
-        .featured-post__image {
-          img {
-            width: 100%;
-          }
-          grid-column-start: 2;
-          grid-column-end: 4;
-          grid-row-start: 1;
-          grid-row-end: 4;
-        }
-
-      }
     }
   }
 
@@ -275,39 +120,32 @@ export default {
     padding: 20px 0 30px 0;
   }
 
+  .featured-section-wrapper {
+    padding: 3rem 1.5rem 0 1.5rem;
+  }
+
   .newsletter-section-wrapper {
     margin-top: 3rem;
   }
 }
 
-@media only screen and (min-width: 770px) {
-  .featured-post__read-more {
-    margin: 0;
-  }
-  .featured-post-tags {
-    display: grid !important;
-    margin: 0;
+@media only screen and (min-width: 900px) {
+  .home {
+    .home-content {
+      // padding: 0 1.5rem;
+    }
   }
 }
 
 @media only screen and (min-width: 1200px) {
-
   .home-posts {
     margin: 0;
     padding: 3rem 1.5rem;
   }
+  
+  .featured-section-wrapper {
 
-  .featured-post {
-    padding: 3rem 1.5rem 6rem 1.5rem;
-    display: grid;
-    grid-column-gap: 70px !important;
   }
-
-  .read-more-btn {
-    font-size: 0.9rem;
-    font-weight: 700;
-    letter-spacing: 1px;
-    padding: 16px 45px;
-  }
+  
 }
 </style>
