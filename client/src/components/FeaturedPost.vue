@@ -55,7 +55,7 @@
   </div>
 
   <!-- How a featured post without an image looks -->
-  <div class="featured-post" v-else>
+  <div class="featured-post" v-else-if="featuredPost">
     <nav class="level is-mobile my-featured-level">
       <div class="level-left">
         <p class="level-item subtitle has-text-primary">Featured</p>

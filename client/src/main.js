@@ -1,12 +1,16 @@
 import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
-import store from './store/store'
-import Buefy from 'buefy'
+import store from './store/store';
+import Buefy from 'buefy';
+import VueScrollTo from 'vue-scrollto';
+
 
 Vue.use(Buefy, {
   defaultIconPack: 'mdi'
 });
+
+Vue.use(VueScrollTo);
 
 Vue.config.productionTip = false;
 

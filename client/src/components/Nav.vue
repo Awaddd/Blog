@@ -10,7 +10,8 @@
 
       <template slot="end">
         <b-navbar-item tag="router-link" :to="{ name: 'Home' }" :class="[currentPage === '/' ? activeLink : '']" >Home</b-navbar-item>
-        <b-navbar-item tag="router-link">Contact</b-navbar-item>
+        <b-navbar-item tag="a" @click="scrollToContact">Contact</b-navbar-item>
+
         <b-navbar-dropdown label="Categories">
           <template v-for="(category, i) in categories">
             <b-navbar-item tag="router-link" :to="{ name: 'AllPosts',  params: {plural: category.plural} }" 
@@ -55,6 +56,7 @@ import { getToken } from '@/helpers/helpers';
 import PostsService from "@/services/PostsService";
 import * as firebase from 'firebase/app';
 require('firebase/auth');
+import VueScrollTo from 'vue-scrollto';
 
 export default {
   computed: {
@@ -73,7 +75,7 @@ export default {
     this.getCategories();
   },
   methods: {
-    logout() {
+    logout () {
       if (this.getSocialStatus) this.socialSignOut();
       localStorage.removeItem('user');
       this.$store.dispatch("SET_LOGIN_STATUS", null);
@@ -86,13 +88,41 @@ export default {
         this.$store.dispatch("SET_SOCIAL_STATUS", null);
       }).catch(error => console.log(error));
     },
-    async getCategories() {
+    async getCategories () {
       console.log('INSIDE CATEGORIES . VUE');
       const response = await PostsService.fetchCategories();
       if (response.status !== 200) console.log('CATEGORY PROBLEM!!');
       else if (response.status === 200){
         this.categories = response.data;
         this.$store.dispatch("SET_CATEGORIES", this.categories);
+      }
+    },
+    async scrollToContact () {
+
+      let options = {
+        container: "body",
+        duration: 500,
+        easing: "ease",
+        offset: 0,
+        force: true,
+        cancelable: true,
+        onStart: false,
+        onDone: false,
+        onCancel: false,
+        x: false,
+        y: true
+      }
+
+      if (this.currentPage !== '/') {
+
+        await this.$router.push('/');
+
+        setTimeout(() => {
+          this.$scrollTo('#contact', 500, options);
+        }, 500);
+
+      } else {
+        this.$scrollTo('#contact', 500, options);
       }
     }
   }

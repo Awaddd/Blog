@@ -22,86 +22,95 @@
       </div>
     </section>
 
+    <validationObserver ref="form" v-slot=" {handleSubmit} ">
+      <form class="profile-content-wrapper" v-if="user">
 
-    <div class="profile-content-wrapper" v-if="user">
+        <div class="profile-image-group">
 
-      <div class="profile-image-group">
+          <figure class="image is-128x128" v-if="!edit[4].field">
+            <img v-if="!user.image" class="circle-picture" src="https://bulma.io/images/placeholders/128x128.png">
+            <img v-else class="circle-picture" :src="user.image">
+          </figure>
 
-        <figure class="image is-128x128" v-if="!edit[4].field">
-          <img v-if="!user.image" class="circle-picture" src="https://bulma.io/images/placeholders/128x128.png">
-          <img v-else class="circle-picture" :src="user.image">
-        </figure>
-
-        <figure class="image is-128x128 " v-else>
-            <b-field>
-              <b-upload v-model="image">
-                <div class="author-picture-wrapper">
-                  <img v-if="!user.image" class="circle-picture author-picture-edit" src="https://bulma.io/images/placeholders/128x128.png">
-                  <img v-else class="circle-picture author-picture-edit" :src="user.image">
-                  <div class="author-picture-overlay ">
-                    <b-icon icon="upload" size="is-medium"></b-icon>
+          <figure class="image is-128x128 " v-else>
+              <b-field>
+                <b-upload v-model="image">
+                  <div class="author-picture-wrapper">
+                    <img v-if="!user.image" class="circle-picture author-picture-edit" src="https://bulma.io/images/placeholders/128x128.png">
+                    <img v-else class="circle-picture author-picture-edit" :src="user.image">
+                    <div class="author-picture-overlay ">
+                      <b-icon icon="upload" size="is-medium"></b-icon>
+                    </div>
                   </div>
-                </div>
-              </b-upload>
+                </b-upload>
+              </b-field>  
+          </figure>
+
+          <b-button class="is-primary" v-if="editBtn" @click="editAll">Edit All</b-button>
+          <div v-else class="profile-btn-actions">
+            <b-button type="is-primary" outlined @click.prevent="handleSubmit(updateProfile)">Update</b-button>
+            <b-button type="is-danger" outlined @click="cancelEdit" >Cancel</b-button>
+          </div>
+          <!-- <b-button class="is-primary">Edit</b-button> -->
+        </div>
+
+              
+        <div class="profile-content">
+          <div @click="editable(0)" v-if="user.bio">
+            <b-field horizontal label="bio" custom-class="is-small" class="field">
+              <b-input maxlength="200" custom-class="my-disabled-input" type="textarea" v-if="!edit[0].field" v-model="user.bio" disabled ></b-input>
+              <b-input maxlength="200" type="textarea" v-model="user.bio" v-else></b-input>
+            </b-field>
+          </div>
+
+          <div @click="editable(0)" v-else>
+            <b-field horizontal label="bio" class="field">
+              <b-input maxlength="200" custom-class="my-disabled-input" type="textarea" placeholder="" v-if="!edit[0].field" v-model="bio" disabled ></b-input>
+              <b-input maxlength="200" type="textarea" v-model="bio" v-else></b-input>
+            </b-field>
+          </div>
+
+          <div @click="editable(1)" class="field">
+            <b-field horizontal label="Email" custom-class="is-small">
+              <b-input v-if="!edit[1].field" type="text" :value="user.email" custom-class="my-disabled-input" disabled></b-input>
+              <BInputWithValidation v-else vid="email" rules="required|email" type="email" icon="email" name="Email" v-model="user.email"/>
+            </b-field>
+          </div>
+
+          <div @click="editable(2)" class="field">
+            <b-field horizontal label="First Name" custom-class="is-small">
+              <b-input v-if="!edit[2].field" type="text" :value="user.firstName" custom-class="my-disabled-input" disabled></b-input>
+              <BInputWithValidation v-else rules="required|min:2|max:30" type="text" icon="account" name="First Name" v-model="user.firstName"/>
+            </b-field>
+          </div>
+
+          <div @click="editable(3)" class="field">
+            <b-field horizontal label="Last Name" custom-class="is-small">
+              <b-input v-if="!edit[3].field"  :value="user.lastName" custom-class="my-disabled-input" disabled></b-input>
+              <BInputWithValidation v-else rules="required|min:2|max:30" type="text" icon="account" name="Last Name" v-model="user.lastName"/>
             </b-field>  
-        </figure>
+          </div>
 
-        <b-button class="is-primary" v-if="editBtn" @click="editAll">Edit All</b-button>
-        <div v-else class="profile-btn-actions">
-          <b-button type="is-primary" outlined @click="updateProfile" >Update</b-button>
-          <b-button type="is-danger" outlined @click="cancelEdit" >Cancel</b-button>
-        </div>
-        <!-- <b-button class="is-primary">Edit</b-button> -->
-      </div>
-
-            
-      <div class="profile-content">
-        <div @click="editable(0)" v-if="user.bio">
-          <b-field horizontal label="bio" custom-class="is-small" class="field">
-            <b-input maxlength="200" custom-class="my-disabled-input" type="textarea" v-if="!edit[0].field" v-model="user.bio" disabled ></b-input>
-            <b-input maxlength="200" type="textarea" v-model="user.bio" v-else></b-input>
-          </b-field>
         </div>
 
-        <div @click="editable(0)" v-else>
-          <b-field horizontal label="bio" class="field">
-            <b-input maxlength="200" custom-class="my-disabled-input" type="textarea" placeholder="" v-if="!edit[0].field" v-model="bio" disabled ></b-input>
-            <b-input maxlength="200" type="textarea" v-model="bio" v-else></b-input>
-          </b-field>
-        </div>
+      </form>
+    </validationObserver>
 
-        <div @click="editable(1)" class="field">
-          <b-field horizontal label="Email" custom-class="is-small">
-            <b-input v-if="!edit[1].field" type="text" :value="user.email" custom-class="my-disabled-input" disabled></b-input>
-            <b-input v-else type="text" v-model="user.email"></b-input>
-          </b-field>
-        </div>
-
-        <div @click="editable(2)" class="field">
-          <b-field horizontal label="First Name" custom-class="is-small">
-            <b-input v-if="!edit[2].field" type="text" :value="user.firstName" custom-class="my-disabled-input" disabled></b-input>
-            <b-input v-else type="text" v-model="user.firstName"></b-input>
-          </b-field>
-        </div>
-
-        <div @click="editable(3)" class="field">
-          <b-field horizontal label="Last Name" custom-class="is-small">
-            <b-input v-if="!edit[3].field"  :value="user.lastName" custom-class="my-disabled-input" disabled></b-input>
-            <b-input v-else v-model="user.lastName"></b-input>
-          </b-field>  
-        </div>
-
-      </div>
-
-    </div>
 
   </div>
 </template>
 
 <script>
 import UserService from "@/services/UserService";
+import BInputWithValidation from '@/buefyComponents/BInputWithValidation';
+import { ValidationObserver } from 'vee-validate';
+import * as validationRules from '@/helpers/validation';
 
 export default {
+  components: {
+    ValidationObserver,
+    BInputWithValidation
+  },
   data () {
     return {
       user: null,

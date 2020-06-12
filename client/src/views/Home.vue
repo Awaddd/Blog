@@ -35,7 +35,7 @@
 
     </main>
 
-    <section class="section has-background-primary contact-section-wrapper">
+    <section class="section has-background-primary contact-section-wrapper" id="contact">
       <app-contact></app-contact>
     </section>
 

@@ -150,8 +150,8 @@ export default {
 @media only screen and (min-width: 1200px) {
 
   .contact-wrapper {
-    padding: 3rem 0;
-    grid-gap: 50px;
+    padding: 2rem 0;
+    grid-gap: 60px;
   }
 
 }
