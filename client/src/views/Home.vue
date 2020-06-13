@@ -21,7 +21,7 @@
 
     <main class="my-container home-content">
       
-      <section class="featured-section-wrapper">
+      <section class="featured-section-wrapper container">
         <app-featured-post></app-featured-post>        
       </section>
 

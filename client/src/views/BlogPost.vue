@@ -1,15 +1,19 @@
 <template>
   <div class="blogPost-wrapper">
     <section class="blogPost" v-if="post">
-      <div class="has-text-centered">
-        <h1 class="title is-size-3  is-size-4-mobile  is-capitalized my-post-title">{{post.title}}</h1>
-        <h3 class="subtitle is-size-5 is-size-6-mobile">{{post.summary}}</h3>
 
+      <div class="has-text-centered blogPost-header">
+        <!-- <h1 class="title is-size-3  is-size-4-mobile  is-capitalized my-post-title">{{post.title}}</h1>
+        <h3 class="subtitle is-size-5 is-size-6-mobile">{{post.summary}}</h3> -->
+        <h1 class="title blogPost-header-title is-capitalized my-post-title">{{post.title}}</h1>
+        <h3 class="subtitle blogPost-header-subtitle">{{post.summary}}</h3>
       </div>
 
-      <div class="cover-image">
+      <div class="blogPost-image" v-if="(post) && (post.image)">
         <img :src="post.image" alt="">
       </div>
+
+      <div class="blogPost-imageless" v-else></div>
 
       <header class="level">
         <div class="my-author-details">
@@ -157,15 +161,29 @@ export default {
   padding: 2rem 0;
 }
 
-.cover-image {
-    margin: 2rem 0 0 0;
-    max-height: 200px;
-    max-width: 1200px;
-    overflow: hidden;
+.blogPost-header {
+  margin: 0 0 2rem 0;
+}
+
+.blogPost-header-title {
+  color: #363636;
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.125;
+}
+
+.blogPost-header-subtitle{
+  color: #4a4a4a;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.25;
+}
+
+.blogPost-image {
   img {
-    min-width: 100%;
-    max-width: 100%;
-    margin-top: -50px;
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
   }
 }
 
@@ -185,19 +203,34 @@ export default {
 
 
 @media only screen and (min-width: 360px) {
+
   .blogPost {
     padding: 2rem 1rem;
   }
   .author-section, .viewCommentsWrapper {
     padding: 1rem 2.2rem;
   }
+
+}
+
+@media only screen and (min-width: 600px) {
+
+  .blogPost-wrapper {
+    width: 90%;
+    margin: 0 auto;
+  }
+  .blogPost-image {
+    img {
+      height: 200px;
+    }
+  }
+
 }
 
 @media only screen and (min-width: 700px) {
   .blogPost-wrapper {
-    width: 70%;
-    margin: 0 auto;
-    padding: 3rem 1.5rem;
+    width: 90%;
+    padding: 1.5rem;
   }
   .level {
     display: block;
@@ -220,24 +253,45 @@ export default {
 
 @media only screen and (min-width: 1000px) {
 
-  .cover-image {
+  .blogPost-wrapper {
+    padding: 3rem 1.5rem;
+  }
+  
+  .blogPost-header {
+    margin: 0 0 2rem 0;
+  }
+
+  
+  .blogPost-header-title {
+    font-size: 1.8rem;
+  }
+
+  .blogPost-header-subtitle{
+    font-size: 1.125rem;
+  }
+
+  .blogPost-image {
     img {
-      margin-top: -250px;
+      height: 250px;
     }
   }
+
 }
 
 @media only screen and (min-width: 1200px) {
+    
+  .blogPost-header-subtitle{
+    font-size: 1.25rem;
+  }
 
+  .blogPost-wrapper {
+    width: 70%;
+  }
   .level {
     display: flex;
   }
 
-  .cover-image {
-    max-height: 300px;
-  img {
-    margin-top: -150px;
-  }
+
 }
 
 @media only screen and (min-width: 1600px) {
@@ -245,13 +299,13 @@ export default {
     width: 50%;
     margin: 0 auto;
   }
-  .cover-image {
-    max-height: 300px;
-      img {
-        margin-top: -150px;
-      }
+
+  .blogPost-image {
+    img {
+      height: 300px;
     }
   }
+
   .my-post-title {
     max-width: 95%;
     margin: 0 auto;
