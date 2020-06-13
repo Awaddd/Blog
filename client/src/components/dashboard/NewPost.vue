@@ -52,7 +52,7 @@
               
               <div class="stepTwo my-step-wrapper">
                 <p class="subtitle is-size-5 has-text-centered">Upload Image</p>
-                <div class="my-step-content stepTwo-content">
+                <div v-if="!imagePreview" class="my-step-content stepTwo-content">
 
                   <b-field>
                       <b-upload v-model="image"
@@ -70,8 +70,22 @@
                           </section>
                       </b-upload>
                   </b-field>  
+                </div>   
 
-                </div>        
+                <div v-else class="my-step-content stepTwo-content">
+                  
+                  <figure class="stepTwo-image">
+                    <img :src="imagePreview" />
+                  </figure>
+
+                  <b-field>
+                      <b-upload v-model="image">
+                        <b-button tag="a" class="is-primary" icon-left="arrow-up" outlined >Upload</b-button>
+                      </b-upload>
+                  </b-field>  
+
+                </div>   
+
               </div>
             </b-tab-item>
 
@@ -138,6 +152,7 @@ export default {
       content: null,
       tags: null,
       image: null,
+      imagePreview: null,
       editorOption: {
         modules: {
           toolbar: [
@@ -204,6 +219,18 @@ export default {
     lastStep () {
       if ((this.categories) && (this.category) && (this.category.hasMedia === true)) return `Step 3`;
       else return `Step 2`;
+    }
+  },
+  watch: {
+    image: function (val) {
+      console.log('SKRRRR');
+      console.log(val);
+      let reader = new FileReader();
+      reader.readAsDataURL(val);
+      reader.onload = () => {
+        console.log(reader.result);
+        this.imagePreview = reader.result;
+      }
     }
   },
   components: {

@@ -39,10 +39,34 @@
             <b-tab-item :label="`Step 2`" v-if="(category) && (category.hasMedia === true)">
               <div class="stepTwo my-step-wrapper">
                 <p class="subtitle is-size-5 has-text-centered">Upload Image</p>
-                <div class="my-step-content stepTwo-content">
+
+                <div v-if="(!post.image) && (!imagePreview)" class="my-step-content stepTwo-content">
+
+                  <b-field>
+                      <b-upload v-model="newImage"
+                        drag-drop>
+                          <section class="section">
+                              <div class="content has-text-centered">
+                                  <p>
+                                      <b-icon
+                                          icon="upload"
+                                          size="is-large">
+                                      </b-icon>
+                                  </p>
+                                  <p>Drop your files here or click to upload</p>
+                              </div>
+                          </section>
+                      </b-upload>
+                  </b-field>  
+                </div>   
+
+                <div v-else class="my-step-content stepTwo-content">
                   
-                  <figure class="stepTwo-image">
+                  <figure class="stepTwo-image" v-if="post.image">
                     <img :src="post.image" />
+                  </figure>
+                  <figure class="stepTwo-image" v-else>
+                    <img :src="imagePreview" />
                   </figure>
 
                   <b-field>
@@ -113,6 +137,8 @@ export default {
       post: null,
       postID: null,
       newImage: null,
+      imagePreview: null,
+      lol: 'xd',
       editorOption: {
         modules: {
           toolbar: [
@@ -144,6 +170,17 @@ export default {
         if (i.name === this.post.category.name) return i;
       });
       this.category = category;
+    },
+    newImage: function (val) {
+      console.log('SKRRRR');
+      console.log(val);
+      let reader = new FileReader();
+      reader.readAsDataURL(val);
+      reader.onload = () => {
+        console.log(reader.result);
+        if ((this.post) && (this.post.image)) this.post.image = null;
+        this.imagePreview = reader.result;
+      }
     }
   },
   methods: {
@@ -183,8 +220,6 @@ export default {
         this.$router.push({ path: '/dashboard/posts/all'});
       }
     },
-
-
     prevStep() {
       if (this.activeStep > 0) this.activeStep = this.activeStep - 1;
     },

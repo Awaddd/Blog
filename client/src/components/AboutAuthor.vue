@@ -5,7 +5,7 @@
           <figure class="image author-section-image">
             <!-- placeholder  -->
             <img v-if="!user.image" src="../assets/person.png" class="circle-picture" alt="author-image">
-            <img v-else class="circle-picture " :src="user.image" alt="author-image">
+            <img v-else class="circle-picture author-picture" :src="user.image" alt="author-image">
           </figure>
           <div class="author-section-bio has-text-centered">
             <h2 class="has-text-weight-normal is-size-5-mobile is-size-4 is-capitalized">{{user.firstName}} {{user.lastName}}</h2>
@@ -65,6 +65,11 @@ export default {
 
 .author-section-image {
   max-width: 100px;
+  max-height: 100px;
+  img {
+    width: 100px !important;
+    height: 100px !important;
+  }
 }
 
 .author-section-bio {

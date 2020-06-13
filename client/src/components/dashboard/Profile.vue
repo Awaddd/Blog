@@ -27,7 +27,7 @@
 
         <div class="profile-image-group">
 
-          <figure class="image is-128x128" v-if="!edit[4].field">
+          <figure class="image is-128x128 author-picture-wrapper" v-if="!edit[4].field">
             <img v-if="!user.image" class="circle-picture" src="https://bulma.io/images/placeholders/128x128.png">
             <img v-else class="circle-picture" :src="user.image">
           </figure>
@@ -205,17 +205,17 @@ export default {
 
   }
 
-  .author-picture {
-    border-radius: 100px;
-  }
-
   .author-picture-wrapper {
-    // position: relative;
+    max-width: 128px;
+    max-height: 128px;
+    img {
+      width: 128px !important;
+      height: 128px !important;
+    }
   }
-
   .author-picture-edit {
     // filter: brightness(70%);
-    opacity: 0.8;
+    opacity: 0.6;
     cursor: pointer;
   }
 
@@ -226,7 +226,8 @@ export default {
     right: 50px;
     top: 50px;
     // color: #f333ff;
-    mix-blend-mode: darken;
+    // mix-blend-mode: darken;
+    color: #333333;
     cursor: pointer;
   }
 
