@@ -28,16 +28,22 @@
         <div class="profile-image-group">
 
           <figure class="image is-128x128 author-picture-wrapper" v-if="!edit[4].field">
-            <img v-if="!user.image" class="circle-picture" src="https://bulma.io/images/placeholders/128x128.png">
-            <img v-else class="circle-picture" :src="user.image">
+            <img v-if="(!user.image) && (!imagePreview)" class="circle-picture" src="https://bulma.io/images/placeholders/128x128.png">
+            <template v-else>
+              <img v-if="user.image" class="circle-picture author-picture-edit" :src="user.image">
+              <img v-else class="circle-picture author-picture-edit" :src="imagePreview">
+            </template>
           </figure>
 
           <figure class="image is-128x128 " v-else>
               <b-field>
                 <b-upload v-model="image">
                   <div class="author-picture-wrapper">
-                    <img v-if="!user.image" class="circle-picture author-picture-edit" src="https://bulma.io/images/placeholders/128x128.png">
-                    <img v-else class="circle-picture author-picture-edit" :src="user.image">
+                    <img v-if="(!user.image) && (!imagePreview)" class="circle-picture author-picture-edit" src="https://bulma.io/images/placeholders/128x128.png">
+                    <template v-else>
+                      <img v-if="user.image" class="circle-picture author-picture-edit" :src="user.image">
+                      <img v-else class="circle-picture author-picture-edit" :src="imagePreview">
+                    </template>
                     <div class="author-picture-overlay ">
                       <b-icon icon="upload" size="is-medium"></b-icon>
                     </div>
@@ -117,6 +123,7 @@ export default {
       image: null,
       bio: null,
       editBtn: true,
+      imagePreview: null,
       edit: [
         {field: false},
         {field: false},
@@ -124,6 +131,20 @@ export default {
         {field: false}, 
         {field: false}
       ]
+    }
+  },
+  watch: {
+    image: function(val) {
+      console.log('SKRRRRRRRRRRRR');
+      console.log(val);
+
+      let reader = new FileReader();
+      reader.readAsDataURL(val);
+      reader.onload = () => {
+        console.log('AHAHAHAHA');
+        if ((this.user) && (this.user.image)) this.user.image = null;
+        this.imagePreview = reader.result;
+      }
     }
   },
   mounted () {

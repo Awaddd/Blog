@@ -155,6 +155,10 @@ export default {
   padding: 1rem 0;
 }
 
+.blogPost-wrapper {
+  margin-bottom: 2rem;
+}
+
 .blogPost {
   margin: 0 1.5rem;
   line-height: 1.5;
