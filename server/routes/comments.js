@@ -85,11 +85,11 @@ router.post("/", checkLoggedIn, isLoggedIn, async (req, res) => {
 
       const parent = await Comment.findOne({ _id: replyingTo }, "hasReplies");
 
-      if (!parent) res.status(404).send({ message: 'Parent comment not found' });
+      if (!parent) res.status(404).send({ message: 'Something went wrong' });
 
       else if (parent.hasReplies === false) {
         const updatedComment = await Comment.findByIdAndUpdate(replyingTo, { hasReplies: true });
-        if (updatedComment) console.log('Changed boolean successfully, ', updatedComment);
+        if (updatedComment) console.log('Changed hasReplies successfully');
       }
     }
 

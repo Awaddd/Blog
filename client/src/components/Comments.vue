@@ -42,7 +42,9 @@
                   <b-icon icon="reply" size="is-small" type="reply"></b-icon>
                 </div>
 
-                <span> 2 hrs ago</span>
+                <!-- <span> 2 hrs ago</span> -->
+                <span>{{formatDateTime(comment.createdAt)}}</span>
+
               </div>
               <span tag="button" class="add-comment-view-more" v-if="showHideOpenRepliesButton(comment, i)" @click="viewReplies(comment, i)">  
                 <template v-if="comment.hasReplies === true">
@@ -108,7 +110,8 @@
                       <b-icon icon="reply" size="is-small" type="reply"></b-icon>
                     </div>
 
-                    <span> 2 hrs ago</span>
+                    <span>{{formatDateTime(reply.createdAt)}}</span>
+                    <!-- <span> 2 hrs ago</span> -->
                   </div>
                 </div>
 
@@ -133,7 +136,7 @@
 import AddComment from "@/components/comments/AddComment.vue";
 import CommentsService from "@/services/CommentsService";
 import { mapGetters } from 'vuex';
-import moment from "moment";
+import { formatCommentDate } from '@/helpers/helpers';
 
 export default {
   components: {
@@ -209,7 +212,6 @@ export default {
     },
     showHideOpenRepliesButton(comment, reply) {
       if (this.replies && (comment._id === this.currentReply._id)) {
-        console.log('SKRRRRRRRR');
         this.isReply = false;
         return false;
       } else return true;
@@ -218,7 +220,11 @@ export default {
       if (this.replies && (comment._id === this.currentReply._id)) {
         return true;
       }
+    },
+    formatDateTime(datetime) {
+      return formatCommentDate(datetime);
     }
+
   }
 }
 </script>

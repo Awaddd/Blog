@@ -45,3 +45,7 @@ export function formatDate(date, format){
   if (format) return moment(date).format(format) 
   else return moment(date).format('MMMM Do YYYY');
 }
+
+export function formatCommentDate(datetime) {
+  return moment(datetime).fromNow();
+}
