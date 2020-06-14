@@ -181,6 +181,7 @@ export default {
         _id: this.comments[i]._id,
         discussion_id: this.comments[i].discussion_id
       };
+      this.replies = null;
       this.isReply = true;
     },
     closeReplyInput(comment, i) {
@@ -208,6 +209,8 @@ export default {
     },
     showHideOpenRepliesButton(comment, reply) {
       if (this.replies && (comment._id === this.currentReply._id)) {
+        console.log('SKRRRRRRRR');
+        this.isReply = false;
         return false;
       } else return true;
     },
