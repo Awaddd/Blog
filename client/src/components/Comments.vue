@@ -34,14 +34,21 @@
 
                 </div>
                 
-                <div @click="reply(comment, i)" class="icon-button">
+                <div v-if="isReply && (currentReply._id === comment._id)" @click="closeReplyInput(comment, i)" class="icon-button">
+                  <b-icon icon="close" size="is-small" ></b-icon>
+                </div>
+
+                <div v-else @click="reply(comment, i)" class="icon-button">
                   <b-icon icon="reply" size="is-small" type="reply"></b-icon>
                 </div>
+
                 <span> 2 hrs ago</span>
               </div>
               <span tag="button" class="add-comment-view-more" v-if="showHideOpenRepliesButton(comment, i)" @click="viewReplies(comment, i)">  
-                <b-icon icon="chevron-down"></b-icon>
-                View replies
+                <template v-if="comment.hasReplies === true">
+                  <b-icon icon="chevron-down"></b-icon>
+                  View replies
+                </template>
               </span>
 
               <span tag="button" class="add-comment-view-more" v-if="showHideCloseRepliesButton(comment, i)" @click="hideReplies(comment, i)">  
@@ -50,8 +57,10 @@
               </span>
           </div>
 
-          <div class="add-comment-reply-wrapper" v-if="isReply && (currentReply._id === comment._id)">
+          <div class="add-comment-reply-wrapper reply-modifier" v-if="isReply && (currentReply._id === comment._id)">
             <AddComment class="add-comment-reply" :discussion="comment.discussion_id" :replyingTo="comment._id" :replyingToUser="comment.author._id" />
+            <template>
+            </template>
           </div>
 
           <!-- REPLIES -->
@@ -91,14 +100,19 @@
                       </div>
 
                     </div>
-                    <div @click="replyChild(reply, k)" class="icon-button">
+
+                    <div v-if="isReplyChild && (currentReplyChild._id === reply._id)" @click="closeReplyChildInput(reply, k)" class="icon-button">
+                      <b-icon icon="close" size="is-small" ></b-icon>
+                    </div>
+                    <div v-else @click="replyChild(reply, k)" class="icon-button">
                       <b-icon icon="reply" size="is-small" type="reply"></b-icon>
                     </div>
+
                     <span> 2 hrs ago</span>
                   </div>
                 </div>
 
-                <div class="add-comment-reply-wrapper" v-if="isReplyChild && (currentReplyChild._id === reply._id)">
+                <div class="add-comment-reply-wrapper reply-modifier" v-if="isReplyChild && (currentReplyChild._id === reply._id)">
                   <AddComment class="add-comment-reply" :discussion="comment.discussion_id" :replyingTo="reply._id" :replyingToUser="reply.author._id"  />
                 </div>
 
@@ -167,14 +181,20 @@ export default {
         _id: this.comments[i]._id,
         discussion_id: this.comments[i].discussion_id
       };
-      this.isReply = !this.isReply;
+      this.isReply = true;
+    },
+    closeReplyInput(comment, i) {
+      this.isReply = false;
     },
     replyChild(reply, i) {
       this.currentReplyChild = {
         _id: this.replies[i]._id,
         discussion_id: this.replies[i].discussion_id
       };
-      this.isReplyChild = !this.isReplyChild;
+      this.isReplyChild = true;
+    },
+    closeReplyChildInput(reply, i) {
+      this.isReplyChild = false;
     },
     showReplies(comment, reply) {
       if ((this.replies) && (comment._id === this.currentReply._id)) return true;
@@ -202,7 +222,9 @@ export default {
 
 <style lang="scss">
 
-
+.reply-modifier {
+  margin-top: 0.8rem;
+}
 
 .add-comment-section {
   padding: 0 2rem;
@@ -271,6 +293,7 @@ export default {
   grid-template-columns: max-content max-content; 
   grid-gap: 5px;
   cursor: pointer;
+  user-select: none;
 }
 
 .add-comment-reply-wrapper {
@@ -291,7 +314,8 @@ export default {
   }
 
   .currentComment {
-    border: 0;
+    border-left: 7px solid #fff;
+    border-right: 7px solid #fff;
   }
 
   .add-comment-reply-wrapper {

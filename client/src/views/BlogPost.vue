@@ -222,6 +222,7 @@ export default {
   .blogPost-wrapper {
     width: 90%;
     margin: 0 auto;
+    margin-bottom: 2rem;
   }
   .blogPost-image {
     img {

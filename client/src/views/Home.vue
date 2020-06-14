@@ -134,7 +134,7 @@ export default {
     padding: 0;
   }
   .home-posts {
-    padding: 0;
+    padding: 1.5rem 0;
   }
 
 }

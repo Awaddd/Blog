@@ -20,7 +20,7 @@ router.get("/:postID", async (req, res) => {
       const comments = await Comment.find({
         post: postID, 
         replyingTo: { $exists: false 
-      }}, "content hearts createdAt discussion_id author post replyingTo").sort({ _id: -1 }).populate('author', '_id firstName lastName image').exec();
+      }}, "content hearts createdAt hasReplies discussion_id author post replyingTo").sort({ _id: -1 }).populate('author', '_id firstName lastName image').exec();
 
       if (comments.length === 0) res.status(404).send({ status: false, message: 'Comments not found' });
       else res.status(200).send(comments);
@@ -82,12 +82,23 @@ router.post("/", checkLoggedIn, isLoggedIn, async (req, res) => {
       new_comment.discussion_id = discussion_id;
       new_comment.replyingTo = replyingTo;
       new_comment.replyingToUser = replyingToUser;
-}
+
+      const parent = await Comment.findOne({ _id: replyingTo }, "hasReplies");
+
+      if (!parent) res.status(404).send({ message: 'Parent comment not found' });
+
+      else if (parent.hasReplies === false) {
+        const updatedComment = await Comment.findByIdAndUpdate(replyingTo, { hasReplies: true });
+        if (updatedComment) console.log('Changed boolean successfully, ', updatedComment);
+      }
+    }
+
     else {
       const new_discussion = new Discussion({});
       const discussion = await new_discussion.save();
       if (discussion) console.log('Added discussion successfully', discussion);
       new_comment.discussion_id = discussion._id;
+      new_comment.hasReplies = false;
     };
 
     console.log(new_comment);
