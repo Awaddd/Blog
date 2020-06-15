@@ -10,8 +10,9 @@
     </nav>    
     
     <div class="dashboard-newPost-content">
-      <validationObserver ref="form" v-slot=" {handleSubmit} ">
-        <form class="add-post-form" enctype="multipart/form-data" @key-up.enter.prevent="handleSubmit(addPost)">
+      <!-- <validationObserver ref="form" v-slot=" {handleSubmit} "> -->
+      <validationObserver ref="form" v-slot="form">
+        <form class="add-post-form" enctype="multipart/form-data" @key-up.enter.prevent="addPost">
 
           <b-tabs v-model="activeStep" position="is-centered" type="is-toggle">
             <b-tab-item :label="`Step 1`">
@@ -105,7 +106,7 @@
                   </div>
                   <div class="stepThree-content-buttons">
                     <b-button class="">Full Screen Editor</b-button>
-                    <b-button expanded class="is-primary" @click.prevent="handleSubmit(addPost)">Create Post</b-button>
+                    <b-button expanded class="is-primary" @click.prevent="addPost">Create Post</b-button>
                   </div>
                 </div>
               </div>
@@ -178,34 +179,83 @@ export default {
   methods: {
     async addPost() {
 
-      this.tags = this.tags.slice(0, 6);
 
-      let newPost = {
-        category: this.category._id,
-        title: this.title.trim(),
-        summary: this.summary,
-        content: this.content,
-        tags: this.tags
-      };
+      this.$refs.form.validate().then(async success => {
 
-      if (this.image) newPost.image = this.image;
-      const response = await PostsService.addPosts(newPost);
-
-      if (response.status !== 200) {
-
-        if (response.data.field === 'title') {
-          this.$refs.form.setErrors({
-            title: response.data.message
+        if (!success) {
+          this.$buefy.toast.open({
+            duration: 5000,
+            message: 'You entered something wrong. Please review your inputs',
+            type: 'is-danger'
           });
-          this.activeStep = 0;
+          return;
         }
 
-        console.log('new post ERROR: ', response.data);
+        if ((this.tags === null ) || (this.tags === '') || (this.tags === ' ')){
 
-      } else if (response.status === 200){
-        console.log(response.data.message);
-        this.$router.push({ name: "BlogPost", params: {title: sanitizeTitle(response.data.title)} });
-      }
+          this.$buefy.toast.open({
+            duration: 5000,
+            message: 'Tags cannot be empty',
+            type: 'is-danger'
+          });
+
+          return;
+        }
+
+        if ((this.content === null ) || (this.content === '') || (this.content === ' ')){
+          this.$buefy.toast.open({
+            duration: 5000,
+            message: 'Content cannot be empty',
+            type: 'is-danger'
+          });
+
+          return;
+        }
+        
+        this.tags = this.tags.slice(0, 6);
+
+        let newPost = {
+          category: this.category._id,
+          title: this.title.trim(),
+          summary: this.summary,
+          content: this.content,
+          tags: this.tags
+        };
+
+        if (this.image) newPost.image = this.image;
+        const response = await PostsService.addPosts(newPost);
+
+        if (response.status !== 200) {
+
+          this.$buefy.toast.open({
+            duration: 5000,
+            message: response.data.message,
+            type: 'is-danger'
+          });
+
+          if (response.data.field === 'title') {
+            this.$refs.form.setErrors({
+              title: response.data.message
+            });
+            this.activeStep = 0;
+          }
+
+          console.log('new post ERROR: ', response.data);
+
+        } else if (response.status === 200){
+          console.log(response.data.message);
+
+          this.$buefy.toast.open({
+            duration: 3000,
+            message: 'Post created!',
+            type: 'is-success'
+          });
+
+          this.$router.push({ name: "BlogPost", params: {title: sanitizeTitle(response.data.title)} });
+        }
+
+
+      });
     },
     prevStep() {
       if (this.activeStep > 0) this.activeStep = this.activeStep - 1;
@@ -223,7 +273,6 @@ export default {
   },
   watch: {
     image: function (val) {
-      console.log('SKRRRR');
       console.log(val);
       let reader = new FileReader();
       reader.readAsDataURL(val);

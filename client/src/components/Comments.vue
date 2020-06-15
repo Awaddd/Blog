@@ -46,12 +46,12 @@
                 <span>{{formatDateTime(comment.createdAt)}}</span>
 
               </div>
-              <span tag="button" class="add-comment-view-more" v-if="showHideOpenRepliesButton(comment, i)" @click="viewReplies(comment, i)">  
-                <template v-if="comment.hasReplies === true">
+              <template v-if="showHideOpenRepliesButton(comment, i)">  
+                <span v-if="comment.hasReplies === true" tag="button" class="add-comment-view-more" @click="viewReplies(comment, i)">
                   <b-icon icon="chevron-down"></b-icon>
                   View replies
-                </template>
-              </span>
+                </span>
+              </template>
 
               <span tag="button" class="add-comment-view-more" v-if="showHideCloseRepliesButton(comment, i)" @click="hideReplies(comment, i)">  
                 <b-icon icon="chevron-up"></b-icon>

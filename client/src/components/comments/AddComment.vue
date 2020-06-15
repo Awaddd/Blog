@@ -36,7 +36,18 @@ export default {
   },
   methods: {
     async addComment () {
-      if (!this.getLoginStatus) this.notification = 'Please login';
+      if (!this.getLoginStatus) {
+        this.$buefy.snackbar.open({
+          message: 'Please login to comment',
+          type: 'is-warning',
+          position: 'is-top',
+          actionText: 'Login',
+          indefinite: true,
+          onAction: () => {
+            this.$router.push({ path: '/admin/login' })
+          }
+        });
+      }
       else {
         let comment = {
           content: this.content,

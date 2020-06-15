@@ -49,7 +49,7 @@ module.exports = {
         .max(100)
         .required(),
       content: Joi.string()
-        // .min(100)
+        .min(10)
         .required(),
       tags: Joi.array(),
       removeImage: Joi.boolean()

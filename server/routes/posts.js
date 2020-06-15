@@ -140,6 +140,16 @@ router.post("/", upload().single('image'), checkLoggedIn, isLoggedIn, async (req
 
   try {
 
+    console.log('skrrrrr');
+    console.log('skrrrrr');
+    console.log('skrrrrr');
+    console.log('skrrrrr');
+    console.log(content);
+    console.log('skrrrrr');
+    console.log('skrrrrr');
+    console.log('skrrrrr');
+    console.log('skrrrrr');
+
     const existingPost = await Post.findOne({ title: title }, "title summary content image");
 
     if (existingPost) res.status(400).send({ success: false, message: 'A post with that title already exists', field: 'title' });
@@ -156,6 +166,7 @@ router.post("/", upload().single('image'), checkLoggedIn, isLoggedIn, async (req
     const new_post = new Post(newPost);
 
     const post = await new_post.save();
+    console.log(post);
     if (post) res.status(200).send(post);
     
   } catch (error) {
