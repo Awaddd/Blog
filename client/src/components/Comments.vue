@@ -11,13 +11,13 @@
       <div v-for="(comment, i) in comments" :key="i" class="comment-wrapper-parent" :class="{ 'currentComment': activeCommentThread(comment, i) }">
         <article class="parent-comment">
           <figure class="media-left">
-              <img class="circle-picture image is-48x48" src="https://bulma.io/images/placeholders/128x128.png" />
+            <img class="circle-picture image is-48x48" src="https://bulma.io/images/placeholders/128x128.png" />
               <!-- <img class="circle-picture image is-64x64" :src="comment.author.image" /> -->
           </figure>
           <div>
              <strong class="is-capitalized">{{comment.author.firstName}} {{comment.author.lastName}}</strong>
 
-             <p>{{comment.content}}</p>
+             <p class="actual-comment">{{comment.content}}</p>
 
               <div class="comments-section-comment-controls">
                 <div class="icon-button">
@@ -59,6 +59,10 @@
               </span>
           </div>
 
+          <div class="comment-action" v-if="user._id === comment.author._id" @click="deleteComment(comment)">
+            <b-icon icon="delete-outline"></b-icon>
+          </div>
+
           <div class="add-comment-reply-wrapper reply-modifier" v-if="isReply && (currentReply._id === comment._id)">
             <AddComment class="add-comment-reply" :discussion="comment.discussion_id" :replyingTo="comment._id" :replyingToUser="comment.author._id" />
             <template>
@@ -82,7 +86,7 @@
                     <span>Replying to {{comment.author.firstName}}</span>
                   </p> -->
                   
-                  <p> <span class="has-text-primary" v-if="reply.replyingToUser">@{{reply.replyingToUser.firstName}}</span> {{reply.content}} </p>
+                  <p class="actual-comment"> <span class="has-text-primary" v-if="reply.replyingToUser">@{{reply.replyingToUser.firstName}}</span> {{reply.content}} </p>
                   <!-- <div class="comments-section-comment-controls">
                     <div class="icon-button">
                       <div >
@@ -143,7 +147,7 @@ export default {
     AddComment
   },
   computed: {
-    ...mapGetters({ comments: 'getComments', allReplies: 'getReplies' }),
+    ...mapGetters({ comments: 'getComments', allReplies: 'getReplies', user: 'getUser' }),
   },
   data () {
     return {
@@ -223,8 +227,29 @@ export default {
     },
     formatDateTime(datetime) {
       return formatCommentDate(datetime);
-    }
+    },
+    async deleteComment(comment) {
 
+      const response = await CommentsService.deleteComment(comment);
+
+      if (response.status !== 200) {
+        console.log('Something went wrong!');
+        this.$buefy.toast.open({
+          duration: 3000,
+          message: 'Something went wrong',
+          type: 'is-danger'
+        });
+      }
+      else if (response.status === 200) {
+        console.log('Comment deleted!');
+        this.$buefy.toast.open({
+          duration: 3000,
+          message: 'Comment Deleted',
+          type: 'is-success'
+        });
+      }
+      
+    }
   }
 }
 </script>
@@ -273,12 +298,25 @@ export default {
 
 .parent-comment, .child-comment {
   display: grid;
-  grid-template-columns: max-content 1fr;
+  grid-template-columns: max-content 1fr max-content;
 }
 
 .parent-comment {
-  padding: 0 2rem;
+  margin: 0 1.5rem;
+}
 
+.actual-comment {
+  // white-space: pre-line;
+  white-space: pre-wrap;
+}
+
+.comment-action {
+  // visibility: hidden;
+  transition: all ease-in-out;
+  span {
+    cursor: pointer;
+    color: #8c8a8a;
+  }
 }
 
 .comments-section-comment-reply {
@@ -312,6 +350,24 @@ export default {
 .add-comment-reply {
 }
 
+@media only screen and (min-width: 360px) {
+
+  .parent-comment {
+    padding: 0 2rem;
+    margin: 0;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .comment-action {
+    visibility: hidden;
+  }
+  .parent-comment:hover {
+    .comment-action {
+      visibility: visible;
+    }
+  }
+}
 
 @media only screen and (min-width: 770px) {
 

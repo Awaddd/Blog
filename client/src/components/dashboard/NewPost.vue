@@ -211,6 +211,17 @@ export default {
 
           return;
         }
+
+        if ((this.image === null) && (this.category.name.toLowerCase() === 'article')){
+
+          this.$buefy.toast.open({
+            duration: 5000,
+            message: `An article must have an image`,
+            type: 'is-danger'
+          });
+
+          return;
+        }
         
         this.tags = this.tags.slice(0, 6);
 

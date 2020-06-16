@@ -37,6 +37,13 @@ router.get("/:postID", async (req, res) => {
 router.get("/discussion/:discussionIDs", async (req, res) => {
 
   let discussionIDs = JSON.parse(req.params.discussionIDs);
+  console.log('skrrrrrrrrrrrrrrr');
+  console.log('skrrrrrrrrrrrrrrr');
+  console.log('skrrrrrrrrrrrrrrr');
+  console.log(discussionIDs);
+  console.log('skrrrrrrrrrrrrrrr');
+  console.log('skrrrrrrrrrrrrrrr');
+  console.log('skrrrrrrrrrrrrrrr');
 
   try {
     
@@ -45,7 +52,7 @@ router.get("/discussion/:discussionIDs", async (req, res) => {
         $in: discussionIDs
       },
       replyingTo: {$exists: true}
-    }, "content hearts createdAt discussion_id post" ).populate('author', 'firstName lastName image').populate('replyingToUser', '_id firstName lastName').exec();;
+    }, "content hearts createdAt discussion_id post" ).populate('author', 'firstName lastName image').populate('replyingToUser', '_id firstName lastName').exec();
     
     console.log(allComments);
     
@@ -113,7 +120,86 @@ router.post("/", checkLoggedIn, isLoggedIn, async (req, res) => {
 });
 
 
-// like comment
+
+// Delete comment
+
+
+router.delete('/:comment', checkLoggedIn, isLoggedIn, async (req, res) => {
+  try {
+    console.log('SKRRRRRRRRRRR');
+    console.log('SKRRRRRRRRRRR');
+    console.log('SKRRRRRRRRRRR');
+    console.log(req.params.comment);
+    console.log('SKRRRRRRRRRRR');
+    console.log(req.body.comment);
+    console.log('SKRRRRRRRRRRR');
+    console.log('SKRRRRRRRRRRR');
+    console.log('SKRRRRRRRRRRR');
+    const comment = req.body.comment;
+    const commentID = req.body.comment._id;
+    const discussionID = req.body.comment.discussion_id;
+
+
+    const allComments = await Comment.find({ discussion_id: discussionID }, "_id discussion_id" );
+    if (!allComments) res.status(404).send( {message: 'Comment could not be deleted'} );
+
+    console.log('LAAAAAAAAAAAAAAAAAAAAA');
+    console.log('LAAAAAAAAAAAAAAAAAAAAA');
+    console.log(allComments);
+    console.log('LAAAAAAAAAAAAAAAAAAAAA');
+    console.log('LAAAAAAAAAAAAAAAAAAAAA');
+    console.log(comment.hasReplies);
+    console.log('----------------------');
+    console.log('----------------------');
+
+
+    // FIND COMMENT IDS
+
+    // if (allComments.length < 2) {
+    //   const comment = await Comment.findByIdAndDelete(commentID);
+    //   if (!comment) res.status(404).send( {message: 'Comment could not be deleted'} );
+    //   const discussion = await Discussion.findByIdAndDelete(discussionID);
+    //   if (!discussion) res.status(404).send( {message: 'Comment thread could not be deleted'} );
+    // } else if (comment.hasReplies === true) {
+    //   console.log('Looopin');
+      
+    //   const commentsDeleted = await Comment.deleteMany({
+    //     discussion_id: {
+    //       $in: allComments
+    //     }
+    //   });
+
+    // } else {
+    //   const commentDeleted = await Comment.findByIdAndDelete(commentID);
+    //   if (!commentDeleted) res.status(404).send( {message: 'Comment could not be deleted'} );
+    // }
+
+    // res.status(200).send( {message: 'Comment deleted'} );
+    console.log('LAAAAAAAAAAAAAAAAAAAAA');
+    console.log('LAAAAAAAAAAAAAAAAAAAAA');
+
+    // const comment = await Comment.findByIdAndDelete(req.params.comment._id);
+    // if (!comment) res.status(404).send({ message: 'Comment does not exist' });
+    // else res.status(200).send({ message: 'Comment deleted' });
+
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// router.delete('/:id', checkLoggedIn, isLoggedIn, async (req, res) => {
+//   try {
+//     deleteImage(req.params.id, 'post');
+//     const post = await Post.findByIdAndDelete(req.params.id);
+//     if (!post) res.status(404).send({ success: false, message: 'Could not find post' }); 
+//     else res.status(200).send({ success: true, message: 'Post deleted successfully' });
+
+//   } catch (error) {
+//     console.log(error);
+//     return res.status(404).send({ success: false, message: 'Post could not be deleted' });
+//     // throw(error);
+//   }
+// });
 
 
 module.exports = router;

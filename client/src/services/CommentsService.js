@@ -17,6 +17,14 @@ export default {
 
   addComment(comment) {
     return Api().post("comments", comment);
+  },
+
+  deleteComment(comment) {
+    return Api().delete(`comments/${comment._id}`, {
+      data: {
+        comment
+      }
+    });
   }
 
 }

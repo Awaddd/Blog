@@ -3,12 +3,14 @@
     <form class="media">
       
       <div class="media-content">
-        <span v-if="notification"> {{notification}}</span>
-        <div class="field">
+        <!-- <div class="field">
           <p class="control">
             <textarea class="textarea" v-model="content" placeholder="Add a comment..."></textarea>
           </p>
-        </div>
+        </div> -->
+        <b-field label="Comment" custom-class="is-small" class="field">
+          <b-input maxlength="1500" type="textarea" v-model="content" placeholder="Add a comment..."></b-input>
+        </b-field>
         <div class="field">
           <p class="control">
             <b-button type="is-primary" @click.prevent="addComment">Post comment</b-button>
@@ -49,6 +51,18 @@ export default {
         });
       }
       else {
+
+        if ((this.content === null ) || (this.content === '') || (this.content === ' ')){
+
+          this.$buefy.toast.open({
+            duration: 3000,
+            message: 'Blank comments are not allowed',
+            type: 'is-danger'
+          });
+
+          return;
+        }
+
         let comment = {
           content: this.content,
           postTitle: this.getCurrentPost.title.replace(/-/g, " ").toLowerCase()
@@ -65,6 +79,11 @@ export default {
         if (response.status !== 200) {
           console.log('add comment error ERROR: ', response.data);
         } else if (response.status === 200) {
+          this.$buefy.toast.open({
+            duration: 3000,
+            message: 'Comment posted',
+            type: 'is-success'
+          });
           this.content = null;
           this.$store.dispatch("SET_COMMENT_ADDED", true);
         }
@@ -77,5 +96,11 @@ export default {
 </script>
 
 <style lang="scss">
+
+.media-content {
+  div {
+    margin-bottom: 0 !important;
+  }
+}
 
 </style>
