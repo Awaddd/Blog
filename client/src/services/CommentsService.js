@@ -24,7 +24,9 @@ export default {
       data: {
         comment
       }
-    });
+    })
+    .then( response => response )
+    .catch( error => error.response );
   }
 
 }

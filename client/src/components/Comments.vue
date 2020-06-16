@@ -59,7 +59,7 @@
               </span>
           </div>
 
-          <div class="comment-action" v-if="user._id === comment.author._id" @click="deleteComment(comment)">
+          <div class="comment-action" v-if="((user) && (user._id === comment.author._id))" @click="deleteComment(comment)">
             <b-icon icon="delete-outline"></b-icon>
           </div>
 
@@ -117,6 +117,10 @@
                     <span>{{formatDateTime(reply.createdAt)}}</span>
                     <!-- <span> 2 hrs ago</span> -->
                   </div>
+                </div>
+
+                <div class="comment-action" v-if="((user) && (user._id === reply.author._id))" @click="deleteComment(reply)">
+                  <b-icon icon="delete-outline"></b-icon>
                 </div>
 
                 <div class="add-comment-reply-wrapper reply-modifier" v-if="isReplyChild && (currentReplyChild._id === reply._id)">
@@ -244,7 +248,7 @@ export default {
         console.log('Comment deleted!');
         this.$buefy.toast.open({
           duration: 3000,
-          message: 'Comment Deleted',
+          message: response.data.message,
           type: 'is-success'
         });
       }
