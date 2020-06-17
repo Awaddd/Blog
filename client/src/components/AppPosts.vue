@@ -25,7 +25,7 @@
                 params: {title: sanitizeTitle(post.title)}
             }">
             <div class="card-image" v-if="post.image">
-              <figure class="image is-5by3">
+              <figure class="image is-5by3 my-image">
                 <img :src="post.image" alt="" class="">
               </figure>
             </div>
@@ -176,7 +176,11 @@ export default {
 }
 
 .card-image {
-  
+  .my-image {
+    img {
+      object-fit: cover;
+    }
+  }
 }
 
 .alt__card {

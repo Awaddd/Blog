@@ -26,7 +26,17 @@
 }
 
 .stepTwo-image {
-  max-width: 300px;
+  // max-width: 300px;
+}
+
+.stepTwo-image {
+  height: 150px;
+  width: 250px;
+  img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
 }
 
 
@@ -34,6 +44,15 @@
   display: grid;
   justify-content: center;
   grid-gap: 10px;
+}
+
+
+
+@media only screen and (min-width: 768px) {
+  .stepTwo-image {
+    height: 190px;
+    width: 315px;
+  }
 }
 
 
@@ -59,7 +78,7 @@
   }  
 
   .stepTwo-image {
-    max-width: 350px;
+    // max-width: 350px;
   }
 
 }
