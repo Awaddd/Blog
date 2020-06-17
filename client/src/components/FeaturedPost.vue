@@ -159,14 +159,6 @@ export default {
 .featured-post {
   display: grid;
   grid-gap: 20px;
-
-  .featured-post__image {
-    img {
-      // max-width: 300px;
-      width: 100%;
-    }
-  }
-
 }
 
 .my-featured-level {

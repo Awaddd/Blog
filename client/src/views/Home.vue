@@ -21,7 +21,7 @@
 
     <main class="my-container home-content">
       
-      <section class="featured-section-wrapper container">
+      <section class="featured-section-wrapper">
         <app-featured-post></app-featured-post>        
       </section>
 
@@ -100,6 +100,7 @@ export default {
 
 .featured-section-wrapper {
   padding: 3rem 1.5rem 1rem 1.5rem;
+  width: 100%;
 }
 
 .home-posts {
@@ -137,6 +138,11 @@ export default {
     padding: 1.5rem 0;
   }
 
+  .featured-section-wrapper {
+    width: 90%;
+    margin: 0 auto;
+  }
+
 }
 
 @media only screen and (min-width: 1200px) {
@@ -146,7 +152,7 @@ export default {
   }
   
   .featured-section-wrapper {
-
+    width: 100%;
   }
   
 }
