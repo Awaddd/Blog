@@ -188,16 +188,21 @@ export default {
             message: 'You entered something wrong. Please review your inputs',
             type: 'is-danger'
           });
+
+          this.activeStep = 0;
+
           return;
         }
 
-        if ((this.tags === null ) || (this.tags === '') || (this.tags === ' ')){
+        if ((this.tags === null ) || (this.tags.length === 0)){
 
           this.$buefy.toast.open({
             duration: 5000,
             message: 'Tags cannot be empty',
             type: 'is-danger'
           });
+
+          this.activeStep = 0;
 
           return;
         }
@@ -219,6 +224,8 @@ export default {
             message: `An article must have an image`,
             type: 'is-danger'
           });
+
+          this.activeStep = 1;
 
           return;
         }

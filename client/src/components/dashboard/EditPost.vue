@@ -10,8 +10,8 @@
     </nav>    
     
     <div class="">
-      <validationObserver ref="form" v-slot=" {handleSubmit} ">
-        <form class="add-post-form" enctype="multipart/form-data" v-if="post" @key-up.enter.prevent="handleSubmit(editPost)">
+      <validationObserver ref="form" v-slot="form">
+        <form class="add-post-form" enctype="multipart/form-data" v-if="post" @key-up.enter.prevent="editPost">
 
           <b-tabs v-model="activeStep" position="is-centered" type="is-toggle">
             <b-tab-item :label="`Step 1`">
@@ -95,7 +95,7 @@
                   </div>
                   <div class="stepThree-content-buttons">
                     <b-button class="">Full Screen Editor</b-button>
-                    <b-button expanded class="is-primary" @click.prevent="handleSubmit(editPost)">Update</b-button>
+                    <b-button expanded class="is-primary" @click.prevent="editPost">Update</b-button>
                   </div>
                 </div>
               </div>
@@ -138,7 +138,6 @@ export default {
       postID: null,
       newImage: null,
       imagePreview: null,
-      lol: 'xd',
       editorOption: {
         modules: {
           toolbar: [
@@ -192,33 +191,104 @@ export default {
     },
 
     async editPost() {
-      this.post.tags = this.post.tags.slice(0, 6);
-
-      const editPostParams = {
-        id: this.postID,
-        category: this.category._id,
-        title: this.post.title.trim(),
-        summary: this.post.summary,
-        content: this.post.content,
-        tags: this.post.tags
-      }
-      if ((this.category.hasMedia === false) && (this.post.image)) editPostParams.removeImage = true;
-      if (this.newImage) editPostParams.image = this.newImage;
-
-      const response = await PostsService.editPost(editPostParams);
-
-      if (response.status !== 200) {
-        if (response.data.field === 'title') {
-          this.$refs.form.setErrors({
-            title: response.data.message
+      this.$refs.form.validate().then(async success => {
+        if (!success) {
+          this.$buefy.toast.open({
+            duration: 5000,
+            message: 'You entered something wrong. Please review your inputs',
+            type: 'is-danger'
           });
+
           this.activeStep = 0;
+
+          return;
         }
-        console.log('new post ERROR: ', response.data);
-      } else if (response.status === 200){
-        console.log(response.data.message);
-        this.$router.push({ path: '/dashboard/posts/all'});
-      }
+
+        if ((this.post.tags === null) || (this.post.tags.length === 0)){
+
+          this.$buefy.toast.open({
+            duration: 5000,
+            message: 'Tags cannot be empty',
+            type: 'is-danger'
+          });
+
+          this.activeStep = 0;
+
+          return;
+
+        }
+
+
+        if ((this.post.content === null) || (this.post.content === '') || (this.post.content === ' ')){
+
+          this.$buefy.toast.open({
+            duration: 5000,
+            message: 'Content cannot be empty',
+            type: 'is-danger'
+          });
+
+          return;
+
+        }
+
+
+        if (((!this.post.image) && (this.newImage === null )) && (this.category.name.toLowerCase() === 'article')){
+
+          this.$buefy.toast.open({
+            duration: 5000,
+            message: `An article must have an image`,
+            type: 'is-danger'
+          });
+
+          this.activeStep = 1;
+
+          return;
+        } 
+        
+        this.post.tags = this.post.tags.slice(0, 6);
+
+        const editPostParams = {
+          id: this.postID,
+          category: this.category._id,
+          title: this.post.title.trim(),
+          summary: this.post.summary,
+          content: this.post.content,
+          tags: this.post.tags
+        }
+        if ((this.category.hasMedia === false) && (this.post.image)) editPostParams.removeImage = true;
+        if (this.newImage) editPostParams.image = this.newImage;
+
+        const response = await PostsService.editPost(editPostParams);
+
+        if (response.status !== 200) {
+
+          this.$buefy.toast.open({
+            duration: 5000,
+            message: response.data.message,
+            type: 'is-danger'
+          });
+
+          if (response.data.field === 'title') {
+            this.$refs.form.setErrors({
+              title: response.data.message
+            });
+            this.activeStep = 0;
+          }
+          console.log('new post ERROR: ', response.data);
+
+        } else if (response.status === 200){
+
+          this.$buefy.toast.open({
+            duration: 3000,
+            message: 'Post updated!',
+            type: 'is-success'
+          });
+
+          console.log(response.data.message);
+          this.$router.push({ path: '/dashboard/posts/all'});
+        }
+
+      })
     },
     prevStep() {
       if (this.activeStep > 0) this.activeStep = this.activeStep - 1;
