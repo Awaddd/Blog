@@ -245,6 +245,7 @@ export default {
         });
       }
       else if (response.status === 200) {
+        this.$store.dispatch("RELOAD_COMMENTS", true);
         console.log('Comment deleted!');
         this.$buefy.toast.open({
           duration: 3000,

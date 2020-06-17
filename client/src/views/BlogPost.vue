@@ -73,14 +73,14 @@ export default {
     this.getPosts();
   },
   computed: {
-    ...mapGetters(['getCommentAdded'])
+    ...mapGetters({ reloadComments: 'getReloadComments' })
   },
   watch: {
-    'getCommentAdded': function () {
-      console.log('comment added: ', this.getCommentAdded);
+    'reloadComments': function () {
+      console.log('comment added: ', this.reloadComments);
       this.getComments();
       this.commentsKey += 1;
-      this.$store.dispatch("SET_COMMENT_ADDED", false);
+      this.$store.dispatch("RELOAD_COMMENTS", false);
     }
   },
   methods: {
@@ -103,7 +103,10 @@ export default {
     async getComments() {
       this.showComments = true;
       const response = await CommentsService.fetchComments(this.post._id);
-      if (response.status !== 200) console.log(response.data.message); 
+      if (response.status !== 200) {
+        console.log(response.data.message);
+        this.$store.dispatch('SET_COMMENTS', null);
+      } 
       else if ((response.data) && (response.status === 200)) {
         this.comments = response.data;
 

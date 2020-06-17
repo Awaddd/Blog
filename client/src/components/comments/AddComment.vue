@@ -85,7 +85,7 @@ export default {
             type: 'is-success'
           });
           this.content = null;
-          this.$store.dispatch("SET_COMMENT_ADDED", true);
+          this.$store.dispatch("RELOAD_COMMENTS", true);
         }
         
       } 

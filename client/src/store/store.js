@@ -16,22 +16,22 @@ const store = new Vuex.Store({
   },
   state: {
     loadingPosts: true,
-    commentAdded: false
+    reloadComments: false
   },
   getters: {
     getLoadingPostsStatus: state => state.loadingPosts,
-    getCommentAdded: state => state.commentAdded
+    getReloadComments: state => state.reloadComments
   },
   mutations: {
     SET_LOADING_POSTS_STATUS: (state, payload) => payload ? state.loadingPosts = payload : state.loadingPosts = false,
-    SET_COMMENT_ADDED: (state, payload) => payload ? state.commentAdded = payload : state.commentAdded = false
+    RELOAD_COMMENTS: (state, payload) => payload ? state.reloadComments = payload : state.reloadComments = false
   },
   actions: {
     SET_LOADING_POSTS_STATUS({commit}, payload) {
       commit('SET_LOADING_POSTS_STATUS', payload);
     },
-    SET_COMMENT_ADDED({commit}, payload) {
-      commit('SET_COMMENT_ADDED', payload);
+    RELOAD_COMMENTS({commit}, payload) {
+      commit('RELOAD_COMMENTS', payload);
     }
   }
 });
