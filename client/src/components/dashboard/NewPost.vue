@@ -229,6 +229,10 @@ export default {
 
           return;
         }
+
+        if ((this.category.hasMedia === false) && (this.image !== null)) {
+          this.image = null;
+        }
         
         this.tags = this.tags.slice(0, 6);
 
@@ -261,7 +265,6 @@ export default {
           console.log('new post ERROR: ', response.data);
 
         } else if (response.status === 200){
-          console.log(response.data.message);
 
           this.$buefy.toast.open({
             duration: 3000,
@@ -291,12 +294,12 @@ export default {
   },
   watch: {
     image: function (val) {
-      console.log(val);
-      let reader = new FileReader();
-      reader.readAsDataURL(val);
-      reader.onload = () => {
-        console.log(reader.result);
-        this.imagePreview = reader.result;
+      if (this.image !== null) {
+        let reader = new FileReader();
+        reader.readAsDataURL(val);
+        reader.onload = () => {
+          this.imagePreview = reader.result;
+        }
       }
     }
   },

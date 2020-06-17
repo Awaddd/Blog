@@ -171,14 +171,13 @@ export default {
       this.category = category;
     },
     newImage: function (val) {
-      console.log('SKRRRR');
-      console.log(val);
-      let reader = new FileReader();
-      reader.readAsDataURL(val);
-      reader.onload = () => {
-        console.log(reader.result);
-        if ((this.post) && (this.post.image)) this.post.image = null;
-        this.imagePreview = reader.result;
+      if (this.newImage !== null) {
+        let reader = new FileReader();
+        reader.readAsDataURL(val);
+        reader.onload = () => {
+          if ((this.post) && (this.post.image)) this.post.image = null;
+          this.imagePreview = reader.result;
+        }
       }
     }
   },
@@ -244,7 +243,8 @@ export default {
 
           return;
         } 
-        
+
+
         this.post.tags = this.post.tags.slice(0, 6);
 
         const editPostParams = {
@@ -255,7 +255,16 @@ export default {
           content: this.post.content,
           tags: this.post.tags
         }
-        if ((this.category.hasMedia === false) && (this.post.image)) editPostParams.removeImage = true;
+
+        if ((this.category.hasMedia === false) && (this.post.image)){
+          editPostParams.removeImage = true;
+        }
+
+        if ((this.category.hasMedia === false) && (this.newImage !== null)) {
+          this.newImage = null;
+          editPostParams.removeImage = true;
+        }
+
         if (this.newImage) editPostParams.image = this.newImage;
 
         const response = await PostsService.editPost(editPostParams);

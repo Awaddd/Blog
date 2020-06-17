@@ -64,10 +64,6 @@ export default {
     if (params.image) formData.append("image", params.image, params.image.name);
     formData.append("tags", JSON.stringify(params.tags));
 
-    console.log('skrrrrr');
-    console.log(params.content);
-    console.log('skrrrrr');
-
     return axios.post(
       `${url}posts`,
       formData,
