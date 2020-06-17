@@ -103,6 +103,11 @@ button {
     grid-gap: 30px;
     margin-bottom: 20px;
 }
+  .profile-content {
+    .field-label .label {
+      margin-top: 0 !important;
+    }
+  }
 
 }
 

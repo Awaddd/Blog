@@ -43,7 +43,7 @@
                 </div>
 
                 <!-- <span> 2 hrs ago</span> -->
-                <span>{{formatDateTime(comment.createdAt)}}</span>
+                <span class="comments-section-comment-controls-time">{{formatDateTime(comment.createdAt)}}</span>
 
               </div>
               <template v-if="showHideOpenRepliesButton(comment, i)">  
@@ -59,7 +59,7 @@
               </span>
           </div>
 
-          <div class="comment-action" v-if="((user) && (user._id === comment.author._id))" @click="deleteComment(comment)">
+          <div class="comment-action" v-if="((user) && (user._id === comment.author._id))" @click="confirmDeleteComment(comment)">
             <b-icon icon="delete-outline"></b-icon>
           </div>
 
@@ -114,12 +114,12 @@
                       <b-icon icon="reply" size="is-small" type="reply"></b-icon>
                     </div>
 
-                    <span>{{formatDateTime(reply.createdAt)}}</span>
+                    <span class="comments-section-comment-controls-time">{{formatDateTime(reply.createdAt)}}</span>
                     <!-- <span> 2 hrs ago</span> -->
                   </div>
                 </div>
 
-                <div class="comment-action" v-if="((user) && (user._id === reply.author._id))" @click="deleteComment(reply)">
+                <div class="comment-action" v-if="((user) && (user._id === reply.author._id))" @click="confirmDeleteComment(reply)">
                   <b-icon icon="delete-outline"></b-icon>
                 </div>
 
@@ -232,7 +232,18 @@ export default {
     formatDateTime(datetime) {
       return formatCommentDate(datetime);
     },
+    confirmDeleteComment(comment) {
+      this.$buefy.dialog.confirm({
+        title: 'Delete Comment',
+        hasIcon: true,
+        message: 'Are you sure you want to <b>delete</b> your comment? This comment will be gone for good.',
+        confirmText: 'Delete Comment',
+        type: 'is-warning',
+        onConfirm: () => this.deleteComment(comment)
+      });
+    },
     async deleteComment(comment) {
+      
 
       const response = await CommentsService.deleteComment(comment);
 
@@ -249,8 +260,7 @@ export default {
         console.log('Comment deleted!');
         this.$buefy.toast.open({
           duration: 3000,
-          message: response.data.message,
-          type: 'is-success'
+          message: response.data.message
         });
       }
       
@@ -334,9 +344,13 @@ export default {
 
 .comments-section-comment-controls {
   display: grid;
-  grid-template-columns: repeat(4, max-content);
   grid-gap: 10px;
   padding: 0.5rem 0 0 0;
+}
+
+.comments-section-comment-controls-time {
+  grid-row: 2;
+  grid-column: 1/10;
 }
 
 .add-comment-view-more {
@@ -361,6 +375,16 @@ export default {
     padding: 0 2rem;
     margin: 0;
   }
+
+  .comments-section-comment-controls {
+    grid-template-columns: repeat(4, max-content);
+  }
+
+  .comments-section-comment-controls-time {
+    grid-row: auto;
+    grid-column: auto;
+  }
+
 }
 
 @media only screen and (min-width: 768px) {
