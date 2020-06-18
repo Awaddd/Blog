@@ -8,7 +8,7 @@
         <ValidationObserver ref="form" v-slot="{ handleSubmit }">
         <form class="my-form container" @keyup.enter.prevent="handleSubmit(login)">
 
-          <p class="title is-size-4 has-text-primary has-text-centered"><strong>Login</strong></p>
+          <p class="title is-size-4 has-text-centered">Login</p>
 
           <div class="my-form-input">
             <label for="Email">Email</label>
@@ -273,10 +273,15 @@ export default {
     max-width: 500px;
     border-radius: 5px;
     color: #333;
-    padding: 3rem 3rem 5rem 3rem;
-    margin-top: 100px;
+    padding: 3rem 3rem 3rem 3rem;
+    margin-top: 45px;
     box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
   }
 }
-    
+
+@media only screen and (min-width: 1600px) {
+  .my-form-wrapper {
+    margin-top: 75px;
+  }
+}
 </style>
