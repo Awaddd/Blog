@@ -10,8 +10,10 @@
       </div>
     </nav>
 
-    <div class="featured-post__image">
-      <img :src="featuredPost.image">
+    <div class="featured-post-actual-image">
+      <figure class="image is-5by3 my-image">
+        <img :src="featuredPost.image">
+      </figure>
       <!-- <img src="../assets/featured.jpeg"> -->
     </div>
 
@@ -22,7 +24,7 @@
       <div class="level featured-post-tags" v-if="featuredPost.tags">
         <div class="level-item">
           <div class="field is-grouped is-grouped-multiline" >
-            <div class="control" v-for="(tag, i) in featuredPost.tags.slice(0, 4)" :key="i">
+            <div class="control" v-for="(tag, i) in featuredPost.tags.slice(0, 3)" :key="i">
               <div class="tags">
                 <!-- <a class="tag is-link ">{{tag}}</a> -->
                 <b-tag ellipsis>{{tag}}</b-tag>
@@ -146,11 +148,13 @@ export default {
   display: grid;
   grid-gap: 20px;
 
-  .featured-post__image {
-    img {
-      // max-width: 300px;
-      width: 100%;
+  .featured-post-actual-image {
+    .my-image {
+      img {
+        object-fit: cover;
+      }
     }
+
   }
 
 }
@@ -234,12 +238,9 @@ export default {
     grid-column-gap: 50px;
     // grid-row-gap: 10px;
 
-    .featured-post__image {
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
+    .featured-post-actual-image {
+      display: grid;
+      align-items: bottom;
       grid-column-start: 2;
       grid-column-end: 4;
       grid-row-start: 1;
@@ -285,8 +286,21 @@ export default {
 }
 
 @media only screen and (min-width: 1000px) {
+  // With image
   .featured-post-image {
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 100%;
+    grid-column-gap: 50px;
+    // grid-row-gap: 10px;
 
+    .featured-post-actual-image {
+      grid-column-start: 2;
+      grid-column-end: 4;
+      grid-row-start: 1;
+      grid-row-end: 4;
+    }
   }
 
   .featured-post {

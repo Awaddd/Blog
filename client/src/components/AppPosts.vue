@@ -112,7 +112,6 @@ export default {
       this.posts = null;
       this.postsWithMedia = [];
       this.postsWithoutMedia = [];
-      console.log(this.$route.params.plural);
       if (this.$route.params.plural) await this.getPostsByCategory();
       else await this.getPosts();
       if (this.posts === null) {

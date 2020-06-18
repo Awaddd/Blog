@@ -45,7 +45,6 @@ export default {
   },
 
   fetchPostsByCategory(categoryID) {
-    console.log(categoryID);
     return Api().get(`posts/all/${categoryID}`)
       .then(response => { return response })
       .catch(error => { return error.response });
@@ -119,7 +118,7 @@ export default {
 
 
   deletePost(id) {
-    return Api().delete(`posts/${id}`);
+    return Api().delete(`posts/${id}`).then(response => response).catch(error => error.response);
   },
 
 

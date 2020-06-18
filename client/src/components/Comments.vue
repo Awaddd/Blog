@@ -248,7 +248,6 @@ export default {
       const response = await CommentsService.deleteComment(comment);
 
       if (response.status !== 200) {
-        console.log('Something went wrong!');
         this.$buefy.toast.open({
           duration: 3000,
           message: 'Something went wrong',
@@ -257,7 +256,6 @@ export default {
       }
       else if (response.status === 200) {
         this.$store.dispatch("RELOAD_COMMENTS", true);
-        console.log('Comment deleted!');
         this.$buefy.toast.open({
           duration: 3000,
           message: response.data.message

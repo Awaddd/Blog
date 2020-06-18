@@ -106,7 +106,7 @@
                   <b-button type="is-info" icon-right="playlist-edit" @click="editPost(props.row._id)" />
                 </p>
                 <p class="control">
-                  <b-button type="is-danger" icon-right="delete" @click="deletePost(props.row._id)" />
+                  <b-button type="is-danger" icon-right="delete" @click="confirmDeletePost(props.row._id)" />
                 </p>
 
                 
@@ -169,32 +169,53 @@ export default {
       if (response.status !== 200) this.$store.dispatch("SET_USER_POSTS", null);
       else this.$store.dispatch("SET_USER_POSTS", response.data.posts);
     },
-
     async selectFeaturedPost() {
       console.log(this.featuredPostID);
       const response = await PostsService.updateFeaturedPost(this.featuredPostID);
       console.log(response);
     },
-
     sanitizeTitle: function(title) {
       return sanitizeTitle(title);
     },
-
     formatDate(date) {
       return formatDate(date, "DD/MM/YYYY");
     },
-
+    confirmDeletePost(post) {
+      this.$buefy.dialog.confirm({
+        title: 'Delete Post',
+        hasIcon: true,
+        message: 'Are you sure you want to <b>delete</b> your post? This post will be gone for good.',
+        confirmText: 'Delete Post',
+        type: 'is-warning',
+        onConfirm: () => this.deletePost(post)
+      })
+    },
     async deletePost(post) {
+
       if (post) {
        const res = await PostsService.deletePost(post);
+       if (res.status !== 200) {
+
+        this.$buefy.toast.open({
+          duration: 3000,
+          message: 'Something went wrong',
+          type: 'is-danger'
+        });
+
+       } else if (res.status === 200) {
+
+        this.$buefy.toast.open({
+          duration: 3000,
+          message: 'Post deleted'
+        });
+
         this.$store.dispatch("DELETE_USER_POST", post);       
+       }
       }
     },
-
     editPost(post){
       this.$router.push({ name: "EditPost", params: {postID: post } });
     },
-
     redirectNewPost () {
       this.$router.push({ name: "NewPost" });
     }
