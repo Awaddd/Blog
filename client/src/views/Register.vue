@@ -7,16 +7,36 @@
         <ValidationObserver ref="form" v-slot="{ handleSubmit }">
           <form class="my-form container" @keyup.enter.prevent="handleSubmit(register)">
             <p class="title is-size-4 has-text-primary has-text-centered"><strong>Register</strong></p>
-            <BInputWithValidation vid="email" rules="required|email" type="email" icon="email" placeholder="John.smith@mail.com" label="Email" v-model="email"/>
-            <BInputWithValidation rules="required|min:2|max:30" type="text" icon="account" placeholder="John" label="First Name" v-model="firstName"/>
-            <BInputWithValidation rules="required|min:2|max:30" type="text" icon="account-group" placeholder="Smith" label="Last Name" v-model="lastName"/>
+
+            <div class="my-form-input">
+              <label for="Email">Email</label>
+              <BInputWithValidation vid="email" rules="required|email" type="email" icon="email" placeholder="John.smith@mail.com" name="Email" v-model="email"/>
+            </div>
+
+            <div class="my-form-input">
+              <label for="firstName">First Name</label>
+              <BInputWithValidation rules="required|min:2|max:30" type="text" icon="account" placeholder="John" name="First name" v-model="firstName"/>
+            </div>
+
+            <div class="my-form-input">
+              <label for="lastName">Last Name</label>
+              <BInputWithValidation rules="required|min:2|max:30" type="text" icon="account-group" placeholder="Smith" name="Last name" v-model="lastName"/>
+            </div>
+
             
             <ValidationObserver class="confirmPassword"> 
+              <div class="my-form-input">
+                <label for="password">Password</label>
+                <BInputWithValidation rules="required|min:7|max:30" type="password" icon="lock" name="Password" vid="confirmation" v-model="password" password-reveal/>
+              </div>
 
-              <BInputWithValidation rules="required|min:7|max:30" type="password" icon="lock" label="Password" vid="confirmation" v-model="password" password-reveal/>
-              <BInputWithValidation rules="required|min:7|max:30|confirmed:confirmation" type="password" icon="lock"  v-model="confirmPassword"  label="Confirm Password" password-reveal/>
+              <div class="my-form-input">
+                <label for="confirmPassword">Confirm Password</label>
+                <BInputWithValidation rules="required|min:7|max:30|confirmed:confirmation" type="password" icon="lock"  v-model="confirmPassword"  name="Confirm password" password-reveal/>
+              </div>
 
             </validationObserver>
+
             <b-switch size="is-small" v-model="isAdmin">Enable Admin</b-switch>
 
             <b-field>
@@ -79,6 +99,14 @@ export default {
           console.log('register ERROR: ', response.data.message);
 
         } else if (response.status === 200 && response.data.user){
+
+       
+          this.$buefy.toast.open({
+            duration: 3000,
+            message: 'Registered Successfully',
+            type: 'is-success'
+          });   
+
           const user = response.data.user;
           localStorage.setItem('user', user);
           console.log(user);
@@ -122,6 +150,16 @@ export default {
   margin-top: 15px;
 }
 
+.my-form {
+  .my-form-input {
+    display: grid;
+    grid-gap: 0.5rem;
+    label {
+        font-weight: 600;
+      }
+    }
+}
+
 
 @media only screen and (min-width: 700px) {
 
@@ -142,7 +180,7 @@ export default {
     max-width: 500px;
     border-radius: 5px;
     color: #333;
-    padding: 3rem 3rem 5rem 3rem;
+    padding: 3rem 3rem 3rem 3rem;
     margin-top: 100px;
     margin-bottom: 100px;
     box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);

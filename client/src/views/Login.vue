@@ -10,9 +10,15 @@
 
           <p class="title is-size-4 has-text-primary has-text-centered"><strong>Login</strong></p>
 
-          <BInputWithValidation vid="email" rules="required|email" type="email" icon="email" placeholder="John.smith@mail.com" label="Email" v-model="email"/>
+          <div class="my-form-input">
+            <label for="Email">Email</label>
+            <BInputWithValidation vid="email" rules="required|email" type="email" icon="email" placeholder="John.smith@mail.com" name="Email" v-model="email"/>
+          </div>
 
-          <BInputWithValidation vid="password" rules="required" type="password" icon="lock" label="Password" v-model="password" password-reveal/>
+          <div class="my-form-input">
+            <label for="Password">Password</label>
+            <BInputWithValidation vid="password" rules="required" type="password" icon="lock" name="Password" v-model="password" password-reveal/>
+          </div>
 
           <b-field class="email-login-wrapper">
             <button type="submit" class="social-login email-login" @click.prevent="handleSubmit(login)">Login</button>
@@ -21,7 +27,7 @@
   
           <p class="social-login-title">Login with socials</p>
           
-          <b-field>
+          <b-field style="margin-bottom: 0;">
             <a class="social-login google-login" @click="googleLogin">
               <b-icon icon="google" class=""></b-icon>
               Google
@@ -181,6 +187,16 @@ export default {
 .my-form, .confirmPassword {
   display: grid;
   grid-gap: 15px;
+}
+
+.my-form {
+  .my-form-input {
+    display: grid;
+    grid-gap: 0.5rem;
+    label {
+        font-weight: 600;
+      }
+    }
 }
 
 .my-login-button {
