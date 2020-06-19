@@ -11,8 +11,11 @@
       <div v-for="(comment, i) in comments" :key="i" class="comment-wrapper-parent" :class="{ 'currentComment': activeCommentThread(comment, i) }">
         <article class="parent-comment">
           <figure class="media-left">
-            <img class="circle-picture image is-48x48" src="https://bulma.io/images/placeholders/128x128.png" />
-              <!-- <img class="circle-picture image is-64x64" :src="comment.author.image" /> -->
+              <img v-if="comment.author.image" class="circle-picture image is-48x48" :src="comment.author.image" />
+              <!-- <img v-else class="circle-picture image is-48x48" src="https://bulma.io/images/placeholders/128x128.png" /> -->
+              <span v-else class="circle-picture image is-48x48 myAvatar" :style="{ backgroundColor: avatarColor }">
+                  {{generateAvatar(comment.author.firstName)}}
+              </span>
           </figure>
           <div>
              <strong class="is-capitalized">{{comment.author.firstName}} {{comment.author.lastName}}</strong>
@@ -75,7 +78,12 @@
 
               <article class="child-comment">
                 <figure class="media-left">
-                    <img class="circle-picture image is-48x48" src="https://bulma.io/images/placeholders/128x128.png" />
+                    <!-- <img class="circle-picture image is-48x48" src="https://bulma.io/images/placeholders/128x128.png" /> -->
+                  <img v-if="reply.author.image" class="circle-picture image is-48x48" :src="reply.author.image" />
+                  <!-- <img v-else class="circle-picture image is-48x48" src="https://bulma.io/images/placeholders/128x128.png" /> -->
+                  <span v-else class="circle-picture image is-48x48 myAvatar" :style="{ backgroundColor: avatarColor }">
+                    {{generateAvatar(reply.author.firstName)}}
+                  </span>
                     <!-- <img class="circle-picture image is-64x64" :src="reply.author.image" /> -->
                 </figure>
                 <div>
@@ -160,7 +168,8 @@ export default {
       isReplyChild: null,
       currentReply: null,
       currentReplyChild: null,
-      active: null
+      active: null,
+      avatarColor: null
     }
   },
   methods: {
@@ -262,6 +271,10 @@ export default {
         });
       }
       
+    },
+    generateAvatar(name) {
+      this.avatarColor = '#2fe05e';
+      return name[0];
     }
   }
 }
@@ -365,6 +378,14 @@ export default {
 }
 
 .add-comment-reply {
+}
+
+.myAvatar {
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  color: #fff;
+  font-size: 1.5rem;
 }
 
 @media only screen and (min-width: 360px) {

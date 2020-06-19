@@ -227,11 +227,9 @@ export default {
   color: #fff;
 }
 
-.email-login-wrapper {
-}
-
 .email-login {
   padding: 0.7rem 0;
+  margin-top: 0.6rem;
   width: 100%;
   justify-content: center;
 }
