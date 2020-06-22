@@ -23,20 +23,7 @@
              <p class="actual-comment">{{comment.content}}</p>
 
               <div class="comments-section-comment-controls">
-                <div class="icon-button">
 
-                  <div>
-                    <span style="margin-right: 10px; font-weight: 600;">13</span>
-                    <b-icon icon="heart-outline" size="is-small" class="heart" ></b-icon>
-                  </div>
-
-                  <!-- <div>
-                    <span style="margin-right: 10px; font-weight: 600;">13</span>
-                    <b-icon icon="heart" type="is-danger" size="is-small" class="heart"></b-icon>
-                  </div> -->
-
-                </div>
-                
                 <div v-if="isReply && (currentReply._id === comment._id)" @click="closeReplyInput(comment, i)" class="icon-button">
                   <b-icon icon="close" size="is-small" ></b-icon>
                 </div>
@@ -106,14 +93,6 @@
                   </div> -->
 
                   <div class="comments-section-comment-controls">
-                    <div class="icon-button">
-
-                      <div>
-                        <span style="margin-right: 10px; font-weight: 600;">13</span>
-                        <b-icon icon="heart-outline" size="is-small" class="heart" ></b-icon>
-                      </div>
-
-                    </div>
 
                     <div v-if="isReplyChild && (currentReplyChild._id === reply._id)" @click="closeReplyChildInput(reply, k)" class="icon-button">
                       <b-icon icon="close" size="is-small" ></b-icon>
