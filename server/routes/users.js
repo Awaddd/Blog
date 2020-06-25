@@ -49,7 +49,7 @@ router.post("/", async (req, res) => {
   if (error) console.log(error.details[0].message);
   if (error) return res.status(400).send({success: false, message: error.details[0].message});
 
-  const {firstName, lastName, email, password, isAdmin} = req.body;
+  const {firstName, lastName, email, password, isAdmin, color} = req.body;
 
   const salt = bcrypt.genSaltSync(10);
   const hashedPassword = bcrypt.hashSync(req.body.password, salt);
@@ -60,10 +60,11 @@ router.post("/", async (req, res) => {
 
     let newUser = {
       email: email.toLowerCase(),
-      firstName: firstName,
-      lastName: lastName, 
+      firstName,
+      lastName,
       password: hashedPassword,
-      isAdmin: isAdmin
+      isAdmin,
+      color
     }
 
     const new_user = new User(newUser);

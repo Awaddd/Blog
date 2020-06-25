@@ -15,6 +15,7 @@ const UserSchema = new Schema({
     type: Boolean
   },
   image: {type: String},
+  color: {type: String},
   bio: String
 })
 

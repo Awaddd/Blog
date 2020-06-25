@@ -85,7 +85,8 @@ export default {
           firstName: this.firstName,
           lastName: this.lastName,
           password: this.password,
-          isAdmin: this.isAdmin
+          isAdmin: this.isAdmin,
+          color: this.avatarColor()
         })
 
         if (response.status !== 200) {
@@ -121,7 +122,11 @@ export default {
           this.$router.push({ name: "Dashboard" });
         }
       }
-    }
+    },
+    avatarColor() {
+      let colors = ['#eb4034', '#fcba03', '#4287f5', '#42f5a7', '#5d42f5', '#f57738'];
+      return colors[Math.floor(Math.random() * colors.length)];
+    },
   }
 }
 

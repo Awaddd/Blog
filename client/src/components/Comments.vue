@@ -12,10 +12,9 @@
         <article class="parent-comment">
           <figure class="media-left">
               <img v-if="comment.author.image" class="circle-picture image is-48x48" :src="comment.author.image" />
-              <!-- <img v-else class="circle-picture image is-48x48" src="https://bulma.io/images/placeholders/128x128.png" /> -->
-              <span v-else class="circle-picture image is-48x48 myAvatar" :style="{ backgroundColor: avatarColor }">
-                  {{generateAvatar(comment.author.firstName)}}
-              </span>
+              <div v-else class="circle-picture image is-48x48 myAvatar" :style="{ 'backgroundColor': comment.author.color }">
+                <span>{{generateAvatar(comment.author.firstName)}}</span>
+              </div>
           </figure>
           <div>
              <strong class="is-capitalized">{{comment.author.firstName}} {{comment.author.lastName}}</strong>
@@ -32,7 +31,6 @@
                   <b-icon icon="reply" size="is-small" type="reply"></b-icon>
                 </div>
 
-                <!-- <span> 2 hrs ago</span> -->
                 <span class="comments-section-comment-controls-time">{{formatDateTime(comment.createdAt)}}</span>
 
               </div>
@@ -65,32 +63,17 @@
 
               <article class="child-comment">
                 <figure class="media-left">
-                    <!-- <img class="circle-picture image is-48x48" src="https://bulma.io/images/placeholders/128x128.png" /> -->
                   <img v-if="reply.author.image" class="circle-picture image is-48x48" :src="reply.author.image" />
-                  <!-- <img v-else class="circle-picture image is-48x48" src="https://bulma.io/images/placeholders/128x128.png" /> -->
-                  <span v-else class="circle-picture image is-48x48 myAvatar" :style="{ backgroundColor: avatarColor }">
-                    {{generateAvatar(reply.author.firstName)}}
-                  </span>
+                  <div v-else class="circle-picture image is-48x48 myAvatar" :style="{ 'backgroundColor': reply.author.color }">
+                    <span>{{generateAvatar(reply.author.firstName)}}</span>
+                  </div>
                     <!-- <img class="circle-picture image is-64x64" :src="reply.author.image" /> -->
                 </figure>
                 <div>
                   <strong class="is-capitalized">{{reply.author.firstName}} {{reply.author.lastName}}</strong>
                   <br>
-                  <!-- <p class="comments-section-comment-reply">
-                    <b-icon icon="reply" type="is-primary"></b-icon>
-                    <span>Replying to {{comment.author.firstName}}</span>
-                  </p> -->
                   
                   <p class="actual-comment"> <span class="has-text-primary" v-if="reply.replyingToUser">@{{reply.replyingToUser.firstName}}</span> {{reply.content}} </p>
-                  <!-- <div class="comments-section-comment-controls">
-                    <div class="icon-button">
-                      <div >
-                        <span style="margin-right: 10px; font-weight: 600;">13</span>
-                        <b-icon icon="heart-outline" size="is-small" class="heart" ></b-icon>
-                      </div>
-                    </div>
-                    <span> 2 hrs ago</span>
-                  </div> -->
 
                   <div class="comments-section-comment-controls">
 
@@ -102,7 +85,6 @@
                     </div>
 
                     <span class="comments-section-comment-controls-time">{{formatDateTime(reply.createdAt)}}</span>
-                    <!-- <span> 2 hrs ago</span> -->
                   </div>
                 </div>
 
@@ -148,7 +130,7 @@ export default {
       currentReply: null,
       currentReplyChild: null,
       active: null,
-      avatarColor: null
+      myAvatarColor: null
     }
   },
   methods: {
@@ -252,7 +234,6 @@ export default {
       
     },
     generateAvatar(name) {
-      this.avatarColor = '#2fe05e';
       return name[0];
     }
   }
@@ -317,6 +298,7 @@ export default {
 
 .comment-action {
   // visibility: hidden;
+  margin-left: 0.5rem;
   transition: all ease-in-out;
   span {
     cursor: pointer;
@@ -361,11 +343,20 @@ export default {
 
 .myAvatar {
   display: grid;
-  justify-content: center;
-  align-content: center;
+  // justify-content: center;
+  // align-content: center;
   color: #fff;
   font-size: 1.5rem;
+
+  span {
+    // margin: auto auto;
+    text-align: center;
+    vertical-align: middle;
+    margin-top: 0.25rem;
+    // margin-left: 0.2rem;
+  }
 }
+
 
 @media only screen and (min-width: 360px) {
 

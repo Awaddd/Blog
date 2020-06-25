@@ -7,6 +7,8 @@ module.exports = {
       email: Joi.string()
         .email({ minDomainSegments: 2})
         .required(),
+      color: Joi.string()
+        .required(),
       firstName: Joi.string()
         .min(2)
         .required(),
