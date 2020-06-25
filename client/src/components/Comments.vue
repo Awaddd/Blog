@@ -339,14 +339,15 @@ export default {
 }
 
 .myAvatar {
-  display: grid;
+  display: grid !important;
   color: #fff;
   font-size: 1.5rem;
+  justify-content: center;
 
   span {
-    text-align: center;
-    vertical-align: middle;
-    margin-top: 0.25rem;
+    text-align: center !important;
+    vertical-align: middle !important;
+    margin-top: 0.25rem !important;
   }
 }
 
