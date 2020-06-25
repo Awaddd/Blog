@@ -6,6 +6,8 @@ const { validatePost } = require('../helpers/validation.js');
 const Post = require("../models/post");
 const User = require("../models/user");
 const Category = require("../models/category");
+const Comment = require("../models/comment");
+const Discussion = require("../models/discussion");
 
 
 
@@ -225,11 +227,29 @@ router.patch('/:id', upload().single('image'), checkLoggedIn, isLoggedIn, async 
 
 router.delete('/:id', checkLoggedIn, isLoggedIn, async (req, res) => {
   try {
+
     deleteImage(req.params.id, 'post');
+    
+    const allComments = await Comment.find({ post: req.params.id }, "_id discussion_id" );
+
+    let discussionIDs = [];
+    allComments.forEach(i => {
+      discussionIDs.push(i.discussion_id);
+    })
+
+    const deletedAllComments = await Comment.deleteMany({ post: req.params.id });
+
+    const deletedAllDiscussionIDs = await Discussion.deleteMany({
+      _id: {
+        $in: discussionIDs
+      }
+    });
+
+    console.log(deletedAllDiscussionIDs);
+
     const post = await Post.findByIdAndDelete(req.params.id);
     if (!post) res.status(404).send({ success: false, message: 'Could not find post' }); 
     else res.status(200).send({ success: true, message: 'Post deleted successfully' });
-
   } catch (error) {
     console.log(error);
     return res.status(404).send({ success: false, message: 'Post could not be deleted' });

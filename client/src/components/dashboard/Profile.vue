@@ -183,8 +183,20 @@ export default {
 
       const response = await UserService.updateUserDetails(updateUserParams);
 
-      if (response.status !== 200) console.log(response.data.message);
-      else console.log(response);
+      if (response.status !== 200) {
+        this.$buefy.toast.open({
+          duration: 5000,
+          message: 'Something went wrong',
+          type: 'is-danger'
+        });
+      }
+      else if (response.status === 200) {
+        this.$buefy.toast.open({
+          duration: 3000,
+          message: 'Profile Updated',
+          type: 'is-success'
+        });
+      }
 
       this.edit.forEach( obj => {
         obj.field = false;

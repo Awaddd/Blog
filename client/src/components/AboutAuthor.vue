@@ -10,7 +10,7 @@
           <div class="author-section-bio has-text-centered">
             <h2 class="has-text-weight-normal is-size-5-mobile is-size-4 is-capitalized">{{user.firstName}} {{user.lastName}}</h2>
             <h3 class="subtitle is-size-6-mobile is-size-6">{{user.bio}}</h3>
-            <div class="icon-group">
+            <div class="icon-group" v-if="user.socials">
               <a :href="user.socials[0]"><b-icon class="facebook" icon="facebook"></b-icon></a>
               <a :href="user.socials[1]"><b-icon class="linkedin" icon="linkedin"></b-icon></a>
               <a :href="user.socials[2]"><b-icon class="twitter" icon="twitter"></b-icon></a>
