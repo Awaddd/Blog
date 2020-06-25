@@ -67,7 +67,7 @@
                 <b-input 
                   v-model="searchTerm"
                   type="search" icon-right="magnify" size="is-small"
-                  placeholder="Search...">
+                  placeholder="Search">
                 </b-input>
               </template>
               {{ props.row.title }}

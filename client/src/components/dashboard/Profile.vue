@@ -135,13 +135,11 @@ export default {
   },
   watch: {
     image: function(val) {
-      console.log('SKRRRRRRRRRRRR');
       console.log(val);
 
       let reader = new FileReader();
       reader.readAsDataURL(val);
       reader.onload = () => {
-        console.log('AHAHAHAHA');
         if ((this.user) && (this.user.image)) this.user.image = null;
         this.imagePreview = reader.result;
       }
@@ -152,7 +150,6 @@ export default {
   },
   methods: {
     async getUserDetails () {
-      console.log('Hey!');
       const response = await UserService.fetchUserDetails();
       if (response.status !== 200) console.log(response.error);
       else this.user = response.data;

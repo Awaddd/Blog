@@ -13,7 +13,7 @@ const User = require("../models/user");
 
 router.get("/profile/:id", async (req, res) => {
   try {
-    const user = await User.findOne({ _id: req.params.id }, "email firstName lastName isAdmin bio image");
+    const user = await User.findOne({ _id: req.params.id }, "email firstName lastName isAdmin bio image socials");
     if (!user) res.status(404).send({success: false, message: 'User does not exist'});
     else res.status(200).send(user);
 

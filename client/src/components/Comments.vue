@@ -67,7 +67,6 @@
                   <div v-else class="circle-picture image is-48x48 myAvatar" :style="{ 'backgroundColor': reply.author.color }">
                     <span>{{generateAvatar(reply.author.firstName)}}</span>
                   </div>
-                    <!-- <img class="circle-picture image is-64x64" :src="reply.author.image" /> -->
                 </figure>
                 <div>
                   <strong class="is-capitalized">{{reply.author.firstName}} {{reply.author.lastName}}</strong>
@@ -213,8 +212,6 @@ export default {
       });
     },
     async deleteComment(comment) {
-      
-
       const response = await CommentsService.deleteComment(comment);
 
       if (response.status !== 200) {
@@ -343,17 +340,13 @@ export default {
 
 .myAvatar {
   display: grid;
-  // justify-content: center;
-  // align-content: center;
   color: #fff;
   font-size: 1.5rem;
 
   span {
-    // margin: auto auto;
     text-align: center;
     vertical-align: middle;
     margin-top: 0.25rem;
-    // margin-left: 0.2rem;
   }
 }
 
