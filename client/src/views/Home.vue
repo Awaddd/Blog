@@ -9,10 +9,10 @@
         <div class="hero-body">
           <div class="container">
             <h1 class="title has-text-white is-size-4-mobile is-size-3-tablet">
-              Welcome To Oasis
+              Personal Blog  
             </h1>
-            <h2 class="subtitle has-text-white is-size-5">
-              Life and Success
+            <h2 class="subtitle has-text-white is-size-6-mobile is-size-5-tablet">
+              Features, News, Stories and more
             </h2>
           </div>
         </div>

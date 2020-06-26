@@ -1,10 +1,13 @@
 <template>
-  <div class="container">
+  <div class="container app-nav">
     
     <b-navbar class="is-spaced">
       <template slot="brand">
         <b-navbar-item tag="router-link" :to="{ path: '/' }">
-          <p class="title is-3 has-text-primary">Oasis</p>
+          <!-- <p class="title is-4 has-text-primary">O<span class="has-text-dark">D</span></p> -->
+          <p style="font-family: 'Courier Prime', monospace;" class="app-brand">
+            Omar Dini<span class="has-text-primary">.</span>
+          </p>
         </b-navbar-item>
       </template>
 
@@ -141,6 +144,19 @@ export default {
   .my-brand {
     display: grid;
     grid-gap: 15px;
+  }
+
+  .app-nav {
+    // padding: 0.5rem;
+    // padding-top: 0.2rem;
+  }
+
+  .app-brand {
+    // font-size: 1.8rem;
+    margin-left: 0.5rem;
+    font-size: 1.6rem;
+    line-height: 0;
+    padding: 0;
   }
 
   .my-nav-controls {
