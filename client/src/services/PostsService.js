@@ -55,7 +55,6 @@ export default {
     const url = localStorage.getItem('url');
 
     const formData = new FormData();
-    console.log(params.category);
     formData.append("category", params.category);
     formData.append("title", params.title);
     formData.append("summary", params.summary);

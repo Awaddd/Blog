@@ -170,9 +170,7 @@ export default {
       else this.$store.dispatch("SET_USER_POSTS", response.data.posts);
     },
     async selectFeaturedPost() {
-      console.log(this.featuredPostID);
       const response = await PostsService.updateFeaturedPost(this.featuredPostID);
-      console.log(response);
     },
     sanitizeTitle: function(title) {
       return sanitizeTitle(title);

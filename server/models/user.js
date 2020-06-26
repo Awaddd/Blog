@@ -5,7 +5,6 @@ const UserSchema = new Schema({
   email: {
     type: String,
     unique: true,
-    // index: true
     sparse: true
   },
   firstName: String,

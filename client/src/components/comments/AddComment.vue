@@ -77,7 +77,13 @@ export default {
         const response = await CommentsService.addComment(comment);
       
         if (response.status !== 200) {
-          console.log('add comment error ERROR: ', response.data);
+          
+          this.$buefy.toast.open({
+            duration: 3000,
+            message: 'Something went wrong',
+            type: 'is-danger'
+          });
+
         } else if (response.status === 200) {
           this.$buefy.toast.open({
             duration: 3000,

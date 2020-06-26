@@ -186,7 +186,6 @@ export default {
       this.postID = this.$route.params.postID;
       const response = await PostsService.fetchSinglePostByID(this.postID);
       if (response.status === 200) this.post = response.data;
-      console.log(this.post);
     },
 
     async editPost() {
@@ -283,7 +282,6 @@ export default {
             });
             this.activeStep = 0;
           }
-          console.log('new post ERROR: ', response.data);
 
         } else if (response.status === 200){
 
@@ -293,7 +291,6 @@ export default {
             type: 'is-success'
           });
 
-          console.log(response.data.message);
           this.$router.push({ path: '/dashboard/posts/all'});
         }
 

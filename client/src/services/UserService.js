@@ -22,7 +22,6 @@ export default {
     let decoded = jwt.decode(user);
     const url = localStorage.getItem('url');
 
-    console.log(params);
     let formData = new FormData();
 
     formData.append("email", params.email);
@@ -30,7 +29,6 @@ export default {
     formData.append("lastName", params.lastName);
 
     if (params.bio) formData.append("bio", params.bio);
-    console.log(params.image);
     if (params.image) formData.append("image", params.image, params.image.name);
 
     return axios.patch(`${url}users/${decoded.userID}`, formData, { headers: authHeader(true) }).then(response => response).catch(error => error.response);

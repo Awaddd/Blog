@@ -3,12 +3,13 @@ const express = require("express");
 const router = express.Router();
 const { verifyToken } = require('../helpers/helpers.js');
 const Post = require("../models/post");
+const {checkLoggedIn, isLoggedIn} = require('../middleware');
 
 
 // Get posts for one user
 
 
-router.get("/:id/posts", async (req, res) => {
+router.get("/:id/posts", checkLoggedIn, isLoggedIn, async (req, res) => {
   try {
     const userID = verifyToken(req).userID;
     const posts = await Post.find({ author: userID }, "id title summary content image author createdAt category featured").populate('category', 'name').sort({ _id: -1 }).exec();
@@ -25,7 +26,7 @@ router.get("/:id/posts", async (req, res) => {
 // Selects featured post. Can only be one featured post. Updates 2 posts
 
 
-router.patch("/:id/:postID", async (req, res) => {
+router.patch("/:id/:postID", checkLoggedIn, isLoggedIn, async (req, res) => {
   try {
     const {userID, postID} = req.body;
 

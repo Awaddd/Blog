@@ -27,7 +27,7 @@ router.get("/profile/:id", async (req, res) => {
 // get one user 
 
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", checkLoggedIn, isLoggedIn, async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.params.id }, "email firstName lastName isAdmin");
     if (!user) res.status(404).send({success: false, message: 'User does not exist'});
@@ -87,7 +87,7 @@ router.post("/", async (req, res) => {
 
 
 
-router.patch("/:id", upload().single('image'), async (req, res) => {
+router.patch("/:id", checkLoggedIn, isLoggedIn, upload().single('image'), async (req, res) => {
 
   const userID = req.params.id;
 

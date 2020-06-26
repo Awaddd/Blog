@@ -39,7 +39,6 @@ export default {
       this.email = null;
       this.subject = null;
       this.text = null;
-      console.log(response);
 
       if (response.status !== 200) {
         this.$buefy.toast.open({

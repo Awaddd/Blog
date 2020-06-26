@@ -97,8 +97,6 @@ export default {
             });
           }
 
-          console.log('register ERROR: ', response.data.message);
-
         } else if (response.status === 200 && response.data.user){
 
        
@@ -110,7 +108,6 @@ export default {
 
           const user = response.data.user;
           localStorage.setItem('user', user);
-          console.log(user);
 
           (async () => {
             const response = await UserService.fetchUserDetails();

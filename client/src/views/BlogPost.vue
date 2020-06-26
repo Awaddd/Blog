@@ -77,7 +77,6 @@ export default {
   },
   watch: {
     'reloadComments': function () {
-      console.log('comment added: ', this.reloadComments);
       this.getComments();
       this.commentsKey += 1;
       this.$store.dispatch("RELOAD_COMMENTS", false);
@@ -88,9 +87,7 @@ export default {
       const response = await PostsService.fetchSinglePost({
         title: this.$route.params.title
       });
-      console.log(response);
       if (response.data.success === false) {
-        console.log(response.data.message); 
         this.$router.push('/404');
       }  
       else if (response.data && response.status === 200) {
@@ -104,7 +101,6 @@ export default {
       this.showComments = true;
       const response = await CommentsService.fetchComments(this.post._id);
       if (response.status !== 200) {
-        console.log(response.data.message);
         this.$store.dispatch('SET_COMMENTS', null);
       } 
       else if ((response.data) && (response.status === 200)) {
@@ -112,25 +108,22 @@ export default {
 
         this.discussionIDs = [];
         this.comments.forEach( item => {
-          console.log(item.discussion_id);
           this.discussionIDs.push(item.discussion_id);
         });
-
-        console.log(this.discussionIDs);
 
         this.getReplies();
 
         this.$store.dispatch('SET_COMMENTS', response.data);
-        console.log(response.data);
       };
     },
     async getReplies() {
       const response = await CommentsService.fetchReplies(this.discussionIDs);
-      if (response.status !== 200) console.log('No Replies ', response.data); 
+      if (response.status !== 200) {
+        // default state if comment thread only has the 1 parent comment.
+      }
       else if (response.data && response.status === 200) {
         this.replies = response.data;
         this.$store.dispatch('SET_REPLIES', response.data);
-        console.log(this.replies);
       }
     },
     formatDate(date) {

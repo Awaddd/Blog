@@ -12,7 +12,6 @@ router.get("/", async (req, res) => {
 // email admin
 
 router.post("/", async (req, res) => {
-  console.log('data, ', req.body);
 
   try {
     
@@ -23,7 +22,6 @@ router.post("/", async (req, res) => {
     const user = await User.findOne({ isAdmin: {$exists: true} }, "email");
     if (!user) res.status(500).json({message: 'Something went wrong. Please try again.'});
     else {
-      console.log(user);
       to = user.email;
     }
 

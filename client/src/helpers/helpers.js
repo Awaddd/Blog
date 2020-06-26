@@ -7,9 +7,6 @@ export function authHeader(postsOptions) {
 
   if (user && postsOptions) {
 
-    console.log('sending posts token');
-    console.log(user);
-
     return { 
       'Authorization': 'Bearer ' + user,
       'Content-Type':'multipart/form-data'
@@ -17,8 +14,6 @@ export function authHeader(postsOptions) {
     
 
   } else if (user) {
-
-    console.log('sending token');
     
     return { 
       'Authorization': 'Bearer ' + user,
@@ -27,8 +22,7 @@ export function authHeader(postsOptions) {
     
   }
   else {
-      console.log('no token');
-      return { 'Content-Type': 'application/json' };
+    return { 'Content-Type': 'application/json' };
   }
 }
 

@@ -33,16 +33,6 @@
               <router-link tag="a" class="dashboard-menu-item-child" :to="{path: '/dashboard/posts/new' }" :class="[currentPage.includes('posts/new') ? activeLink : '']">New</router-link>
 
             </div>
-
-            <!-- <div class="dashboard-menu-group">
-              <div class="dashboard-menu-item-parent">
-                <b-icon icon="book-variant"></b-icon>
-                <span>Journals</span>
-              </div>
-              <router-link tag="a" class="dashboard-menu-item-child" :to="{path: '/' }">All</router-link>
-              <router-link tag="a" class="dashboard-menu-item-child" :to="{path: '/' }">New</router-link>
-            </div> -->
-
           </div>
 
         </div>
@@ -61,11 +51,8 @@
 </template>
 
 <script>
-// import PostsTable from "@/components/PostsTable.vue";
-
 export default {
   components: {
-    // "posts-table": PostsTable
   },
   data () {
     return {
@@ -91,9 +78,7 @@ html {
 }
 
 .active-dashboard-tab {
-  // background-color: #cce4ff !important;
   color: $primary !important;
-  
 }
 .active-dashboard-tab:focus {
   outline: none;
@@ -102,8 +87,6 @@ html {
 .dashboard-nav-wrapper {
   background: #313137;
   color: #fff;
-  // margin-top: 1rem;
-  // padding: 0;
   font-size: 1rem;
 }
 
@@ -121,8 +104,6 @@ html {
 }
 
 .dashboard-menu-header {
-  // padding-top: 1.3rem; 
-  // padding-bottom: 1.3rem;
   font-weight: 600;
 }
 

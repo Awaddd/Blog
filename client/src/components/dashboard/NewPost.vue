@@ -262,8 +262,6 @@ export default {
             this.activeStep = 0;
           }
 
-          console.log('new post ERROR: ', response.data);
-
         } else if (response.status === 200){
 
           this.$buefy.toast.open({

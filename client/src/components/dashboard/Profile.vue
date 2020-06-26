@@ -64,15 +64,15 @@
         <div class="profile-content">
           <div @click="editable(0)" v-if="user.bio">
             <b-field horizontal label="bio" custom-class="is-small" class="field">
-              <b-input maxlength="200" custom-class="my-disabled-input" type="textarea" v-if="!edit[0].field" v-model="user.bio" disabled ></b-input>
-              <b-input maxlength="200" type="textarea" v-model="user.bio" v-else></b-input>
+              <b-input maxlength="1000" custom-class="my-disabled-input" type="textarea" v-if="!edit[0].field" v-model="user.bio" disabled ></b-input>
+              <b-input maxlength="1000" type="textarea" v-model="user.bio" v-else></b-input>
             </b-field>
           </div>
 
           <div @click="editable(0)" v-else>
             <b-field horizontal label="bio" class="field">
-              <b-input maxlength="200" custom-class="my-disabled-input" type="textarea" placeholder="" v-if="!edit[0].field" v-model="bio" disabled ></b-input>
-              <b-input maxlength="200" type="textarea" v-model="bio" v-else></b-input>
+              <b-input maxlength="1000" custom-class="my-disabled-input" type="textarea" placeholder="" v-if="!edit[0].field" v-model="bio" disabled ></b-input>
+              <b-input maxlength="1000" type="textarea" v-model="bio" v-else></b-input>
             </b-field>
           </div>
 
@@ -135,8 +135,6 @@ export default {
   },
   watch: {
     image: function(val) {
-      console.log(val);
-
       let reader = new FileReader();
       reader.readAsDataURL(val);
       reader.onload = () => {
@@ -153,7 +151,6 @@ export default {
       const response = await UserService.fetchUserDetails();
       if (response.status !== 200) console.log(response.error);
       else this.user = response.data;
-      console.log(response);
     },
     
     editAll () {

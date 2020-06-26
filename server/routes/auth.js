@@ -52,7 +52,6 @@ router.post("/social", async (req, res) => {
     } else if (displayName) {
       user = await User.findOne({ firstName: displayName }, "_id firstName email image isAdmin");
     }
-    console.log(user);
     if (!user)  {
 
       let newUser = {

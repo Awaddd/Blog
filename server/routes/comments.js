@@ -47,8 +47,6 @@ router.get("/discussion/:discussionIDs", async (req, res) => {
       replyingTo: {$exists: true}
     }, "content hearts createdAt discussion_id post replyingTo" ).populate('author', 'firstName lastName image color').populate('replyingToUser', '_id firstName lastName').exec();
     
-    console.log(allComments);
-    
     if (allComments.length === 0) res.status(404).send({ status: false, message: 'replies not found' });
     else res.status(200).send(allComments);
 
@@ -183,20 +181,5 @@ router.delete('/:comment', checkLoggedIn, isLoggedIn, async (req, res) => {
     console.log(error);
   }
 });
-
-// router.delete('/:id', checkLoggedIn, isLoggedIn, async (req, res) => {
-//   try {
-//     deleteImage(req.params.id, 'post');
-//     const post = await Post.findByIdAndDelete(req.params.id);
-//     if (!post) res.status(404).send({ success: false, message: 'Could not find post' }); 
-//     else res.status(200).send({ success: true, message: 'Post deleted successfully' });
-
-//   } catch (error) {
-//     console.log(error);
-//     return res.status(404).send({ success: false, message: 'Post could not be deleted' });
-//     // throw(error);
-//   }
-// });
-
 
 module.exports = router;

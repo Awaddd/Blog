@@ -164,8 +164,6 @@ export default {
         const userDetails = await UserService.fetchUserDetails();
         if (response.status !== 200) console.log(userDetails.error);
         else this.$store.dispatch('SET_USER', userDetails.data);
-        console.log(userDetails);
-
         this.$router.push({ name: "Dashboard" });
       }
    }

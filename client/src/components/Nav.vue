@@ -87,14 +87,12 @@ export default {
     },
     socialSignOut () {
       firebase.auth().signOut().then(() => {
-        console.log('signed out!');
         this.$store.dispatch("SET_SOCIAL_STATUS", null);
       }).catch(error => console.log(error));
     },
     async getCategories () {
-      console.log('INSIDE CATEGORIES . VUE');
       const response = await PostsService.fetchCategories();
-      if (response.status !== 200) console.log('CATEGORY PROBLEM!!');
+      if (response.status !== 200) console.log('Could not fetch categories');
       else if (response.status === 200){
         this.categories = response.data;
         this.$store.dispatch("SET_CATEGORIES", this.categories);

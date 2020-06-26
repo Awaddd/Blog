@@ -123,11 +123,8 @@ export default {
   },
   methods: {
     async fetchFeaturedPost() {
-      console.log('featured post');
-      // const tempPost = "google's-ai-can-now-predict-heart-disease-just-by-scanning-your-eyes.";
       const response = await PostsService.fetchFeaturedPost();
       this.featuredPost = response.data;
-      console.log(response);
     },
     formatDate(date) {
       return formatDate(date);

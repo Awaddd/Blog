@@ -129,15 +129,11 @@ router.post("/", upload().single('image'), checkLoggedIn, isLoggedIn, async (req
   const { error } = validatePost(req.body);
   if (error) return res.status(400).send({success: false, message: error.details[0].message});
 
-  console.log(req.body.category);
-
   let image = null;
   if (req.file) image = `${process.env.URL}/uploads/${req.file.filename}`;
 
   const {category, summary, content, tags} = req.body;
   const title = req.body.title.toLowerCase();
-  console.log(tags);
-
   const userID = verifyToken(req).userID;
 
   try {
@@ -158,7 +154,6 @@ router.post("/", upload().single('image'), checkLoggedIn, isLoggedIn, async (req
     const new_post = new Post(newPost);
 
     const post = await new_post.save();
-    console.log(post);
     if (post) res.status(200).send(post);
     
   } catch (error) {
@@ -202,8 +197,6 @@ router.patch('/:id', upload().single('image'), checkLoggedIn, isLoggedIn, async 
     }
     if (title) updatedPost.title = title.toLowerCase();
 
-    console.log('category ', category);
-
     if (removeImage) {
       updatedPost.image = null;
       deleteImage(req.params.id, 'post');
@@ -245,11 +238,10 @@ router.delete('/:id', checkLoggedIn, isLoggedIn, async (req, res) => {
       }
     });
 
-    console.log(deletedAllDiscussionIDs);
-
     const post = await Post.findByIdAndDelete(req.params.id);
     if (!post) res.status(404).send({ success: false, message: 'Could not find post' }); 
     else res.status(200).send({ success: true, message: 'Post deleted successfully' });
+    
   } catch (error) {
     console.log(error);
     return res.status(404).send({ success: false, message: 'Post could not be deleted' });
