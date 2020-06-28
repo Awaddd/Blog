@@ -13,8 +13,6 @@
         <img :src="post.image" alt="">
       </div>
 
-      <div class="blogPost-imageless" v-else></div>
-
       <header class="level">
         <div class="my-author-details">
           <p class="title is-size-6 has-text-primary is-capitalized">{{post.author}}</p>
@@ -32,7 +30,7 @@
         </div>
       </header>      
 
-      <div class="content breakOffLongWords" v-html="post.content"></div> 
+      <div class="breakOffLongWords">{{post.content}}</div> 
     </section>
 
     <AboutAuthor class="author-section" v-if="post" :authorID="post.authorID" />
