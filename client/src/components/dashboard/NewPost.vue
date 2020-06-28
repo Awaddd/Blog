@@ -92,11 +92,11 @@
                       v-model="content"
                       ref="myQuillEditor"
                       :options="editorOption"
-                      class="contentArea"
+                      class="actualContentWrapper"
                     ></quill-editor>
                   </div>
                   <div class="stepThree-content-buttons">
-                    <b-button class="">Full Screen Editor</b-button>
+                    <b-button @click="enlargeEditor">Full Screen Editor</b-button>
                     <b-button expanded class="is-primary" @click.prevent="addPost">Create Post</b-button>
                   </div>
                 </div>
@@ -132,6 +132,7 @@ import { ValidationObserver } from 'vee-validate';
 import * as validationRules from '@/helpers/validation';
 import BInputWithValidation from '@/buefyComponents/BInputWithValidation';
 import BSelectWithValidation from '@/buefyComponents/BSelectWithValidation';
+import FullscreenEditor from '@/components/dashboard/FullscreenEditor';
 import { sanitizeTitle } from '@/helpers/helpers';
 import { mapGetters } from 'vuex';
 
@@ -272,10 +273,19 @@ export default {
     },
     nextStep() {
       if (this.activeStep <= 1) this.activeStep = this.activeStep + 1;
+    },
+    enlargeEditor() {
+      this.$buefy.modal.open({
+        parent: this,
+        component: FullscreenEditor,
+        trapFocus: true,
+        fullScreen: true,
+        props: {content: this.content}
+      });
     }
   },
   computed: {
-    ...mapGetters({ categories : 'getCategories' }),
+    ...mapGetters({categories : 'getCategories', fullscreenContent: 'getFullscreenContent'}),
     lastStep () {
       if ((this.categories) && (this.category) && (this.category.hasMedia === true)) return `Step 3`;
       else return `Step 2`;
@@ -290,13 +300,17 @@ export default {
           this.imagePreview = reader.result;
         }
       }
+    },
+    fullscreenContent: function (val) {
+      this.content = val;
     }
   },
   components: {
     quillEditor,
     ValidationObserver,
     BInputWithValidation,
-    BSelectWithValidation
+    BSelectWithValidation,
+    FullscreenEditor
   }
 }
 
