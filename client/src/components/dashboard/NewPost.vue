@@ -20,15 +20,6 @@
               <div class="stepOne my-step-wrapper">
                 <p class="subtitle is-size-5 has-text-centered">Title, Summary &amp; Tags</p>
                 <div class="my-step-content">
-                  
-                  <!-- <b-field v-if="categories" class="select-category" label="Category" horizontal>
-                    <b-select placeholder="Category" expanded v-model="category">
-                      <template v-for="(category, i) in categories" >
-                        <option :value="category" :key="i">{{category.title}}</option>
-                      </template>
-                    </b-select>
-                  </b-field> -->
-
 
                   <BSelectWithValidation rules="required" horizontal label="Category" v-model="category">
                       <option value>None</option>
@@ -105,7 +96,6 @@
                     ></quill-editor>
                   </div>
                   <div class="stepThree-content-buttons">
-                    <b-button class="">Full Screen Editor</b-button>
                     <b-button expanded class="is-primary" @click.prevent="addPost">Create Post</b-button>
                   </div>
                 </div>

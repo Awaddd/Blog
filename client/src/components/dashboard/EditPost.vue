@@ -94,7 +94,6 @@
                     ></quill-editor>
                   </div>
                   <div class="stepThree-content-buttons">
-                    <b-button class="">Full Screen Editor</b-button>
                     <b-button expanded class="is-primary" @click.prevent="editPost">Update</b-button>
                   </div>
                 </div>

@@ -30,7 +30,7 @@
         </div>
       </header>      
 
-      <div class="breakOffLongWords">{{post.content}}</div> 
+      <div class="breakOffLongWords" v-html="post.content"></div> 
     </section>
 
     <AboutAuthor class="author-section" v-if="post" :authorID="post.authorID" />
