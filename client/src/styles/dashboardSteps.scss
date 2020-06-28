@@ -1,5 +1,9 @@
-.ql-editor {
-  min-height: 100px;
+.actualContentWrapper {
+  .ql-container {
+    .ql-editor {
+      max-height: 300px;
+    }
+  }
 }
 
 .my-step-wrapper {
@@ -59,19 +63,31 @@
 @media only screen and (min-width: 1000px) {
 
 
-  .ql-editor {
-    max-height: 100px;
+  .actualContentWrapper {
+    .ql-container {
+      .ql-editor {
+        max-height: 100px;
+      }
+    }
   }
-  
+
   .stepTwo-content {
     grid-gap: 20px;
+  }
+
+  .stepThree-content-buttons {
+    grid-template-columns: max-content max-content;
   }
 }
 
 @media only screen and (min-width: 1200px) {
-  .ql-editor {
-    max-height: 150px;
-  }  
+  .actualContentWrapper {
+    .ql-container {
+      .ql-editor {
+        max-height: 150px;
+      }
+    }
+  }
 
   .stepTwo-image {
     // max-width: 350px;
@@ -83,9 +99,15 @@
   .my-step-wrapper {
     padding: 1rem 0;
   }
-  .ql-editor {
-    max-height: 200px;
+
+  .actualContentWrapper {
+    .ql-container {
+      .ql-editor {
+        max-height: 200px;
+      }
+    }
   }
+  
   .stepThree-content-buttons {
     grid-template-columns: 1fr;
   }

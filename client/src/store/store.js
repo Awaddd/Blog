@@ -12,19 +12,22 @@ const store = new Vuex.Store({
   })],
   modules: {
     auth,
-    content
+    content,
   },
   state: {
     loadingPosts: true,
-    reloadComments: false
+    reloadComments: false,
+    fullscreenContent: null
   },
   getters: {
     getLoadingPostsStatus: state => state.loadingPosts,
-    getReloadComments: state => state.reloadComments
+    getReloadComments: state => state.reloadComments,
+    getFullscreenContent: state => state.fullscreenContent
   },
   mutations: {
     SET_LOADING_POSTS_STATUS: (state, payload) => payload ? state.loadingPosts = payload : state.loadingPosts = false,
-    RELOAD_COMMENTS: (state, payload) => payload ? state.reloadComments = payload : state.reloadComments = false
+    RELOAD_COMMENTS: (state, payload) => payload ? state.reloadComments = payload : state.reloadComments = false,
+    SET_FULLSCREEN_CONTENT: (state, payload) => payload ? state.fullscreenContent = payload : state.fullscreenContent = null
   },
   actions: {
     SET_LOADING_POSTS_STATUS({commit}, payload) {
@@ -32,6 +35,9 @@ const store = new Vuex.Store({
     },
     RELOAD_COMMENTS({commit}, payload) {
       commit('RELOAD_COMMENTS', payload);
+    },
+    SET_FULLSCREEN_CONTENT({commit}, payload) {
+      commit('SET_FULLSCREEN_CONTENT', payload);
     }
   }
 });
