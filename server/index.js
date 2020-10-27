@@ -9,6 +9,7 @@ const userPosts = require("./routes/userPosts");
 const auth = require("./routes/auth");
 const comments = require("./routes/comments");
 const contact = require("./routes/contact");
+const author = require("./routes/author");
 const cookieParser = require('cookie-parser');
 
 require('dotenv').config();
@@ -40,6 +41,7 @@ app.use("/api/userPosts", userPosts);
 app.use("/api/auth", auth);
 app.use("/api/comments", comments);
 app.use("/api/contact", contact);
+app.use("/api/author", author);
 
 app.get("/", (req, res) => {
   res.send(`The Api \n hit /api/posts to see a list of posts`);  

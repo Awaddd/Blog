@@ -14,6 +14,7 @@
       <template slot="end">
         <b-navbar-item tag="router-link" :to="{ name: 'Home' }" :class="[currentPage === '/' ? activeLink : '']" >Home</b-navbar-item>
         <b-navbar-item tag="a" @click="scrollToContact">Contact</b-navbar-item>
+        <b-navbar-item tag="router-link" :to="{ name: 'Author' }" :class="[currentPage === '/author' ? activeLink : '']" >Author</b-navbar-item>
 
         <b-navbar-dropdown label="Categories">
           <template v-for="(category, i) in categories">
@@ -21,16 +22,7 @@
             :class="[currentPage.includes(category.plural) ? activeLink : '']"
             :key="i">{{category.plural.charAt(0).toUpperCase() + category.plural.slice(1)}}</b-navbar-item>
           </template>
-          <!-- <b-navbar-item tag="router-link" :to="{ name: 'Posts' }" >Journals</b-navbar-item>
-          <b-navbar-item tag="router-link" :to="{ name: 'Posts' }">Stories</b-navbar-item>
-          <b-navbar-item tag="router-link" :to="{ name: 'Posts' }">Book Reviews</b-navbar-item>
-          <b-navbar-item tag="router-link" :to="{ name: 'Posts' }">Other</b-navbar-item> -->
         </b-navbar-dropdown>
-<!-- 
-        <b-navbar-dropdown label="More">
-
-        </b-navbar-dropdown> -->
-
 
         <b-navbar-item tag="div">
           <div class="my-nav-controls" v-if="getLoginStatus">

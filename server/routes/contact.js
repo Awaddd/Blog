@@ -3,12 +3,6 @@ const router = express.Router();
 const User = require("../models/user");
 const sendMail = require('../helpers/mail.js');
 
-router.get("/", async (req, res) => {
-  res.json({message: 'HEY!'});
-});
-
-
-
 // email admin
 
 router.post("/", async (req, res) => {

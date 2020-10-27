@@ -20,6 +20,7 @@
               
               <router-link tag="a" class="dashboard-menu-item-child" :to="{path: '/dashboard' }" :class="[currentPage === '/dashboard' ? activeLink : '']">Overview</router-link>
               <router-link tag="a" class="dashboard-menu-item-child" :to="{path: '/dashboard/profile' }" :class="[currentPage.includes('profile') ? activeLink : '']">Profile</router-link>
+              <router-link tag="a" class="dashboard-menu-item-child" :to="{path: '/dashboard/author' }" :class="[currentPage.includes('author') ? activeLink : '']">Author</router-link>
 
             </div>
 

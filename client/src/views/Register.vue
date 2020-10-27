@@ -37,11 +37,12 @@
 
             </validationObserver>
 
-            <b-switch size="is-small" v-model="isAdmin">Enable Admin</b-switch>
+            <!-- <b-switch size="is-small" v-model="isAdmin">Enable Admin</b-switch> -->
 
-            <b-field>
-              <b-button type="submit" class="is-primary my-register-button" expanded @click="handleSubmit(register)">Register</b-button>
+            <b-field class="email-login-wrapper">
+              <button type="submit" class="social-login email-login" @click.prevent="handleSubmit(register)">Register</button>
             </b-field>
+
             <p class="has-text-dark has-text-centered">Got an account? <router-link to="/admin/login" class="btn-clear">Click here to Login</router-link></p>
           </form>
         </ValidationObserver>
@@ -160,6 +161,33 @@ export default {
         font-weight: 600;
       }
     }
+}
+
+.social-login {
+  display: grid;
+  align-items: center;
+  grid-template-columns: max-content max-content;
+  grid-gap: 10px;
+  background: $primary;
+  color: #fff;
+  border: 0;
+  padding: 0.7rem 1rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border-radius: 2px;
+  cursor: pointer;
+  // box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.social-login:hover {
+  color: #fff;
+}
+
+.email-login {
+  padding: 0.7rem 0;
+  margin-top: 0.6rem;
+  width: 100%;
+  justify-content: center;
 }
 
 

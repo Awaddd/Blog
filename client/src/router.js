@@ -41,6 +41,12 @@ const router = new Router({
         import(/* webpackChunkName: "about" */ "./views/BlogPost.vue")
     },
     {
+      path: "/author",
+      name: "Author",
+      component: () =>
+        import(/* webpackChunkName: "about" */ "./views/Author.vue")
+    },
+    {
       path: "/admin/login",
       name: "Login",
       beforeEnter: (to, from, next) => {
@@ -84,6 +90,12 @@ const router = new Router({
         name: 'Profile',
         component: () =>
           import("./components/dashboard/Profile.vue")
+      },
+      {
+        path: 'author',
+        name: 'Author',
+        component: () =>
+          import("./components/dashboard/Author.vue")
       },
       {
         path: 'posts/all',

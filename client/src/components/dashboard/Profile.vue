@@ -224,12 +224,6 @@ export default {
     align-items: center;
     justify-items: center;
     justify-content: center;
-    // grid-row: 1/2;
-  }
-
-  .profile-content {
-    // grid-row: 2/3;
-
   }
 
   .author-picture-wrapper {

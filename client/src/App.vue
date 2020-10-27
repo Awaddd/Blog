@@ -6,7 +6,7 @@
     <router-view class="router-view"/>
     <footer class="footer">
       <div class="content has-text-centered">
-        <p><strong>Dini's Oasis </strong> &copy; 2020</p>
+        <p class="has-text-weight-semibold">Omar Dini &copy; 2020</p>
       </div>
     </footer>
   </div>
