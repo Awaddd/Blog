@@ -9,7 +9,7 @@ router.get("/", async (req, res) => {
   try {
 
     const categoryID = await Category.findOne({ name: 'Author' }, "_id");
-    const authorPost = await Post.findOne({ category: categoryID }, "title summary content createdAt category").populate('category', 'name').exec();
+    const authorPost = await Post.findOne({ category: categoryID }, "title summary content createdAt category author").populate('category', 'name').populate('author', 'firstName lastName').exec();
     if (!authorPost) res.status(404).send({ status: false, message: 'Author post not found' });
     else res.status(200).send(authorPost);
 
@@ -21,8 +21,7 @@ router.get("/", async (req, res) => {
 
 
 // update author post
-// router.patch("/:id/", checkLoggedIn, isLoggedIn, async (req, res) => {
-router.patch("/:id/", async (req, res) => {
+router.patch("/:id/", checkLoggedIn, isLoggedIn, async (req, res) => {
 
   const userID = req.params.id;
   const { title, summary, content } = req.body;
@@ -31,8 +30,8 @@ router.patch("/:id/", async (req, res) => {
   try {
 
     if (title) updatedAuthorPost.title = title;
-    if (summary) updatedAuthorPost.title = summary;
-    if (content) updatedAuthorPost.title = content;
+    if (summary !== null) updatedAuthorPost.summary = summary;
+    if (content) updatedAuthorPost.content = content;
 
     const authorPost = await Post.findByIdAndUpdate(userID, updatedAuthorPost);
 

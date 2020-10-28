@@ -10,16 +10,16 @@
 
     <div class="">
       <validationObserver ref="form" v-slot="form">
-        <form class="update-author-page-form" enctype="multipart/form-data" v-if="post" @key-up.enter.prevent="editPost">
+        <form class="update-author-page-form" enctype="multipart/form-data" v-if="post" @key-up.enter.prevent="updateAuthorPost">
           <div class="has-text-centered">
             <h1 class="title is-size-4-mobile is-size-5-tablet is-size-4-desktop is-capitalized">Author Page</h1>
             <p class="subtitle is-size-6-mobile is-size-7-tablet is-size-6-desktop">name in progress</p>
           </div>
 
           <BInputWithValidation vid="title" rules="required|min:7|max:150" v-model="post.title" placeholder="Example Title ..." label="Title"/>
-          <BInputWithValidation rules="required|min:5|max:150" v-model="post.summary" placeholder="The future of the..." label="Summary"/>
+          <BInputWithValidation v-model="post.summary" placeholder="The future of the..." label="Summary"/>
 
-          <div>
+          <div class="update-author-page-form-content">
             <div class="field-label is-normal">
               <label style="margin-bottom: 0.4rem; font-weight: 700; text-align: left" class="label" for="author-post-content">Content</label>
             </div>
@@ -34,7 +34,7 @@
 
           <div class="author-page-form-buttons">
             <b-button @click="enlargeEditor" >Full Screen Editor</b-button>
-            <b-button expanded class="is-primary" @click.prevent="editPost">Update</b-button>
+            <b-button expanded class="is-primary" @click.prevent="updateAuthorPost">Update</b-button>
           </div>
 
         </form>
@@ -91,7 +91,6 @@ export default {
   },
   mounted () {
     this.getAuthorPost();
-    console.log(this.post);
   },
   watch: {
     fullscreenContent: function (val) {
@@ -101,10 +100,9 @@ export default {
   methods: {
     async getAuthorPost() {
       const response = await AuthorService.getAuthorPost();
-      console.log(response);
       if (response.status === 200) this.post = response.data;
     },
-    async editPost() {
+    async updateAuthorPost() {
       this.$refs.form.validate().then(async success => {
         if (!success) {
           this.$buefy.toast.open({
@@ -135,7 +133,7 @@ export default {
           content: this.post.content,
         }
 
-        const response = await AuthorService.editPost(authorPostParams);
+        const response = await AuthorService.updateAuthorPost(authorPostParams);
 
         if (response.status !== 200) {
 
@@ -160,7 +158,7 @@ export default {
             type: 'is-success'
           });
 
-          this.$router.push({ path: '/dashboard/author' });
+          // this.$router.push({ name: 'Author' });
         }
 
       })
@@ -222,6 +220,15 @@ export default {
   .author-page-form-buttons {
     grid-template-columns: max-content max-content;
   }
+
+  .update-author-page-form-content {
+    .actualContentWrapper {
+      .ql-editor {
+        max-height: 100px;
+      }
+    }
+  }
+
 }
 
 @media only screen and (min-width: 1600px) {
@@ -229,6 +236,14 @@ export default {
   .author-page-form-buttons {
     grid-template-columns: 1fr;
     margin-top: 0;
+  }
+
+  .update-author-page-form-content {
+    .actualContentWrapper {
+      .ql-editor {
+        max-height: 150px;
+      }
+    }
   }
 
 }

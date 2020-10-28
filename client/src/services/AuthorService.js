@@ -7,7 +7,7 @@ export default {
   },
 
   async updateAuthorPost(params) {
-    return await Api().post("author", params).then(response => response).catch(error => error.response);
+    return await Api().patch(`author/${params.id}`, params).then(response => response).catch(error => error.response);
   }
 
 }
