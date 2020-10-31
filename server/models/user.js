@@ -15,7 +15,8 @@ const UserSchema = new Schema({
   },
   image: {type: String},
   color: {type: String},
-  bio: String
+  socials: {type: Array},
+  bio: String,
 })
 
 // UserSchema.index({ email: 1 });

@@ -13,8 +13,8 @@
 
       <template slot="end">
         <b-navbar-item tag="router-link" :to="{ name: 'Home' }" :class="[currentPage === '/' ? activeLink : '']" >Home</b-navbar-item>
+        <b-navbar-item tag="router-link" :to="{ name: 'Author' }" :class="[currentPage === '/author' ? activeLink : '']" >About Me</b-navbar-item>
         <b-navbar-item tag="a" @click="scrollToContact">Contact</b-navbar-item>
-        <b-navbar-item tag="router-link" :to="{ name: 'Author' }" :class="[currentPage === '/author' ? activeLink : '']" >Author</b-navbar-item>
 
         <b-navbar-dropdown label="Categories">
           <template v-for="(category, i) in categories">

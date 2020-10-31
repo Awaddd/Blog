@@ -2,24 +2,16 @@
   <div>     
       <div class="author-section-wrapper" v-if="user">
         <div class="author-section-media">
-          <figure class="image author-section-image">
-            <!-- placeholder  -->
-            <img v-if="!user.image" src="../assets/person.png" class="circle-picture" alt="author-image">
-            <img v-else class="circle-picture author-picture" :src="user.image" alt="author-image">
-          </figure>
+
           <div class="author-section-bio has-text-centered">
-            <h2 class="has-text-weight-normal is-size-5-mobile is-size-4 is-capitalized">{{user.firstName}} {{user.lastName}}</h2>
             <h3 class="subtitle is-size-6-mobile is-size-6" style="white-space: pre-wrap;">{{user.bio}}</h3>
             <div class="icon-group" v-if="user.socials">
               <a :href="user.socials[0]"><b-icon class="facebook" icon="facebook"></b-icon></a>
-              <a :href="user.socials[1]"><b-icon class="linkedin" icon="linkedin"></b-icon></a>
+              <a :href="user.socials[1]"><b-icon class="linkedin" icon="email"></b-icon></a>
               <a :href="user.socials[2]"><b-icon class="twitter" icon="twitter"></b-icon></a>
             </div>
           </div>
           
-        </div>
-        <div class="author-section-bio">
-          <!-- <p>{{user.bio}}</p> -->
         </div>
       </div>
   </div>
@@ -42,9 +34,7 @@ export default {
     async getAuthor() {
       const response = await UserService.fetchAuthorDetails(this.authorID);
       if (response.status !== 200) console.log(response.data.message); 
-      else if ((response.data) && (response.status === 200)) {
-        this.user = response.data;
-      }
+      else if ((response.data) && (response.status === 200)) this.user = response.data;
     }
   }
 }

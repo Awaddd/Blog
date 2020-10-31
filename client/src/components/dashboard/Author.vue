@@ -8,20 +8,19 @@
       </p>
     </nav>   
 
-    <div class="">
+    <div>
       <validationObserver ref="form" v-slot="form">
         <form class="update-author-page-form" enctype="multipart/form-data" v-if="post" @key-up.enter.prevent="updateAuthorPost">
-          <div class="has-text-centered">
+          <div class="has-text-centered" style="margin-bottom: 1rem;">
             <h1 class="title is-size-4-mobile is-size-5-tablet is-size-4-desktop is-capitalized">Author Page</h1>
-            <p class="subtitle is-size-6-mobile is-size-7-tablet is-size-6-desktop">name in progress</p>
           </div>
 
-          <BInputWithValidation vid="title" rules="required|min:7|max:150" v-model="post.title" placeholder="Example Title ..." label="Title"/>
-          <BInputWithValidation v-model="post.summary" placeholder="The future of the..." label="Summary"/>
+          <BInputWithValidation vid="title" rules="required|min:7|max:150" v-model="post.title" placeholder="Example Title ..." label="Title" class="author-page-custom-label" />
+          <BInputWithValidation v-model="post.summary" placeholder="The future of the..." label="Summary" class="author-page-custom-label" />
 
           <div class="update-author-page-form-content">
             <div class="field-label is-normal">
-              <label style="margin-bottom: 0.4rem; font-weight: 700; text-align: left" class="label" for="author-post-content">Content</label>
+              <label style="margin-bottom: 0.4rem; text-align: left;" class="label author-page-custom-label" for="author-post-content">Content</label>
             </div>
             <quill-editor
               id="author-post-content"
@@ -85,8 +84,7 @@ export default {
             highlight: text => hljs.highlightAuto(text).value
           }
         }
-      },
-      activeStep: 0
+      }
     }
   },
   mounted () {
@@ -111,7 +109,6 @@ export default {
             type: 'is-danger'
           });
 
-          this.activeStep = 0;
           return;
         }
 
@@ -147,7 +144,6 @@ export default {
             this.$refs.form.setErrors({
               title: response.data.message
             });
-            this.activeStep = 0;
           }
 
         } else if (response.status === 200){
@@ -158,16 +154,10 @@ export default {
             type: 'is-success'
           });
 
-          // this.$router.push({ name: 'Author' });
+          this.$router.push({ name: 'Author' });
         }
 
       })
-    },
-    prevStep() {
-      if (this.activeStep > 0) this.activeStep = this.activeStep - 1;
-    },
-    nextStep() {
-      if (this.activeStep <= 1) this.activeStep = this.activeStep + 1;
     },
     enlargeEditor() {
       this.$buefy.modal.open({
@@ -180,11 +170,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({categories : 'getCategories', fullscreenContent: 'getFullscreenContent'}),
-    lastStep () {
-      if ((this.categories) && (this.category) && (this.category.hasMedia === true)) return `Step 3`;
-      else return `Step 2`;
-    }
+    ...mapGetters({categories : 'getCategories', fullscreenContent: 'getFullscreenContent'})
   },
   components: {
     quillEditor,
@@ -199,6 +185,14 @@ export default {
 
 <style lang="scss">
 @import '@/styles/dashboardSteps.scss';
+
+.author-page-custom-label {
+  .field {
+    .label {
+      font-weight: 600;
+    }
+  }
+}
 
 .update-author-page-form {
   display: flex;

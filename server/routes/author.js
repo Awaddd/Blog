@@ -1,15 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const {checkLoggedIn, isLoggedIn, upload} = require('../middleware');
-const Post = require("../models/post");
-const Category = require("../models/category");
+const Author = require("../models/author");
 
 // Get author post
 router.get("/", async (req, res) => {
   try {
 
-    const categoryID = await Category.findOne({ name: 'Author' }, "_id");
-    const authorPost = await Post.findOne({ category: categoryID }, "title summary content createdAt category author").populate('category', 'name').populate('author', 'firstName lastName').exec();
+    const authorPost = await Author.findOne({}, "title summary content createdAt category author").populate('author', 'firstName lastName').exec();
     if (!authorPost) res.status(404).send({ status: false, message: 'Author post not found' });
     else res.status(200).send(authorPost);
 
@@ -23,7 +21,6 @@ router.get("/", async (req, res) => {
 // update author post
 router.patch("/:id/", checkLoggedIn, isLoggedIn, async (req, res) => {
 
-  const userID = req.params.id;
   const { title, summary, content } = req.body;
   let updatedAuthorPost = {};
 
@@ -33,7 +30,7 @@ router.patch("/:id/", checkLoggedIn, isLoggedIn, async (req, res) => {
     if (summary !== null) updatedAuthorPost.summary = summary;
     if (content) updatedAuthorPost.content = content;
 
-    const authorPost = await Post.findByIdAndUpdate(userID, updatedAuthorPost);
+    const authorPost = await Author.findByIdAndUpdate(req.params.id, updatedAuthorPost);
 
     if (!authorPost) res.status(404).send({ success: false, message: 'Could not find author post' });
     else res.status(200).send({ success: true, message: 'Author post updated successfully' });
